@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.vs2008", "NHibernate.Spatial\NHibernate.Spatial.vs2008.csproj", "{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.vs2008", "Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.vs2008.csproj", "{CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.PostGis.vs2008", "NHibernate.Spatial.PostGis\NHibernate.Spatial.PostGis.vs2008.csproj", "{0DD11B24-D42E-4345-A770-0CE755E17C82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.PostGis.vs2008", "Tests.NHibernate.Spatial.PostGis\Tests.NHibernate.Spatial.PostGis.vs2008.csproj", "{FE98272E-2526-471E-88C5-AD4518A447F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.MsSqlSpatial.vs2008", "NHibernate.Spatial.MsSqlSpatial\NHibernate.Spatial.MsSqlSpatial.vs2008.csproj", "{3EDA0009-EB8E-4024-8154-6DE8707B7C05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MsSqlSpatial.vs2008", "Tests.NHibernate.Spatial.MsSqlSpatial\Tests.NHibernate.Spatial.MsSqlSpatial.vs2008.csproj", "{80606E40-6482-48EF-89B0-3549650EDF9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.MsSql2008.vs2008", "NHibernate.Spatial.MsSql2008\NHibernate.Spatial.MsSql2008.vs2008.csproj", "{EAC092D9-6D47-4A30-803C-7A8583F99DFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MsSql2008.vs2008", "Tests.NHibernate.Spatial.MsSql2008\Tests.NHibernate.Spatial.MsSql2008.vs2008.csproj", "{96CE5CA4-56B6-45CD-9581-736C8483CD7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.MySQL.vs2008", "NHibernate.Spatial.MySQL\NHibernate.Spatial.MySQL.vs2008.csproj", "{2A41BF37-ACD3-4F0B-804A-C8EC6517D51A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MySQL.vs2008", "Tests.NHibernate.Spatial.MySQL\Tests.NHibernate.Spatial.MySQL.vs2008.csproj", "{89DB7429-40E8-4D5F-B560-64B59CEE4FC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DD11B24-D42E-4345-A770-0CE755E17C82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DD11B24-D42E-4345-A770-0CE755E17C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DD11B24-D42E-4345-A770-0CE755E17C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DD11B24-D42E-4345-A770-0CE755E17C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE98272E-2526-471E-88C5-AD4518A447F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE98272E-2526-471E-88C5-AD4518A447F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE98272E-2526-471E-88C5-AD4518A447F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE98272E-2526-471E-88C5-AD4518A447F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDA0009-EB8E-4024-8154-6DE8707B7C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDA0009-EB8E-4024-8154-6DE8707B7C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDA0009-EB8E-4024-8154-6DE8707B7C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDA0009-EB8E-4024-8154-6DE8707B7C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80606E40-6482-48EF-89B0-3549650EDF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80606E40-6482-48EF-89B0-3549650EDF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80606E40-6482-48EF-89B0-3549650EDF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80606E40-6482-48EF-89B0-3549650EDF9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A41BF37-ACD3-4F0B-804A-C8EC6517D51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A41BF37-ACD3-4F0B-804A-C8EC6517D51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A41BF37-ACD3-4F0B-804A-C8EC6517D51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A41BF37-ACD3-4F0B-804A-C8EC6517D51A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89DB7429-40E8-4D5F-B560-64B59CEE4FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89DB7429-40E8-4D5F-B560-64B59CEE4FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89DB7429-40E8-4D5F-B560-64B59CEE4FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89DB7429-40E8-4D5F-B560-64B59CEE4FC0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TextTemplating) = postSolution
+		TextTemplating = 1
+	EndGlobalSection
+EndGlobal

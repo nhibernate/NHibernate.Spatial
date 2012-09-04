@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+
+	<class name="NHibernate.Spatial.Metadata.GeometryColumn, NHibernate.Spatial" 
+		schema="public" 
+		table="GEOMETRY_COLUMNS" 
+		lazy="false" 
+		mutable="false"
+		>
+		<composite-id>
+			<key-property name="TableCatalog"	column="F_TABLE_CATALOG"/>
+			<key-property name="TableSchema"	column="F_TABLE_SCHEMA"/>
+			<key-property name="TableName"		column="F_TABLE_NAME"/>
+			<key-property name="Name"			column="F_GEOMETRY_COLUMN"/>
+		</composite-id>
+		<property name="SRID"					column="SRID"/>
+		<property name="Subtype"				column="TYPE"/>
+		<property name="Dimension"				column="COORD_DIMENSION"/>
+	</class>
+
+</hibernate-mapping>

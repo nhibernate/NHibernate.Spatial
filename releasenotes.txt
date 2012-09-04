@@ -1,0 +1,44 @@
+NHibernate.Spatial, allows you to connect NHibernate to a 
+spatially enabled database and manipulate geometries in 
+HQL or in .NET code providing you with a fully integrated
+GIS programming experience.
+
+Read documentation at NH Spatial wiki site:
+http://www.nhforge.org/wikis/spatial/default.aspx
+
+Please submit your bug reports, feature requests or 
+patches to NH issue tracker:
+http://jira.nhibernate.org/browse/NHSP
+
+...and support questions to NH Users mailing list:
+http://groups.google.com/group/nhusers
+
+Build 2.1.2.GA
+========================	
+
+** New Feature
+    * MsSql2008 Geometry and Geography.
+
+** Improvement
+    * Updated to NH 2.1.2.GA
+
+
+Build 1.0.0.Beta2
+========================	
+** New Feature
+    * NHSP MySQL: First release (unit tests: 60 passed, 
+	  44 failed, 15 skipped)
+
+** Improvement
+    * Renamed NHSP.NumInteriorRing to NHSP.NumInteriorRings
+	  for OGC SFS compliance.
+    * NHSP PostGIS: Updated dependencies to Npgsql2.0RTM
+
+
+Build 1.0.0.Beta1
+========================	
+** Improvement
+    * Changed HQL function prefix from "NHS" to "NHSP"
+    * NHSP MsSql2008: Implemented SqlGeometryType for
+	  mapping between SqlGeometry and "geometry UDT".
+    * Updated to NH 2.0.1.GA

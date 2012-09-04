@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
+
+	<class table="bridges" name="Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model.Bridge, Tests.NHibernate.Spatial">
+		<id name="Fid" type="Int64" column="fid" >
+			<generator class="assigned" />
+		</id>
+		<property name="Name" column="name"/>
+		<property name="Position" column="position">
+			<type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+				<param name="srid">101</param>
+				<param name="subtype">POINT</param>
+			</type>
+		</property>
+	</class>
+
+</hibernate-mapping>

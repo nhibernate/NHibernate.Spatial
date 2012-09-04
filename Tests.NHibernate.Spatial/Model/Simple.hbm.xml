@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
+
+	<class name="Tests.NHibernate.Spatial.Model.Simple, Tests.NHibernate.Spatial" table="simple">
+		<id name="Id" type="Int64" column="oid" >
+			<generator class="native" />
+		</id>
+		<property name="Description"/>
+		<!--<property name="Geometry" column="the_geom"
+			type="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial" />-->
+		<property name="Geometry" column="the_geom">
+			<type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+				<param name="srid">4326</param>
+				<param name="subtype">GEOMETRY</param>
+			</type>
+		</property>
+	</class>
+
+</hibernate-mapping>

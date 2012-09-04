@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
+	<class name="Tests.NHibernate.Spatial.RandomGeometries.Model.PointEntity, Tests.NHibernate.Spatial" table="pointtest">
+		<id name="Id" type="Int64" column="oid" >
+			<generator class="assigned" />
+		</id>
+		<property name="Name" type="string" column="name" length="50" />
+		<property name="Geometry" column="the_geom">
+			<type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+				<param name="subtype">POINT</param>
+				<param name="srid">4326</param>
+			</type>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
+
+	<class table="road_segments" name="Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model.RoadSegment, Tests.NHibernate.Spatial">
+		<id name="Fid" type="Int64" column="fid" >
+			<generator class="assigned" />
+		</id>
+		<property name="Name" column="name"/>
+		<property name="Aliases" column="aliases"/>
+		<property name="NumLanes" column="num_lanes"/>
+		<property name="Centerline" column="centerlines">
+			<type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+				<param name="srid">101</param>
+				<param name="subtype">LINESTRING</param>
+			</type>
+		</property>
+	</class>
+
+</hibernate-mapping>
