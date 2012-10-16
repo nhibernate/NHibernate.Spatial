@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using NHibernate.ByteCode.Castle;
 using NHibernate.Cfg;
+using NHibernate;
 using NHibernate.Driver;
 using NHibernate.Spatial.Dialect;
 using Environment = NHibernate.Cfg.Environment;
 using Settings = Tests.NHibernate.Spatial.Properties.Settings;
+using NHibernateFactory = NHibernate.Bytecode.DefaultProxyFactoryFactory;
 
 namespace Tests.NHibernate.Spatial
 {
@@ -13,13 +14,15 @@ namespace Tests.NHibernate.Spatial
 		public static void Configure(Configuration configuration)
 		{
 			IDictionary<string, string> properties = new Dictionary<string, string>();
-			properties[Environment.ProxyFactoryFactoryClass] = typeof(ProxyFactoryFactory).AssemblyQualifiedName;
+            properties[Environment.ProxyFactoryFactoryClass] = typeof(NHibernateFactory).AssemblyQualifiedName;
 			properties[Environment.Dialect] = typeof(MySQLSpatialDialect).AssemblyQualifiedName;
 			properties[Environment.ConnectionProvider] = typeof(DebugConnectionProvider).AssemblyQualifiedName;
 			properties[Environment.ConnectionDriver] = typeof(MySqlDataDriver).AssemblyQualifiedName;
 			properties[Environment.ConnectionString] = Settings.Default.ConnectionString;
 			//properties[Environment.Hbm2ddlAuto] = "create-drop";
 			configuration.SetProperties(properties);
+
+   
 		}
 
 	}

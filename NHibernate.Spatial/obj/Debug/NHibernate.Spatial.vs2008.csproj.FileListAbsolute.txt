@@ -1,0 +1,13 @@
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\NHibernate.Spatial.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\NHibernate.Spatial.pdb
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\GeoAPI.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\Iesi.Collections.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\Microsoft.SqlServer.Types.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\NetTopologySuite.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\NHibernate.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\PowerCollections.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\Iesi.Collections.xml
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\bin\Debug\NHibernate.xml
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\obj\Debug\NHibernate.Spatial.vs2008.csprojResolveAssemblyReference.cache
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\obj\Debug\NHibernate.Spatial.dll
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial\obj\Debug\NHibernate.Spatial.pdb
