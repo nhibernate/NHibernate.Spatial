@@ -16,6 +16,12 @@ namespace Tests.NHibernate.Spatial
 			TestConfiguration.Configure(configuration);
 		}
 
+
+        protected override string DataPath
+        {
+            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data"; }
+        }
+
 		[Test]
 		[Ignore("Not supported by MsSQL 2008")]
 		public override void StringRelate()
@@ -23,10 +29,11 @@ namespace Tests.NHibernate.Spatial
 			base.StringRelate();
 		}
 
+
 		[Test]
 		public void WhenRelateWithoutPatternThenThrows()
 		{
-			Assert.Throws<ArgumentNullException>(()=> 			session.CreateCriteria(typeof(NtsTestCase))
+			Assert.Throws<ArgumentNullException>(()=> 			_session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", "Relate"))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))

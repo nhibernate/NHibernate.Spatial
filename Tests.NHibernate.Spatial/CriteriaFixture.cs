@@ -177,14 +177,5 @@ namespace Tests.NHibernate.Spatial
 				Assert.IsTrue(item.Geometry.IsEmpty);
 			}
 		}
-
-		[Test]
-		public void CountSpatialEmpty_()
-		{
-            IGeometry geom = new Point(10, 10).Buffer(100);
-		    ICriteria crit = session.CreateCriteria(typeof (Simple))
-                .Add(SpatialRestrictions.Intersects("Geometry", geom));
-            var result = crit.List<Simple>();
-		}
 	}
 }

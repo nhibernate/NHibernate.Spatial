@@ -1,0 +1,1 @@
+C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\NHibernate.Spatial.Oracle\obj\Debug\NHibernate.Spatial.Oracle.csprojResolveAssemblyReference.cache

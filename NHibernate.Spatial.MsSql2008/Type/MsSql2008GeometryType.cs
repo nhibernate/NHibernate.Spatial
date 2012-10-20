@@ -77,7 +77,7 @@ namespace NHibernate.Spatial.Type
         		    ex.Message.StartsWith("24305:") /* "The Polygon input is not valid because the ring does not have enough distinct points. Each ring of a polygon must contain at least three distinct points.*/)
         		{
         			// TODO: Not sure what to do in these cases...
-                    //return null;
+                    return null;
         		}
         		throw;
         	}

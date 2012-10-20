@@ -1,13 +1,10 @@
 using System;
 using System.Collections;
-using System.Linq;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Linq;
 using NHibernate.Spatial.Criterion;
-using NHibernate.Spatial.Linq;
 using NUnit.Framework;
 using Tests.NHibernate.Spatial.Model;
 
@@ -15,39 +12,37 @@ namespace Tests.NHibernate.Spatial
 {
 	public abstract class ProjectionsFixture : AbstractFixture
 	{
+        private ISession _session;
+
 		protected override Type[] Mappings
 		{
 			get
 			{
-				return new Type[] { 
-					typeof(County)
-				};
+				return new[] { typeof(County)};
 			}
 		}
 
-		private ISession session;
-
 		protected override void OnSetUp()
 		{
-			session = sessions.OpenSession();
+			_session = sessions.OpenSession();
 
-			session.Save(new County("aaaa", "AA", Wkt.Read("POLYGON((1 0, 2 0, 2 1, 1 1, 1 0))")));
-			session.Save(new County("bbbb", "BB", Wkt.Read("POLYGON((1 1, 2 1, 2 2, 1 2, 1 1))")));
-			session.Save(new County("cccc", "BB", Wkt.Read("POLYGON((2 1, 3 1, 3 2, 2 2, 2 1))")));
-			session.Save(new County("dddd", "AA", Wkt.Read("POLYGON((2 0, 3 0, 3 1, 2 1, 2 0))")));
-			session.Flush();
+			_session.Save(new County("aaaa", "AA", Wkt.Read("POLYGON((1 0, 2 0, 2 1, 1 1, 1 0))")));
+			_session.Save(new County("bbbb", "BB", Wkt.Read("POLYGON((1 1, 2 1, 2 2, 1 2, 1 1))")));
+			_session.Save(new County("cccc", "BB", Wkt.Read("POLYGON((2 1, 3 1, 3 2, 2 2, 2 1))")));
+			_session.Save(new County("dddd", "AA", Wkt.Read("POLYGON((2 0, 3 0, 3 1, 2 1, 2 0))")));
+			_session.Flush();
 		}
 
 		protected override void OnTearDown()
 		{
-			DeleteMappings(session);
-			session.Close();
+			DeleteMappings(_session);
+			_session.Close();
 		}
 
 		[Test]
 		public void CountAndUnion()
 		{
-			IList results = session.CreateCriteria(typeof(County))
+			IList results = _session.CreateCriteria(typeof(County))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.RowCount())
 					.Add(SpatialProjections.Union("Boundaries"))
@@ -69,7 +64,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountAndUnionByState()
 		{
-			IList results = session.CreateCriteria(typeof(County))
+			IList results = _session.CreateCriteria(typeof(County))
 				.AddOrder(Order.Asc("State"))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.GroupProperty("State"))
@@ -84,7 +79,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountAndUnionByStateLambda()
 		{
-			var results = session.QueryOver<County>()
+			var results = _session.QueryOver<County>()
 				.Select(
 					Projections.ProjectionList()
 						.Add(Projections.Group<County>(o => o.State))
@@ -120,14 +115,14 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void EnvelopeAll()
 		{
-			IList results = session.CreateCriteria(typeof(County))
+			IList results = _session.CreateCriteria(typeof(County))
 				.SetProjection(SpatialProjections.Envelope("Boundaries"))
 				.List();
 
 			Assert.AreEqual(1, results.Count);
 
-			IGeometry aggregated = (IGeometry)results[0];
-			IEnvelope expected = new Envelope(1, 3, 0, 2);
+			var aggregated = (IGeometry)results[0];
+			var expected = new Envelope(1, 3, 0, 2);
 
 			Assert.IsTrue(expected.Equals(aggregated.EnvelopeInternal));
 
@@ -136,13 +131,13 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CollectAll()
 		{
-			IList results = session.CreateCriteria(typeof(County))
+			IList results = _session.CreateCriteria(typeof(County))
 				.SetProjection(SpatialProjections.Collect("Boundaries"))
 				.List();
 
 			Assert.AreEqual(1, results.Count);
 
-			IGeometry aggregated = (IGeometry)results[0];
+			var aggregated = (IGeometry)results[0];
 
 			Assert.AreEqual(4, aggregated.NumGeometries);
 			//Assert.AreEqual("GEOMETRYCOLLECTION", aggregated.GeometryType);
@@ -151,7 +146,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void IntersectionAll()
 		{
-			IList results = session.CreateCriteria(typeof(County))
+			IList results = _session.CreateCriteria(typeof(County))
 				.SetProjection(SpatialProjections.Intersection("Boundaries"))
 				.List();
 

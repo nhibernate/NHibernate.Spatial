@@ -1,0 +1,96 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:NtsTestCases/d:Model/f:NtsTestCase.cs" caret="392" fromTop="19" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Type/f:GeometryType.cs" caret="6857" fromTop="19" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Type/f:GeometryTypeBase.cs" caret="8097" fromTop="30" />
+      <File id="EAC092D9-6D47-4A30-803C-7A8583F99DFE/d:Type/f:MsSql2008GeometryType.cs" caret="3059" fromTop="20" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Dialect/d:Function/f:SpatialMethodSafeFunction.cs" caret="3376" fromTop="21" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Dialect/d:Function/f:SpatialStandardFunction.cs" caret="2003" fromTop="20" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Linq/d:Functions/f:SpatialLinqToHqlGeneratorsRegistry.cs" caret="4995" fromTop="18" />
+      <File id="EAC092D9-6D47-4A30-803C-7A8583F99DFE/d:Dialect/f:MsSql2008SpatialDialect.cs" caret="22033" fromTop="15" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Metadata/f:Metadata.cs" caret="2673" fromTop="18" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Mapping/f:SpatialAuxiliaryDatabaseObject.cs" caret="5072" fromTop="12" />
+      <File id="EAC092D9-6D47-4A30-803C-7A8583F99DFE/d:Metadata/f:GeometryColumn.MsSql2008GeometryDialect.hbm.xml" caret="224" fromTop="5" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/f:AbstractFixture.cs" caret="626" fromTop="22" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:DataGenerator.cs" caret="1167" fromTop="16" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/d:Model/f:LineStringEntity.cs" caret="440" fromTop="22" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ProjectionsFixture.cs" caret="0" fromTop="0" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="346" fromTop="11" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:OgcSfSql11Compliance/f:ConformanceItemsFixture.cs" caret="712" fromTop="6" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008CriteriaFixture.cs" caret="157" fromTop="6" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/f:CriteriaFixture.cs" caret="480" fromTop="17" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Criterion/d:Lambda/f:LambdaSpatialRestrictionBuilder.cs" caret="846" fromTop="23" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Criterion/d:Lambda/f:QueryOverSpatialRestrictionBuilderBase.cs" caret="767" fromTop="30" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008SpatialQueriesFixture.cs" caret="505" fromTop="9" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Dialect/f:SpatialDialect.cs" caret="0" fromTop="0" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Criterion/f:SpatialRelateProjection.cs" caret="0" fromTop="0" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Criterion/f:SpatialAggregateProjection.cs" caret="0" fromTop="0" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Criterion/f:SpatialRestrictions.cs" caret="2594" fromTop="23" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/f:DebugConnectionProvider.cs" caret="747" fromTop="26" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="20719" fromTop="568" />
+      <File id="50868B60-AC38-47E1-BD09-B4A4AA06B6F2/d:Criterion/f:SpatialFilterCriterion.cs" caret="2155" fromTop="53" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/f:ProjectionsFixture.cs" caret="2968" fromTop="26" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="588" fromTop="20" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="893" fromTop="23" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:OgcSfSql11Compliance/f:ConformanceItemsFixture.cs" caret="46947" fromTop="23" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:OgcSfSql11Compliance/f:ConformanceItemsFixture.cs" caret="46778" fromTop="18" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="2272" fromTop="44" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="1851" fromTop="33" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="1809" fromTop="33" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:OgcSfSql11Compliance/f:ConformanceItemsFixture.cs" caret="43997" fromTop="18" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:OgcSfSql11Compliance/f:ConformanceItemsFixture.cs" caret="44168" fromTop="23" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="1149" fromTop="32" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008ConformanceItemsFixture.cs" caret="1753" fromTop="34" />
+      <File id="96CE5CA4-56B6-45CD-9581-736C8483CD7A/f:MsSql2008SpatialQueriesFixture.cs" caret="2516" fromTop="13" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="19" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="24" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="17" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="32" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="33" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="50" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="21710" fromTop="6" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="0" fromTop="0" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="16946" fromTop="26" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="17287" fromTop="35" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="18068" fromTop="26" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="18424" fromTop="35" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="19234" fromTop="26" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="19584" fromTop="35" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="20375" fromTop="26" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/d:RandomGeometries/f:SpatialQueriesFixture.cs" caret="20719" fromTop="35" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/f:ProjectionsFixture.cs" caret="3504" fromTop="26" />
+      <File id="CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA/f:ProjectionsFixture.cs" caret="3890" fromTop="42" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir>C:\Program Files (x86)\NUnit 2.6.1\bin</NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+    <UseSpecifiedNUnit>True</UseSpecifiedNUnit>
+  </UnitTestRunnerNUnit>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="return" priority="1" />
+      <Item value="false" priority="0" />
+      <Item value="protected" priority="0" />
+      <Item value="virtual" priority="0" />
+      <Item value="string" priority="0" />
+      <Item value="override" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

@@ -27,7 +27,7 @@
  * For more information, visit: http://www.hibernatespatial.org/
  */
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {

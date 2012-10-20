@@ -17,8 +17,9 @@
 
 using System;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Algorithm;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Algorithm;
+using NetTopologySuite.Geometries;
+
 using NHibernate.Spatial.MGeometries;
 
 namespace NHibernate.Spatial.Oracle
@@ -221,7 +222,7 @@ namespace NHibernate.Spatial.Oracle
 			for (int i = 0; i < info.Length; i++)
 			{
 				ElementType et;
-				ICoordinate[] coords;
+				Coordinate[] coords;
 				if (i == 0)
 				{
 					et = ElementType.EXTERIOR_RING_STRAIGHT_SEGMENTS;

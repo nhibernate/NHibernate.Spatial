@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="NetTopologySuite.TestRunner" Label="NetTopologySuite.TestRunner" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NetTopologySuite.Windows.Forms" Label="NetTopologySuite.Windows.Forms" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="Tests.NHibernate.Spatial.MySQL" Label="Tests.NHibernate.Spatial.MySQL" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="MySql.Data 6.5.4" Label="MySql.Data 6.5.4" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="NHibernate.Spatial.MySQL" Label="NHibernate.Spatial.MySQL" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="Tests.NHibernate.Spatial.MsSql2008" Label="Tests.NHibernate.Spatial.MsSql2008" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="NUnit 2.6.1" Label="NUnit 2.6.1" Category="Package" />
+    <Node Id="NHibernate.Spatial.MsSql2008" Label="NHibernate.Spatial.MsSql2008" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="Tests.NHibernate.Spatial.MsSqlSpatial" Label="Tests.NHibernate.Spatial.MsSqlSpatial" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="NHibernate.Spatial.MsSqlSpatial" Label="NHibernate.Spatial.MsSqlSpatial" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="Microsoft.SqlServer.Types 10.50.1600.1" Label="Microsoft.SqlServer.Types 10.50.1600.1" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NetTopologySuite.IO 1.12.0" Label="NetTopologySuite.IO 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="Tests.NHibernate.Spatial.PostGis" Label="Tests.NHibernate.Spatial.PostGis" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="Npgsql 2.0.11" Label="Npgsql 2.0.11" Category="Package" />
+    <Node Id="NHibernate.Spatial.PostGis" Label="NHibernate.Spatial.PostGis" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="Microsoft.SqlServer.Types 10.50.1600.1" Label="Microsoft.SqlServer.Types 10.50.1600.1" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NetTopologySuite.IO 1.12.0" Label="NetTopologySuite.IO 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="Tests.NHibernate.Spatial" Label="Tests.NHibernate.Spatial" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="log4net 2.0.0" Label="log4net 2.0.0" Category="Package" />
+    <Node Id="Microsoft.SqlServer.Types 10.50.1600.1" Label="Microsoft.SqlServer.Types 10.50.1600.1" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+    <Node Id="NHibernate.Spatial" Label="NHibernate.Spatial" Category="Project" />
+    <Node Id="GeoAPI 1.6.0" Label="GeoAPI 1.6.0" Category="Package" />
+    <Node Id="Iesi.Collections 3.3.1.4000" Label="Iesi.Collections 3.3.1.4000" Category="Package" />
+    <Node Id="Microsoft.SqlServer.Types 10.50.1600.1" Label="Microsoft.SqlServer.Types 10.50.1600.1" Category="Package" />
+    <Node Id="NetTopologySuite 1.12.0" Label="NetTopologySuite 1.12.0" Category="Package" />
+    <Node Id="NHibernate 3.3.1.4000" Label="NHibernate 3.3.1.4000" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.TestRunner" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.Windows.Forms" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="Tests.NHibernate.Spatial.MySQL" Target="MySql.Data 6.5.4" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.MySQL" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.MySQL" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Spatial.MySQL" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="NHibernate.Spatial.MySQL" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="Tests.NHibernate.Spatial.MsSql2008" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.MsSql2008" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.MsSql2008" Target="NUnit 2.6.1" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Spatial.MsSql2008" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="NHibernate.Spatial.MsSql2008" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="Tests.NHibernate.Spatial.MsSqlSpatial" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.MsSqlSpatial" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.IO 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.IO 1.12.0" Target="NetTopologySuite 1.12.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.IO 1.12.0" Target="Microsoft.SqlServer.Types 10.50.1600.1" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Spatial.MsSqlSpatial" Target="NetTopologySuite.IO 1.12.0" Category="Installed Package" />
+    <Link Source="NHibernate.Spatial.MsSqlSpatial" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="Tests.NHibernate.Spatial.PostGis" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.PostGis" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial.PostGis" Target="Npgsql 2.0.11" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.IO 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.IO 1.12.0" Target="NetTopologySuite 1.12.0" Category="Package Dependency" />
+    <Link Source="NetTopologySuite.IO 1.12.0" Target="Microsoft.SqlServer.Types 10.50.1600.1" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Spatial.PostGis" Target="NetTopologySuite.IO 1.12.0" Category="Installed Package" />
+    <Link Source="NHibernate.Spatial.PostGis" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="Tests.NHibernate.Spatial" Target="log4net 2.0.0" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial" Target="Microsoft.SqlServer.Types 10.50.1600.1" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="Tests.NHibernate.Spatial" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+    <Link Source="NetTopologySuite 1.12.0" Target="GeoAPI 1.6.0" Category="Package Dependency" />
+    <Link Source="NHibernate 3.3.1.4000" Target="Iesi.Collections 3.3.1.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Spatial" Target="Microsoft.SqlServer.Types 10.50.1600.1" Category="Installed Package" />
+    <Link Source="NHibernate.Spatial" Target="NetTopologySuite 1.12.0" Category="Installed Package" />
+    <Link Source="NHibernate.Spatial" Target="NHibernate 3.3.1.4000" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

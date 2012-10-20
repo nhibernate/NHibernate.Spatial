@@ -28,7 +28,7 @@
  */
 using System.Runtime.Serialization;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {
@@ -58,7 +58,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * used directly if it is an instance of MCoordinate[]; otherwise it is
 		 * copied.
 		 */
-		public ICoordinateSequence Create(ICoordinate[] coordinates)
+		public ICoordinateSequence Create(Coordinate[] coordinates)
 		{
 			if (coordinates is MCoordinate[])
 			{
@@ -86,5 +86,13 @@ namespace NHibernate.Spatial.MGeometries
 			return (ICoordinateSequence)new MCoordinateSequence(size);
 		}
 
-	}
+
+        public ICoordinateSequence Create(int size, Ordinates ordinates)
+        {
+            return new MCoordinateSequence(ordinates);
+        }
+
+        public Ordinates Ordinates { get; set; }
+
+    }
 }

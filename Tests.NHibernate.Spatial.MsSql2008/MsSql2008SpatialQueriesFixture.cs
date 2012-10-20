@@ -94,25 +94,5 @@ AND the_geom IS NOT NULL
 		.AddScalar("result", NHibernateUtil.BinaryBlob);
 		}
 
-
-        /// <summary>
-        /// NHSP-18: Line geometry insertion fails if line contains only two idantical points
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(System.FormatException))]
-        public void NHSP_18()
-        {
-            var geometry = new WKTReader().Read("LINESTRING(5 5, 5 5)");
-            geometry.SRID = 4326;
-            var entity = new LineStringEntity { Id = int.MaxValue, Name = "test", Geometry = geometry };
-            using (var session = sessions.OpenSession())
-            {
-                session.Transaction.Begin();
-                session.Save(entity);
-                session.Flush();
-                session.Transaction.Rollback();
-            }
-        }
-
 	}
 }

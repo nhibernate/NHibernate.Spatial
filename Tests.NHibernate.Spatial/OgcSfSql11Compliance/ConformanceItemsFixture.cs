@@ -40,7 +40,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance
 			}
 		}
 
-		private ISession session;
+	    protected ISession session;
 
 		protected override bool CheckDatabaseWasCleanedOnTearDown
 		{
@@ -1324,10 +1324,10 @@ where t.Fid = 102
 		public void ConformanceItemT23Hql()
 		{
 			string query =
-@"select NHSP.AsText(NHSP.PointN(t.Centerline, 1))
-from RoadSegment t
-where t.Fid = 102
-";
+                @"select NHSP.AsText(NHSP.PointN(t.Centerline, 1))
+                from RoadSegment t
+                where t.Fid = 102
+                ";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
@@ -1338,12 +1338,13 @@ where t.Fid = 102
 		}
 
 		[Test]
-		public void ConformanceItemT23Linq()
+		public virtual void ConformanceItemT23Linq()
 		{
 			var query =
 				from t in session.Query<RoadSegment>()
 				where t.Fid == 102
-				select ((ILineString)t.Centerline).GetPointN(0);
+				select ((ILineString)t.Centerline)
+                .GetPointN(0);
 
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 0 18 )");
@@ -1619,10 +1620,10 @@ where t.Name = 'Blue Lake'
 		public void ConformanceItemT29Hql()
 		{
 			string query =
-@"select NHSP.AsText(NHSP.InteriorRingN(t.Shore, 1))
-from Lake t
-where t.Name = 'Blue Lake'
-";
+                @"select NHSP.AsText(NHSP.InteriorRingN(t.Shore, 1))
+                from Lake t
+                where t.Name = 'Blue Lake'
+                ";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
@@ -1633,7 +1634,7 @@ where t.Name = 'Blue Lake'
 		}
 
 		[Test]
-		public void ConformanceItemT29Linq()
+		public virtual void ConformanceItemT29Linq()
 		{
 			var query =
 				from t in session.Query<Lake>()
@@ -1668,10 +1669,10 @@ where t.Name = 'Blue Lake'
 		public void ConformanceItemT30Hql()
 		{
 			string query =
-@"select NHSP.NumGeometries(t.Centerlines)
-from DividedRoute t
-where t.Name = 'Route 75'
-";
+                @"select NHSP.NumGeometries(t.Centerlines)
+                from DividedRoute t
+                where t.Name = 'Route 75'
+                ";
 			int result = session.CreateQuery(query)
 				.UniqueResult<int>();
 
@@ -1722,10 +1723,10 @@ where t.Name = 'Route 75'
 		public void ConformanceItemT31Hql()
 		{
 			string query =
-@"select NHSP.AsText(NHSP.GeometryN(t.Centerlines, 2))
-from DividedRoute t
-where t.Name = 'Route 75'
-";
+                @"select NHSP.AsText(NHSP.GeometryN(t.Centerlines, 2))
+                from DividedRoute t
+                where t.Name = 'Route 75'
+                ";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
@@ -1736,7 +1737,7 @@ where t.Name = 'Route 75'
 		}
 
 		[Test]
-		public void ConformanceItemT31Linq()
+		public virtual void ConformanceItemT31Linq()
 		{
 			var query =
 				from t in session.Query<DividedRoute>()
@@ -2018,10 +2019,10 @@ where t.Fid = 120
 		public void ConformanceItemT37Hql()
 		{
 			string query =
-@"select NHSP.Equals(t.Boundary, NHSP.PolyFromText('POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )',101))
-from NamedPlace t
-where t.Name = 'Goose Island'
-";
+                @"select NHSP.Equals(t.Boundary, NHSP.PolyFromText('POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )',101))
+                from NamedPlace t
+                where t.Name = 'Goose Island'
+                ";
 			bool result = session.CreateQuery(query)
 				.UniqueResult<bool>();
 

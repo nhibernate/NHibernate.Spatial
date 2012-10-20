@@ -31,7 +31,7 @@ namespace NHibernate.Spatial.Dialect
 	/// <summary>
 	/// 
 	/// </summary>
-	public class OracleSpatialDialect : OracleDialect, ISpatialDialect
+	public class OracleSpatialDialect : Oracle10gDialect, ISpatialDialect
 	{
 		private static readonly IType geometryType = new CustomType(typeof(OracleGeometryType), null);
 		private const string DialectPrefix = "ST";
@@ -223,6 +223,15 @@ namespace NHibernate.Spatial.Dialect
 
 		#region ISpatialDialect Members
 
+        /// <summary>
+        /// Creates the geometry user type.
+        /// </summary>
+        /// <returns></returns>
+        public IGeometryUserType CreateGeometryUserType()
+        {
+            return new OracleGeometryType();
+        }
+
 		/// <summary>
 		/// Gets the type of the geometry.
 		/// </summary>
@@ -230,15 +239,6 @@ namespace NHibernate.Spatial.Dialect
 		public IType GeometryType
 		{
 			get { return geometryType; }
-		}
-
-		/// <summary>
-		/// Creates the geometry user type.
-		/// </summary>
-		/// <returns></returns>
-		public IGeometryUserType CreateGeometryUserType()
-		{
-			return new OracleGeometryType();
 		}
 
 		/// <summary>
@@ -286,7 +286,7 @@ namespace NHibernate.Spatial.Dialect
 				case SpatialAnalysis.SymDifference:
 				case SpatialAnalysis.Union:
 					if (analysis == SpatialAnalysis.Buffer &&
-						!(extraArgument is Parameter || SqlString.Parameter.Equals(extraArgument)))
+						!(extraArgument is Parameter || new SqlString(Parameter.Placeholder).Equals(extraArgument)))
 					{
 						extraArgument = Convert.ToString(extraArgument, NumberFormatInfo.InvariantInfo);
 					}
@@ -505,6 +505,21 @@ namespace NHibernate.Spatial.Dialect
 			return script;
 		}
 
+        /// <summary>
+        /// Gets the spatial create string.
+        /// </summary>
+        /// <param name="schema">The schema.</param>
+        /// <param name="table">The table.</param>
+        /// <param name="column">The column.</param>
+        /// <param name="srid">The srid.</param>
+        /// <param name="subtype">The subtype.</param>
+        /// <param name="dimension">The dimension.</param>
+        /// <returns></returns>
+        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
+        {
+            return null;
+        }
+
 		/// <summary>
 		/// Quotes the schema.
 		/// </summary>
@@ -640,6 +655,12 @@ namespace NHibernate.Spatial.Dialect
 		{
 			return metadataClass == MetadataClass.GeometryColumn;
 		}
+
+        // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
+        public string MultipleQueriesSeparator
+        {
+            get { return ";"; }
+        }
 
 		#endregion
 	}

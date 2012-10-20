@@ -482,12 +482,14 @@ namespace NHibernate.Spatial.Dialect
 			return true;
 		}
 
+        // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
+        public string MultipleQueriesSeparator
+        {
+            get { return ";"; }
+        }
+
 		#endregion
 
-		// TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
-		public string MultipleQueriesSeparator
-		{
-			get { return ";"; }
-		}
+		
 	}
 }

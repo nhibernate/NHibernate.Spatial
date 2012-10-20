@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\Tests.NHibernate.Spatial.MsSql2008\bin\Debug\Tests.NHibernate.Spatial.MsSql2008.dll" total="1" errors="1" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2012-10-20" time="11:21:20">
+  <environment nunit-version="2.6.1.12217" clr-version="2.0.50727.5456" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.6.1\bin" machine-name="UTILIZADOR-PC" user="Pedro" user-domain="Utilizador-PC" />
+  <culture-info current-culture="pt-PT" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\Tests.NHibernate.Spatial.MsSql2008\bin\Debug\Tests.NHibernate.Spatial.MsSql2008.dll" executed="True" result="Failure" success="False" time="640.271" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="Tests" executed="True" result="Failure" success="False" time="640.253" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="NHibernate" executed="True" result="Failure" success="False" time="640.252" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="Spatial" executed="True" result="Failure" success="False" time="640.251" asserts="0">
+                <results>
+                  <test-suite type="Namespace" name="RandomGeometries" executed="True" result="Failure" success="False" time="640.251" asserts="0">
+                    <results>
+                      <test-suite type="TestFixture" name="MsSql2008SpatialQueriesFixture" executed="True" result="Failure" success="False" time="640.249" asserts="0">
+                        <results>
+                          <test-case name="Tests.NHibernate.Spatial.RandomGeometries.MsSql2008SpatialQueriesFixture.SpatialQueriesFixture.LineStringFiltering" executed="True" result="Error" success="False" time="632.418" asserts="0">
+                            <failure>
+                              <message><![CDATA[NHibernate.Exceptions.GenericADOException : could not execute query
+[ SELECT this_.oid as oid0_0_, this_.name as name0_0_, this_.the_geom as the3_0_0_ FROM linestringtest this_ WHERE this_.the_geom.Filter(@p0) = 1 ]
+[SQL: SELECT this_.oid as oid0_0_, this_.name as name0_0_, this_.the_geom as the3_0_0_ FROM linestringtest this_ WHERE this_.the_geom.Filter(@p0) = 1]
+  ----> System.Data.SqlClient.SqlException : Must declare the scalar variable "@p0".]]></message>
+                              <stack-trace><![CDATA[at NHibernate.Loader.Loader.DoList(ISessionImplementor session, QueryParameters queryParameters)
+at NHibernate.Loader.Loader.ListIgnoreQueryCache(ISessionImplementor session, QueryParameters queryParameters)
+at NHibernate.Loader.Criteria.CriteriaLoader.List(ISessionImplementor session)
+at NHibernate.Impl.SessionImpl.List(CriteriaImpl criteria, IList results)
+at NHibernate.Impl.CriteriaImpl.List(IList results)
+at NHibernate.Impl.CriteriaImpl.List()
+at Tests.NHibernate.Spatial.RandomGeometries.SpatialQueriesFixture.LineStringFiltering() in C:\Users\Pedro\Documents\GitHub\Nhibernate.Spatial\Tests.NHibernate.Spatial\RandomGeometries\SpatialQueriesFixture.cs:line 84
+--SqlException
+at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+at System.Data.SqlClient.SqlDataReader.get_MetaData()
+at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader()
+at NHibernate.AdoNet.AbstractBatcher.ExecuteReader(IDbCommand cmd)
+at NHibernate.Loader.Loader.GetResultSet(IDbCommand st, Boolean autoDiscoverTypes, Boolean callable, RowSelection selection, ISessionImplementor session)
+at NHibernate.Loader.Loader.DoQuery(ISessionImplementor session, QueryParameters queryParameters, Boolean returnProxies)
+at NHibernate.Loader.Loader.DoQueryAndInitializeNonLazyCollections(ISessionImplementor session, QueryParameters queryParameters, Boolean returnProxies)
+at NHibernate.Loader.Loader.DoList(ISessionImplementor session, QueryParameters queryParameters)
+]]></stack-trace>
+                            </failure>
+                          </test-case>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

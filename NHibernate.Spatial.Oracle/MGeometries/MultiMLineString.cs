@@ -29,7 +29,7 @@
 using System;
 using System.Collections.Generic;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {
@@ -67,10 +67,10 @@ namespace NHibernate.Spatial.MGeometries
 			{
 				return;
 			}
-			MGeometryType mdir = ((MLineString)this.geometries[0]).GetMeasureDirection();
-			for (int i = 0; i < this.geometries.Length; i++)
+			MGeometryType mdir = ((MLineString)this.Geometries[0]).GetMeasureDirection();
+			for (int i = 0; i < this.Geometries.Length; i++)
 			{
-				MLineString ml = (MLineString)this.geometries[i];
+				MLineString ml = (MLineString)this.Geometries[i];
 				// check whether mlinestrings are all pointing in same direction,
 				// and
 				// are monotone
@@ -92,7 +92,7 @@ namespace NHibernate.Spatial.MGeometries
 				// are inconsistent with previous parts
 				if (i > 0)
 				{
-					MLineString mlp = (MLineString)this.geometries[i - 1];
+					MLineString mlp = (MLineString)this.Geometries[i - 1];
 					if (mdir == MGeometryType.Increasing)
 					{
 						if (mlp.GetMaxM() > ml.GetMinM())

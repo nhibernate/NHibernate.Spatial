@@ -633,7 +633,8 @@ namespace NHibernate.Spatial.Dialect
 		/// </value>
 		public bool SupportsSpatialMetadata(MetadataClass metadataClass)
 		{
-			return metadataClass == MetadataClass.GeometryColumn;
+			//return metadataClass == MetadataClass.GeometryColumn;
+		    return false;
 		}
 
 		#endregion

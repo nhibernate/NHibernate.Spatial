@@ -31,7 +31,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Text;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {
@@ -83,7 +83,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * 
 		 * @param copyCoords
 		 */
-		public MCoordinateSequence(ICoordinate[] copyCoords)
+		public MCoordinateSequence(Coordinate[] copyCoords)
 		{
 			coordinates = Copy(copyCoords);
 		}
@@ -122,7 +122,7 @@ namespace NHibernate.Spatial.MGeometries
 			get { return 4; }
 		}
 
-		public ICoordinate GetCoordinate(int i)
+		public Coordinate GetCoordinate(int i)
 		{
 			return coordinates[i];
 		}
@@ -130,7 +130,7 @@ namespace NHibernate.Spatial.MGeometries
 		/**
 		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetCoordinateCopy(int)
 		 */
-		public ICoordinate GetCoordinateCopy(int index)
+		public Coordinate GetCoordinateCopy(int index)
 		{
 			return new Coordinate(coordinates[index]);
 		}
@@ -139,7 +139,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetCoordinate(int,
 		 *      com.vividsolutions.jts.geom.Coordinate)
 		 */
-		public void GetCoordinate(int index, ICoordinate coord)
+		public void GetCoordinate(int index, Coordinate coord)
 		{
 			coord.X = coordinates[index].X;
 			coord.Y = coordinates[index].Y;
@@ -228,12 +228,12 @@ namespace NHibernate.Spatial.MGeometries
 			get { return coordinates.Length; }
 		}
 
-		public ICoordinate[] ToCoordinateArray()
+		public Coordinate[] ToCoordinateArray()
 		{
 			return coordinates;
 		}
 
-		public IEnvelope ExpandEnvelope(IEnvelope env)
+		public Envelope ExpandEnvelope(Envelope env)
 		{
 			for (int i = 0; i < coordinates.Length; i++)
 			{
@@ -255,6 +255,23 @@ namespace NHibernate.Spatial.MGeometries
 			strBuf.Append("]");
 			return strBuf.ToString();
 		}
-	}
+
+        //TODO: Implement missing methods
+        public double GetOrdinate(int index, Ordinate ordinate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Ordinates Ordinates
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void SetOrdinate(int index, Ordinate ordinate, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
 }
 

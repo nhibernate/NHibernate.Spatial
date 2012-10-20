@@ -29,7 +29,7 @@
 using System;
 using System.Collections.Generic;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 
 /**
  * This class provides operations for handling the usage of Circles and arcs in

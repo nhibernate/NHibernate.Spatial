@@ -27,13 +27,19 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 			}
 		}
 
+
+	    protected virtual string DataPath
+	    {
+            get { return @"..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data"; }
+	        
+	    }
+
 		protected override void OnTestFixtureSetUp()
 		{
 			using (ISession session = sessions.OpenSession())
 			{
 				string basePath = Path.Combine(
-					AppDomain.CurrentDomain.BaseDirectory,
-					@"..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data");
+                    AppDomain.CurrentDomain.BaseDirectory, DataPath);
 
 				string[] filenames = new string[] {
 
@@ -183,19 +189,19 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 			}
 		}
 
-		protected ISession session;
+		protected ISession _session;
 
 		protected override void OnSetUp()
 		{
-			session = sessions.OpenSession();
+			_session = sessions.OpenSession();
 		}
 
 		protected override void OnTearDown()
 		{
-			session.Clear();
-			session.Close();
-			session.Dispose();
-			session = null;
+			_session.Clear();
+			_session.Close();
+			_session.Dispose();
+			_session = null;
 		}
 
 		protected override bool CheckDatabaseWasCleanedOnTearDown
@@ -212,7 +218,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 		private void TestGeometryBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection)
 		{
-			IList results = session.CreateCriteria(typeof(NtsTestCase))
+			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))
@@ -241,7 +247,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 		private void TestGeometryUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection)
 		{
-			IList results = session.CreateCriteria(typeof(NtsTestCase))
+			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))
@@ -270,7 +276,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 		private void TestBooleanBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection, SpatialRelationCriterionDelegate criterion)
 		{
-			IList results = session.CreateCriteria(typeof(NtsTestCase))
+			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))
@@ -297,7 +303,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 			// RowCount uses "count(*)" which in PostgreSQL returns Int64 and
 			// in MS SQL Server return Int32.
-			long countRows = Convert.ToInt64(session.CreateCriteria(typeof(NtsTestCase))
+			long countRows = Convert.ToInt64(_session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
 				.Add(criterion("GeometryA", "GeometryB"))
 				.SetProjection(Projections.RowCount())
@@ -308,7 +314,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 		private void TestBooleanUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection, SpatialCriterionUnaryDelegate criterion)
 		{
-			IList results = session.CreateCriteria(typeof(NtsTestCase))
+			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))
@@ -335,7 +341,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 			// RowCount uses "count(*)" which in PostgreSQL returns Int64 and
 			// in MS SQL Server return Int32.
-			long countRows = Convert.ToInt64(session.CreateCriteria(typeof(NtsTestCase))
+			long countRows = Convert.ToInt64(_session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
 				.Add(criterion("GeometryA"))
 				.SetProjection(Projections.RowCount())
@@ -385,7 +391,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		[Test]
 		public void BooleanRelate()
 		{
-			IList results = session.CreateCriteria(typeof(NtsTestCase))
+			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", "Relate"))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))
@@ -409,7 +415,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		[Test]
 		public virtual void StringRelate()
 		{
-			IList results = session.CreateCriteria(typeof(NtsTestCase))
+			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", "Relate"))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.Property("Description"))

@@ -20,8 +20,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using GeoAPI.Geometries;
-using GisSharpBlog.NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate.Spatial.MGeometries;
+using System.Linq;
 
 namespace NHibernate.Spatial.Oracle
 {
@@ -121,7 +122,7 @@ namespace NHibernate.Spatial.Oracle
 
 		private IMultiPoint ReadMultiPoint(int dim, int lrsDim, SdoGeometry sdoGeom)
 		{
-			Double[] ordinates = sdoGeom.getOrdinates().getOrdinateArray();
+            Double[] ordinates = sdoGeom.OrdinatesArray().Select(d => Convert.ToDouble(d)).ToArray();
 			ICoordinateSequence cs = ConvertOrdinateArray(ordinates, sdoGeom);
 			IMultiPoint multipoint = factory.CreateMultiPoint(cs);
 			multipoint.SRID = (int)sdoGeom.Sdo_Srid;
@@ -152,7 +153,7 @@ namespace NHibernate.Spatial.Oracle
 
 			LineString ls =
 				lrs
-					? factory.createMLineString(cs)
+					? factory.CreateMultiLineString(cs)
 					: factory.CreateLineString(cs);
 			ls.SRID = (int)sdoGeom.Sdo_Srid;
 			return ls;
@@ -177,7 +178,7 @@ namespace NHibernate.Spatial.Oracle
 					cs = Add(cs, GetCompoundCSeq(i + 1, i + numCompounds, sdoGeom));
 					LineString line =
 						lrs
-							? factory.createMLineString(cs)
+							? factory.CreateMultiLineString(cs)
 							: factory.CreateLineString(cs);
 					lines[i] = line;
 					i += 1 + numCompounds;
@@ -185,7 +186,7 @@ namespace NHibernate.Spatial.Oracle
 				else
 				{
 					cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
-					LineString line = lrs ? (LineString)factory.createMLineString(cs) : factory.CreateLineString(cs);
+					LineString line = lrs ? (LineString)factory.CreateMultiLineString(cs) : factory.CreateLineString(cs);
 					lines[i] = line;
 					i++;
 				}
@@ -193,7 +194,7 @@ namespace NHibernate.Spatial.Oracle
 
 			MultiLineString mls =
 				lrs
-					? factory.createMultiMLineString((MLineString[])lines)
+                    ? factory.CreateMultiLineString((MLineString[])lines)
 					: factory.CreateMultiLineString(lines);
 			mls.SRID = (int)sdoGeom.Sdo_Srid;
 			return mls;
