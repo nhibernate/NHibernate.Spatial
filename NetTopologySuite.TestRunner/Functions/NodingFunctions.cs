@@ -12,11 +12,11 @@ namespace Open.Topology.TestRunner.Functions
     public class NodingFunctions
     {
 
-        public static IGeometry nodeWithPointwisePrecision(IGeometry geom, double scaleFactor)
+        public static IGeometry NodeWithPointwisePrecision(IGeometry geom, double scaleFactor)
         {
             var pm = new PrecisionModel(scaleFactor);
 
-            var roundedGeom = SimpleGeometryPrecisionReducer.Reduce(geom, pm);
+            var roundedGeom = GeometryPrecisionReducer.Reduce(geom, pm);
 
             var geomList = new List<IGeometry>();
             geomList.Add(roundedGeom);

@@ -5,9 +5,12 @@ using GeoAPI.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using NHibernate.Spatial.Criterion;
+using NHibernate.Spatial.Criterion.Lambda;
 using NHibernate.Spatial.Linq;
 using NHibernate.Spatial.Metadata;
 using NUnit.Framework;
+using Tests.NHibernate.Spatial.Model;
 using Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance
@@ -2166,10 +2169,10 @@ where s.Name = 'Cam Stream' and l.Name = 'Blue Lake'
 		public virtual void ConformanceItemT40Hql()
 		{
 			string query =
-@"select NHSP.Within(b.Footprint, np.Boundary)
-from NamedPlace np, Building b
-where np.Name = 'Ashton' and b.Address = '215 Main Street'
-";
+                @"select NHSP.Within(b.Footprint, np.Boundary)
+                from NamedPlace np, Building b
+                where np.Name = 'Ashton' and b.Address = '215 Main Street'
+                ";
 			bool result = session.CreateQuery(query)
 				.UniqueResult<bool>();
 
@@ -2189,6 +2192,7 @@ where np.Name = 'Ashton' and b.Address = '215 Main Street'
 
 			Assert.IsTrue(result);
 		}
+
 
 		/// <summary>
 		/// Conformance Item T41	

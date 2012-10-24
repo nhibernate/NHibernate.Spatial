@@ -79,7 +79,7 @@ namespace NHibernate.Spatial.Dialect
 			RegisterSpatialFunction(SpatialValidation.IsValid);
 		}
 
-		private void RegisterFunctions()
+		private new void RegisterFunctions()
 		{
 			RegisterSpatialFunction("Boundary");
 			RegisterSpatialFunction("Centroid");

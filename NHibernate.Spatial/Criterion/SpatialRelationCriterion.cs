@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NHibernate.Engine;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
@@ -92,6 +93,8 @@ namespace NHibernate.Spatial.Criterion
 				columns2 = GetColumnNames(criteria, criteriaQuery, (string)this.anotherGeometry);
 			}
 
+            Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
+
 			SqlStringBuilder builder = new SqlStringBuilder(10 * columns1.Length);
 			for (int i = 0; i < columns1.Length; i++)
 			{
@@ -101,7 +104,7 @@ namespace NHibernate.Spatial.Criterion
 				}
 				if (this.anotherGeometry is IGeometry)
 				{
-					builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, Parameter.Placeholder, true));
+                    builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, parameters.Single(), true));
 				}
 				else
 				{
