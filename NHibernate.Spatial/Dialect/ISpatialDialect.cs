@@ -105,7 +105,7 @@ namespace NHibernate.Spatial.Dialect
 		/// </remarks>
 		/// <returns>A <c><SqlString/c> object containing
 		/// a SQL spatial relation expression</returns>
-		SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName);
+		SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter);
 
 		/// <summary>
 		/// Gets the spatial create string.

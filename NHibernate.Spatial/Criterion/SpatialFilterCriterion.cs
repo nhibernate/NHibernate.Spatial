@@ -16,6 +16,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
 using System;
+using System.Linq;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate.Engine;
@@ -90,15 +91,23 @@ namespace NHibernate.Spatial.Criterion
 		/// </returns>
 		public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
 		{
-			//criteriaQuery.AddUsedTypedValues(GetTypedValues(criteria, criteriaQuery));
-			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-			string[] columnsUsingProjection = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
+			string[] columnNames = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
+
+            //Parameter[] parameters = criteriaQuery.NewQueryParameter(GetParameterTypedValue(criteria, criteriaQuery)).ToArray();
+
+            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
+
+
 			IType typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, this.propertyName);
 			if (typeUsingProjection.IsCollectionType)
 			{
 				throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), this.propertyName));
 			}
 			string[] keyColumns = criteriaQuery.GetIdentifierColumns(criteria);
+
+
+
+            Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
 
 
 			string entityType = criteriaQuery.GetEntityName(criteria, this.propertyName);
@@ -110,17 +119,18 @@ namespace NHibernate.Spatial.Criterion
 			string tableName = entityPersister.TableName;
 			int aliasLength = alias.Length + 1;
 
-			SqlStringBuilder builder = new SqlStringBuilder(10 * columnsUsingProjection.Length);
-			for (int i = 0; i < columnsUsingProjection.Length; i++)
+
+            SqlStringBuilder sqlBuilder = new SqlStringBuilder(10 * columnNames.Length);
+            for (int i = 0; i < columnNames.Length; i++)
 			{
 				if (i > 0)
 				{
-					builder.Add(" AND ");
+					sqlBuilder.Add(" AND ");
 				}
-				string geometryColumn = columnsUsingProjection[i].Remove(0, aliasLength);
-				builder.Add(spatialDialect.GetSpatialFilterString(alias, geometryColumn, keyColumn, tableName));
+				string geometryColumn = columnNames[i].Remove(0, aliasLength);
+                sqlBuilder.Add(spatialDialect.GetSpatialFilterString(alias, geometryColumn, keyColumn, tableName, parameters.Single()));
 			}
-			return builder.ToSqlString();
+			return sqlBuilder.ToSqlString();
 		}
 
 		/// <summary>

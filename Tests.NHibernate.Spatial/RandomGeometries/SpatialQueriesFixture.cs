@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data;
 using GeoAPI.Geometries;
 using NHibernate;
+using NHibernate.Criterion;
 using NHibernate.Spatial.Criterion;
 using NHibernate.Spatial.Dialect;
 using NUnit.Framework;
@@ -81,6 +82,12 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         [Test]
         public void LineStringFiltering()
         {
+
+            IList res = _session.CreateCriteria(typeof (LineStringEntity))
+                .Add(Restrictions.Eq("Name", "feature 0"))
+                .List();
+
+
             IList results = _session.CreateCriteria(typeof (LineStringEntity))
                 .Add(SpatialRestrictions.Filter("Geometry", _filter))
                 .List();
