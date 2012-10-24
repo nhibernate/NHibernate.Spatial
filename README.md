@@ -2,21 +2,16 @@ NHibernate.Spatial (pmcxs fork)
 ===============================
 
 This fork tries to improve on the work started on the main [Nhibernate.Spatial]: https://github.com/suryapratap/Nhibernate.Spatial branch. 
-The solution structure has been much improved over the NHibernate Contrib counterpart as all the references are now using NuGet
-and the projects have been upgraded to Visual Studio 2010/2012.
 
-The "lib" folder dependency no longer exists and the Unit-Tests have been fixed, along with some other code changes. 
-This fork will be mostly targeted towards SQL Server 2008/2012 but others are on the roadmap, notably PostGIS
+Notable changes:
+* Fixed the remaining references. No longer dependent on "lib" folder.
+* Renamed projects
+* Fixed some bugs, including minor refactors
+* Fixed the unit tests, including minor refactors
 
-Versions
---------
-* NHibernate 3.3.1 is currently supported.
+This fork will be mostly targeted towards SQL Server 2008/2012 but support for others RDBMS is also on the roadmap
 
-
-Not working
------------
-* The Oracle projects are not ready yet, and don't compile.
-
+Currently supports NHibernate 3.3.1. All the unit-tests for SQL Server 2008 pass.
 
 NHibernate.Spatial
 ==================
