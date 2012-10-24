@@ -1,17 +1,15 @@
 using System;
 using System.Collections;
 using System.Linq;
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.Spatial.Criterion;
-using NHibernate.Spatial.Linq;
+using NHibernate.Spatial.Criterion.Lambda;
 using NUnit.Framework;
 using Tests.NHibernate.Spatial.Model;
-using Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model;
 
 namespace Tests.NHibernate.Spatial
 {
@@ -21,38 +19,44 @@ namespace Tests.NHibernate.Spatial
 		{
 			get
 			{
-				return new Type[] { 
-					typeof(Simple)
+				return new[] { 
+					typeof(Simple),
+                    typeof(County)
 				};
 			}
 		}
 
-		private ISession session;
+		private ISession _session;
 
 		protected override void OnSetUp()
 		{
-			session = sessions.OpenSession();
+			_session = sessions.OpenSession();
 
-			session.Save(new Simple("a point", new Point(12, 45)));
-			session.Save(new Simple("a null", null));
-			session.Save(new Simple("a collection empty 1", Wkt.Read("GEOMETRYCOLLECTION EMPTY")));
-			session.Save(new Simple("a collection empty 2", GeometryCollection.Empty));
+			_session.Save(new Simple("a point", new Point(12, 45)));
+			_session.Save(new Simple("a null", null));
+			_session.Save(new Simple("a collection empty 1", Wkt.Read("GEOMETRYCOLLECTION EMPTY")));
+			_session.Save(new Simple("a collection empty 2", GeometryCollection.Empty));
 
-			session.Flush();
+            _session.Save(new County("aaaa", "AA", Wkt.Read("POLYGON((1 0, 2 0, 2 1, 1 1, 1 0))")));
+            _session.Save(new County("bbbb", "BB", Wkt.Read("POLYGON((1 1, 2 1, 2 2, 1 2, 1 1))")));
+            _session.Save(new County("cccc", "BB", Wkt.Read("POLYGON((2 1, 3 1, 3 2, 2 2, 2 1))")));
+            _session.Save(new County("dddd", "AA", Wkt.Read("POLYGON((2 0, 3 0, 3 1, 2 1, 2 0))")));
+
+			_session.Flush();
 		}
 
 		protected override void OnTearDown()
 		{
-			DeleteMappings(session);
-			session.Close();
+			DeleteMappings(_session);
+			_session.Close();
 		}
 
 		[Test]
 		public void IsDirty()
 		{
-			Assert.IsFalse(session.IsDirty());
+			Assert.IsFalse(_session.IsDirty());
 
-			var simple = session.CreateCriteria<Simple>()
+			var simple = _session.CreateCriteria<Simple>()
 				.SetMaxResults(1)
 				.UniqueResult<Simple>();
 
@@ -65,17 +69,17 @@ namespace Tests.NHibernate.Spatial
 
 			simple.Geometry = geometry;
 
-			Assert.IsFalse(session.IsDirty());
+			Assert.IsFalse(_session.IsDirty());
 
 			simple.Geometry.SRID = 12345;
 
-			Assert.IsTrue(session.IsDirty());
+			Assert.IsTrue(_session.IsDirty());
 		}
 
 		[Test]
 		public void RowCount()
 		{
-			IList results = session.CreateCriteria(typeof(Simple))
+			IList results = _session.CreateCriteria(typeof(Simple))
 				.SetProjection(Projections.ProjectionList()
 					.Add(Projections.RowCount())
 					)
@@ -87,7 +91,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountNullOrSpatialEmpty()
 		{
-			IList results = session.CreateCriteria(typeof (Simple))
+			IList results = _session.CreateCriteria(typeof (Simple))
 				.Add(Restrictions.Or(
 					Restrictions.IsNull("Geometry"),
 					SpatialRestrictions.IsEmpty("Geometry")
@@ -106,7 +110,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountNullOrSpatialEmptyLambda()
 		{
-			IList results = session.CreateCriteria(typeof (Simple))
+			IList results = _session.CreateCriteria(typeof (Simple))
 				.Add(Restrictions.Or(
 					Restrictions.On<Simple>(o => o.Geometry).IsNull,
 					SpatialRestrictions.On<Simple>(o => o.Geometry).IsEmpty
@@ -125,10 +129,10 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountNullOrSpatialEmptyLinq()
 		{
-			bool x = session.Query<Simple>().Select(s => s.Geometry.IsEmpty).First();
+			bool x = _session.Query<Simple>().Select(s => s.Geometry.IsEmpty).First();
 
 			IList results =
-				session.Query<Simple>()
+				_session.Query<Simple>()
 					.Where(s => s.Geometry == null || s.Geometry.IsEmpty)
 					.ToList();
 
@@ -145,7 +149,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountNull()
 		{
-			IList results = session.CreateCriteria(typeof(Simple))
+			IList results = _session.CreateCriteria(typeof(Simple))
 				.Add(Restrictions.IsNull("Geometry"))
 				.List();
 			Assert.AreEqual(1, results.Count);
@@ -159,7 +163,7 @@ namespace Tests.NHibernate.Spatial
 		[ExpectedException(typeof(MappingException))]
 		public void CountEmpty()
 		{
-			IList results = session.CreateCriteria(typeof(Simple))
+			IList results = _session.CreateCriteria(typeof(Simple))
 				.Add(Restrictions.IsEmpty("Geometry"))
 				.List();
 			Assert.AreEqual(0, results.Count);
@@ -168,7 +172,7 @@ namespace Tests.NHibernate.Spatial
 		[Test]
 		public void CountSpatialEmpty()
 		{
-			IList results = session.CreateCriteria(typeof(Simple))
+			IList results = _session.CreateCriteria(typeof(Simple))
 				.Add(SpatialRestrictions.IsEmpty("Geometry"))
 				.List();
 			Assert.AreEqual(2, results.Count);
@@ -177,5 +181,48 @@ namespace Tests.NHibernate.Spatial
 				Assert.IsTrue(item.Geometry.IsEmpty);
 			}
 		}
+
+
+        [Test]
+        public void GeometryContainsCriteria()
+        {
+            var point = new Point(1.5, 1.5) { SRID = 32719 };
+
+            var county = _session.CreateCriteria(typeof(County))
+                                .Add(SpatialRestrictions.Contains("Boundaries", point))
+                                .UniqueResult() as County;
+
+
+            Assert.AreEqual("bbbb", county.Name);
+        }
+
+        [Test]
+        public void GeometryContainsQueryOver()
+        {
+            var point = new Point(1.5, 1.5) { SRID = 32719 };
+
+            var county = _session
+                .QueryOver<County>()
+                .WhereSpatialRestrictionOn(p => p.Boundaries).Contains(point)
+                .SingleOrDefault();
+
+            Assert.AreEqual("bbbb", county.Name);
+
+        }
+
+        [Test]
+        public void GeometryWithinQueryOver()
+        {
+            var boundary = Wkt.Read("POLYGON((-1.0 -1.0, -1.0 3.0, 4.0 3.0, 4.0 -1.0, -1.0 -1.0))");
+            boundary.SRID = 32719;
+
+            var results = _session
+                .QueryOver<County>()
+                .WhereSpatialRestrictionOn(p => p.Boundaries).Within(boundary)
+                .List();
+
+            Assert.AreEqual(4, results.Count);
+
+        }
 	}
 }

@@ -3,13 +3,10 @@ using System.Collections;
 using System.Data;
 using GeoAPI.Geometries;
 using NHibernate;
-using NHibernate.Criterion;
 using NHibernate.Spatial.Criterion;
-using NHibernate.Spatial.Criterion.Lambda;
 using NHibernate.Spatial.Dialect;
 using NUnit.Framework;
 using Tests.NHibernate.Spatial.RandomGeometries.Model;
-using Tests.NHibernate.Spatial.Model;
 
 namespace Tests.NHibernate.Spatial.RandomGeometries
 {
@@ -132,23 +129,6 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             Assert.AreEqual(count, results.Count);
         }
-
-
-        [Test]
-        public void QueryOverWithin()
-        {
-            var boundary = Wkt.Read("POLYGON((0.0 0.0, 0.0 75000.0, 75000.0 75000.0, 75000.0 0.0, 0.0 0.0))");
-            boundary.SRID = 4326;
-
-            var results = _session
-                .QueryOver<PolygonEntity>()
-                .WhereSpatialRestrictionOn(p => p.Geometry).Within(boundary)
-                .List();
-
-            Assert.AreEqual(11, results.Count);
-
-        }
-
 
         [Test]
         public void HqlAsTextLineString()
