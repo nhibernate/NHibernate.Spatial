@@ -182,20 +182,24 @@ namespace Tests.NHibernate.Spatial
 			}
 		}
 
-
+        /// <summary>
+        /// Gets the County whose boundaries contains the supplied point (Criteria version)
+        /// </summary>
         [Test]
-        public void GeometryContainsCriteria()
+        public void GeometryContains()
         {
             var point = new Point(1.5, 1.5) { SRID = 32719 };
 
-            var county = _session.CreateCriteria(typeof(County))
-                                .Add(SpatialRestrictions.Contains("Boundaries", point))
-                                .UniqueResult() as County;
-
+            var county = (County) _session.CreateCriteria(typeof(County))
+                                      .Add(SpatialRestrictions.Contains("Boundaries", point))
+                                      .UniqueResult();
 
             Assert.AreEqual("bbbb", county.Name);
         }
 
+        /// <summary>
+        /// Gets the County whose boundaries contains the supplied point (QueryOver version)
+        /// </summary>
         [Test]
         public void GeometryContainsQueryOver()
         {
@@ -210,6 +214,9 @@ namespace Tests.NHibernate.Spatial
 
         }
 
+        /// <summary>
+        /// Gets the counties whose boundaries are fully contained inside the supplied polygon (QueryOver version)
+        /// </summary>
         [Test]
         public void GeometryWithinQueryOver()
         {
