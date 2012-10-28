@@ -17,6 +17,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using GeoAPI.Geometries;
+using NHibernate.Engine;
 using NHibernate.Spatial.Dialect;
 using NHibernate.SqlCommand;
 using NHibernate.Criterion;
@@ -32,7 +35,9 @@ namespace NHibernate.Spatial.Criterion
 	{
 		private readonly SpatialAnalysis analysis;
 		private readonly string anotherPropertyName;
-		private readonly object[] arguments;
+        //private readonly object[] arguments;
+		private readonly double value;
+	    private readonly IGeometry geometry;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
@@ -53,12 +58,50 @@ namespace NHibernate.Spatial.Criterion
 		/// <param name="propertyName">Name of the property.</param>
 		/// <param name="analysis">The analysis.</param>
 		/// <param name="arguments">The arguments.</param>
-		public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, params object[] arguments)
-			: base(propertyName)
-		{
-			this.analysis = analysis;
-			this.arguments = arguments;
-		}
+        //public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, params object[] arguments)
+        //    : base(propertyName)
+        //{
+        //    this.analysis = analysis;
+        //    this.arguments = arguments;
+        //}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="analysis">The analysis.</param>
+        public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis)
+            : base(propertyName)
+        {
+            this.analysis = analysis;
+        }
+
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
+	    /// </summary>
+	    /// <param name="propertyName">Name of the property.</param>
+	    /// <param name="analysis">The analysis.</param>
+	    /// <param name="value"></param>
+	    public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, double value)
+            : base(propertyName)
+        {
+            this.analysis = analysis;
+	        this.value = value;
+        }
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="analysis">The analysis.</param>
+        /// <param name="geometry">The arguments.</param>
+        public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, IGeometry geometry)
+            : base(propertyName)
+        {
+            this.analysis = analysis;
+		    this.geometry = geometry;
+        }
 
 		/// <summary>
 		/// Gets the types.
@@ -85,18 +128,30 @@ namespace NHibernate.Spatial.Criterion
 		/// <returns></returns>
 		public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
 		{
-			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
+			var spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
 			string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
 			SqlString sqlString;
-			if (this.IsBinaryOperation())
-			{
-				string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
-				sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, column2);
-			}
-			else
-			{
-				sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, this.arguments);
-			}
+
+            if (IsBinaryOperation())
+            {
+                if(geometry != null)
+                {
+                    Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
+                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, parameters.Single());
+                }
+                else
+                {
+                    string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
+                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, column2);
+                }
+
+                
+            }
+            else
+            {
+                sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, null);
+            }
+
 			return new SqlStringBuilder()
 				.Add(sqlString)
 				.Add(" as y")
@@ -113,9 +168,22 @@ namespace NHibernate.Spatial.Criterion
 		/// </returns>
 		private bool IsBinaryOperation()
 		{
-			return (this.analysis != SpatialAnalysis.Buffer &&
-					this.analysis != SpatialAnalysis.ConvexHull);
+			return ( analysis != SpatialAnalysis.Buffer && analysis != SpatialAnalysis.ConvexHull);
 		}
+
+
+        /// <summary>
+        /// Return typed values for all parameters in the rendered SQL fragment
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <param name="criteriaQuery"></param>
+        /// <returns>
+        /// An array of TypedValues for the Expression.
+        /// </returns>
+        public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            return new[] { criteriaQuery.GetTypedValue(criteria, this.propertyName, this.geometry) };
+        }
 
 	}
 }

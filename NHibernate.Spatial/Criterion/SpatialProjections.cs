@@ -15,6 +15,8 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 
+using NetTopologySuite.Geometries;
+
 namespace NHibernate.Spatial.Criterion
 {
 	/// <summary>
@@ -115,6 +117,19 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Distance, anotherPropertyName);
 		}
+
+
+        /// <summary>
+        /// Distance of the specified property names.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="geometry">target geometry.</param>
+        /// <returns></returns>
+        public static SpatialProjection Distance(string propertyName, Geometry geometry)
+        {
+            return new SpatialAnalysisProjection(propertyName, SpatialAnalysis.Distance, geometry);
+        }
+
 
 		/// <summary>
 		/// Intersection of the specified property names.

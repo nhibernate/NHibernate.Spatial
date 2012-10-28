@@ -17,6 +17,7 @@
 
 using System;
 using System.Linq.Expressions;
+using NetTopologySuite.Geometries;
 using NHibernate.Impl;
 
 namespace NHibernate.Spatial.Criterion
@@ -35,6 +36,11 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return ExpressionProcessor.FindMemberExpression(expression.Body);
 		}
+
+        private static string GetPropertyName(Expression<Func<object>> expression)
+        {
+            return ExpressionProcessor.FindMemberExpression(expression.Body);
+        }
 
 		#region Aggregates
 
@@ -124,6 +130,16 @@ namespace NHibernate.Spatial.Criterion
 		{
 			return Distance(GetPropertyName(expression), GetPropertyName(anotherExpression));
 		}
+
+        public static SpatialProjection Distance<T>(Expression<Func<T, object>> expression, Geometry point)
+        {
+            return Distance(GetPropertyName(expression), point);
+        }
+
+        public static SpatialProjection Distance(Expression<Func<object>> expression, Geometry point)
+        {
+            return Distance(GetPropertyName(expression), point);
+        }
 
 		/// <summary>
 		/// Intersection of the specified properties.

@@ -1,8 +1,6 @@
-using NetTopologySuite.IO;
 using NUnit.Framework;
 using NHibernate;
 using NHibernate.Cfg;
-using Tests.NHibernate.Spatial.RandomGeometries.Model;
 
 namespace Tests.NHibernate.Spatial.RandomGeometries
 {

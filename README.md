@@ -6,12 +6,16 @@ This fork tries to improve on the work started on the main [Nhibernate.Spatial]:
 Notable changes:
 * Fixed the remaining references. No longer dependent on "lib" folder.
 * Renamed projects
-* Fixed some bugs, including minor refactors
-* Fixed the unit tests, including minor refactors
+* Fixed bugs
+* Refactored code
+* Fixed the unit tests
+* Implemented missing features
 
 This fork will be mostly targeted towards SQL Server 2008/2012 but support for others RDBMS is also on the roadmap
 
-Currently supports NHibernate 3.3.1. All the unit-tests for SQL Server 2008 pass.
+Currently supports NHibernate 3.3.1.
+
+Check the [wiki/Home] for more information
 
 NHibernate.Spatial
 ==================

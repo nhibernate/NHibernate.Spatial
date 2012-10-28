@@ -18,6 +18,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using NetTopologySuite.Geometries;
 using NHibernate.Dialect;
 using NHibernate.Spatial.Dialect.Function;
 using NHibernate.Spatial.Metadata;
@@ -268,14 +269,14 @@ namespace NHibernate.Spatial.Dialect
 						.AddObject(geometry)
 						.Add(".STConvexHull()")
 						.ToSqlString();
-				case SpatialAnalysis.Buffer:
+				
+                case SpatialAnalysis.Distance:
+                case SpatialAnalysis.Buffer:
 				case SpatialAnalysis.Difference:
-				case SpatialAnalysis.Distance:
 				case SpatialAnalysis.Intersection:
 				case SpatialAnalysis.SymDifference:
 				case SpatialAnalysis.Union:
-					if (analysis == SpatialAnalysis.Buffer &&
-                        !(extraArgument is Parameter || new SqlString(SqlCommand.Parameter.Placeholder).Equals(extraArgument)))
+					if (analysis == SpatialAnalysis.Buffer && !(extraArgument is Parameter || new SqlString(Parameter.Placeholder).Equals(extraArgument)))
 					{
 						extraArgument = Convert.ToString(extraArgument, NumberFormatInfo.InvariantInfo);
 					}

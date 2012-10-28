@@ -87,14 +87,7 @@ namespace NHibernate.Spatial.Criterion
 			//criteriaQuery.AddUsedTypedValues(GetTypedValues(criteria, criteriaQuery));
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
 			string[] columns1 = GetColumnNames(criteria, criteriaQuery, this.propertyName);
-			string[] columns2 = null;
-			if (!(this.anotherGeometry is IGeometry))
-			{
-				columns2 = GetColumnNames(criteria, criteriaQuery, (string)this.anotherGeometry);
-			}
-
-            Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
-
+			
 			SqlStringBuilder builder = new SqlStringBuilder(10 * columns1.Length);
 			for (int i = 0; i < columns1.Length; i++)
 			{
@@ -104,10 +97,12 @@ namespace NHibernate.Spatial.Criterion
 				}
 				if (this.anotherGeometry is IGeometry)
 				{
+                    Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
                     builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, parameters.Single(), true));
 				}
 				else
 				{
+                    string[] columns2 = GetColumnNames(criteria, criteriaQuery, (string)this.anotherGeometry);
 					builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, columns2[i], true));
 				}
 			}

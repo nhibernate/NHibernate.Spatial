@@ -93,8 +93,6 @@ namespace NHibernate.Spatial.Criterion
 		{
 			string[] columnNames = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
 
-            //Parameter[] parameters = criteriaQuery.NewQueryParameter(GetParameterTypedValue(criteria, criteriaQuery)).ToArray();
-
             ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
 
 
@@ -104,7 +102,6 @@ namespace NHibernate.Spatial.Criterion
 				throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), this.propertyName));
 			}
 			string[] keyColumns = criteriaQuery.GetIdentifierColumns(criteria);
-
 
 
             Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using System.Linq;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using NHibernate.Spatial.Criterion;
 using NUnit.Framework;
 using Tests.NHibernate.Spatial.Model;
@@ -18,13 +20,28 @@ namespace Tests.NHibernate.Spatial
 		{
 			get
 			{
-				return new[] { typeof(County)};
+				return new[]
+				           {
+				               typeof(County),
+				               typeof(Simple)
+				           };
 			}
 		}
+
+	    protected virtual Type GeometryType
+	    {
+            get { return GeometryType; }
+	    }
 
 		protected override void OnSetUp()
 		{
 			_session = sessions.OpenSession();
+
+            
+            _session.Save(new Simple("point 1", new Point(2.5, 1.5)));
+            _session.Save(new Simple("point 2", new Point(0.5, 0.5)));
+            _session.Save(new Simple("point 3", new Point(0.5, 2.5)));
+            _session.Save(new Simple("point 4", new Point(1.5, 1.5)));
 
 			_session.Save(new County("aaaa", "AA", Wkt.Read("POLYGON((1 0, 2 0, 2 1, 1 1, 1 0))")));
 			_session.Save(new County("bbbb", "BB", Wkt.Read("POLYGON((1 1, 2 1, 2 2, 1 2, 1 1))")));
@@ -157,6 +174,64 @@ namespace Tests.NHibernate.Spatial
 
 			Assert.IsTrue(expected.Equals(aggregated));
 		}
+
+        /// <summary>
+        /// Gets all the points sorted by the distance to a certain point
+        /// </summary>
+        [Test]
+        public void OrderByDistanceHql()
+        {
+            var point = new Point(0.0, 0.0) {SRID = 4326};
+
+            var result = _session.CreateQuery(
+                @"select p from Simple p 
+                  order by NHSP.Distance(p.Geometry, :point)")
+                .SetParameter("point", point, NHibernateUtil.Custom(GeometryType))
+                .List<Simple>();
+
+
+            Assert.That(result[0].Description, Is.EqualTo("point 2"));
+            Assert.That(result[1].Description, Is.EqualTo("point 4"));
+            Assert.That(result[2].Description, Is.EqualTo("point 3"));
+            Assert.That(result[3].Description, Is.EqualTo("point 1"));
+
+        }
+
+
+        [Test]
+        public void OrderByDistanceQueryOver()
+        {
+            Geometry point = new Point(0.0, 0.0) { SRID = 4326 };
+
+            Simple simple = null;
+
+            var result = _session.QueryOver(() => simple)
+                .OrderBy(SpatialProjections.Distance<Simple>(s => s.Geometry, point)).Asc
+                .List();
+
+            Assert.That(result[0].Description, Is.EqualTo("point 2"));
+            Assert.That(result[1].Description, Is.EqualTo("point 4"));
+            Assert.That(result[2].Description, Is.EqualTo("point 3"));
+            Assert.That(result[3].Description, Is.EqualTo("point 1"));
+        }
+
+        [Test]
+        public void OrderByDistanceLinq()
+        {
+            Geometry point = new Point(0.0, 0.0) { SRID = 4326 };
+
+            var result = _session.Query<Simple>()
+                .OrderBy(s => s.Geometry.Distance(point))
+                .ToList();
+
+            Assert.That(result[0].Description, Is.EqualTo("point 2"));
+            Assert.That(result[1].Description, Is.EqualTo("point 4"));
+            Assert.That(result[2].Description, Is.EqualTo("point 3"));
+            Assert.That(result[3].Description, Is.EqualTo("point 1"));
+
+
+
+        }
 
 
 	}
