@@ -36,13 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GeoAPI">
-      <HintPath>..\NetTopologySuite.TestRunner\packages\GeoAPI.1.6.0\lib\net35\GeoAPI.dll</HintPath>
+      <HintPath>..\lib\NTS\GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="NetTopologySuite">
-      <HintPath>..\NetTopologySuite.TestRunner\packages\NetTopologySuite.1.12.0\lib\net35\NetTopologySuite.dll</HintPath>
+      <HintPath>..\lib\NTS\NetTopologySuite.dll</HintPath>
     </Reference>
     <Reference Include="PowerCollections">
-      <HintPath>..\NetTopologySuite.TestRunner\packages\NetTopologySuite.1.12.0\lib\net35\PowerCollections.dll</HintPath>
+      <HintPath>..\lib\NTS\PowerCollections.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
