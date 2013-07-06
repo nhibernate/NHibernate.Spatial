@@ -6,6 +6,7 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Operation.Buffer;
 using NetTopologySuite.Operation.Buffer.Validate;
+using GeoAPI.Operation.Buffer;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -74,9 +75,9 @@ namespace Open.Topology.TestRunner.Functions
         {
             var simpLines = new List<IGeometry>();
 
-            var lines = new List<ILineString>();
-            LinearComponentExtracter.GetLines(g, lines);
-            foreach(var line in lines)
+            var lines = LinearComponentExtracter.GetLines(g);
+
+            foreach (var line in lines)
             {
                 var pts = line.Coordinates;
                 simpLines.Add(g.Factory.CreateLineString(BufferInputLineSimplifier.Simplify(pts, distance)));

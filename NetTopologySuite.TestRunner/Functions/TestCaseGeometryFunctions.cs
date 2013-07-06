@@ -55,7 +55,7 @@ namespace Open.Topology.TestRunner.Functions
         public static IGeometry incentre(IGeometry g)
         {
             var pts = trianglePts(g);
-            var cc = Triangle.InCentreFn(pts[0], pts[1], pts[2]);
+            var cc = Triangle.InCentre(pts[0], pts[1], pts[2]);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             return geomFact.CreatePoint(cc);
         }
@@ -63,7 +63,7 @@ namespace Open.Topology.TestRunner.Functions
         public static IGeometry angleBisectors(IGeometry g)
         {
             var pts = trianglePts(g);
-            var cc = Triangle.InCentreFn(pts[0], pts[1], pts[2]);
+            var cc = Triangle.InCentre(pts[0], pts[1], pts[2]);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             var line = new ILineString[3];
             line[0] = geomFact.CreateLineString(new Coordinate[] {pts[0], cc});
