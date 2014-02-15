@@ -79,7 +79,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * @throws MGeometryException
 		 *             when this IMGeometry is not monotone
 		 */
-		double GetMatCoordinate(ICoordinate c, double tolerance);
+		double GetMatCoordinate(Coordinate c, double tolerance);
 
 
 		/**
@@ -101,7 +101,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * @throws MGeometryException
 		 *             when IMGeometry is not monotone
 		 */
-		ICoordinate GetCoordinateAtM(double m);
+		Coordinate GetCoordinateAtM(double m);
 
 		/**
 		 * Returns the coordinatesequence(s) containing all coordinates between the

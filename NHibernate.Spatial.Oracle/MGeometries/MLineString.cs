@@ -112,7 +112,7 @@ namespace NHibernate.Spatial.MGeometries
 		 *            max. distance that co may be from this MLineString
 		 * @return an MCoordinate on this MLineString with appropriate M-value
 		 */
-		public MCoordinate GetClosestPoint(ICoordinate co, double tolerance)
+		public MCoordinate GetClosestPoint(Coordinate co, double tolerance)
 		{
 			if (!this.IsMonotone(false))
 			{
@@ -122,7 +122,7 @@ namespace NHibernate.Spatial.MGeometries
 			if (!this.IsEmpty)
 			{
 				LineSegment seg = new LineSegment();
-				ICoordinate[] coAr = this.Coordinates;
+				Coordinate[] coAr = this.Coordinates;
 				seg.P0 = coAr[0];
 				double d = 0.0;
 				double projfact = 0.0;
@@ -131,7 +131,7 @@ namespace NHibernate.Spatial.MGeometries
 				for (int i = 1; i < coAr.Length; i++)
 				{
 					seg.P1 = coAr[i];
-					ICoordinate cp = seg.ClosestPoint(co);
+					Coordinate cp = seg.ClosestPoint(co);
 					d = cp.Distance(co);
 					if (d <= tolerance && d <= minDist)
 					{
@@ -168,7 +168,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * 
 		 * @see org.hibernatespatial.mgeom.IMGeometry#GetCoordinateAtM(double)
 		 */
-		public ICoordinate GetCoordinateAtM(double m)
+		public Coordinate GetCoordinateAtM(double m)
 		{
 			if (!this.IsMonotone(false))
 			{
@@ -233,7 +233,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * @see com.vividsolutions.jts.geom.Geometry#GetMatCoordinate(com.vividsolutions.jts.geom.Coordinate,
 		 *      double)
 		 */
-		public double GetMatCoordinate(ICoordinate c, double tolerance)
+		public double GetMatCoordinate(Coordinate c, double tolerance)
 		{
 			MCoordinate mco = this.GetClosestPoint(c, tolerance);
 			if (mco == null)
@@ -448,7 +448,7 @@ namespace NHibernate.Spatial.MGeometries
 			// return the measures of all vertices
 			if (!this.IsEmpty)
 			{
-				ICoordinate[] co = this.Coordinates;
+				Coordinate[] co = this.Coordinates;
 				double[] a = new double[co.Length];
 				for (int i = 0; i < co.Length; i++)
 				{
@@ -520,7 +520,7 @@ namespace NHibernate.Spatial.MGeometries
 			}
 			// interpolate with first vertex = beginMeasure; last vertex =
 			// endMeasure
-			ICoordinate[] coordinates = this.Coordinates;
+			Coordinate[] coordinates = this.Coordinates;
 			double length = this.Length;
 			double mLength = endMeasure - beginMeasure;
 			double d = 0;
@@ -570,8 +570,8 @@ namespace NHibernate.Spatial.MGeometries
 			}
 
 			int lastIndex = CoordinateSequence.Count - 1;
-			double begin = CoordinateSequence.GetOrdinate(0, Ordinates.M);
-			double end = CoordinateSequence.GetOrdinate(lastIndex, Ordinates.M);
+			double begin = CoordinateSequence.GetOrdinate(0, Ordinate.M);
+			double end = CoordinateSequence.GetOrdinate(lastIndex, Ordinate.M);
 			return (Double.IsNaN(begin) || Double.IsNaN(end)) ? Double.NaN : Math.Abs(end - begin);
 		}
 
@@ -594,7 +594,7 @@ namespace NHibernate.Spatial.MGeometries
 		public void MeasureOnLength(bool keepBeginMeasure)
 		{
 
-			ICoordinate[] co = this.Coordinates;
+			Coordinate[] co = this.Coordinates;
 			if (!this.IsEmpty)
 			{
 				double d = 0.0;
@@ -624,9 +624,9 @@ namespace NHibernate.Spatial.MGeometries
 			if (!this.IsEmpty)
 			{
 				double[] m = this.GetMeasures();
-				MCoordinate[] coar = Array.ConvertAll<ICoordinate, MCoordinate>(
+				MCoordinate[] coar = Array.ConvertAll<Coordinate, MCoordinate>(
 					this.Coordinates,
-					delegate(ICoordinate x) { return (MCoordinate)x; });
+					delegate(Coordinate x) { return (MCoordinate)x; });
 				for (int i = 0; i < m.Length; i++)
 				{
 					double nv = m[m.Length - 1 - i];
@@ -638,7 +638,7 @@ namespace NHibernate.Spatial.MGeometries
 
 		public void SetMeasureAtIndex(int index, double m)
 		{
-			CoordinateSequence.SetOrdinate(index, Ordinates.M, m);
+			CoordinateSequence.SetOrdinate(index, Ordinate.M, m);
 			this.GeometryChanged();
 		}
 
@@ -653,7 +653,7 @@ namespace NHibernate.Spatial.MGeometries
 		 */
 		public void ShiftMeasure(double amount)
 		{
-			ICoordinate[] coordinates = this.Coordinates;
+			Coordinate[] coordinates = this.Coordinates;
 			MCoordinate mco;
 			if (!this.IsEmpty)
 			{
@@ -673,7 +673,7 @@ namespace NHibernate.Spatial.MGeometries
 		 */
 		public override String ToString()
 		{
-			ICoordinate[] ar = this.Coordinates;
+			Coordinate[] ar = this.Coordinates;
 			StringBuilder buf = new StringBuilder(ar.Length * 17 * 3);
 			for (int i = 0; i < ar.Length; i++)
 			{
@@ -694,12 +694,12 @@ namespace NHibernate.Spatial.MGeometries
 			{
 				throw new ApplicationException("MGeometryException.OPERATION_REQUIRES_MONOTONE");
 			}
-			ICoordinate[] linecoar = l.Coordinates;
+			Coordinate[] linecoar = l.Coordinates;
 			if (l.GetMeasureDirection() == MGeometryType.Decreasing)
 			{
 				CoordinateArrays.Reverse(linecoar);
 			}
-			ICoordinate[] thiscoar = this.Coordinates;
+			Coordinate[] thiscoar = this.Coordinates;
 			if (this.GetMeasureDirection() == MGeometryType.Decreasing)
 			{
 				CoordinateArrays.Reverse(thiscoar);

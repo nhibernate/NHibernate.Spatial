@@ -41,8 +41,8 @@ namespace NHibernate.Spatial.MGeometries
 		 */
 		public static Point GetPointGeometry(IMGeometry lrs, double position)
 		{
-			ICoordinate c = lrs.GetCoordinateAtM(position);
-			ICoordinateSequence cs = lrs.Factory.CoordinateSequenceFactory.Create(new ICoordinate[] { c });
+			var c = lrs.GetCoordinateAtM(position);
+			ICoordinateSequence cs = lrs.Factory.CoordinateSequenceFactory.Create(new Coordinate[] { c });
 			return new Point(cs, lrs.Factory);
 		}
 

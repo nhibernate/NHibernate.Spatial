@@ -71,7 +71,7 @@ namespace NHibernate.Spatial.MGeometries
 			M = Double.NaN;
 		}
 
-		public MCoordinate(ICoordinate coord)
+		public MCoordinate(Coordinate coord)
 			: base(coord)
 		{
 			M = coord is MCoordinate ? ((MCoordinate)coord).M : Double.NaN;
@@ -213,7 +213,7 @@ namespace NHibernate.Spatial.MGeometries
 	 *         <code>coordinate</code> parameter
 	 */
 
-		public static MCoordinate ConvertCoordinate(ICoordinate coordinate)
+		public static MCoordinate ConvertCoordinate(Coordinate coordinate)
 		{
 			if (coordinate == null)
 			{

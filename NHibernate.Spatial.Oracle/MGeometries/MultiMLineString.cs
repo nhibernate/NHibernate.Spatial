@@ -141,7 +141,7 @@ namespace NHibernate.Spatial.MGeometries
 			return this.mGap;
 		}
 
-		public double GetMatCoordinate(ICoordinate co, double tolerance)
+		public double GetMatCoordinate(Coordinate co, double tolerance)
 		{
 
 			if (!this.IsMonotone(false))
@@ -210,7 +210,7 @@ namespace NHibernate.Spatial.MGeometries
 		 * 
 		 * @see org.hibernatespatial.mgeom.IMGeometry#GetCoordinateAtM(double)
 		 */
-		public ICoordinate GetCoordinateAtM(double m)
+		public Coordinate GetCoordinateAtM(double m)
 		{
 
 			if (!this.IsMonotone(false))
@@ -218,7 +218,7 @@ namespace NHibernate.Spatial.MGeometries
 				throw new ApplicationException("MGeometryException.OPERATION_REQUIRES_MONOTONE");
 			}
 
-			ICoordinate c;
+			Coordinate c;
 			for (int i = 0; i < this.NumGeometries; i++)
 			{
 				IMGeometry mg = (IMGeometry)this.GetGeometryN(i);
@@ -300,5 +300,5 @@ namespace NHibernate.Spatial.MGeometries
 		{
 			return strictMonotone ? this.strictMonotone : monotone;
 		}
-	}
+    }
 }

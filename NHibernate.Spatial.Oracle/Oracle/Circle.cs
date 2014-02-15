@@ -45,7 +45,7 @@ namespace NHibernate.Spatial.Oracle
 	internal class Circle
 	{
 		private const double TWO_PI = Math.PI * 2;
-		private readonly ICoordinate center = new Coordinate(0.0, 0.0);
+		private readonly Coordinate center = new Coordinate(0.0, 0.0);
 		private readonly IPrecisionModel precisionModel = new PrecisionModel();
 		private double radius;
 
@@ -64,7 +64,7 @@ namespace NHibernate.Spatial.Oracle
 		 * @param radius
 		 *            The radius of the circle
 		 */
-		public Circle(ICoordinate center, double radius)
+		public Circle(Coordinate center, double radius)
 		{
 			this.center = center;
 			this.radius = radius;
@@ -113,7 +113,7 @@ namespace NHibernate.Spatial.Oracle
 		 * @param point2
 		 * @param point3
 		 */
-		public Circle(ICoordinate point1, ICoordinate point2, ICoordinate point3)
+		public Circle(Coordinate point1, Coordinate point2, Coordinate point3)
 		{
 			InitThreePointCircle(point1, point2, point3);
 		}
@@ -134,7 +134,7 @@ namespace NHibernate.Spatial.Oracle
 		{
 		}
 
-		public ICoordinate Center
+		public Coordinate Center
 		{
 			get { return center; }
 		}
@@ -175,7 +175,7 @@ namespace NHibernate.Spatial.Oracle
 		 * @param p3
 		 *            A point on the desired circle
 		 */
-		private void InitThreePointCircle(ICoordinate p1, ICoordinate p2, ICoordinate p3)
+		private void InitThreePointCircle(Coordinate p1, Coordinate p2, Coordinate p3)
 		{
 			double a13, b13, c13;
 			double a23, b23, c23;
@@ -244,15 +244,15 @@ namespace NHibernate.Spatial.Oracle
 		 * @return an ordered list of Coordinates representing a series of chords
 		 *         approximating the arc.
 		 */
-		public static ICoordinate[] LinearizeArc(
+		public static Coordinate[] LinearizeArc(
 			double x1, double y1, 
 			double x2, double y2, 
 			double x3, double y3, 
 			double tolerence)
 		{
-			ICoordinate p1 = new Coordinate(x1, y1);
-			ICoordinate p2 = new Coordinate(x2, y2);
-			ICoordinate p3 = new Coordinate(x3, y3);
+			Coordinate p1 = new Coordinate(x1, y1);
+			Coordinate p2 = new Coordinate(x2, y2);
+			Coordinate p3 = new Coordinate(x3, y3);
 			return new Circle(p1, p2, p3).LinearizeArc(p1, p2, p3, tolerence);
 		}
 
@@ -277,14 +277,14 @@ namespace NHibernate.Spatial.Oracle
 		 * @return an ordered list of Coordinates representing a series of chords
 		 *         approximating the arc.
 		 */
-		public static ICoordinate[] LinearizeArc(
+		public static Coordinate[] LinearizeArc(
 			double x1, double y1, 
 			double x2, double y2, 
 			double x3, double y3)
 		{
-			ICoordinate p1 = new Coordinate(x1, y1);
-			ICoordinate p2 = new Coordinate(x2, y2);
-			ICoordinate p3 = new Coordinate(x3, y3);
+			Coordinate p1 = new Coordinate(x1, y1);
+			Coordinate p2 = new Coordinate(x2, y2);
+			Coordinate p3 = new Coordinate(x3, y3);
 			Circle c = new Circle(p1, p2, p3);
 			double tolerence = 0.01 * c.Radius;
 			return c.LinearizeArc(p1, p2, p3, tolerence);
@@ -310,14 +310,14 @@ namespace NHibernate.Spatial.Oracle
 		 * @return an ordered list of Coordinates representing a series of chords
 		 *         approximating the arc.
 		 */
-		public static ICoordinate[] LinearizeCircle(
+		public static Coordinate[] LinearizeCircle(
 			double x1, double y1, 
 			double x2, double y2, 
 			double x3, double y3)
 		{
-			ICoordinate p1 = new Coordinate(x1, y1);
-			ICoordinate p2 = new Coordinate(x2, y2);
-			ICoordinate p3 = new Coordinate(x3, y3);
+			Coordinate p1 = new Coordinate(x1, y1);
+			Coordinate p2 = new Coordinate(x2, y2);
+			Coordinate p3 = new Coordinate(x3, y3);
 			Circle c = new Circle(p1, p2, p3);
 			double tolerence = 0.01 * c.Radius;
 			return c.LinearizeArc(p1, p2, p1, tolerence);
@@ -341,28 +341,28 @@ namespace NHibernate.Spatial.Oracle
 		 * @return an ordered list of Coordinates representing a series of chords
 		 *         approximating the arc.
 		 */
-		public ICoordinate[] LinearizeArc(
-			ICoordinate p1, ICoordinate p2,
-		    ICoordinate p3, double tolerence)
+		public Coordinate[] LinearizeArc(
+			Coordinate p1, Coordinate p2,
+		    Coordinate p3, double tolerence)
 		{
 			Arc arc = CreateArc(p1, p2, p3);
-			List<ICoordinate> result = LinearizeInternal(null, arc, tolerence);
+			List<Coordinate> result = LinearizeInternal(null, arc, tolerence);
 			return result.ToArray();
 		}
 
-		private static List<ICoordinate> LinearizeInternal(
-			List<ICoordinate> coordinates,
+		private static List<Coordinate> LinearizeInternal(
+			List<Coordinate> coordinates,
 		    Arc arc, double tolerence)
 		{
 			if (coordinates == null)
 			{
-				coordinates = new List<ICoordinate>();
+				coordinates = new List<Coordinate>();
 			}
 			double arcHt = arc.GetArcHeight();
 			if (arcHt <= tolerence)
 			{
 				int lastIndex = coordinates.Count - 1;
-				ICoordinate lastCoord = lastIndex >= 0 ? coordinates[lastIndex] : null;
+				Coordinate lastCoord = lastIndex >= 0 ? coordinates[lastIndex] : null;
 
 				if (lastCoord == null || !arc.GetP1().Equals2D(lastCoord))
 				{
@@ -447,7 +447,7 @@ namespace NHibernate.Spatial.Oracle
 		 *            a point in space
 		 * @return The angle of the point from the center of the circle
 		 */
-		public double GetAngle(ICoordinate p)
+		public double GetAngle(Coordinate p)
 		{
 			double dx = p.X - center.X;
 			double dy = p.Y - center.Y;
@@ -493,7 +493,7 @@ namespace NHibernate.Spatial.Oracle
 			return angle;
 		}
 
-		public ICoordinate GetPoint(double angle)
+		public Coordinate GetPoint(double angle)
 		{
 			double x = Math.Cos(angle) * radius;
 			x = x + center.X;
@@ -511,12 +511,12 @@ namespace NHibernate.Spatial.Oracle
 		 *            A point in space
 		 * @return The distance the point is from the center of the circle
 		 */
-		public double DistanceFromCenter(ICoordinate p)
+		public double DistanceFromCenter(Coordinate p)
 		{
 			return Math.Abs(center.Distance(p));
 		}
 
-		public Arc CreateArc(ICoordinate p1, ICoordinate p2, ICoordinate p3)
+		public Arc CreateArc(Coordinate p1, Coordinate p2, Coordinate p3)
 		{
 			return new Arc(this, p1, p2, p3);
 		}
@@ -575,15 +575,15 @@ namespace NHibernate.Spatial.Oracle
 			private readonly Circle circle;
 
 			private readonly bool clockwise;
-			private readonly ICoordinate p1;
+			private readonly Coordinate p1;
 
 			private readonly double p1Angle;
-			private readonly ICoordinate p2;
+			private readonly Coordinate p2;
 
 			private readonly double p2Angle;
 			private double arcAngle; // angle in radians
 
-			internal Arc(Circle circle, ICoordinate p1, ICoordinate midPt, ICoordinate p2)
+			internal Arc(Circle circle, Coordinate p1, Coordinate midPt, Coordinate p2)
 			{
 				this.circle = circle;
 				this.p1 = p1;
@@ -618,7 +618,7 @@ namespace NHibernate.Spatial.Oracle
 				}
 			}
 
-			private Arc(Circle circle, ICoordinate p1, ICoordinate p2, bool isClockwise)
+			private Arc(Circle circle, Coordinate p1, Coordinate p2, bool isClockwise)
 			{
 				this.p1 = p1;
 				this.p2 = p2;
@@ -663,7 +663,7 @@ namespace NHibernate.Spatial.Oracle
 			 */
 			public double GetArcHeight()
 			{
-				ICoordinate chordCenterPt = GetChordCenterPoint();
+				Coordinate chordCenterPt = GetChordCenterPoint();
 				double dist = circle.DistanceFromCenter(chordCenterPt);
 				if (arcAngle > Math.PI)
 				{
@@ -675,7 +675,7 @@ namespace NHibernate.Spatial.Oracle
 				}
 			}
 
-			public ICoordinate GetChordCenterPoint()
+			public Coordinate GetChordCenterPoint()
 			{
 				double centerX = p1.X + (p2.X - p1.X) / 2;
 				double centerY = p1.Y + (p2.Y - p1.Y) / 2;
@@ -688,19 +688,19 @@ namespace NHibernate.Spatial.Oracle
 				double angleOffset = directionFactor * (arcAngle / 2);
 
 				double midAngle = p1Angle + angleOffset;
-				ICoordinate newMidPoint = circle.GetPoint(midAngle);
+				Coordinate newMidPoint = circle.GetPoint(midAngle);
 
 				Arc arc1 = new Arc(circle, p1, newMidPoint, IsClockwise());
 				Arc arc2 = new Arc(circle, newMidPoint, p2, IsClockwise());
 				return new Arc[] {arc1, arc2};
 			}
 
-			public ICoordinate GetP1()
+			public Coordinate GetP1()
 			{
 				return p1;
 			}
 
-			public ICoordinate GetP2()
+			public Coordinate GetP2()
 			{
 				return p2;
 			}

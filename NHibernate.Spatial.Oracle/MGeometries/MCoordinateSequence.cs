@@ -32,6 +32,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
+using System.Collections.Generic;
 
 namespace NHibernate.Spatial.MGeometries
 {
@@ -45,7 +46,7 @@ namespace NHibernate.Spatial.MGeometries
 	{
 		private MCoordinate[] coordinates;
 
-		public static MCoordinate[] Copy(ICoordinate[] coordinates)
+		public static MCoordinate[] Copy(Coordinate[] coordinates)
 		{
 			MCoordinate[] copy = new MCoordinate[coordinates.Length];
 			for (int i = 0; i < coordinates.Length; i++)
@@ -272,6 +273,13 @@ namespace NHibernate.Spatial.MGeometries
             throw new NotImplementedException();
         }
 
+        public ICoordinateSequence Reversed()
+        {
+            var revc = new List<MCoordinate>(coordinates);
+            revc.Reverse();
+            return new MCoordinateSequence(revc.ToArray());
+         
+        }
     }
 }
 

@@ -89,7 +89,7 @@ namespace NHibernate.Spatial.MGeometries
 
         public ICoordinateSequence Create(int size, Ordinates ordinates)
         {
-            return new MCoordinateSequence(ordinates);
+            return (ICoordinateSequence)new MCoordinateSequence(size);
         }
 
         public Ordinates Ordinates { get; set; }

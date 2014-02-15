@@ -402,8 +402,11 @@ namespace NHibernate.Spatial.Dialect
 			}
 		}
 
-		public SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName)
+		public SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter)
 		{
+
+            //TODO : Check the implementation for parameter
+
 			return new SqlStringBuilder(6)
 				.Add(tableAlias)
 				.Add(".")
@@ -663,5 +666,8 @@ namespace NHibernate.Spatial.Dialect
         }
 
 		#endregion
-	}
+
+
+       
+    }
 }

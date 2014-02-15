@@ -5,28 +5,28 @@ namespace NHibernate.Spatial.Oracle
 	[OracleCustomTypeMappingAttribute("MDSYS.SDO_POINT_TYPE")]
 	public class SdoPoint : OracleCustomTypeBase<SdoPoint>
 	{
-		private decimal? x;
+		private double? x;
 
 		[OracleObjectMappingAttribute("X")]
-		public decimal? X
+		public double? X
 		{
 			get { return x; }
 			set { x = value; }
 		}
 
-		private decimal? y;
+		private double? y;
 
 		[OracleObjectMappingAttribute("Y")]
-		public decimal? Y
+		public double? Y
 		{
 			get { return y; }
 			set { y = value; }
 		}
 
-		private decimal? z;
+		private double? z;
 
 		[OracleObjectMappingAttribute("Z")]
-		public decimal? Z
+		public double? Z
 		{
 			get { return z; }
 			set { z = value; }
@@ -41,9 +41,9 @@ namespace NHibernate.Spatial.Oracle
 
 		public override void MapToCustomObject()
 		{
-			X = GetValue<decimal?>("X");
-			Y = GetValue<decimal?>("Y");
-			Z = GetValue<decimal?>("Z");
+			X = GetValue<double?>("X");
+			Y = GetValue<double?>("Y");
+			Z = GetValue<double?>("Z");
 		}
 	}
 }
