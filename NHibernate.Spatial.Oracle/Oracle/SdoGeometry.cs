@@ -3,83 +3,6 @@ using Oracle.DataAccess.Types;
 
 namespace NHibernate.Spatial.Oracle
 {
-    public enum ElementType
-    {
-        UNSUPPORTED = 0,
-        POINT = 1,
-        ORIENTATION = 2,
-        POINT_CLUSTER = 3,
-        LINE_STRAITH_SEGMENTS = 4,
-        LINE_ARC_SEGMENTS = 5,
-        INTERIOR_RING_STRAIGHT_SEGMENTS = 6,
-        EXTERIOR_RING_STRAIGHT_SEGMENTS = 7,
-        INTERIOR_RING_ARC_SEGMENTS = 8,
-        EXTERIOR_RING_ARC_SEGMENTS = 9,
-        INTERIOR_RING_RECT = 10,
-        EXTERIOR_RING_RECT = 11,
-        INTERIOR_RING_CIRCLE = 12,
-        EXTERIOR_RING_CIRCLE = 13,
-        COMPOUND_LINE = 14,
-        COMPOUND_EXTERIOR_RING = 15,
-        COMPOUND_INTERIOR_RING = 16
-    }
-
-    public static class SdoGeometryTypes
-    {
-
-        //Oracle Documentation for SDO_ETYPE - SIMPLE
-
-        //Point//Line//Polygon//exterior counterclockwise - polygon ring = 1003//interior clockwise  polygon ring = 2003
-
-        public enum ETYPE_SIMPLE
-        {
-            POINT = 1,
-            LINE = 2,
-            POLYGON = 3,
-            POLYGON_EXTERIOR = 1003,
-            POLYGON_INTERIOR = 2003
-        }
-
-        //Oracle Documentation for SDO_ETYPE - COMPOUND
-
-        //1005: exterior polygon ring (must be specified in counterclockwise order)
-
-        //2005: interior polygon ring (must be specified in clockwise order)
-
-        public enum ETYPE_COMPOUND
-        {
-            FOURDIGIT = 4,
-            POLYGON_EXTERIOR = 1005,
-            POLYGON_INTERIOR = 2005
-        }
-
-        //Oracle Documentation for SDO_GTYPE.
-
-        //This represents the last two digits in a GTYPE, where the first item is dimension(ality) and the second is LRS
-
-        public enum GTYPE
-        {
-            UNKNOWN_GEOMETRY = 00,
-            POINT = 01,
-            LINE = 02,
-            CURVE = 02,
-            POLYGON = 03,
-            COLLECTION = 04,
-            MULTIPOINT = 05,
-            MULTILINE = 06,
-            MULTICURVE = 06,
-            MULTIPOLYGON = 07
-        }
-
-        public enum DIMENSION
-        {
-            DIM2D = 2,
-            DIM3D = 3,
-            LRS_DIM3 = 3,
-            LRS_DIM4 = 4
-        }
-
-    }
 
     [OracleCustomTypeMappingAttribute("MDSYS.SDO_GEOMETRY")]
     public class SdoGeometry : OracleCustomTypeBase<SdoGeometry>
@@ -291,7 +214,7 @@ namespace NHibernate.Spatial.Oracle
         public static SdoGeometry Join(SdoGeometry[] sdoElements)
         {
             SdoGeometry sdoCollection = new SdoGeometry();
-            sdoCollection.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.COLLECTION;
+            sdoCollection.Sdo_Gtype = (double)SDO_GTYPE.COLLECTION;
             if (sdoElements == null || sdoElements.Length == 0)
             {
                 sdoCollection.Dimensionality = 2;

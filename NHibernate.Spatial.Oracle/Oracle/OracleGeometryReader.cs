@@ -62,31 +62,31 @@ namespace NHibernate.Spatial.Oracle
             int dim = sdoGeom.Dimensionality;
             int lrsDim = sdoGeom.LRS;
 
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.POINT)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.POINT)
             {
                 return ReadPoint(sdoGeom);
             }
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.LINE)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.LINE)
             {
                 return ReadLine(dim, lrsDim, sdoGeom);
             }
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.POLYGON)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.POLYGON)
             {
                 return ReadPolygon(dim, lrsDim, sdoGeom);
             }
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.MULTIPOINT)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.MULTIPOINT)
             {
                 return ReadMultiPoint(dim, lrsDim, sdoGeom);
             }
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.MULTILINE)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.MULTILINE)
             {
                 return ReadMultiLine(dim, lrsDim, sdoGeom);
             }
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.MULTIPOLYGON)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.MULTIPOLYGON)
             {
                 return ReadMultiPolygon(dim, lrsDim, sdoGeom);
             }
-            if (sdoGeom.Sdo_Gtype.Value == (double)SdoGeometryTypes.GTYPE.COLLECTION)
+            if (sdoGeom.Sdo_Gtype.Value == (double)SDO_GTYPE.COLLECTION)
             {
                 return ReadGeometryCollection(dim, lrsDim, sdoGeom);
             }
@@ -212,8 +212,8 @@ namespace NHibernate.Spatial.Oracle
         private IGeometry ReadPolygon(int dim, int lrsDim, SdoGeometry sdoGeom)
         {
             LinearRing shell = null;
-            LinearRing[] holes = new LinearRing[sdoGeom.getNumElements() - 1];
-            decimal[] info = sdoGeom.ElemArray;
+            LinearRing[] holes = new LinearRing[sdoGeom.ElemArray.Length - 1];
+            double[] info = sdoGeom.ElemArray;
             int i = 0;
             int idxInteriorRings = 0;
             while (i < info.Length)
@@ -423,10 +423,13 @@ namespace NHibernate.Spatial.Oracle
 
         private Double[] ExtractOrdinatesOfElement(int element, SdoGeometry sdoGeom, bool hasNextSE)
         {
+            int len = sdoGeom.ElemArray.Length;
             int start = (int)sdoGeom.ElemArray[element * 3];
+            int end = len;
+
             if ((element * 3) < sdoGeom.ElemArray.Length - 1)
             {
-                int end = (int)sdoGeom.ElemArray[(element + 1) * 3];
+                end = (int)sdoGeom.ElemArray[(element + 1) * 3];
                 // if this is a subelement of a compound geometry,
                 // the last point is the first point of
                 // the next subelement.
@@ -434,12 +437,8 @@ namespace NHibernate.Spatial.Oracle
                 {
                     end += sdoGeom.Dimensionality;
                 }
-                return sdoGeom.getOrdinates().getOrdinatesArray(start, end);
             }
-            else
-            {
-                return sdoGeom.getOrdinates().getOrdinatesArray(start);
-            }
+            return sdoGeom.ElemArray.Skip(start).Take(end - start).ToArray();
         }
 
         private ICoordinateSequence ConvertOrdinateArray(Double[] oordinates,

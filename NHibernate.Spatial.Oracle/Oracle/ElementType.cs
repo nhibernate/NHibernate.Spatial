@@ -1,0 +1,26 @@
+﻿using System;
+using Oracle.DataAccess.Types;
+
+namespace NHibernate.Spatial.Oracle
+{
+	public enum ElementType
+	{
+	    UNSUPPORTED = 0,
+	    POINT = 1,
+	    ORIENTATION = 2,
+	    POINT_CLUSTER = 3,
+	    LINE_STRAITH_SEGMENTS = 4,
+	    LINE_ARC_SEGMENTS = 5,
+	    INTERIOR_RING_STRAIGHT_SEGMENTS = 6,
+	    EXTERIOR_RING_STRAIGHT_SEGMENTS = 7,
+	    INTERIOR_RING_ARC_SEGMENTS = 8,
+	    EXTERIOR_RING_ARC_SEGMENTS = 9,
+	    INTERIOR_RING_RECT = 10,
+	    EXTERIOR_RING_RECT = 11,
+	    INTERIOR_RING_CIRCLE = 12,
+	    EXTERIOR_RING_CIRCLE = 13,
+	    COMPOUND_LINE = 14,
+	    COMPOUND_EXTERIOR_RING = 15,
+	    COMPOUND_INTERIOR_RING = 16
+	}
+}

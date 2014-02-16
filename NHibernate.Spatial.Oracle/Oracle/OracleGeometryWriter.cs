@@ -77,7 +77,7 @@ namespace NHibernate.Spatial.Oracle
             bool isLrs = (lrsDim != 0);
             double?[] coord = ConvertCoordinates(geometry.Coordinates, dim, isLrs);
             SdoGeometry sdoGeometry = new SdoGeometry();
-            sdoGeometry.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.POINT;
+            sdoGeometry.Sdo_Gtype = (double)SDO_GTYPE.POINT;
             sdoGeometry.Dimensionality = dim;
             sdoGeometry.LRS = lrsDim;
             sdoGeometry.Sdo_Srid = geometry.SRID;
@@ -85,7 +85,7 @@ namespace NHibernate.Spatial.Oracle
             //sdoGeometry.Point.X = 0;
             //sdoGeometry.Point.Y = 0;
             //sdoGeometry.Point.Z = 0;
-            sdoGeometry.ElemArray = new double[] { 1, (double)SdoGeometryTypes.ETYPE_SIMPLE.POINT, 1 };
+            sdoGeometry.ElemArray = new double[] { 1, (double)SDO_ETYPE.ETYPE_SIMPLE_POINT, 1 };
             sdoGeometry.OrdinatesArrayOfDoubles = coord;
             return sdoGeometry;
         }
@@ -97,7 +97,7 @@ namespace NHibernate.Spatial.Oracle
             bool isLrs = lrsPos > 0;
             double?[] ordinates = ConvertCoordinates(geometry.Coordinates, dim, isLrs);
             SdoGeometry sdoGeometry = new SdoGeometry();
-            sdoGeometry.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.LINE;
+            sdoGeometry.Sdo_Gtype = (double)SDO_GTYPE.LINE;
             sdoGeometry.Dimensionality = dim;
             sdoGeometry.LRS = lrsPos;
             sdoGeometry.Sdo_Srid = geometry.SRID;
@@ -112,7 +112,7 @@ namespace NHibernate.Spatial.Oracle
             int lrsDim = GetCoordinateLrsPosition(geometry);
             bool isLrs = (lrsDim != 0);
             SdoGeometry sdoGeometry = new SdoGeometry();
-            sdoGeometry.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.MULTILINE;
+            sdoGeometry.Sdo_Gtype = (double)SDO_GTYPE.MULTILINE;
             sdoGeometry.Dimensionality = dim;
             sdoGeometry.LRS = lrsDim;
             sdoGeometry.Sdo_Srid = geometry.SRID;
@@ -138,7 +138,7 @@ namespace NHibernate.Spatial.Oracle
             int lrsDim = GetCoordinateLrsPosition(geometry);
             bool isLrs = (lrsDim != 0);
             SdoGeometry sdoGeometry = new SdoGeometry();
-            sdoGeometry.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.MULTIPOINT;
+            sdoGeometry.Sdo_Gtype = (double)SDO_GTYPE.MULTIPOINT;
             sdoGeometry.Dimensionality = dim;
             sdoGeometry.LRS = lrsDim;
             sdoGeometry.Sdo_Srid = geometry.SRID;
@@ -150,7 +150,7 @@ namespace NHibernate.Spatial.Oracle
             {
                 //info.setElement(i, oordinatesOffset, ElementType.POINT, 0);
                 info[i + 0] = oordinatesOffset;
-                info[i + 1] = (decimal)ElementType.POINT;
+                info[i + 1] = (double)ElementType.POINT;
                 info[i + 2] = 0;
                 ordinates = ConvertAddCoordinates(ordinates, geometry.GetGeometryN(i).Coordinates, dim, isLrs);
                 oordinatesOffset = ordinates.Length + 1;
@@ -165,7 +165,7 @@ namespace NHibernate.Spatial.Oracle
             int dim = GetCoordDimension(geometry);
             int lrsPos = GetCoordinateLrsPosition(geometry);
             SdoGeometry sdoGeometry = new SdoGeometry();
-            sdoGeometry.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.POLYGON;
+            sdoGeometry.Sdo_Gtype = (double)SDO_GTYPE.POLYGON;
             sdoGeometry.Dimensionality = dim;
             sdoGeometry.LRS = lrsPos;
             sdoGeometry.Sdo_Srid = geometry.SRID;
@@ -178,7 +178,7 @@ namespace NHibernate.Spatial.Oracle
             int dim = GetCoordDimension(geometry);
             int lrsPos = GetCoordinateLrsPosition(geometry);
             SdoGeometry sdoGeometry = new SdoGeometry();
-            sdoGeometry.Sdo_Gtype = (double)SdoGeometryTypes.GTYPE.MULTIPOLYGON;
+            sdoGeometry.Sdo_Gtype = (double)SDO_GTYPE.MULTIPOLYGON;
             sdoGeometry.Dimensionality = dim;
             sdoGeometry.LRS = lrsPos;
             sdoGeometry.Sdo_Srid = geometry.SRID;
@@ -212,7 +212,7 @@ namespace NHibernate.Spatial.Oracle
         private void AddPolygon(SdoGeometry sdoGeometry, IPolygon polygon)
         {
             int numInteriorRings = polygon.NumInteriorRings;
-            decimal[] info = new decimal[(numInteriorRings + 1) * 3];
+            double[] info = new double[(numInteriorRings + 1) * 3];
             int ordinatesOffset = 1;
             if (sdoGeometry.OrdinatesArray != null)
             {
