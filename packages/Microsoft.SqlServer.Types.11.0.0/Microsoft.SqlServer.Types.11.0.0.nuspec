@@ -12,6 +12,8 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Allows you to use SQL Server spatial types on a machine without SQL Server installed. Useful when deploying to Windows Azure. Also enables Entity Framework spatial types to be used (DbGeography and DbGeometry).</description>
     <summary>Allows you to use SQL Server spatial types on a machine without SQL Server installed. Useful when deploying to Windows Azure. Also enables Entity Framework spatial types to be used (DbGeography and DbGeometry).</summary>
+    <releaseNotes />
+    <copyright />
     <language>en-US</language>
     <tags>SQL spatial geometry geography azure EF EntityFramework DbGeography DbGeometry GIS geospatial OGC sql-server</tags>
   </metadata>

@@ -58,7 +58,7 @@
       <HintPath>..\packages\GeoAPI.1.7.2\lib\net40-client\GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NetTopologySuite">
       <HintPath>..\packages\NetTopologySuite.1.13.2\lib\net40-client\NetTopologySuite.dll</HintPath>
