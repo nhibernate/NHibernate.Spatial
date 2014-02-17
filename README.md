@@ -12,6 +12,8 @@ Update
 ------
 Updated to NH 3.3.3
 
+Loads of changes required for Oracle Dialect
+
 
 NHibernate.Spatial (pmcxs fork)
 ===============================
