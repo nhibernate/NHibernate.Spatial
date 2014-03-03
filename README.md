@@ -8,12 +8,13 @@ the code has been modified slightly to get it to compile with the latest NTS, Ge
 The NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started,
 including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH].
 
-Update
-------
-Updated to NH 3.3.3
+Nuget Package
+=============
+Thanks to Andreas for his work on releasing the Nuget package(currently in pre-release).
 
-Loads of changes required for Oracle Dialect
-
+[Nhibernate.Spatial](https://www.nuget.org/packages/NHibernate.Spatial)
+[Nhibernate.Spatial](https://www.nuget.org/packages/NHibernate.Spatial)
+[Nhibernate.Spatial](https://www.nuget.org/packages/NHibernate.Spatial)
 
 NHibernate.Spatial (pmcxs fork)
 ===============================
