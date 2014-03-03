@@ -27,7 +27,7 @@ namespace NHibernate.Spatial.Dialect.Function
     /// </summary>
     public class SpatialMethodSafeFunction : SpatialMethodFunction
     {
-        protected int allowedArgsCount = 1;
+        protected int _allowedArgsCount = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
@@ -52,11 +52,11 @@ namespace NHibernate.Spatial.Dialect.Function
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="allowedArgsCount">The allowed args count.</param>
+        /// <param name="_allowedArgsCount">The allowed args count.</param>
         public SpatialMethodSafeFunction(string name, int allowedArgsCount)
             : base(name)
         {
-            this.allowedArgsCount = allowedArgsCount;
+            this._allowedArgsCount = allowedArgsCount;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace NHibernate.Spatial.Dialect.Function
         public SpatialMethodSafeFunction(string name, IType typeValue, int allowedArgsCount)
             : base(name, typeValue)
         {
-            this.allowedArgsCount = allowedArgsCount;
+            this._allowedArgsCount = allowedArgsCount;
         }
 
         #region ISQLFunction Members
@@ -91,9 +91,9 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="args">The arguments.</param>
         protected void ValidateArgsCount(IList args)
         {
-            if (args.Count != allowedArgsCount)
+            if (args.Count != _allowedArgsCount)
             {
-                throw new QueryException(string.Format("function '{0}' requires {1} arguments.", this.name, this.allowedArgsCount));
+                throw new QueryException(string.Format("function '{0}' requires {1} arguments.", this.name, this._allowedArgsCount));
             }
         }
 
@@ -105,7 +105,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <value>The allowed arguments count.</value>
         public int AllowedArgsCount
         {
-            get { return this.allowedArgsCount; }
+            get { return this._allowedArgsCount; }
         }
 
         /// <summary>

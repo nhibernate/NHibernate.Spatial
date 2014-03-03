@@ -12,6 +12,8 @@
     <description>This package contains several IO libraries to cope with spatial data from various sources.
       Among others PostGIS, ShapeFile and MSSqlSpatial (not SqlServer2008!).</description>
     <summary>IO library for NetTopologySuite</summary>
+    <releaseNotes />
+    <copyright />
     <language>en-US</language>
     <tags>NTS PostGis Shapefile</tags>
     <dependencies>

@@ -3,6 +3,7 @@
   <metadata>
     <id>NHibernate</id>
     <version>3.3.3.4001</version>
+    <title>NHibernate</title>
     <authors>NHibernate community,  Hibernate community</authors>
     <owners>NHibernate community,  Hibernate community</owners>
     <licenseUrl>https://raw.github.com/nhibernate/nhibernate-core/3.3.x/lgpl.txt</licenseUrl>
@@ -11,6 +12,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>NHibernate is a mature, open source object-relational mapper for the .NET framework. It is actively developed, fully featured and used in thousands of successful projects.</description>
     <summary>NHibernate is a mature, open source object-relational mapper for the .NET framework. It is actively developed, fully featured and used in thousands of successful projects.</summary>
+    <releaseNotes />
+    <copyright />
     <language>en-US</language>
     <tags>ORM DataBase DAL ObjectRelationalMapping</tags>
     <dependencies>

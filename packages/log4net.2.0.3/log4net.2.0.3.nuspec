@@ -15,6 +15,9 @@ At the same time, log output can be so voluminous that it quickly becomes overwh
 
 log4net is designed with two distinct goals in mind: speed and flexibility</description>
     <summary>The Apache log4net library is a tool to help the programmer output log statements to a variety of output targets.</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
     <tags>logging log tracing logfiles</tags>
   </metadata>
 </package>
