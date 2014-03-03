@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NHibernate.Spatial.Oracle")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("NHibernate.Spatial is a library of spatial extensions for NHibernate, and allows you to connect NHibernate to a spatially enabled database and manipulate geometries in HQL or in .NET code using NetTopologySuite, providing you with a fully integrated GIS programming experience.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("NHibernate.Spatial Community")]
 [assembly: AssemblyProduct("NHibernate.Spatial")]
-[assembly: AssemblyCopyright("Copyright ©  2008 Ricardo Stuven")]
+[assembly: AssemblyCopyright("Copyright © 2008 Ricardo Stuven")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("3.3.3.4001")]
+[assembly: AssemblyFileVersion("3.3.3.4001")]
