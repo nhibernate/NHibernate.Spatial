@@ -8,6 +8,7 @@ using Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model;
 
 namespace Tests.NHibernate.Spatial
 {
+   
 	[TestFixture]
 	public class MsSql2008ConformanceItemsFixture : ConformanceItemsFixture
 	{
