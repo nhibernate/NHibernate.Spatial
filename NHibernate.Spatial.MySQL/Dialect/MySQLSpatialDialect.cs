@@ -386,7 +386,6 @@ namespace NHibernate.Spatial.Dialect
 						.Add(")")
 						.ToSqlString();
 				case SpatialAnalysis.Difference:
-				case SpatialAnalysis.Distance:
 				case SpatialAnalysis.Intersection:
 				case SpatialAnalysis.SymDifference:
 				case SpatialAnalysis.Union:
@@ -398,6 +397,14 @@ namespace NHibernate.Spatial.Dialect
 						.AddObject(extraArgument)
 						.Add(")")
 						.ToSqlString();
+                case SpatialAnalysis.Distance:
+                    return new SqlStringBuilder()
+                        .Add("st_Distance(")
+                        .AddObject(geometry)
+                        .Add(",")
+                        .AddObject(extraArgument)
+                        .Add(")")
+                        .ToSqlString();
 				default:
 					throw new ArgumentException("Invalid spatial analysis argument");
 			}
