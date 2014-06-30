@@ -1,13 +1,12 @@
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries.Utilities;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace NetTopologySuite.Windows.Forms
 {
-
     ///<summary>
-    /// Provides methods to read <see cref="System.Drawing.Font"/> glyphs for strings 
+    /// Provides methods to read <see cref="System.Drawing.Font"/> glyphs for strings
     /// into <see cref="IPolygonal"/> geometry.
     ///</summary>
     /// <remarks>
@@ -36,7 +35,7 @@ namespace NetTopologySuite.Windows.Forms
         /// <returns>A polygonal geometry representing the rendered text</returns>
         public static IGeometry Read(string text, FontFamily font, int pointSize, IGeometryFactory geomFact)
         {
-            return Read(text, font, FontStyle.Regular, pointSize, new PointF(0,0),  geomFact);
+            return Read(text, font, FontStyle.Regular, pointSize, new PointF(0, 0), geomFact);
         }
 
         ///<summary>
@@ -48,11 +47,10 @@ namespace NetTopologySuite.Windows.Forms
         /// <returns>A polygonal geometry representing the rendered text</returns>
         public static IGeometry Read(string text, FontFamily font, IGeometryFactory geomFact)
         {
-            return Read(text, font, FontStyle.Regular, 12, new PointF(0,0), geomFact);
+            return Read(text, font, FontStyle.Regular, 12, new PointF(0, 0), geomFact);
         }
 
         public static IGeometry Read(string text, FontFamily font, FontStyle style, float size, PointF origin, IGeometryFactory geomFact)
-
         {
             return Read(text, font, style, size, origin, StringFormat.GenericTypographic, size / FlatnessFactor, geomFact);
         }

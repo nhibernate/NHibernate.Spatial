@@ -1,10 +1,9 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using Open.Topology.TestRunner.Result;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {
-
     /// <summary>
     /// Interface for classes which execute operations on {@link Geometry}s.
     /// The arguments may be presented as Strings, even if they

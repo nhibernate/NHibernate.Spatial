@@ -1,6 +1,6 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.IO;
+using System;
 
 namespace Open.Topology.TestRunner.Result
 {
@@ -13,21 +13,20 @@ namespace Open.Topology.TestRunner.Result
         String ToLongString();
 
         String ToFormattedString();
-         
     }
 
     public interface IResult<T> : IResult
     {
         T Value { get; }
     }
-    
+
     public class BooleanResult : IResult<Boolean>
     {
         public BooleanResult(bool result)
         {
             Value = result;
         }
-        
+
         public Boolean Value { get; private set; }
 
         public bool Equals(IResult other, double tolerance)
@@ -117,7 +116,6 @@ namespace Open.Topology.TestRunner.Result
         }
     }
 
-
     public class GeometryResult : IResult<IGeometry>
     {
         public GeometryResult(IGeometry result)
@@ -138,9 +136,8 @@ namespace Open.Topology.TestRunner.Result
             var otherGeometryClone = (IGeometry)otherGeometry.Clone();
             thisGeometryClone.Normalize();
             otherGeometryClone.Normalize();
-            
-            return thisGeometryClone.EqualsExact(otherGeometryClone, tolerance);
 
+            return thisGeometryClone.EqualsExact(otherGeometryClone, tolerance);
         }
 
         public string ToShortString()
@@ -155,9 +152,8 @@ namespace Open.Topology.TestRunner.Result
 
         public string ToFormattedString()
         {
-            var wktWriter = new WKTWriter {Formatted = true};
+            var wktWriter = new WKTWriter { Formatted = true };
             return wktWriter.WriteFormatted(Value);
         }
     }
-
 }

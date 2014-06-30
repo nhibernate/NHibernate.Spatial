@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using Open.Topology.TestRunner.Utility;
+using System;
 using System.Diagnostics;
 using System.Reflection;
-using GeoAPI.Geometries;
-using Open.Topology.TestRunner.Utility;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -16,7 +16,7 @@ namespace Open.Topology.TestRunner.Functions
         public static StaticMethodGeometryFunction CreateFunction(MethodInfo method)
         {
             var pi = method.GetParameters();
-            Debug.Assert(typeof (IGeometry).IsAssignableFrom(pi[0].GetType()));
+            Debug.Assert(typeof(IGeometry).IsAssignableFrom(pi[0].GetType()));
 
             Type clz = method.DeclaringType;
 
@@ -74,7 +74,7 @@ namespace Open.Topology.TestRunner.Functions
 
         /**
          * Creates an arg array which includes the target geometry as the first argument
-         * 
+         *
          * @param g
          * @param arg
          * @return

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using Open.Topology.TestRunner.Result;
+using System;
 using System.Globalization;
 using System.Reflection;
-using GeoAPI.Geometries;
-using Open.Topology.TestRunner.Result;
 
 namespace Open.Topology.TestRunner.Operations
 {
     /**
      * Invokes a named operation on a set of arguments,
      * the first of which is a {@link Geometry}.
-     * This class provides operations which are the methods 
+     * This class provides operations which are the methods
      * defined on the Geometry class.
      * Other {@link GeometryOperation} classes can delegate to
      * instances of this class to run standard Geometry methods.
@@ -22,28 +22,26 @@ namespace Open.Topology.TestRunner.Operations
     {
         public static bool IsBooleanFunction(String name)
         {
-            return GetGeometryReturnType(name) == typeof (bool);
+            return GetGeometryReturnType(name) == typeof(bool);
         }
 
         public static bool IsIntegerFunction(String name)
         {
-            return GetGeometryReturnType(name) == typeof (int);
+            return GetGeometryReturnType(name) == typeof(int);
         }
 
         public static bool IsDoubleFunction(String name)
         {
-            return GetGeometryReturnType(name) == typeof (double);
+            return GetGeometryReturnType(name) == typeof(double);
         }
 
         public static bool IsGeometryFunction(String name)
         {
-            return typeof (IGeometry).IsAssignableFrom(GetGeometryReturnType(name));
+            return typeof(IGeometry).IsAssignableFrom(GetGeometryReturnType(name));
         }
-
 
         public static Type GetGeometryReturnType(String functionName)
         {
-
             //MethodInfo[] methods = typeof(IGeometry).GetMethods();
             for (int i = 0; i < GeometryMethods.Length; i++)
             {
@@ -54,9 +52,9 @@ namespace Open.Topology.TestRunner.Operations
                      * Filter out only acceptable classes. (For instance, don't accept the
                      * relate()=>IntersectionMatrix method)
                      */
-                    if (returnClass == typeof (bool)
-                        || typeof (IGeometry).IsAssignableFrom(returnClass)
-                        || returnClass == typeof (double) || returnClass == typeof (int))
+                    if (returnClass == typeof(bool)
+                        || typeof(IGeometry).IsAssignableFrom(returnClass)
+                        || returnClass == typeof(double) || returnClass == typeof(int))
                     {
                         return returnClass;
                     }
@@ -65,7 +63,7 @@ namespace Open.Topology.TestRunner.Operations
             return null;
         }
 
-        private static readonly MethodInfo[] GeometryMethods = typeof (IGeometry).GetMethods();
+        private static readonly MethodInfo[] GeometryMethods = typeof(IGeometry).GetMethods();
 
         public Type GetReturnType(XmlTestType op)
         {
@@ -141,7 +139,7 @@ namespace Open.Topology.TestRunner.Operations
             convArg[0] = null;
             if (srcValue is string)
             {
-                return convertArgFromString(destClass, (String) srcValue, convArg);
+                return convertArgFromString(destClass, (String)srcValue, convArg);
             }
             if (destClass.IsAssignableFrom(srcValue.GetType()))
             {
@@ -154,7 +152,7 @@ namespace Open.Topology.TestRunner.Operations
         private bool convertArgFromString(Type destClass, String srcStr, Object[] convArg)
         {
             convArg[0] = null;
-            if (destClass == typeof (Boolean) || destClass == typeof (bool))
+            if (destClass == typeof(Boolean) || destClass == typeof(bool))
             {
                 if (srcStr.Equals("true"))
                 {
@@ -169,7 +167,7 @@ namespace Open.Topology.TestRunner.Operations
                 return false;
             }
 
-            if (destClass == typeof (Int32) || destClass == typeof (int))
+            if (destClass == typeof(Int32) || destClass == typeof(int))
             {
                 // try as an int
                 try
@@ -184,7 +182,7 @@ namespace Open.Topology.TestRunner.Operations
                 return false;
             }
 
-            if (destClass == typeof (Double) || destClass == typeof (double))
+            if (destClass == typeof(Double) || destClass == typeof(double))
             {
                 // try as an int
                 try
@@ -198,7 +196,7 @@ namespace Open.Topology.TestRunner.Operations
                 }
                 return false;
             }
-            if (destClass == typeof (String) || destClass == typeof (string))
+            if (destClass == typeof(String) || destClass == typeof(string))
             {
                 convArg[0] = srcStr;
                 return true;
@@ -206,26 +204,25 @@ namespace Open.Topology.TestRunner.Operations
             return false;
         }
 
-
         private IResult InvokeMethod(MethodInfo method, IGeometry geometry, Object[] args)
         {
             try
             {
-                if (method.ReturnType == typeof (bool))
+                if (method.ReturnType == typeof(bool))
                 {
-                    return new BooleanResult((Boolean) method.Invoke(geometry, args));
+                    return new BooleanResult((Boolean)method.Invoke(geometry, args));
                 }
-                if (typeof (IGeometry).IsAssignableFrom(method.ReturnType))
+                if (typeof(IGeometry).IsAssignableFrom(method.ReturnType))
                 {
-                    return new GeometryResult((IGeometry) method.Invoke(geometry, args));
+                    return new GeometryResult((IGeometry)method.Invoke(geometry, args));
                 }
-                if (method.ReturnType == typeof (double))
+                if (method.ReturnType == typeof(double))
                 {
-                    return new DoubleResult((Double) method.Invoke(geometry, args));
+                    return new DoubleResult((Double)method.Invoke(geometry, args));
                 }
-                if (method.ReturnType == typeof (int))
+                if (method.ReturnType == typeof(int))
                 {
-                    return new IntegerResult((int) method.Invoke(geometry, args));
+                    return new IntegerResult((int)method.Invoke(geometry, args));
                 }
             }
             catch (TargetInvocationException e)
@@ -235,6 +232,5 @@ namespace Open.Topology.TestRunner.Operations
             }
             throw new NTSTestReflectionException("Unsupported result type: " + method.ReturnType);
         }
-
     }
 }

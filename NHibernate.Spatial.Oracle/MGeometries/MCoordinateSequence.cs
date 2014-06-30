@@ -1,13 +1,13 @@
 ﻿/**
  * $Id$
  *
- * This file is part of Hibernate Spatial, an extension to the 
- * hibernate ORM solution for geographic data. 
- *  
+ * This file is part of Hibernate Spatial, an extension to the
+ * hibernate ORM solution for geographic data.
+ *
  * Copyright © 2007 Geovise BVBA
  * Copyright © 2007 K.U. Leuven LRD, Spatial Applications Division, Belgium
  *
- * This work was partially supported by the European Commission, 
+ * This work was partially supported by the European Commission,
  * under the 6th Framework Programme, contract IST-2-004688-STP.
  *
  * This library is free software; you can redistribute it and/or
@@ -27,235 +27,252 @@
  * For more information, visit: http://www.hibernatespatial.org/
  */
 
-using System;
-using System.Runtime.Serialization;
-using System.Text;
 using GeoAPI.Geometries;
-using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace NHibernate.Spatial.MGeometries
 {
-	/**
-	 * Implements the CoordinateSequence interface. In this implementation,
-	 * Coordinates returned by #toArray and #get are live -- parties that change
-	 * them are actually changing the MCoordinateSequence's underlying data.
-	 */
+    /**
+     * Implements the CoordinateSequence interface. In this implementation,
+     * Coordinates returned by #toArray and #get are live -- parties that change
+     * them are actually changing the MCoordinateSequence's underlying data.
+     */
 
-	public class MCoordinateSequence : ICoordinateSequence
-	{
-		private MCoordinate[] coordinates;
+    public class MCoordinateSequence : ICoordinateSequence
+    {
+        private MCoordinate[] coordinates;
 
-		public static MCoordinate[] Copy(Coordinate[] coordinates)
-		{
-			MCoordinate[] copy = new MCoordinate[coordinates.Length];
-			for (int i = 0; i < coordinates.Length; i++)
-			{
-				copy[i] = new MCoordinate(coordinates[i]);
-			}
-			return copy;
-		}
+        public static MCoordinate[] Copy(Coordinate[] coordinates)
+        {
+            MCoordinate[] copy = new MCoordinate[coordinates.Length];
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                copy[i] = new MCoordinate(coordinates[i]);
+            }
+            return copy;
+        }
 
-		public static MCoordinate[] Copy(ICoordinateSequence coordSeq)
-		{
-			MCoordinate[] copy = new MCoordinate[coordSeq.Count];
-			for (int i = 0; i < coordSeq.Count; i++)
-			{
-				copy[i] = new MCoordinate(coordSeq.GetCoordinate(i));
-			}
-			return copy;
-		}
+        public static MCoordinate[] Copy(ICoordinateSequence coordSeq)
+        {
+            MCoordinate[] copy = new MCoordinate[coordSeq.Count];
+            for (int i = 0; i < coordSeq.Count; i++)
+            {
+                copy[i] = new MCoordinate(coordSeq.GetCoordinate(i));
+            }
+            return copy;
+        }
 
-		/**
-		 * Copy constructor -- simply aliases the input array, for better
-		 * performance.
-		 * 
-		 * @param coordinates
-		 */
-		public MCoordinateSequence(MCoordinate[] coordinates)
-		{
-			this.coordinates = coordinates;
-		}
+        /**
+         * Copy constructor -- simply aliases the input array, for better
+         * performance.
+         *
+         * @param coordinates
+         */
 
-		/**
-		 * Constructor that makes a copy of an array of Coordinates. Always makes a
-		 * copy of the input array, since the actual class of the Coordinates in the
-		 * input array may be different from MCoordinate.
-		 * 
-		 * @param copyCoords
-		 */
-		public MCoordinateSequence(Coordinate[] copyCoords)
-		{
-			coordinates = Copy(copyCoords);
-		}
+        public MCoordinateSequence(MCoordinate[] coordinates)
+        {
+            this.coordinates = coordinates;
+        }
 
-		/**
-		 * Constructor that makes a copy of a CoordinateSequence.
-		 * 
-		 * @param coordSeq
-		 */
-		public MCoordinateSequence(ICoordinateSequence coordSeq)
-		{
-			coordinates = Copy(coordSeq);
-		}
+        /**
+         * Constructor that makes a copy of an array of Coordinates. Always makes a
+         * copy of the input array, since the actual class of the Coordinates in the
+         * input array may be different from MCoordinate.
+         *
+         * @param copyCoords
+         */
 
-		/**
-		 * Constructs a sequence of a given size, populated with new
-		 * {@link MCoordinate}s.
-		 * 
-		 * @param size
-		 *            the size of the sequence to create
-		 */
-		public MCoordinateSequence(int size)
-		{
-			coordinates = new MCoordinate[size];
-			for (int i = 0; i < size; i++)
-			{
-				coordinates[i] = new MCoordinate();
-			}
-		}
+        public MCoordinateSequence(Coordinate[] copyCoords)
+        {
+            coordinates = Copy(copyCoords);
+        }
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#getDimension()
-		 */
-		public int Dimension
-		{
-			get { return 4; }
-		}
+        /**
+         * Constructor that makes a copy of a CoordinateSequence.
+         *
+         * @param coordSeq
+         */
 
-		public Coordinate GetCoordinate(int i)
-		{
-			return coordinates[i];
-		}
+        public MCoordinateSequence(ICoordinateSequence coordSeq)
+        {
+            coordinates = Copy(coordSeq);
+        }
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetCoordinateCopy(int)
-		 */
-		public Coordinate GetCoordinateCopy(int index)
-		{
-			return new Coordinate(coordinates[index]);
-		}
+        /**
+         * Constructs a sequence of a given size, populated with new
+         * {@link MCoordinate}s.
+         *
+         * @param size
+         *            the size of the sequence to create
+         */
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetCoordinate(int,
-		 *      com.vividsolutions.jts.geom.Coordinate)
-		 */
-		public void GetCoordinate(int index, Coordinate coord)
-		{
-			coord.X = coordinates[index].X;
-			coord.Y = coordinates[index].Y;
-		}
+        public MCoordinateSequence(int size)
+        {
+            coordinates = new MCoordinate[size];
+            for (int i = 0; i < size; i++)
+            {
+                coordinates[i] = new MCoordinate();
+            }
+        }
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetX(int)
-		 */
-		public double GetX(int index)
-		{
-			return coordinates[index].X;
-		}
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#getDimension()
+         */
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetY(int)
-		 */
-		public double GetY(int index)
-		{
-			return coordinates[index].Y;
-		}
+        public int Dimension
+        {
+            get { return 4; }
+        }
 
-		/**
-		 * @return the measure value of the coordinate in the index
-		 */
-		public double GetM(int index)
-		{
-			return coordinates[index].M;
-		}
+        public Coordinate GetCoordinate(int i)
+        {
+            return coordinates[i];
+        }
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#GetOrdinate(int,int)
-		 */
-		public double GetOrdinate(int index, Ordinates ordinateIndex)
-		{
-			switch (ordinateIndex)
-			{
-				case Ordinates.X:
-					return coordinates[index].X;
-				case Ordinates.Y:
-					return coordinates[index].Y;
-				case Ordinates.Z:
-					return coordinates[index].Z;
-				case Ordinates.M:
-					return coordinates[index].M;
-			}
-			return Double.NaN;
-		}
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#GetCoordinateCopy(int)
+         */
 
-		/**
-		 * @see com.vividsolutions.jts.geom.CoordinateSequence#SetOrdinate(int,int,double)
-		 */
-		public void SetOrdinate(int index, Ordinates ordinateIndex, double value)
-		{
-			switch (ordinateIndex)
-			{
-				case Ordinates.X:
-					coordinates[index].X = value;
-					break;
-				case Ordinates.Y:
-					coordinates[index].Y = value;
-					break;
-				case Ordinates.Z:
-					coordinates[index].Z = value;
-					break;
-				case Ordinates.M:
-					coordinates[index].M = value;
-					break;
-				default:
-					throw new ArgumentException("invalid ordinateIndex");
-			}
-		}
+        public Coordinate GetCoordinateCopy(int index)
+        {
+            return new Coordinate(coordinates[index]);
+        }
 
-		public Object Clone()
-		{
-			MCoordinate[] cloneCoordinates = new MCoordinate[Count];
-			for (int i = 0; i < coordinates.Length; i++)
-			{
-				cloneCoordinates[i] = (MCoordinate)coordinates[i].Clone();
-			}
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#GetCoordinate(int,
+         *      com.vividsolutions.jts.geom.Coordinate)
+         */
 
-			return new MCoordinateSequence(cloneCoordinates);
-		}
+        public void GetCoordinate(int index, Coordinate coord)
+        {
+            coord.X = coordinates[index].X;
+            coord.Y = coordinates[index].Y;
+        }
 
-		public int Count
-		{
-			get { return coordinates.Length; }
-		}
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#GetX(int)
+         */
 
-		public Coordinate[] ToCoordinateArray()
-		{
-			return coordinates;
-		}
+        public double GetX(int index)
+        {
+            return coordinates[index].X;
+        }
 
-		public Envelope ExpandEnvelope(Envelope env)
-		{
-			for (int i = 0; i < coordinates.Length; i++)
-			{
-				env.ExpandToInclude(coordinates[i]);
-			}
-			return env;
-		}
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#GetY(int)
+         */
 
-		public override String ToString()
-		{
-			StringBuilder strBuf = new StringBuilder();
-			strBuf.Append("MCoordinateSequence [");
-			for (int i = 0; i < coordinates.Length; i++)
-			{
-				if (i > 0)
-					strBuf.Append(", ");
-				strBuf.Append(coordinates[i]);
-			}
-			strBuf.Append("]");
-			return strBuf.ToString();
-		}
+        public double GetY(int index)
+        {
+            return coordinates[index].Y;
+        }
+
+        /**
+         * @return the measure value of the coordinate in the index
+         */
+
+        public double GetM(int index)
+        {
+            return coordinates[index].M;
+        }
+
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#GetOrdinate(int,int)
+         */
+
+        public double GetOrdinate(int index, Ordinates ordinateIndex)
+        {
+            switch (ordinateIndex)
+            {
+                case Ordinates.X:
+                    return coordinates[index].X;
+
+                case Ordinates.Y:
+                    return coordinates[index].Y;
+
+                case Ordinates.Z:
+                    return coordinates[index].Z;
+
+                case Ordinates.M:
+                    return coordinates[index].M;
+            }
+            return Double.NaN;
+        }
+
+        /**
+         * @see com.vividsolutions.jts.geom.CoordinateSequence#SetOrdinate(int,int,double)
+         */
+
+        public void SetOrdinate(int index, Ordinates ordinateIndex, double value)
+        {
+            switch (ordinateIndex)
+            {
+                case Ordinates.X:
+                    coordinates[index].X = value;
+                    break;
+
+                case Ordinates.Y:
+                    coordinates[index].Y = value;
+                    break;
+
+                case Ordinates.Z:
+                    coordinates[index].Z = value;
+                    break;
+
+                case Ordinates.M:
+                    coordinates[index].M = value;
+                    break;
+
+                default:
+                    throw new ArgumentException("invalid ordinateIndex");
+            }
+        }
+
+        public Object Clone()
+        {
+            MCoordinate[] cloneCoordinates = new MCoordinate[Count];
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                cloneCoordinates[i] = (MCoordinate)coordinates[i].Clone();
+            }
+
+            return new MCoordinateSequence(cloneCoordinates);
+        }
+
+        public int Count
+        {
+            get { return coordinates.Length; }
+        }
+
+        public Coordinate[] ToCoordinateArray()
+        {
+            return coordinates;
+        }
+
+        public Envelope ExpandEnvelope(Envelope env)
+        {
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                env.ExpandToInclude(coordinates[i]);
+            }
+            return env;
+        }
+
+        public override String ToString()
+        {
+            StringBuilder strBuf = new StringBuilder();
+            strBuf.Append("MCoordinateSequence [");
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                if (i > 0)
+                    strBuf.Append(", ");
+                strBuf.Append(coordinates[i]);
+            }
+            strBuf.Append("]");
+            return strBuf.ToString();
+        }
 
         //TODO: Implement missing methods
         public double GetOrdinate(int index, Ordinate ordinate)
@@ -278,8 +295,6 @@ namespace NHibernate.Spatial.MGeometries
             var revc = new List<MCoordinate>(coordinates);
             revc.Reverse();
             return new MCoordinateSequence(revc.ToArray());
-         
         }
     }
 }
-

@@ -13,6 +13,5 @@ namespace Open.Topology.TestRunner.Utility
             int lastDotPos = nClassName.LastIndexOf(".");
             return nClassName.Substring(lastDotPos + 1, nClassName.Length);
         }
-
     }
 }

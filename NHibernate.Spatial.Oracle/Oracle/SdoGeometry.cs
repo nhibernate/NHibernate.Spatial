@@ -1,13 +1,11 @@
-﻿using System;
-using Oracle.DataAccess.Types;
+﻿using Oracle.DataAccess.Types;
+using System;
 
 namespace NHibernate.Spatial.Oracle
 {
-
     [OracleCustomTypeMappingAttribute("MDSYS.SDO_GEOMETRY")]
     public class SdoGeometry : OracleCustomTypeBase<SdoGeometry>
     {
-
         private enum OracleObjectColumns { SDO_GTYPE, SDO_SRID, SDO_POINT, SDO_ELEM_INFO, SDO_ORDINATES }
 
         private double? sdo_Gtype;
@@ -90,7 +88,7 @@ namespace NHibernate.Spatial.Oracle
             {
                 if (value != null)
                 {
-                    this.elemArray = Array.ConvertAll<int, double>(value, 
+                    this.elemArray = Array.ConvertAll<int, double>(value,
                         delegate(int x) { return Convert.ToDouble(x); });
                 }
                 else
@@ -124,6 +122,7 @@ namespace NHibernate.Spatial.Oracle
         }
 
         private int _Dimensionality;
+
         public int Dimensionality
         {
             get { return _Dimensionality; }
@@ -131,6 +130,7 @@ namespace NHibernate.Spatial.Oracle
         }
 
         private int _LRS;
+
         public int LRS
         {
             get { return _LRS; }
@@ -138,6 +138,7 @@ namespace NHibernate.Spatial.Oracle
         }
 
         private int _GeometryType;
+
         public int GeometryType
         {
             get { return _GeometryType; }
@@ -207,10 +208,11 @@ namespace NHibernate.Spatial.Oracle
         /**
         * This joins an array of SDO_GEOMETRIES to a SDO_GEOMETRY of type
         * COLLECTION
-        * 
+        *
         * @param sdoElements
         * @return
         */
+
         public static SdoGeometry Join(SdoGeometry[] sdoElements)
         {
             SdoGeometry sdoCollection = new SdoGeometry();
@@ -256,6 +258,6 @@ namespace NHibernate.Spatial.Oracle
             }
         }
 
-        #endregion
+        #endregion Ported from Hibernate Spatial SDOGeometryType.java
     }
 }

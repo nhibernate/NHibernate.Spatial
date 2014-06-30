@@ -1,26 +1,25 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using Open.Topology.TestRunner.Functions;
 using Open.Topology.TestRunner.Result;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {
-/*
-**
- * Invokes a function from registry 
- * or a Geometry method determined by a named operation with a list of arguments,
- * the first of which is a {@link Geometry}.
- * This class allows overriding Geometry methods
- * or augmenting them
- * with functions defined in a {@link GeometryFunctionRegistry}.
- *
- * @author Martin Davis
- * @version 1.7
- */
+    /*
+    **
+     * Invokes a function from registry
+     * or a Geometry method determined by a named operation with a list of arguments,
+     * the first of which is a {@link Geometry}.
+     * This class allows overriding Geometry methods
+     * or augmenting them
+     * with functions defined in a {@link GeometryFunctionRegistry}.
+     *
+     * @author Martin Davis
+     * @version 1.7
+     */
 
     public class GeometryFunctionOperation : IGeometryOperation
     {
-
         private GeometryFunctionRegistry registry;
         private IGeometryOperation defaultOp = new GeometryMethodOperation();
         private ArgumentConverter argConverter = new ArgumentConverter();
@@ -78,26 +77,24 @@ namespace Open.Topology.TestRunner.Operations
         {
             Object[] actualArgs = argConverter.Convert(func.ParameterTypes, args);
 
-            if (func.ReturnType == typeof (bool))
+            if (func.ReturnType == typeof(bool))
             {
-                return new BooleanResult((Boolean) func.Invoke(geometry, actualArgs));
+                return new BooleanResult((Boolean)func.Invoke(geometry, actualArgs));
             }
-            if (typeof (IGeometry).IsAssignableFrom(func.ReturnType))
+            if (typeof(IGeometry).IsAssignableFrom(func.ReturnType))
             {
-                return new GeometryResult((IGeometry) func.Invoke(geometry, actualArgs));
+                return new GeometryResult((IGeometry)func.Invoke(geometry, actualArgs));
             }
-            if (func.ReturnType == typeof (double))
+            if (func.ReturnType == typeof(double))
             {
-                return new DoubleResult((double) func.Invoke(geometry, actualArgs));
+                return new DoubleResult((double)func.Invoke(geometry, actualArgs));
             }
-            if (func.ReturnType == typeof (int))
+            if (func.ReturnType == typeof(int))
             {
-                return new IntegerResult((int) func.Invoke(geometry, actualArgs));
+                return new IntegerResult((int)func.Invoke(geometry, actualArgs));
             }
             throw new NTSTestReflectionException("Unsupported result type: "
                                                  + func.ReturnType);
         }
-
-
     }
 }

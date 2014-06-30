@@ -1,22 +1,20 @@
-﻿using System.Linq;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NHibernate.Cfg;
 using NHibernate.Linq;
 using NUnit.Framework;
+using System.Linq;
 using Tests.NHibernate.Spatial.OgcSfSql11Compliance;
 using Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model;
 
 namespace Tests.NHibernate.Spatial
 {
-   
-	[TestFixture]
-	public class MsSql2008ConformanceItemsFixture : ConformanceItemsFixture
-	{
-		protected override void Configure(Configuration configuration)
-		{
-			TestConfiguration.Configure(configuration);
-		}
-
+    [TestFixture]
+    public class MsSql2008ConformanceItemsFixture : ConformanceItemsFixture
+    {
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
+        }
 
         /// <summary>
         /// Overriden because GetPointN is not zero-based in Sql Server
@@ -69,5 +67,5 @@ namespace Tests.NHibernate.Spatial
 
             Assert.IsTrue(expected.Equals(geometry));
         }
-	}
+    }
 }

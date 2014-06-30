@@ -3,42 +3,43 @@ using System.Collections;
 
 namespace Open.Topology.TestRunner
 {
-	/// <summary>
-	/// Summary description for XmlTestCollection.
-	/// </summary>
-	public class XmlTestCollection : CollectionBase
-	{
+    /// <summary>
+    /// Summary description for XmlTestCollection.
+    /// </summary>
+    public class XmlTestCollection : CollectionBase
+    {
         #region Private Members
 
         private string m_strCollectionName;
-        
-        #endregion
+
+        #endregion Private Members
 
         #region Events
 
         public event XmlTextEventHandler TestEvent;
-       
-        #endregion
+
+        #endregion Events
 
         #region Constructors and Destructors
-		
-        public XmlTestCollection() : base()
-		{
-            m_strCollectionName = String.Empty;
-		}
 
-        #endregion
+        public XmlTestCollection()
+            : base()
+        {
+            m_strCollectionName = String.Empty;
+        }
+
+        #endregion Constructors and Destructors
 
         #region Public Properties
-        
-        public XmlTest this[int index]  
+
+        public XmlTest this[int index]
         {
-            get  
+            get
             {
                 return (XmlTest)List[index];
             }
 
-            set  
+            set
             {
                 List[index] = value;
             }
@@ -57,26 +58,26 @@ namespace Open.Topology.TestRunner
             }
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Public Methods
 
-        public int Add(XmlTest value)  
+        public int Add(XmlTest value)
         {
             return List.Add(value);
         }
 
-        public int IndexOf(XmlTest value)  
+        public int IndexOf(XmlTest value)
         {
             return List.IndexOf(value);
         }
 
-        public void Insert(int index, XmlTest value)  
+        public void Insert(int index, XmlTest value)
         {
             List.Insert(index, value);
         }
 
-        public void Remove(XmlTest value)  
+        public void Remove(XmlTest value)
         {
             List.Remove(value);
         }
@@ -87,7 +88,7 @@ namespace Open.Topology.TestRunner
             {
                 for (int i = 0; i < List.Count; i++)
                 {
-                    XmlTest testItem = (XmlTest) List[i];
+                    XmlTest testItem = (XmlTest)List[i];
 
                     if (testItem != null)
                     {
@@ -106,6 +107,6 @@ namespace Open.Topology.TestRunner
             return false;
         }
 
-        #endregion 
-	}
+        #endregion Public Methods
+    }
 }

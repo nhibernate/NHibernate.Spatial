@@ -1,7 +1,7 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using GeoAPI.Geometries.Prepared;
 using NetTopologySuite.Geometries.Prepared;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {

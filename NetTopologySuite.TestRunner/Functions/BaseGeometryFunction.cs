@@ -1,15 +1,15 @@
-﻿using System;
-using System.Text;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using Open.Topology.TestRunner.Utility;
+using System;
+using System.Text;
 
 namespace Open.Topology.TestRunner.Functions
 {
     /// <summary>
     /// A base for implementations of
-    /// <see cref="IGeometryFunction"/> which provides most 
+    /// <see cref="IGeometryFunction"/> which provides most
     /// of the required structure.
-    /// Extenders must supply the behaviour for the 
+    /// Extenders must supply the behaviour for the
     /// actual function invocation.
     /// </summary>
     /// <author>Martin Davis</author>
@@ -18,7 +18,7 @@ namespace Open.Topology.TestRunner.Functions
         public static bool IsBinaryGeomFunction(IGeometryFunction func)
         {
             return func.ParameterTypes.Length >= 1
-                   && func.ParameterTypes[0] == typeof (IGeometry);
+                   && func.ParameterTypes[0] == typeof(IGeometry);
         }
 
         protected String category;
@@ -56,7 +56,6 @@ namespace Open.Topology.TestRunner.Functions
             get { return parameterNames; }
         }
 
-
         public Type[] ParameterTypes
         {
             get { return parameterTypes; }
@@ -88,20 +87,20 @@ namespace Open.Topology.TestRunner.Functions
         {
             if (args.Length <= index) return null;
             if (args[index] == null) return null;
-            return (Double) args[index];
+            return (Double)args[index];
         }
 
         protected static int? GetIntegerOrNull(Object[] args, int index)
         {
             if (args.Length <= index) return null;
             if (args[index] == null) return null;
-            return (int) args[index];
+            return (int)args[index];
         }
 
         public abstract Object Invoke(IGeometry geom, Object[] args);
 
         /// <summary>
-        /// Two functions are the same if they have the 
+        /// Two functions are the same if they have the
         /// same signature (name, parameter types and return type).
         /// </summary>
         /// <returns>true if this object is the same as the <tt>obj</tt> argument</returns>
@@ -117,7 +116,7 @@ namespace Open.Topology.TestRunner.Functions
         public override bool Equals(Object obj)
         {
             if (!(obj is IGeometryFunction)) return false;
-            var func = (IGeometryFunction) obj;
+            var func = (IGeometryFunction)obj;
             if (!name.Equals(func.Name)) return false;
             if (!returnType.Equals(func.ReturnType)) return false;
 

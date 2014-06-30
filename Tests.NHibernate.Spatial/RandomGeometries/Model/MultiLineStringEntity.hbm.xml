@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
 	<class name="Tests.NHibernate.Spatial.RandomGeometries.Model.MultiLineStringEntity, Tests.NHibernate.Spatial" table="multilinestringtest">
-		<id name="Id" type="Int64" column="oid" >
+		<id name="Id" type="Int64" column="oid">
 			<generator class="assigned" />
 		</id>
 		<property name="Name" type="string" column="name" length="50" />

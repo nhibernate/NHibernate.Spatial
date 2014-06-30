@@ -38,8 +38,8 @@
  *
  */
 
-using System.Drawing;
 using GeoAPI.Geometries;
+using System.Drawing;
 
 namespace NetTopologySuite.Windows.Forms
 {

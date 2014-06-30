@@ -6,7 +6,6 @@ namespace Open.Topology.TestRunner.Functions
 {
     public class PrecisionFunctions
     {
-
         public static IGeometry ReducePrecisionPointwise(IGeometry geom, double scaleFactor)
         {
             var pm = new PrecisionModel(scaleFactor);
@@ -15,6 +14,5 @@ namespace Open.Topology.TestRunner.Functions
 
             return reducedGeom;
         }
-
     }
 }
