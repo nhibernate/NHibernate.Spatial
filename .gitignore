@@ -34,3 +34,10 @@ build/
 current-test-configuration
 NHibernate.VisualState.xml
 packages/
+packages/log4net.2.0.3/lib/net10-full/log4net.xml
+packages/NUnit.2.6.3/license.txt
+packages/NHibernate.3.3.3.4001/NHibernate.readme.html
+packages/NHibernate.3.3.3.4001/NHibernate.license.txt
+packages/NHibernate.3.3.3.4001/nhibernate-mapping.xsd
+packages/NHibernate.3.3.3.4001/lib/Net35/NHibernate.xml
+packages/log4net.2.0.3/lib/net11-full/log4net.xml
