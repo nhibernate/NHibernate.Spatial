@@ -33,4 +33,3 @@ _ReSharper*/
 build/
 current-test-configuration
 NHibernate.VisualState.xml
-packages/*
