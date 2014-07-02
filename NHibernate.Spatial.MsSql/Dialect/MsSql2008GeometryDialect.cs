@@ -20,42 +20,31 @@ using NHibernate.Type;
 
 namespace NHibernate.Spatial.Dialect
 {
-    public class MsSql2008GeometryDialect : MsSql2008SpatialDialect
-    {
-        private static readonly IType geometryType = new CustomType(typeof(MsSql2008GeometryType), null);
+	public class MsSql2008GeometryDialect : MsSql2008SpatialDialect
+	{
+		public MsSql2008GeometryDialect()
+			: base("geometry", "NHSP_GEOMETRY_COLUMNS")
+		{
+		}
 
-        /// <summary>
-        /// Gets the type of the geometry.
-        /// </summary>
-        /// <value>The type of the geometry.</value>
-        public override IType GeometryType
-        {
-            get { return geometryType; }
-        }
+		private static readonly IType geometryType = new CustomType(typeof(MsSql2008GeometryType), null);
 
-        /// <summary>
-        /// Creates the geometry user type.
-        /// </summary>
-        /// <returns></returns>
-        public override IGeometryUserType CreateGeometryUserType()
-        {
-            return new MsSql2008GeometryType();
-        }
+		/// <summary>
+		/// Gets the type of the geometry.
+		/// </summary>
+		/// <value>The type of the geometry.</value>
+		public override IType GeometryType
+		{
+			get { return geometryType; }
+		}
 
-        /// <summary>
-        /// Gets the SQL Server spatial datatype name.
-        /// </summary>
-        protected override string SqlTypeName
-        {
-            get { return "geometry"; }
-        }
-
-        /// <summary>
-        /// Gets the columns catalog view name.
-        /// </summary>
-        protected override string GeometryColumnsViewName
-        {
-            get { return "NHSP_GEOMETRY_COLUMNS"; }
-        }
-    }
+		/// <summary>
+		/// Creates the geometry user type.
+		/// </summary>
+		/// <returns></returns>
+		public override IGeometryUserType CreateGeometryUserType()
+		{
+			return new MsSql2008GeometryType();
+		}
+	}
 }
