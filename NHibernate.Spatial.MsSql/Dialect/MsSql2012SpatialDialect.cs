@@ -41,17 +41,17 @@ namespace NHibernate.Spatial.Dialect
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MsSql2008SpatialDialect"/> class.
 		/// </summary>
-		protected MsSql2012SpatialDialect(string sqlTypeName, string geometryColumnsViewName)
+		protected MsSql2012SpatialDialect(string sqlTypeName, string geometryColumnsViewName, IType geometryType)
 		{
 			SpatialDialect.LastInstantiated = this;
-			worker = new MsSql2012FunctionRegistration(this, sqlTypeName, geometryColumnsViewName);
+			worker = new MsSql2012FunctionRegistration(this, sqlTypeName, geometryColumnsViewName, geometryType);
 		}
 
 
 		#region ISpatialDialect Members
 
 
-		public abstract IType GeometryType { get; }
+		public virtual IType GeometryType { get { return worker.GeometryType; } }
 
 
 		public abstract IGeometryUserType CreateGeometryUserType();

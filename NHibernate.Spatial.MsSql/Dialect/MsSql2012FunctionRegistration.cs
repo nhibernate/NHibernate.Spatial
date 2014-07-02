@@ -1,5 +1,6 @@
 ﻿
 using NHibernate.SqlCommand;
+using NHibernate.Type;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace NHibernate.Spatial.Dialect
 {
 	class MsSql2012FunctionRegistration : MsSql2008FunctionRegistration
 	{
-		public MsSql2012FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName)
-			: base(adaptor, sqlTypeName, geometryColumnsViewName)
+		public MsSql2012FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName,IType geometryType)
+			: base(adaptor, sqlTypeName, geometryColumnsViewName,geometryType)
 		{
 
 		}
@@ -22,7 +23,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="geometry">The geometry.</param>
 		/// <param name="aggregate">The aggregate.</param>
 		/// <returns></returns>
-		public SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
+		public override SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
 		{
 			//TO DO Implement Spatial Aggregate for sql2012
 			throw new NotImplementedException();

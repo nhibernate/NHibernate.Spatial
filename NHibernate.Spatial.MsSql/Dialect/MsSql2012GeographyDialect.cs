@@ -8,17 +8,8 @@ namespace NHibernate.Spatial.Dialect
 		private static readonly IType geometryType = new CustomType(typeof(MsSql2008GeographyType), null);
 
 		public MsSql2012GeographyDialect()
-			: base("geography", "NHSP_GEOGRAPHY_COLUMNS")
+			: base("geography", "NHSP_GEOGRAPHY_COLUMNS",geometryType)
 		{
-		}
-
-		/// <summary>
-		/// Gets the type of the geometry.
-		/// </summary>
-		/// <value>The type of the geometry.</value>
-		public override IType GeometryType
-		{
-			get { return geometryType; }
 		}
 
 		/// <summary>

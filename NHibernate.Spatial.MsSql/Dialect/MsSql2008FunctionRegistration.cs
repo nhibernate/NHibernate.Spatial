@@ -20,11 +20,12 @@ namespace NHibernate.Spatial.Dialect
 		private string sqlTypeName;
 		private string geometryColumnsViewName;
 
-		public MsSql2008FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName)
+		public MsSql2008FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName,IType geometryType)
 		{
 			this.adaptor = adaptor;
 			this.sqlTypeName = sqlTypeName;
 			this.geometryColumnsViewName = geometryColumnsViewName;
+			this.GeometryType = geometryType;
 
 			RegisterBasicFunctions();
 			RegisterFunctions();
@@ -197,19 +198,13 @@ namespace NHibernate.Spatial.Dialect
 		/// Gets the type of the geometry.
 		/// </summary>
 		/// <value>The type of the geometry.</value>
-		public IType GeometryType
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+		public virtual IType GeometryType { get; private set; }
 
 		/// <summary>
 		/// Creates the geometry user type.
 		/// </summary>
 		/// <returns></returns>
-		public IGeometryUserType CreateGeometryUserType()
+		public virtual IGeometryUserType CreateGeometryUserType()
 		{
 			throw new NotImplementedException();
 		}
@@ -220,7 +215,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="geometry">The geometry.</param>
 		/// <param name="srid">The srid.</param>
 		/// <returns></returns>
-		public SqlString GetSpatialTransformString(object geometry, int srid)
+		public virtual SqlString GetSpatialTransformString(object geometry, int srid)
 		{
 			throw new NotImplementedException();
 		}
@@ -231,7 +226,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="geometry">The geometry.</param>
 		/// <param name="aggregate">The aggregate.</param>
 		/// <returns></returns>
-		public SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
+		public virtual SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
 		{
 			throw new NotImplementedException();
 		}
@@ -243,7 +238,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="analysis">The analysis.</param>
 		/// <param name="extraArgument">The extra argument.</param>
 		/// <returns></returns>
-		public SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
+		public virtual SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
 		{
 			switch (analysis)
 			{
@@ -284,7 +279,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="validation">The validation.</param>
 		/// <param name="criterion">if set to <c>true</c> [criterion].</param>
 		/// <returns></returns>
-		public SqlString GetSpatialValidationString(object geometry, SpatialValidation validation, bool criterion)
+		public virtual SqlString GetSpatialValidationString(object geometry, SpatialValidation validation, bool criterion)
 		{
 			// the MSDN say that "STIsValid" should return a CLR-SqlBoolean but our test "TestBooleanUnaryOperation" say that it may return null
 			// when the geometry is null.
@@ -308,7 +303,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="isStringPattern">if set to <c>true</c> [is string pattern].</param>
 		/// <param name="criterion">if set to <c>true</c> [criterion].</param>
 		/// <returns></returns>
-		public SqlString GetSpatialRelateString(object geometry, object anotherGeometry, object pattern, bool isStringPattern, bool criterion)
+		public virtual SqlString GetSpatialRelateString(object geometry, object anotherGeometry, object pattern, bool isStringPattern, bool criterion)
 		{
 			if (pattern == null)
 			{
@@ -338,7 +333,7 @@ namespace NHibernate.Spatial.Dialect
 				.ToSqlString();
 		}
 
-		public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, bool criterion)
+		public virtual SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, bool criterion)
 		{
 			switch (relation)
 			{
@@ -384,7 +379,7 @@ namespace NHibernate.Spatial.Dialect
 			}
 		}
 
-		public SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter)
+		public virtual SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter)
 		{
 			return new SqlStringBuilder(6)
 				.Add(tableAlias)
@@ -401,7 +396,7 @@ namespace NHibernate.Spatial.Dialect
 		/// </summary>
 		/// <param name="schema">The schema.</param>
 		/// <returns></returns>
-		public string GetSpatialCreateString(string schema)
+		public virtual string GetSpatialCreateString(string schema)
 		{
 			string viewScript = string.Format(@"
 				CREATE VIEW {0}{1} AS
@@ -498,7 +493,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="subtype">The subtype.</param>
 		/// <param name="dimension">The dimension.</param>
 		/// <returns></returns>
-		public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
+		public virtual string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
 		{
 			StringBuilder builder = new StringBuilder();
 
@@ -560,7 +555,7 @@ namespace NHibernate.Spatial.Dialect
 		/// </summary>
 		/// <param name="schema">The schema.</param>
 		/// <returns></returns>
-		public string GetSpatialDropString(string schema)
+		public virtual string GetSpatialDropString(string schema)
 		{
 			string script = string.Format(@"
 				IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'{0}{1}'))
@@ -579,7 +574,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="table">The table.</param>
 		/// <param name="column">The column.</param>
 		/// <returns></returns>
-		public string GetSpatialDropString(string schema, string table, string column)
+		public virtual string GetSpatialDropString(string schema, string table, string column)
 		{
 			StringBuilder builder = new StringBuilder();
 
@@ -604,7 +599,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <value>
 		/// 	<c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
 		/// </value>
-		public bool SupportsSpatialMetadata(MetadataClass metadataClass)
+		public virtual bool SupportsSpatialMetadata(MetadataClass metadataClass)
 		{
 			//return metadataClass == MetadataClass.GeometryColumn;
 			return false;

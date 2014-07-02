@@ -22,20 +22,12 @@ namespace NHibernate.Spatial.Dialect
 {
 	public class MsSql2008GeometryDialect : MsSql2008SpatialDialect
 	{
-		public MsSql2008GeometryDialect()
-			: base("geometry", "NHSP_GEOMETRY_COLUMNS")
-		{
-		}
 
 		private static readonly IType geometryType = new CustomType(typeof(MsSql2008GeometryType), null);
 
-		/// <summary>
-		/// Gets the type of the geometry.
-		/// </summary>
-		/// <value>The type of the geometry.</value>
-		public override IType GeometryType
+		public MsSql2008GeometryDialect()
+			: base("geometry", "NHSP_GEOMETRY_COLUMNS",geometryType)
 		{
-			get { return geometryType; }
 		}
 
 		/// <summary>
