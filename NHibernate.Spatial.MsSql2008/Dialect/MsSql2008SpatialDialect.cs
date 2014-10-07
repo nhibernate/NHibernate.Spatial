@@ -250,7 +250,36 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
 		{
-			throw new NotImplementedException();
+			string aggregateFunction;
+			switch (aggregate)
+			{
+				case SpatialAggregate.Collect:
+					aggregateFunction = "CollectionAggregate";
+					break;
+
+				case SpatialAggregate.Envelope:
+					aggregateFunction = "EnvelopeAggregate";
+					break;
+
+				case SpatialAggregate.ConvexHull:
+					aggregateFunction = "ConvexHullAggregate";
+					break;
+
+				case SpatialAggregate.Union:
+					aggregateFunction = "UnionAggregate";
+					break;
+
+				default:
+					throw new ArgumentException("Invalid spatial aggregate argument");
+			}
+
+			aggregateFunction = SqlTypeName + "::" + aggregateFunction;
+			return new SqlStringBuilder()
+				.Add(aggregateFunction)
+				.Add("(")
+				.AddObject(geometry)
+				.Add(")")
+				.ToSqlString();
 		}
 
 		/// <summary>
