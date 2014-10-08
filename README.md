@@ -14,7 +14,7 @@ Thanks to Andreas for his work on releasing the Nuget package(currently in pre-r
 
 [Nhibernate.Spatial.MsSql2008](https://www.nuget.org/packages/NHibernate.Spatial.MsSql2008/)
 
-[Nhibernate.Spatial.MySQL](hhttps://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
+[Nhibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
 
 [Nhibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
 
