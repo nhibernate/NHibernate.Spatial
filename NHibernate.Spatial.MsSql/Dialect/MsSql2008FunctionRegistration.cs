@@ -36,7 +36,7 @@ namespace NHibernate.Spatial.Dialect
 
 		private IRegisterationAdaptor adaptor;
 
-		private string sqlTypeName;
+		protected string sqlTypeName;
 		private string geometryColumnsViewName;
 
 		public MsSql2008FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName,IType geometryType)
