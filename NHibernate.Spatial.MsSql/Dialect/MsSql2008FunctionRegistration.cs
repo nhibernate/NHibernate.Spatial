@@ -270,7 +270,7 @@ namespace NHibernate.Spatial.Dialect
 					throw new ArgumentException("Invalid spatial aggregate argument");
 			}
 
-			aggregateFunction = SqlTypeName + "::" + aggregateFunction;
+			aggregateFunction = sqlTypeName + "::" + aggregateFunction;
 			return new SqlStringBuilder()
 				.Add(aggregateFunction)
 				.Add("(")
