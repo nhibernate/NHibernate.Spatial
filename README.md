@@ -1,5 +1,5 @@
-NHibernate.Spatial
-==================
+## NHibernate.Spatial
+
 
 This is not the official NH Spatial repo, this is only a copy of the final commit at [Nhibernate Contrib][NHContrib] site, 
 the code has been modified slightly to get it to compile with the latest NTS, GeoAPI and Nhibernate binaries.
@@ -8,20 +8,21 @@ the code has been modified slightly to get it to compile with the latest NTS, Ge
 The NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started,
 including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH].
 
-Nuget Package
-=============
+## Nuget Package
+
 Thanks to Andreas for his work on releasing the Nuget package(currently in pre-release).
 
 [Nhibernate.Spatial.MsSql2008](https://www.nuget.org/packages/NHibernate.Spatial.MsSql2008/)
 
-[Nhibernate.Spatial.MySQL](hhttps://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
+[Nhibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
 
 [Nhibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
 
+## Need Help
+The Oracle Spatial dialect needs lot of love, if anyone can help with that it would be a nice gesture. At present we are excluding it from the builds since it is messed up.
 
 
-NHibernate.Spatial (pmcxs fork)
-===============================
+## NHibernate.Spatial (pmcxs fork)
 
 Changes pulled from 
 
