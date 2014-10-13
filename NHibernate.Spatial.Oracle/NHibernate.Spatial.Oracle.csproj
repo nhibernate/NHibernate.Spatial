@@ -74,7 +74,7 @@
       <HintPath>..\packages\NetTopologySuite.IO.1.13.2\lib\net35-client\NetTopologySuite.IO.PostGis.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.3.4.0.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.DataAccess">
       <HintPath>..\packages\odp.net.x64.112.3.20\lib\net20\Oracle.DataAccess.dll</HintPath>
