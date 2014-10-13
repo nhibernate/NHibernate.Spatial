@@ -1,40 +1,43 @@
-using System;
 using GeoAPI.Geometries;
+using System;
 
 namespace Tests.NHibernate.Spatial.Model
 {
-	[Serializable]
-	public class Simple
-	{
-		public Simple()
-		{
-		}
+    [Serializable]
+    public class Simple
+    {
+        public Simple()
+        {
+        }
 
-		public Simple(string description, IGeometry geometry)
-		{
-			this.Description = description;
-			this.Geometry = geometry;
-		}
+        public Simple(string description, IGeometry geometry)
+        {
+            this.Description = description;
+            this.Geometry = geometry;
+        }
 
-		private long id;
-		public virtual long Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
+        private long id;
 
-		private string description;
-		public virtual string Description
-		{
-			get { return description; }
-			set { description = value; }
-		}
+        public virtual long Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-		private IGeometry geometry;
-		public virtual IGeometry Geometry
-		{
-			get { return geometry; }
-			set { geometry = value; }
-		}
-	}
+        private string description;
+
+        public virtual string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
+        private IGeometry geometry;
+
+        public virtual IGeometry Geometry
+        {
+            get { return geometry; }
+            set { geometry = value; }
+        }
+    }
 }

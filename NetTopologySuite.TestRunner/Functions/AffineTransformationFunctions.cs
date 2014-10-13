@@ -1,27 +1,28 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
+using System;
 
 namespace Open.Topology.TestRunner.Functions
 {
     public class AffineTransformationFunctions
     {
         public static IGeometry TransformByVectors(IGeometry g, IGeometry control)
-	{
-		var nControl = control.NumGeometries;
-		var src = new Coordinate[nControl];
-		var dest = new Coordinate[nControl];
-		for (int i = 0; i < nControl; i++) {
-			var contComp = control.GetGeometryN(i);
-			var pts = contComp.Coordinates;
-			src[i] = pts[0];
-			dest[i] = pts[1];
-		}
-		var trans = AffineTransformationFactory.CreateFromControlVectors(src, dest);
-		Console.WriteLine(trans);
-    return trans.Transform(g);    
-	}
+        {
+            var nControl = control.NumGeometries;
+            var src = new Coordinate[nControl];
+            var dest = new Coordinate[nControl];
+            for (int i = 0; i < nControl; i++)
+            {
+                var contComp = control.GetGeometryN(i);
+                var pts = contComp.Coordinates;
+                src[i] = pts[0];
+                dest[i] = pts[1];
+            }
+            var trans = AffineTransformationFactory.CreateFromControlVectors(src, dest);
+            Console.WriteLine(trans);
+            return trans.Transform(g);
+        }
 
         public static IGeometry TransformByBaseline(IGeometry g, IGeometry destBaseline)
         {
@@ -81,6 +82,7 @@ namespace Open.Topology.TestRunner.Functions
             var trans = AffineTransformation.TranslationInstance(-centre.X, -centre.Y);
             return trans.Transform(g);
         }
+
         public static IGeometry TranslateToOrigin(IGeometry g)
         {
             var lowerLeft = EnvelopeLowerLeft(g);

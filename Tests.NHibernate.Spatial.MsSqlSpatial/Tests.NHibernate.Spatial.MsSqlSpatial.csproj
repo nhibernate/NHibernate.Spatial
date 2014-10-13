@@ -95,9 +95,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHibernate.Spatial.MsSqlSpatial\NHibernate.Spatial.MsSqlSpatial.csproj">
-      <Project>{3EDA0009-EB8E-4024-8154-6DE8707B7C05}</Project>
-      <Name>NHibernate.Spatial.MsSqlSpatial</Name>
+    <ProjectReference Include="..\NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj">
+      <Project>{eac092d9-6d47-4a30-803c-7a8583f99dfe}</Project>
+      <Name>NHibernate.Spatial.MsSql</Name>
     </ProjectReference>
     <ProjectReference Include="..\NHibernate.Spatial\NHibernate.Spatial.csproj">
       <Project>{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}</Project>

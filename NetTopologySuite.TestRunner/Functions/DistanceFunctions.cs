@@ -55,6 +55,5 @@ namespace Open.Topology.TestRunner.Functions
             var dist = new DiscreteHausdorffDistance(a, b);
             return dist.OrientedDistance();
         }
-
     }
 }

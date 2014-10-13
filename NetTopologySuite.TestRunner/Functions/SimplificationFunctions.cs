@@ -10,7 +10,5 @@ namespace Open.Topology.TestRunner.Functions
 
         public static IGeometry simplifyTP(IGeometry g, double distance)
         { return TopologyPreservingSimplifier.Simplify(g, distance); }
-
-
     }
 }

@@ -1,29 +1,28 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.Geometries.Prepared;
 using Open.Topology.TestRunner.Result;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {
-/**
- * A {@link GeometryOperation} which uses {@link PreparedGeometry}s
- * for applicable operations.
- * This allows testing correctness of the <tt>PreparedGeometry</tt> implementation.
- * <p>
- * This class can be used via the <tt>-geomop</tt> command-line option
- * or by the <tt>&lt;geometryOperation&gt;</tt> XML test file setting.
- *
- * @author mbdavis
- *
- */
+    /**
+     * A {@link GeometryOperation} which uses {@link PreparedGeometry}s
+     * for applicable operations.
+     * This allows testing correctness of the <tt>PreparedGeometry</tt> implementation.
+     * <p>
+     * This class can be used via the <tt>-geomop</tt> command-line option
+     * or by the <tt>&lt;geometryOperation&gt;</tt> XML test file setting.
+     *
+     * @author mbdavis
+     *
+     */
 
     public class PreparedGeometryOperation : IGeometryOperation
     {
         private readonly GeometryMethodOperation _chainOp;
 
-        
         public PreparedGeometryOperation()
-            :this(new GeometryMethodOperation())
+            : this(new GeometryMethodOperation())
         {
         }
 
@@ -35,14 +34,14 @@ namespace Open.Topology.TestRunner.Operations
         public Type GetReturnType(String opName)
         {
             if (IsPreparedOp(opName))
-                return typeof (bool);
+                return typeof(bool);
             return _chainOp.GetReturnType(opName);
         }
 
         /**
    * Creates a new operation which chains to the given {@link GeometryMethodOperation}
    * for non-intercepted methods.
-   * 
+   *
    * @param chainOp the operation to chain to
    */
 
@@ -62,7 +61,7 @@ namespace Open.Topology.TestRunner.Operations
 
         /**
    * Invokes the named operation
-   * 
+   *
    * @param opName
    * @param geometry
    * @param args
@@ -70,6 +69,7 @@ namespace Open.Topology.TestRunner.Operations
    * @throws Exception
    * @see GeometryOperation#invoke
    */
+
         public IResult Invoke(XmlTestType opName, IGeometry geometry, Object[] args)
         {
             return Invoke(opName.ToString(), geometry, args);
@@ -77,7 +77,7 @@ namespace Open.Topology.TestRunner.Operations
 
         public IResult Invoke(String opName, IGeometry geometry, Object[] args)
         {
-            if (! IsPreparedOp(opName))
+            if (!IsPreparedOp(opName))
             {
                 return _chainOp.Invoke(opName, geometry, args);
             }
@@ -86,7 +86,7 @@ namespace Open.Topology.TestRunner.Operations
 
         private static IResult InvokePreparedOp(String opName, IGeometry geometry, Object[] args)
         {
-            var g2 = (IGeometry) args[0];
+            var g2 = (IGeometry)args[0];
             if (opName.Equals("intersects", StringComparison.InvariantCultureIgnoreCase))
             {
                 return new BooleanResult(PreparedGeometryOp.Intersects(geometry, g2));

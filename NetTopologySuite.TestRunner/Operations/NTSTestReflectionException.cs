@@ -7,10 +7,10 @@ namespace Open.Topology.TestRunner.Operations
     public class NTSTestReflectionException : Exception
     {
         public NTSTestReflectionException()
-        {}
+        { }
 
         public NTSTestReflectionException(string message)
-            :base(message)
+            : base(message)
         {
         }
 
@@ -20,11 +20,11 @@ namespace Open.Topology.TestRunner.Operations
         }
 
         public NTSTestReflectionException(SerializationInfo info, StreamingContext context)
-            :base(info, context)
-        {}
+            : base(info, context)
+        { }
 
         public NTSTestReflectionException(string opName, object[] args)
-            :this(GenerateMessage(opName, args))
+            : this(GenerateMessage(opName, args))
         {
         }
 

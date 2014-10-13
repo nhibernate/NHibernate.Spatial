@@ -3,12 +3,12 @@ using NUnit.Framework;
 
 namespace Tests.NHibernate.Spatial
 {
-	[TestFixture]
+    [TestFixture]
     public class MsSql2008CriteriaFixture : CriteriaFixture
-	{
-		protected override void Configure(Configuration configuration)
-		{
-			TestConfiguration.Configure(configuration);
-		}
-	}
+    {
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
+        }
+    }
 }

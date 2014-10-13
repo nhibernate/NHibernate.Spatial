@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // NHibernate.Spatial is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,7 +13,7 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with NHibernate.Spatial; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using NHibernate.Cfg;
 using NHibernate.Engine;
@@ -21,45 +21,46 @@ using NHibernate.Spatial.Dialect;
 
 namespace NHibernate.Spatial.Metadata
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public enum MetadataClass
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		GeometryColumn,
-		/// <summary>
-		/// 
-		/// </summary>
-		SpatialReferenceSystem,
-	}
+    /// <summary>
+    ///
+    /// </summary>
+    public enum MetadataClass
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        GeometryColumn,
 
-	public static class Metadata
-	{
-		/// <summary>
-		/// Add a spatial metadata class mapping to NHibernate configuration.
-		/// </summary>
-		/// <param name="configuration">The configuration.</param>
-		/// <param name="clazz">The clazz.</param>
-		/// <remarks>
-		/// DO NOT add metadata class mappings when using the SchemaExport utility.
-		/// You could lose all contents of those tables.
-		/// </remarks>
-		public static void AddMapping(Configuration configuration, MetadataClass clazz)
-		{
-			NHibernate.Dialect.Dialect dialect = NHibernate.Dialect.Dialect.GetDialect(configuration.Properties);
+        /// <summary>
+        ///
+        /// </summary>
+        SpatialReferenceSystem,
+    }
 
-			string resource = typeof(Metadata).Namespace
-				+ "."
-				+ clazz.ToString()
-				+ "."
-				+ dialect.GetType().Name
-				+ ".hbm.xml";
+    public static class Metadata
+    {
+        /// <summary>
+        /// Add a spatial metadata class mapping to NHibernate configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="clazz">The clazz.</param>
+        /// <remarks>
+        /// DO NOT add metadata class mappings when using the SchemaExport utility.
+        /// You could lose all contents of those tables.
+        /// </remarks>
+        public static void AddMapping(Configuration configuration, MetadataClass clazz)
+        {
+            NHibernate.Dialect.Dialect dialect = NHibernate.Dialect.Dialect.GetDialect(configuration.Properties);
 
-			configuration.AddResource(resource, dialect.GetType().Assembly);
-		}
+            string resource = typeof(Metadata).Namespace
+                + "."
+                + clazz.ToString()
+                + "."
+                + dialect.GetType().Name
+                + ".hbm.xml";
+
+            configuration.AddResource(resource, dialect.GetType().Assembly);
+        }
 
         /// <summary>
         /// Gets a value indicating whether the session supports spatial metadata.
@@ -74,5 +75,5 @@ namespace NHibernate.Spatial.Metadata
             ISpatialDialect spatialDialect = (ISpatialDialect)((ISessionFactoryImplementor)session.SessionFactory).Dialect;
             return spatialDialect.SupportsSpatialMetadata(metadataClass);
         }
-	}
+    }
 }

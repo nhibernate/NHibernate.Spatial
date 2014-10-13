@@ -4,17 +4,17 @@ using NUnit.Framework;
 
 namespace Tests.NHibernate.Spatial
 {
-	[TestFixture]
+    [TestFixture]
     public class MsSql2008ProjectionsFixture : ProjectionsFixture
-	{
-		protected override void Configure(Configuration config)
-		{
-			TestConfiguration.Configure(config);
-		}
+    {
+        protected override void Configure(Configuration config)
+        {
+            TestConfiguration.Configure(config);
+        }
 
         protected override System.Type GeometryType
         {
-            get { return typeof (MsSql2008GeometryType); }
+            get { return typeof(MsSql2008GeometryType); }
         }
-	}
+    }
 }

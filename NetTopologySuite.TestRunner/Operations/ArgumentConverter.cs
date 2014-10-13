@@ -25,7 +25,7 @@ namespace Open.Topology.TestRunner.Operations
         {
             if (srcValue is String)
             {
-                return ConvertFromString(destClass, (String) srcValue);
+                return ConvertFromString(destClass, (String)srcValue);
             }
             if (destClass.IsAssignableFrom(srcValue.GetType()))
             {
@@ -37,7 +37,7 @@ namespace Open.Topology.TestRunner.Operations
 
         private static Object ConvertFromString(Type destClass, String src)
         {
-            if (destClass == typeof (Boolean) || destClass == typeof (bool))
+            if (destClass == typeof(Boolean) || destClass == typeof(bool))
             {
                 if (src.Equals("true"))
                 {
@@ -69,30 +69,30 @@ namespace Open.Topology.TestRunner.Operations
                 }
                  */
             }
-        else
-            if (destClass == typeof(Double) ||
-            destClass == typeof(double))
-            {
-                // try as a double
-                double dval;
-                if (double.TryParse(src, NumberStyles.Any,  CultureInfo.InvariantCulture, out dval))
-                    return dval;
-                /*
-                try
+            else
+                if (destClass == typeof(Double) ||
+                destClass == typeof(double))
                 {
-                    return new Double(src);
+                    // try as a double
+                    double dval;
+                    if (double.TryParse(src, NumberStyles.Any, CultureInfo.InvariantCulture, out dval))
+                        return dval;
+                    /*
+                    try
+                    {
+                        return new Double(src);
+                    }
+                    catch (FormatException e)
+                    {
+                        // eat this exception - it will be reported below
+                    }
+                     */
                 }
-                catch (FormatException e)
-                {
-                    // eat this exception - it will be reported below
-                }
-                 */
-            }
-        else
-            if (destClass == typeof(string))
-            {
-                return src;
-            }
+                else
+                    if (destClass == typeof(string))
+                    {
+                        return src;
+                    }
             ThrowInvalidConversion(destClass, src);
             return null;
         }

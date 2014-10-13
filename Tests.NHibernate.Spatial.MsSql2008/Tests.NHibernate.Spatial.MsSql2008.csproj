@@ -44,6 +44,10 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net35-client\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="NetTopologySuite">
       <HintPath>..\packages\NetTopologySuite.1.13.2\lib\net35-client\NetTopologySuite.dll</HintPath>
     </Reference>
@@ -87,9 +91,9 @@
     <Compile Include="TestConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NHibernate.Spatial.MsSql2008\NHibernate.Spatial.MsSql2008.csproj">
+    <ProjectReference Include="..\NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj">
       <Project>{EAC092D9-6D47-4A30-803C-7A8583F99DFE}</Project>
-      <Name>NHibernate.Spatial.MsSql2008</Name>
+      <Name>NHibernate.Spatial.MsSql</Name>
     </ProjectReference>
     <ProjectReference Include="..\NHibernate.Spatial\NHibernate.Spatial.csproj">
       <Project>{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}</Project>
@@ -101,7 +105,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

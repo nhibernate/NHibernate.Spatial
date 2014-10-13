@@ -2,10 +2,10 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
 
 	<class name="Tests.NHibernate.Spatial.Model.County, Tests.NHibernate.Spatial" table="county">
-		<id name="Id" type="Int64" column="oid" >
+		<id name="Id" type="Int64" column="oid">
 			<generator class="native" />
 		</id>
-		<property name="Name"/>
+		<property name="Name" />
 		<property name="State" />
 		<property name="Boundaries" column="the_geom">
 			<type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
@@ -14,5 +14,4 @@
 			</type>
 		</property>
 	</class>
-
 </hibernate-mapping>

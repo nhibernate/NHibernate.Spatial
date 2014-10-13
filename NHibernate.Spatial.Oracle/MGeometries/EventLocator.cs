@@ -1,13 +1,13 @@
 ﻿/**
  * $Id$
  *
- * This file is part of Hibernate Spatial, an extension to the 
- * hibernate ORM solution for geographic data. 
- *  
+ * This file is part of Hibernate Spatial, an extension to the
+ * hibernate ORM solution for geographic data.
+ *
  * Copyright © 2007 Geovise BVBA
  * Copyright © 2007 K.U. Leuven LRD, Spatial Applications Division, Belgium
  *
- * This work was partially supported by the European Commission, 
+ * This work was partially supported by the European Commission,
  * under the 6th Framework Programme, contract IST-2-004688-STP.
  *
  * This library is free software; you can redistribute it and/or
@@ -32,30 +32,32 @@ using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {
-	public class EventLocator
-	{
-		/**
-		 * 
-		 * @return a Point Geometry as a point geometry
-		 * @throws MGeometryException
-		 */
-		public static Point GetPointGeometry(IMGeometry lrs, double position)
-		{
-			var c = lrs.GetCoordinateAtM(position);
-			ICoordinateSequence cs = lrs.Factory.CoordinateSequenceFactory.Create(new Coordinate[] { c });
-			return new Point(cs, lrs.Factory);
-		}
+    public class EventLocator
+    {
+        /**
+         *
+         * @return a Point Geometry as a point geometry
+         * @throws MGeometryException
+         */
 
-		public static MultiMLineString GetLinearGeometry(IMGeometry lrs, double begin, double end)
-		{
-			MGeometryFactory factory = (MGeometryFactory) lrs.Factory;
-			ICoordinateSequence[] cs = lrs.GetCoordinatesBetween(begin, end);
-			MLineString[] mlar = new MLineString[cs.Length];
-			for (int i = 0; i < cs.Length; i++) {
-				MLineString ml = factory.CreateMLineString(cs[i]);
-				mlar[i] = ml;
-			}
-			return factory.CreateMultiMLineString(mlar);
-		}
-	}
+        public static Point GetPointGeometry(IMGeometry lrs, double position)
+        {
+            var c = lrs.GetCoordinateAtM(position);
+            ICoordinateSequence cs = lrs.Factory.CoordinateSequenceFactory.Create(new Coordinate[] { c });
+            return new Point(cs, lrs.Factory);
+        }
+
+        public static MultiMLineString GetLinearGeometry(IMGeometry lrs, double begin, double end)
+        {
+            MGeometryFactory factory = (MGeometryFactory)lrs.Factory;
+            ICoordinateSequence[] cs = lrs.GetCoordinatesBetween(begin, end);
+            MLineString[] mlar = new MLineString[cs.Length];
+            for (int i = 0; i < cs.Length; i++)
+            {
+                MLineString ml = factory.CreateMLineString(cs[i]);
+                mlar[i] = ml;
+            }
+            return factory.CreateMultiMLineString(mlar);
+        }
+    }
 }

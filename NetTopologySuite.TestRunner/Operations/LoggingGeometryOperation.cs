@@ -1,6 +1,6 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using Open.Topology.TestRunner.Result;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {
@@ -15,7 +15,7 @@ namespace Open.Topology.TestRunner.Operations
         private readonly IGeometryOperation _geomOp;
 
         public LoggingGeometryOperation()
-            :this(new GeometryMethodOperation())
+            : this(new GeometryMethodOperation())
         {
         }
 

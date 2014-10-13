@@ -2,7 +2,7 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
 
 	<class name="Tests.NHibernate.Spatial.NtsTestCases.Model.NtsTestCase, Tests.NHibernate.Spatial" table="nts_testcase">
-		<id name="Id" type="Int64" column="oid" >
+		<id name="Id" type="Int64" column="oid">
 			<generator class="assigned" />
 		</id>
 		<property name="Description"	column="description" />
@@ -28,5 +28,4 @@
 		</property>
 		<property name="BooleanResult"	column="boolean_result" />
 	</class>
-
 </hibernate-mapping>

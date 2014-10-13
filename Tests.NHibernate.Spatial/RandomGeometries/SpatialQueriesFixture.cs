@@ -1,11 +1,11 @@
-using System;
-using System.Collections;
-using System.Data;
 using GeoAPI.Geometries;
 using NHibernate;
 using NHibernate.Spatial.Criterion;
 using NHibernate.Spatial.Dialect;
 using NUnit.Framework;
+using System;
+using System.Collections;
+using System.Data;
 using Tests.NHibernate.Spatial.RandomGeometries.Model;
 
 namespace Tests.NHibernate.Spatial.RandomGeometries
@@ -70,19 +70,25 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         }
 
         protected abstract string SqlLineStringFilter(string filterString);
+
         protected abstract string SqlPolygonFilter(string filterString);
+
         protected abstract string SqlMultiLineStringFilter(string filterString);
+
         protected abstract string SqlOvelapsLineString(string filterString);
+
         protected abstract string SqlIntersectsLineString(string filterString);
+
         protected abstract ISQLQuery SqlIsEmptyLineString(ISession session);
+
         protected abstract ISQLQuery SqlIsSimpleLineString(ISession session);
+
         protected abstract ISQLQuery SqlAsBinaryLineString(ISession session);
 
         [Test]
         public void LineStringFiltering()
         {
-
-            IList results = _session.CreateCriteria(typeof (LineStringEntity))
+            IList results = _session.CreateCriteria(typeof(LineStringEntity))
                 .Add(SpatialRestrictions.Filter("Geometry", _filter))
                 .List();
 
@@ -90,7 +96,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             using (IDbCommand command = _session.Connection.CreateCommand())
             {
                 command.CommandText = SqlLineStringFilter(FilterString);
-                count = (long) command.ExecuteScalar();
+                count = (long)command.ExecuteScalar();
             }
 
             Assert.AreEqual(count, results.Count);
@@ -99,7 +105,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         [Test]
         public void PolygonFiltering()
         {
-            IList results = _session.CreateCriteria(typeof (PolygonEntity))
+            IList results = _session.CreateCriteria(typeof(PolygonEntity))
                 .Add(SpatialRestrictions.Filter("Geometry", _filter))
                 .List();
 
@@ -107,7 +113,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             using (IDbCommand command = _session.Connection.CreateCommand())
             {
                 command.CommandText = SqlPolygonFilter(FilterString);
-                count = (long) command.ExecuteScalar();
+                count = (long)command.ExecuteScalar();
             }
 
             Assert.AreEqual(count, results.Count);
@@ -116,7 +122,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         [Test]
         public void MultiLineStringFiltering()
         {
-            IList results = _session.CreateCriteria(typeof (MultiLineStringEntity))
+            IList results = _session.CreateCriteria(typeof(MultiLineStringEntity))
                 .Add(SpatialRestrictions.Filter("Geometry", _filter))
                 .List();
 
@@ -124,7 +130,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             using (IDbCommand command = _session.Connection.CreateCommand())
             {
                 command.CommandText = SqlMultiLineStringFilter(FilterString);
-                count = (long) command.ExecuteScalar();
+                count = (long)command.ExecuteScalar();
             }
 
             Assert.AreEqual(count, results.Count);
@@ -187,7 +193,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             using (IDbCommand command = _session.Connection.CreateCommand())
             {
                 command.CommandText = SqlOvelapsLineString(FilterString);
-                count = (long) command.ExecuteScalar();
+                count = (long)command.ExecuteScalar();
             }
 
             Assert.AreEqual(countOverlapping, count);
@@ -202,7 +208,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(_session))
                 .UniqueResult<long>();
 
-            Assert.Greater((int) count, 0);
+            Assert.Greater((int)count, 0);
         }
 
         [Test]
@@ -231,7 +237,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             using (IDbCommand command = _session.Connection.CreateCommand())
             {
                 command.CommandText = SqlIntersectsLineString(FilterString);
-                count = (long) command.ExecuteScalar();
+                count = (long)command.ExecuteScalar();
             }
 
             Assert.AreEqual(intersects, count);
@@ -253,7 +259,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             foreach (object item in results)
             {
-                var srid = (int) item;
+                var srid = (int)item;
                 Assert.AreEqual(4326, srid);
             }
         }
@@ -268,7 +274,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             foreach (object item in results)
             {
-                var gt = (string) item;
+                var gt = (string)item;
                 Assert.AreEqual("LINESTRING", gt.ToUpper());
             }
 
@@ -278,7 +284,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             foreach (object item in results)
             {
-                var gt = (string) item;
+                var gt = (string)item;
                 Assert.AreEqual("POLYGON", gt.ToUpper());
             }
         }
@@ -299,8 +305,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
             foreach (object[] item in results)
             {
-                var env = (IGeometry) item[0];
-                var g = (IGeometry) item[1];
+                var env = (IGeometry)item[0];
+                var g = (IGeometry)item[1];
                 Assert.IsTrue(g.Envelope.Equals(env));
             }
         }
@@ -317,8 +323,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             foreach (object[] item in results)
             {
-                var id = (long) item[0];
-                var isEmpty = (bool) item[1];
+                var id = (long)item[0];
+                var isEmpty = (bool)item[1];
                 query.SetInt64(0, id);
                 var expected = query.UniqueResult<bool>();
                 Assert.AreEqual(expected, isEmpty);
@@ -337,8 +343,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             foreach (object[] item in results)
             {
-                var id = (long) item[0];
-                var isSimple = (bool) item[1];
+                var id = (long)item[0];
+                var isSimple = (bool)item[1];
                 query.SetInt64(0, id);
                 var expected = query.UniqueResult<bool>();
                 Assert.AreEqual(expected, isSimple);
@@ -354,8 +360,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var bound = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var bound = (IGeometry)item[1];
                 Assert.IsTrue(geom.Boundary.Equals(bound));
             }
         }
@@ -372,8 +378,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             foreach (object[] item in results)
             {
-                var id = (long) item[0];
-                var wkb = (byte[]) item[1];
+                var id = (long)item[0];
+                var wkb = (byte[])item[1];
                 query.SetInt64(0, id);
                 var expected = query.UniqueResult<byte[]>();
                 Assert.AreEqual(expected, wkb);
@@ -394,8 +400,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
             foreach (object[] item in results)
             {
-                var distance = (double) item[0];
-                var geom = (IGeometry) item[1];
+                var distance = (double)item[0];
+                var geom = (IGeometry)item[1];
                 Assert.AreEqual(geom.Distance(_filter), distance, 0.003);
             }
         }
@@ -421,9 +427,9 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             Assert.IsNotEmpty(results);
             foreach (object[] item in results)
             {
-                var distance = (double) item[0];
+                var distance = (double)item[0];
                 Assert.Greater(distance, minDistance);
-                var geom = (IGeometry) item[1];
+                var geom = (IGeometry)item[1];
                 Assert.AreEqual(geom.Distance(_filter), distance, 0.003);
             }
         }
@@ -443,8 +449,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var buffer = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var buffer = (IGeometry)item[1];
                 IGeometry ntsBuffer = geom.Buffer(distance);
 
                 buffer.Normalize();
@@ -468,8 +474,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var cvh = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var cvh = (IGeometry)item[1];
                 IGeometry ntsCvh = geom.ConvexHull();
 
                 Assert.IsTrue(cvh.Contains(geom));
@@ -496,8 +502,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var diff = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var diff = (IGeometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -529,8 +535,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var intersect = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var intersect = (IGeometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -562,8 +568,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var symDiff = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var symDiff = (IGeometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -595,8 +601,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry) item[0];
-                var union = (IGeometry) item[1];
+                var geom = (IGeometry)item[0];
+                var union = (IGeometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -628,7 +634,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             {
                 symdiff = g1.SymmetricDifference(g2);
             }
-            double relError = symdiff.Area/(g1.Area + g2.Area);
+            double relError = symdiff.Area / (g1.Area + g2.Area);
             return relError < tolerance;
         }
     }

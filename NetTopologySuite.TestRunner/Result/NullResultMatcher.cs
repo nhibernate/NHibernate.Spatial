@@ -1,5 +1,5 @@
-using System;
 using GeoAPI.Geometries;
+using System;
 
 namespace Open.Topology.TestRunner.Result
 {

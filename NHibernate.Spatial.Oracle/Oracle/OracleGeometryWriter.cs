@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // NHibernate.Spatial is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,14 +13,12 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with NHibernate.Spatial; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
 using GeoAPI.Geometries;
 using NetTopologySuite.Algorithm;
-using NetTopologySuite.Geometries;
-
 using NHibernate.Spatial.MGeometries;
+using System;
 
 namespace NHibernate.Spatial.Oracle
 {
@@ -277,7 +275,7 @@ namespace NHibernate.Spatial.Oracle
          * Convert the coordinates to a double array for purposes of persisting them
          * to the database. Note that Double.NaN values are to be converted to null
          * values in the array.
-         * 
+         *
          * @param coordinates
          *            Coordinates to be converted to the array
          * @param dim
@@ -286,6 +284,7 @@ namespace NHibernate.Spatial.Oracle
          *            true if the coordinates contain measures
          * @return
          */
+
         private double?[] ConvertCoordinates(Coordinate[] coordinates, int dim, bool isLrs)
         {
             if (dim > 4)
@@ -318,11 +317,12 @@ namespace NHibernate.Spatial.Oracle
         /**
          * This method converts a double primitive to a Double wrapper instance, but
          * treats a Double.NaN value as null.
-         * 
+         *
          * @param d
          *            the value to be converted
          * @return A Double instance of d, Null if the parameter is Double.NaN
          */
+
         private double? ToDouble(double d)
         {
             return double.IsNaN(d) ? (double?)null : d;
@@ -336,12 +336,13 @@ namespace NHibernate.Spatial.Oracle
          * the first coordinate has a measure value, as measure are required for the
          * very first and last measure in a CoordinateSequence. If there is no
          * measure value, 0 is returned.
-         * 
+         *
          * @param geom
          *            and instance of the Geometry class from which the lrs position
          *            is being extracted.
          * @return the lrs position for the SdoGeometry.SDO_GTYPE
          */
+
         private int GetCoordinateLrsPosition(IGeometry geom)
         {
             MCoordinate c = geom.Coordinate as MCoordinate;
@@ -365,13 +366,14 @@ namespace NHibernate.Spatial.Oracle
         /**
          * Return the dimension required for building the gType in the SdoGeometry
          * object. Has support for LRS type geometries.
-         * 
+         *
          * @param geom
          *            and instance of the Geometry class from which the dimension is
          *            being extracted.
          * @return number of dimensions for purposes of creating the
          *         SdoGeometry.SDO_GTYPE
          */
+
         private int GetCoordDimension(IGeometry geom)
         {
             // This is awkward, I have to create an MCoordinate to discover what the
@@ -393,8 +395,5 @@ namespace NHibernate.Spatial.Oracle
             }
             return d;
         }
-
-
-
     }
 }

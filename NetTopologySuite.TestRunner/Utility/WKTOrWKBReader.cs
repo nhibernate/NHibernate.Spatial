@@ -1,7 +1,7 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
+using System;
 
 namespace Open.Topology.TestRunner.Utility
 {
@@ -33,6 +33,7 @@ namespace Open.Topology.TestRunner.Utility
 
         //private GeometryFactory _geomFactory;
         private readonly WKTReader _wktReader;
+
         private readonly WKBReader _wkbReader;
 
         public WKTOrWKBReader()
@@ -47,7 +48,7 @@ namespace Open.Topology.TestRunner.Utility
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="geomStr"></param>
         /// <returns></returns>

@@ -5,7 +5,6 @@ namespace Open.Topology.TestRunner.Utility
 {
     public class FunctionsUtil
     {
-
         public static readonly Envelope DefaultEnvelope = new Envelope(0, 100, 0, 100);
 
         public static Envelope getEnvelopeOrDefault(IGeometry g)
@@ -29,8 +28,8 @@ namespace Open.Topology.TestRunner.Utility
     .getInstance().getTestCasePanel()
     .getGeometryEditPanel();
     Graphics2D gr = (Graphics2D) panel.getGraphics();
-    GeometryRenderer.paint(geom, panel.getViewport(), gr, 
-        AppColors.INDICATOR_LINE_COLOR, 
+    GeometryRenderer.paint(geom, panel.getViewport(), gr,
+        AppColors.INDICATOR_LINE_COLOR,
         AppColors.INDICATOR_FILL_COLOR);
   }
      */

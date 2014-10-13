@@ -1,13 +1,13 @@
 ﻿/**
  * $Id$
  *
- * This file is part of Hibernate Spatial, an extension to the 
- * hibernate ORM solution for geographic data. 
- *  
+ * This file is part of Hibernate Spatial, an extension to the
+ * hibernate ORM solution for geographic data.
+ *
  * Copyright © 2007 Geovise BVBA
  * Copyright © 2007 K.U. Leuven LRD, Spatial Applications Division, Belgium
  *
- * This work was partially supported by the European Commission, 
+ * This work was partially supported by the European Commission,
  * under the 6th Framework Programme, contract IST-2-004688-STP.
  *
  * This library is free software; you can redistribute it and/or
@@ -26,85 +26,88 @@
  *
  * For more information, visit: http://www.hibernatespatial.org/
  */
+
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {
-	/**
-	 * Extension of the GeometryFactory for constructing Geometries with Measure
-	 * support.
-	 * 
-	 * @see com.vividsolutions.jts.geom.GeometryFactory
-	 */
-	public class MGeometryFactory : GeometryFactory
-	{
-		public MGeometryFactory(IPrecisionModel precisionModel, int SRID,
-				MCoordinateSequenceFactory coordinateSequenceFactory)
-			: base(precisionModel, SRID, coordinateSequenceFactory)
-		{
-		}
+    /**
+     * Extension of the GeometryFactory for constructing Geometries with Measure
+     * support.
+     *
+     * @see com.vividsolutions.jts.geom.GeometryFactory
+     */
 
-		public MGeometryFactory(MCoordinateSequenceFactory coordinateSequenceFactory)
-			: base(coordinateSequenceFactory)
-		{
-		}
+    public class MGeometryFactory : GeometryFactory
+    {
+        public MGeometryFactory(IPrecisionModel precisionModel, int SRID,
+                MCoordinateSequenceFactory coordinateSequenceFactory)
+            : base(precisionModel, SRID, coordinateSequenceFactory)
+        {
+        }
 
-		public MGeometryFactory(IPrecisionModel precisionModel)
-			: this(precisionModel, 0, MCoordinateSequenceFactory.Instance)
-		{
-		}
+        public MGeometryFactory(MCoordinateSequenceFactory coordinateSequenceFactory)
+            : base(coordinateSequenceFactory)
+        {
+        }
 
-		public MGeometryFactory(IPrecisionModel precisionModel, int SRID)
-			: this(precisionModel, SRID, MCoordinateSequenceFactory.Instance)
-		{
-		}
+        public MGeometryFactory(IPrecisionModel precisionModel)
+            : this(precisionModel, 0, MCoordinateSequenceFactory.Instance)
+        {
+        }
 
-		public MGeometryFactory()
-			: this(new PrecisionModel(), 0)
-		{
-		}
+        public MGeometryFactory(IPrecisionModel precisionModel, int SRID)
+            : this(precisionModel, SRID, MCoordinateSequenceFactory.Instance)
+        {
+        }
 
-		/**
-		 * Constructs a MLineString using the given Coordinates; a null or empty
-		 * array will create an empty MLineString.
-		 * 
-		 * @param coordinates
-		 *            array of MCoordinate defining this geometry's vertices
-		 * @see #createLineString(com.vividsolutions.jts.geom.Coordinate[])
-		 * @return An instance of MLineString containing the coordinates
-		 */
-		public MLineString CreateMLineString(MCoordinate[] coordinates)
-		{
-			return CreateMLineString(
-				coordinates != null
-					? CoordinateSequenceFactory.Create(coordinates)
-					: null);
-		}
+        public MGeometryFactory()
+            : this(new PrecisionModel(), 0)
+        {
+        }
 
-		public MultiMLineString CreateMultiMLineString(MLineString[] mlines, double mGap)
-		{
-			return new MultiMLineString(mlines, mGap, this);
-		}
+        /**
+         * Constructs a MLineString using the given Coordinates; a null or empty
+         * array will create an empty MLineString.
+         *
+         * @param coordinates
+         *            array of MCoordinate defining this geometry's vertices
+         * @see #createLineString(com.vividsolutions.jts.geom.Coordinate[])
+         * @return An instance of MLineString containing the coordinates
+         */
 
-		public MultiMLineString CreateMultiMLineString(MLineString[] mlines)
-		{
-			return new MultiMLineString(mlines, 0.0d, this);
-		}
+        public MLineString CreateMLineString(MCoordinate[] coordinates)
+        {
+            return CreateMLineString(
+                coordinates != null
+                    ? CoordinateSequenceFactory.Create(coordinates)
+                    : null);
+        }
 
-		/**
-		 * Creates a MLineString using the given CoordinateSequence; a null or empty
-		 * CoordinateSequence will create an empty MLineString.
-		 * 
-		 * @param coordinates
-		 *            a CoordinateSequence possibly empty, or null
-		 * @return An MLineString instance based on the <code>coordinates</code>
-		 * @see #createLineString(com.vividsolutions.jts.geom.CoordinateSequence)
-		 */
-		public MLineString CreateMLineString(ICoordinateSequence coordinates)
-		{
-			return new MLineString(coordinates, this);
-		}
+        public MultiMLineString CreateMultiMLineString(MLineString[] mlines, double mGap)
+        {
+            return new MultiMLineString(mlines, mGap, this);
+        }
 
-	}
+        public MultiMLineString CreateMultiMLineString(MLineString[] mlines)
+        {
+            return new MultiMLineString(mlines, 0.0d, this);
+        }
+
+        /**
+         * Creates a MLineString using the given CoordinateSequence; a null or empty
+         * CoordinateSequence will create an empty MLineString.
+         *
+         * @param coordinates
+         *            a CoordinateSequence possibly empty, or null
+         * @return An MLineString instance based on the <code>coordinates</code>
+         * @see #createLineString(com.vividsolutions.jts.geom.CoordinateSequence)
+         */
+
+        public MLineString CreateMLineString(ICoordinateSequence coordinates)
+        {
+            return new MLineString(coordinates, this);
+        }
+    }
 }

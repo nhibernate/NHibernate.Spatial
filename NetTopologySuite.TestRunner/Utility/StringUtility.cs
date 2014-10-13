@@ -1,10 +1,10 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using NetTopologySuite.Utilities;
+using RTools_NTS.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using GeoAPI.Geometries;
-using NetTopologySuite.Utilities;
-using RTools_NTS.Util;
 
 namespace Open.Topology.TestRunner.Utility
 {
@@ -33,7 +33,7 @@ namespace Open.Topology.TestRunner.Utility
 
         /**
          * Capitalizes the given string.
-         * 
+         *
          * @param s the string to capitalize
          * @return the capitalized string
          */
@@ -74,7 +74,7 @@ namespace Open.Topology.TestRunner.Utility
             {
                 try
                 {
-                    stackTrace += ++lineNumber +": " + stringReader.ReadLine() + NewLine;
+                    stackTrace += ++lineNumber + ": " + stringReader.ReadLine() + NewLine;
                 }
                 catch (IOException)
                 {
@@ -91,13 +91,13 @@ namespace Open.Topology.TestRunner.Utility
         public static String GetTimeString(long milliseconds)
         {
             long remainder = milliseconds;
-            long days = remainder/86400000;
-            remainder = remainder%86400000;
-            long hours = remainder/3600000;
-            remainder = remainder%3600000;
-            long minutes = remainder/60000;
-            remainder = remainder%60000;
-            long seconds = remainder/1000;
+            long days = remainder / 86400000;
+            remainder = remainder % 86400000;
+            long hours = remainder / 3600000;
+            remainder = remainder % 3600000;
+            long minutes = remainder / 60000;
+            remainder = remainder % 60000;
+            long seconds = remainder / 1000;
             return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
         }
 
@@ -376,8 +376,8 @@ namespace Open.Topology.TestRunner.Utility
         public static String Format(double d, int decimals)
         {
             double factor = Math.Pow(10, decimals);
-            double digits = Math.Round(factor*d);
-            return ((int) Math.Floor(digits/factor)) + "." + ((int) (digits%factor));
+            double digits = Math.Round(factor * d);
+            return ((int)Math.Floor(digits / factor)) + "." + ((int)(digits % factor));
         }
 
         /**
@@ -391,7 +391,7 @@ namespace Open.Topology.TestRunner.Utility
             var wrapPending = false;
             for (int i = 0; i < s.Length; i++)
             {
-                if (i%n == 0 && i > 0)
+                if (i % n == 0 && i > 0)
                 {
                     wrapPending = true;
                 }
@@ -576,18 +576,23 @@ namespace Open.Topology.TestRunner.Utility
                     case '<':
                         sb.Append("&lt;");
                         break;
+
                     case '>':
                         sb.Append("&gt;");
                         break;
+
                     case '&':
                         sb.Append("&amp;");
                         break;
+
                     case '"':
                         sb.Append("&quot;");
                         break;
+
                     case '\n':
                         sb.Append("<BR>");
                         break;
+
                     default:
                         sb.Append(c);
                         break;
@@ -612,7 +617,6 @@ namespace Open.Topology.TestRunner.Utility
                 return callStack.Substring(atPos + 3, parenthesisPos);
             }
         }
-
     }
 
     public class GeometryDataUtil
@@ -626,5 +630,4 @@ namespace Open.Topology.TestRunner.Utility
             }
         }
     }
-
 }

@@ -1,41 +1,44 @@
-using System;
 using GeoAPI.Geometries;
+using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
 {
-	[Serializable]
-	public class Lake
-	{
-		public Lake()
-		{
-		}
+    [Serializable]
+    public class Lake
+    {
+        public Lake()
+        {
+        }
 
-		public Lake(long fid, string name, IGeometry shore)
-		{
-			this.Fid = fid;
-			this.Name = name;
-			this.Shore = shore;
-		}
+        public Lake(long fid, string name, IGeometry shore)
+        {
+            this.Fid = fid;
+            this.Name = name;
+            this.Shore = shore;
+        }
 
-		private long fid;
-		public long Fid
-		{
-			get { return fid; }
-			set { fid = value; }
-		}
+        private long fid;
 
-		private string name;
-		public string Name
-		{
-			get { return name; }
-			set { name = value; }
-		}
+        public long Fid
+        {
+            get { return fid; }
+            set { fid = value; }
+        }
 
-		private IGeometry shore;
-		public IGeometry Shore
-		{
-			get { return shore; }
-			set { shore = value; }
-		}
-	}
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private IGeometry shore;
+
+        public IGeometry Shore
+        {
+            get { return shore; }
+            set { shore = value; }
+        }
+    }
 }

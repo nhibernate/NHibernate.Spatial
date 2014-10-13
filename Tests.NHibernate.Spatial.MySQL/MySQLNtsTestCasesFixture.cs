@@ -4,12 +4,12 @@ using Tests.NHibernate.Spatial.NtsTestCases;
 
 namespace Tests.NHibernate.Spatial
 {
-	[TestFixture]
-	public class MySQLNtsTestCasesFixture : NtsTestCasesFixture
-	{
-		protected override void Configure(Configuration configuration)
-		{
-			TestConfiguration.Configure(configuration);
-		}
-	}
+    [TestFixture]
+    public class MySQLNtsTestCasesFixture : NtsTestCasesFixture
+    {
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
+        }
+    }
 }

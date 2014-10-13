@@ -1,13 +1,13 @@
 ﻿/**
  * $Id$
  *
- * This file is part of Hibernate Spatial, an extension to the 
- * hibernate ORM solution for geographic data. 
- *  
+ * This file is part of Hibernate Spatial, an extension to the
+ * hibernate ORM solution for geographic data.
+ *
  * Copyright © 2007 Geovise BVBA
  * Copyright © 2007 K.U. Leuven LRD, Spatial Applications Division, Belgium
  *
- * This work was partially supported by the European Commission, 
+ * This work was partially supported by the European Commission,
  * under the 6th Framework Programme, contract IST-2-004688-STP.
  *
  * This library is free software; you can redistribute it and/or
@@ -26,66 +26,67 @@
  *
  * For more information, visit: http://www.hibernatespatial.org/
  */
-using System.Runtime.Serialization;
+
 using GeoAPI.Geometries;
-using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.MGeometries
 {
+    /**
+     * Creates MCoordinateSequenceFactory internally represented as an array of
+     * {@link MCoordinate}s.
+     */
 
-	/**
-	 * Creates MCoordinateSequenceFactory internally represented as an array of
-	 * {@link MCoordinate}s.
-	 */
-	public class MCoordinateSequenceFactory : ICoordinateSequenceFactory
-	{
-		private static MCoordinateSequenceFactory instance = new MCoordinateSequenceFactory();
+    public class MCoordinateSequenceFactory : ICoordinateSequenceFactory
+    {
+        private static MCoordinateSequenceFactory instance = new MCoordinateSequenceFactory();
 
-		private MCoordinateSequenceFactory()
-		{
-		}
+        private MCoordinateSequenceFactory()
+        {
+        }
 
-		/**
-		 * Returns the singleton instance of MCoordinateSequenceFactory
-		 */
-		public static MCoordinateSequenceFactory Instance
-		{
-			get { return instance; }
-		}
+        /**
+         * Returns the singleton instance of MCoordinateSequenceFactory
+         */
 
-		/**
-		 * Returns an MCoordinateSequence based on the given array -- the array is
-		 * used directly if it is an instance of MCoordinate[]; otherwise it is
-		 * copied.
-		 */
-		public ICoordinateSequence Create(Coordinate[] coordinates)
-		{
-			if (coordinates is MCoordinate[])
-			{
-				return new MCoordinateSequence((MCoordinate[])coordinates);
-			}
-			else
-			{
-				return new MCoordinateSequence(coordinates);
-			}
-		}
+        public static MCoordinateSequenceFactory Instance
+        {
+            get { return instance; }
+        }
 
-		public ICoordinateSequence Create(ICoordinateSequence coordSeq)
-		{
-			return new MCoordinateSequence(coordSeq);
-		}
+        /**
+         * Returns an MCoordinateSequence based on the given array -- the array is
+         * used directly if it is an instance of MCoordinate[]; otherwise it is
+         * copied.
+         */
 
-		/**
-		 * Creates a MCoordinateSequence instance initialized to the size parameter.
-		 * Note that the dimension argument is ignored.
-		 * 
-		 * @see com.vividsolutions.jts.geom.CoordinateSequenceFactory#create(int,int)
-		 */
-		public ICoordinateSequence Create(int size, int dimension)
-		{
-			return (ICoordinateSequence)new MCoordinateSequence(size);
-		}
+        public ICoordinateSequence Create(Coordinate[] coordinates)
+        {
+            if (coordinates is MCoordinate[])
+            {
+                return new MCoordinateSequence((MCoordinate[])coordinates);
+            }
+            else
+            {
+                return new MCoordinateSequence(coordinates);
+            }
+        }
 
+        public ICoordinateSequence Create(ICoordinateSequence coordSeq)
+        {
+            return new MCoordinateSequence(coordSeq);
+        }
+
+        /**
+         * Creates a MCoordinateSequence instance initialized to the size parameter.
+         * Note that the dimension argument is ignored.
+         *
+         * @see com.vividsolutions.jts.geom.CoordinateSequenceFactory#create(int,int)
+         */
+
+        public ICoordinateSequence Create(int size, int dimension)
+        {
+            return (ICoordinateSequence)new MCoordinateSequence(size);
+        }
 
         public ICoordinateSequence Create(int size, Ordinates ordinates)
         {
@@ -93,6 +94,5 @@ namespace NHibernate.Spatial.MGeometries
         }
 
         public Ordinates Ordinates { get; set; }
-
     }
 }

@@ -4,20 +4,20 @@ using System.IO;
 
 namespace Open.Topology.TestRunner
 {
-	/// <summary>
-	/// Summary description for XmlTestController.
-	/// </summary>
-	public class XmlTestController
-	{
+    /// <summary>
+    /// Summary description for XmlTestController.
+    /// </summary>
+    public class XmlTestController
+    {
         private StringCollection m_listFileNames = null;
 
-        private XmlTestDocument  m_objCurrentDoc = null;
+        private XmlTestDocument m_objCurrentDoc = null;
 
-		public XmlTestController()
-		{
+        public XmlTestController()
+        {
             m_listFileNames = new StringCollection();
             m_objCurrentDoc = new XmlTestDocument();
-		}
+        }
 
         public StringCollection FileNames
         {
@@ -30,14 +30,14 @@ namespace Open.Topology.TestRunner
         public void ResetFiles()
         {
             if (m_listFileNames != null)
-                m_listFileNames.Clear();            
-       }
+                m_listFileNames.Clear();
+        }
 
         public void Reset()
         {
             if (m_objCurrentDoc != null)
                 m_objCurrentDoc.ResetTests();
-            
+
             ResetFiles();
         }
 
@@ -52,10 +52,10 @@ namespace Open.Topology.TestRunner
                     {
                         XmlTestCollection listTests = m_objCurrentDoc.CurrentTests;
                         if (listTests != null && listTests.Count > 0)
-                            return listTests.RunTests();                        
+                            return listTests.RunTests();
                     }
                 }
-            }    
+            }
             return false;
         }
 
@@ -63,12 +63,12 @@ namespace Open.Topology.TestRunner
         {
             if (m_listFileNames == null)
                 m_listFileNames = new StringCollection();
-            
+
             try
             {
                 string[] dirs = Directory.GetFiles(directory, "*.xml");
-                foreach (string dir in dirs) 
-                    m_listFileNames.Add(dir);                
+                foreach (string dir in dirs)
+                    m_listFileNames.Add(dir);
                 return true;
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace Open.Topology.TestRunner
             if (m_objCurrentDoc != null)
                 if (m_objCurrentDoc.LoadFile(filePath))
                     return m_objCurrentDoc.CurrentTests;
-             return null;
+            return null;
         }
-	}
+    }
 }
