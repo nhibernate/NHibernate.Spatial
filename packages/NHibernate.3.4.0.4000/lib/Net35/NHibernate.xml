@@ -12611,17 +12611,19 @@
         </member>
         <member name="M:NHibernate.Dialect.Dialect.GetLimitString(NHibernate.SqlCommand.SqlString,NHibernate.SqlCommand.SqlString,NHibernate.SqlCommand.SqlString)">
             <summary>
-            Add a <c>LIMIT</c> clause to the given SQL <c>SELECT</c>.
+            Attempts to add a <c>LIMIT</c> clause to the given SQL <c>SELECT</c>.
             Expects any database-specific offset and limit adjustments to have already been performed (ex. UseMaxForLimit, OffsetStartsAtOne).
             </summary>
             <param name="queryString">The <see cref="T:NHibernate.SqlCommand.SqlString"/> to base the limit query off.</param>
             <param name="offset">Offset of the first row to be returned by the query.  This may be represented as a parameter, a string literal, or a null value if no limit is requested.  This should have already been adjusted to account for OffsetStartsAtOne.</param>
             <param name="limit">Maximum number of rows to be returned by the query.  This may be represented as a parameter, a string literal, or a null value if no offset is requested.  This should have already been adjusted to account for UseMaxForLimit.</param>
-            <returns>A new <see cref="T:NHibernate.SqlCommand.SqlString"/> that contains the <c>LIMIT</c> clause.</returns>
+            <returns>A new <see cref="T:NHibernate.SqlCommand.SqlString"/> that contains the <c>LIMIT</c> clause. Returns <c>null</c> 
+            if <paramref name="queryString"/> represents a SQL statement to which a limit clause cannot be added, 
+            for example when the query string is custom SQL invoking a stored procedure.</returns>
         </member>
         <member name="M:NHibernate.Dialect.Dialect.GetLimitString(NHibernate.SqlCommand.SqlString,System.Nullable{System.Int32},System.Nullable{System.Int32},NHibernate.SqlCommand.Parameter,NHibernate.SqlCommand.Parameter)">
             <summary>
-            Generates a string to limit the result set to a number of maximum results with a specified offset into the results.
+            Attempts to generate a string to limit the result set to a number of maximum results with a specified offset into the results.
             Expects any database-specific offset and limit adjustments to have already been performed (ex. UseMaxForLimit, OffsetStartsAtOne).
             Performs error checking based on the various dialect limit support options.  If both parameters and fixed valeus are
             specified, this will use the parameter option if possible.  Otherwise, it will fall back to a fixed string.
@@ -13869,46 +13871,6 @@
             </summary>
             <param name="offset"></param>
             <param name="limit"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NHibernate.Dialect.MsSql2005DialectQueryPager.AppendSortExpressions(System.Collections.Generic.Dictionary{NHibernate.SqlCommand.SqlString,NHibernate.SqlCommand.SqlString},NHibernate.SqlCommand.SqlString[],NHibernate.SqlCommand.SqlStringBuilder)">
-            <summary>
-            Identify the columns for the <code>ROW_NUMBER OVER(ORDER BY ...)</code> expression.
-            </summary>
-            <param name="aliasToColumn"></param>
-            <param name="sortExpressions"></param>
-            <param name="result"></param>
-            <remarks>
-            This method translates aliased columns (as appear in the SELECT list) to straight column names, to be included in the 
-            <code>ROW_NUMBER() OVER(ORDER BY ...)</code> expression. For example, <code>datapoint0_.xval as xval4_</code> to
-            <code>datapoint0_.xval</code>.
-            </remarks>
-        </member>
-        <member name="M:NHibernate.Dialect.MsSql2005DialectQueryPager.AppendSortExpressionsForDistinct(System.Collections.Generic.Dictionary{NHibernate.SqlCommand.SqlString,NHibernate.SqlCommand.SqlString},NHibernate.SqlCommand.SqlString[],NHibernate.SqlCommand.SqlStringBuilder)">
-            <summary>
-            For a <code>DISTINCT</code> query, identify the columns for the <code>ROW_NUMBER() OVER(ORDER BY ...)</code> expression.
-            </summary>
-            <param name="columnToAlias"></param>
-            <param name="sortExpressions"></param>
-            <param name="result"></param>
-            <remarks>
-            For a paged <code>DISTINCT</code> query, the columns on which ordering will be performed are returned by a sub-query. Therefore the 
-            columns in the <code>ROW_NUMBER() OVER(ORDER BY ...)</code> expression need to use the aliased column name from the subquery, 
-            prefixed by the subquery alias, <code>q_</code>.
-            </remarks>
-        </member>
-        <member name="M:NHibernate.Dialect.MsSql2005DialectQueryPager.HasMatchingParens(System.Collections.Generic.IEnumerable{System.Char})">
-            <summary>
-            Indicates whether the string fragment contains matching parenthesis
-            </summary>
-            <param name="statement"> the statement to evaluate</param>
-            <returns>true if the statment contains no parenthesis or an equal number of
-             opening and closing parenthesis;otherwise false </returns>
-        </member>
-        <member name="M:NHibernate.Dialect.MsSql2005DialectQueryPager.IsDistinct">
-            <remarks>
-            Perhaps SqlString should have these types of method on it...
-            </remarks>
             <returns></returns>
         </member>
         <member name="T:NHibernate.Dialect.MsSql7Dialect">
@@ -19063,6 +19025,7 @@
             <item> <description>Deletes, in the order they were performed</description> </item>
             </list>
             </summary>
+            <param name="session">The session being flushed</param>
         </member>
         <member name="M:NHibernate.Event.Default.AbstractFlushingEventListener.PostFlush(NHibernate.Engine.ISessionImplementor)">
             <summary> 
@@ -21652,6 +21615,14 @@
             </remarks>
             <seealso cref="T:NHibernate.Persister.Entity.ILoadable"/>
         </member>
+        <member name="F:NHibernate.Loader.Loader._canUseLimits">
+            <summary>
+            Indicates whether the dialect is able to add limit and/or offset clauses to <see cref="P:NHibernate.Loader.Loader.SqlString"/>.
+            Even if a dialect generally supports the addition of limit and/or offset clauses to SQL statements,
+            there may (custom) SQL statements where this is not possible, for example in case of SQL Server 
+            stored procedure invocations.
+            </summary>
+        </member>
         <member name="M:NHibernate.Loader.Loader.GetLockModes(System.Collections.Generic.IDictionary{System.String,NHibernate.LockMode})">
             <summary>
             What lock mode does this load entities with?
@@ -23238,11 +23209,6 @@
         <member name="P:NHibernate.Hql.Ast.ANTLR.HqlToken.PossibleId">
             <summary>
             Indicates if the token could be an identifier.
-            </summary>
-        </member>
-        <member name="P:NHibernate.Hql.Ast.ANTLR.HqlToken.Type">
-            <summary>
-            Gets or Sets the type of the token, remembering the previous type on Sets.
             </summary>
         </member>
         <member name="P:NHibernate.Hql.Ast.ANTLR.HqlToken.PreviousType">
@@ -30200,6 +30166,11 @@
             Util extensions to use in your test or where you need to see the XML mappings
             </summary>
         </member>
+        <member name="T:NHibernate.Mapping.ByCode.PropertyPath">
+            <summary>
+            Immutable value class. By-value equality.
+            </summary>
+        </member>
         <member name="M:NHibernate.Mapping.ByCode.PropertyPathExtensions.InverseProgressivePath(NHibernate.Mapping.ByCode.PropertyPath)">
             <summary>
             Provide the list of progressive-paths
@@ -35860,6 +35831,113 @@
             <remarks>
             This method is approximate match for Session.bestGuessEntityName in H3.2
             </remarks>
+        </member>
+        <member name="T:NHibernate.SqlCommand.Parser.MsSqlSelectParser">
+            <summary>
+            Represents SQL Server SELECT query parser, primarily intended to support generation of 
+            limit queries by SQL Server dialects.
+            </summary>
+        </member>
+        <member name="P:NHibernate.SqlCommand.Parser.MsSqlSelectParser.SelectColumns">
+            <summary>
+            Column definitions in SELECT clause
+            </summary>
+        </member>
+        <member name="P:NHibernate.SqlCommand.Parser.MsSqlSelectParser.NonSelectColumns">
+            <summary>
+            Column definitions for columns that appear in ORDER BY clause 
+            but do not appear in SELECT clause.
+            </summary>
+        </member>
+        <member name="P:NHibernate.SqlCommand.Parser.MsSqlSelectParser.Orders">
+            <summary>
+            Sort orders as defined in ORDER BY clause
+            </summary>
+        </member>
+        <member name="T:NHibernate.SqlCommand.Parser.SqlToken">
+            <summary>
+            A SQL query token as returned by <see cref="T:NHibernate.SqlCommand.Parser.SqlTokenizer"/>
+            </summary>
+        </member>
+        <member name="P:NHibernate.SqlCommand.Parser.SqlToken.SqlIndex">
+            <summary>
+            Position at which this token occurs in a <see cref="T:NHibernate.SqlCommand.SqlString"/>.
+            </summary>
+        </member>
+        <member name="P:NHibernate.SqlCommand.Parser.SqlToken.Length">
+            <summary>
+            Number of characters in this token.
+            </summary>
+        </member>
+        <member name="T:NHibernate.SqlCommand.Parser.SqlTokenizer">
+            <summary>
+            Splits a <see cref="T:NHibernate.SqlCommand.SqlString"/> into <see cref="T:NHibernate.SqlCommand.Parser.SqlToken"/>s.
+            </summary>
+        </member>
+        <member name="T:NHibernate.SqlCommand.Parser.SqlTokenType">
+            <summary>
+            <see cref="T:NHibernate.SqlCommand.Parser.SqlToken"/> token types.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.Whitespace">
+            <summary>
+            Whitespace
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.Comment">
+            <summary>
+            Single line comment (preceeded by --) or multi-line comment (terminated by /* and */)
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.Text">
+            <summary>
+            Keywords, operators or undelimited identifiers. 
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.DelimitedText">
+            <summary>
+            Delimited identifiers or string literals.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.Parameter">
+            <summary>
+            A query parameter.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.Comma">
+            <summary>
+            List separator, the ',' character.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.BracketOpen">
+            <summary>
+            Begin of an expression block, consisting of a '(' character.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.BracketClose">
+            <summary>
+            End of an expression block, consisting of a ')' character.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.AllBrackets">
+            <summary>
+            Tokens for begin or end of expression blocks.
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.AllExceptWhitespaceOrComment">
+            <summary>
+            Includes all token types except whitespace or comments
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.AllExceptWhitespace">
+            <summary>
+            Includes all token types except whitespace
+            </summary>
+        </member>
+        <member name="F:NHibernate.SqlCommand.Parser.SqlTokenType.All">
+            <summary>
+            Includes all token types
+            </summary>
         </member>
         <member name="T:NHibernate.SqlCommand.Alias">
             <summary>
