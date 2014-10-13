@@ -32,7 +32,7 @@ namespace NHibernate.Spatial.Dialect
 	internal class MsSql2008FunctionRegistration : ISpatialDialect
 	{
 
-		private const string DialectPrefix = "ST.";
+		private const string DialectPrefix = "ST";
 
 		private IRegisterationAdaptor adaptor;
 
@@ -545,7 +545,7 @@ namespace NHibernate.Spatial.Dialect
 		{
 			StringBuilder builder = new StringBuilder();
 
-			string quotedSchema = adaptor.QuoteForSchemaName(schema);
+			string quotedSchema = !string.IsNullOrEmpty(schema) ? adaptor.QuoteForSchemaName(schema) : string.Empty;
 			string quoteForTableName = adaptor.QuoteForTableName(table);
 			string quoteForColumnName = adaptor.QuoteForColumnName(column);
 
@@ -656,7 +656,7 @@ namespace NHibernate.Spatial.Dialect
 		// TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
 		public string MultipleQueriesSeparator
 		{
-			get { throw new NotImplementedException(); }
+			get { return ";"; }
 		}
 
 		#endregion ISpatialDialect Members

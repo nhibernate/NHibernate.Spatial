@@ -11,7 +11,7 @@ namespace NHibernate.Spatial.Dialect
 {
     internal class MsSqlLegacyFunctionRegistration : ISpatialDialect
     {
-        private const string DialectPrefix = "ST.";
+        private const string DialectPrefix = "ST";
         private IRegisterationAdaptor adaptor;
 
         public MsSqlLegacyFunctionRegistration(IRegisterationAdaptor adaptor)
