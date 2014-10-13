@@ -14,7 +14,7 @@ namespace Tests.NHibernate.Spatial
         {
             IDictionary<string, string> properties = new Dictionary<string, string>();
             properties[Environment.ProxyFactoryFactoryClass] = typeof(NHibernateFactory).AssemblyQualifiedName;
-            properties[Environment.Dialect] = typeof(MsSqlLegacyDialect).AssemblyQualifiedName;
+            properties[Environment.Dialect] = typeof(MsSql2012GeometryDialect).AssemblyQualifiedName;
             properties[Environment.ConnectionProvider] = typeof(DebugConnectionProvider).AssemblyQualifiedName;
             properties[Environment.ConnectionDriver] = typeof(SqlClientDriver).AssemblyQualifiedName;
             properties[Environment.ConnectionString] = Settings.Default.ConnectionString;
