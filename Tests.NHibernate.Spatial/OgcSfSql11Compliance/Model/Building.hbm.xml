@@ -2,10 +2,10 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
 
 	<class table="buildings" name="Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model.Building, Tests.NHibernate.Spatial">
-		<id name="Fid" type="Int64" column="fid" >
+		<id name="Fid" type="Int64" column="fid">
 			<generator class="assigned" />
 		</id>
-		<property name="Address" column="address"/>
+		<property name="Address" column="address" />
 		<property name="Position" column="position">
 			<type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
 				<param name="srid">101</param>
@@ -19,5 +19,4 @@
 			</type>
 		</property>
 	</class>
-
 </hibernate-mapping>

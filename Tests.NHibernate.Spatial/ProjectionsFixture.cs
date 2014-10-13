@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Linq;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate;
@@ -8,172 +5,172 @@ using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.Spatial.Criterion;
 using NUnit.Framework;
+using System;
+using System.Collections;
+using System.Linq;
 using Tests.NHibernate.Spatial.Model;
 
 namespace Tests.NHibernate.Spatial
 {
-	public abstract class ProjectionsFixture : AbstractFixture
-	{
+    public abstract class ProjectionsFixture : AbstractFixture
+    {
         private ISession _session;
 
-		protected override Type[] Mappings
-		{
-			get
-			{
-				return new[]
+        protected override Type[] Mappings
+        {
+            get
+            {
+                return new[]
 				           {
 				               typeof(County),
 				               typeof(Simple)
 				           };
-			}
-		}
+            }
+        }
 
-	    protected virtual Type GeometryType
-	    {
+        protected virtual Type GeometryType
+        {
             get { return GeometryType; }
-	    }
+        }
 
-		protected override void OnSetUp()
-		{
-			_session = sessions.OpenSession();
+        protected override void OnSetUp()
+        {
+            _session = sessions.OpenSession();
 
-            
             _session.Save(new Simple("point 1", new Point(2.5, 1.5)));
             _session.Save(new Simple("point 2", new Point(0.5, 0.5)));
             _session.Save(new Simple("point 3", new Point(0.5, 2.5)));
             _session.Save(new Simple("point 4", new Point(1.5, 1.5)));
 
-			_session.Save(new County("aaaa", "AA", Wkt.Read("POLYGON((1 0, 2 0, 2 1, 1 1, 1 0))")));
-			_session.Save(new County("bbbb", "BB", Wkt.Read("POLYGON((1 1, 2 1, 2 2, 1 2, 1 1))")));
-			_session.Save(new County("cccc", "BB", Wkt.Read("POLYGON((2 1, 3 1, 3 2, 2 2, 2 1))")));
-			_session.Save(new County("dddd", "AA", Wkt.Read("POLYGON((2 0, 3 0, 3 1, 2 1, 2 0))")));
-			_session.Flush();
-		}
+            _session.Save(new County("aaaa", "AA", Wkt.Read("POLYGON((1 0, 2 0, 2 1, 1 1, 1 0))")));
+            _session.Save(new County("bbbb", "BB", Wkt.Read("POLYGON((1 1, 2 1, 2 2, 1 2, 1 1))")));
+            _session.Save(new County("cccc", "BB", Wkt.Read("POLYGON((2 1, 3 1, 3 2, 2 2, 2 1))")));
+            _session.Save(new County("dddd", "AA", Wkt.Read("POLYGON((2 0, 3 0, 3 1, 2 1, 2 0))")));
+            _session.Flush();
+        }
 
-		protected override void OnTearDown()
-		{
-			DeleteMappings(_session);
-			_session.Close();
-		}
+        protected override void OnTearDown()
+        {
+            DeleteMappings(_session);
+            _session.Close();
+        }
 
-		[Test]
-		public void CountAndUnion()
-		{
-			IList results = _session.CreateCriteria(typeof(County))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.RowCount())
-					.Add(SpatialProjections.Union("Boundaries"))
-					)
-				.List();
+        [Test]
+        public void CountAndUnion()
+        {
+            IList results = _session.CreateCriteria(typeof(County))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.RowCount())
+                    .Add(SpatialProjections.Union("Boundaries"))
+                    )
+                .List();
 
-			Assert.AreEqual(1, results.Count);
+            Assert.AreEqual(1, results.Count);
 
-			object[] result = (object[])results[0];
+            object[] result = (object[])results[0];
 
-			IGeometry expected = Wkt.Read("POLYGON((1 0, 1 1, 1 2, 2 2, 3 2, 3 1, 3 0, 2 0, 1 0))");
-			IGeometry aggregated = (IGeometry)result[1];
+            IGeometry expected = Wkt.Read("POLYGON((1 0, 1 1, 1 2, 2 2, 3 2, 3 1, 3 0, 2 0, 1 0))");
+            IGeometry aggregated = (IGeometry)result[1];
 
-			Assert.AreEqual(4, result[0]);
-			Assert.IsTrue(expected.Equals(aggregated));
+            Assert.AreEqual(4, result[0]);
+            Assert.IsTrue(expected.Equals(aggregated));
+        }
 
-		}
+        [Test]
+        public void CountAndUnionByState()
+        {
+            IList results = _session.CreateCriteria(typeof(County))
+                .AddOrder(Order.Asc("State"))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.GroupProperty("State"))
+                    .Add(Projections.RowCount())
+                    .Add(SpatialProjections.Union("Boundaries"))
+                    )
+                .List();
 
-		[Test]
-		public void CountAndUnionByState()
-		{
-			IList results = _session.CreateCriteria(typeof(County))
-				.AddOrder(Order.Asc("State"))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.GroupProperty("State"))
-					.Add(Projections.RowCount())
-					.Add(SpatialProjections.Union("Boundaries"))
-					)
-				.List();
+            CountAndUnionByState(results);
+        }
 
-			CountAndUnionByState(results);
-		}
+        [Test]
+        public void CountAndUnionByStateLambda()
+        {
+            var results = _session.QueryOver<County>()
+                .Select(
+                    Projections.ProjectionList()
+                        .Add(Projections.Group<County>(o => o.State))
+                        .Add(Projections.RowCount())
+                        .Add(SpatialProjections.Union<County>(o => o.Boundaries)))
+                .OrderBy(o => o.State).Asc
+                .List<object[]>();
 
-		[Test]
-		public void CountAndUnionByStateLambda()
-		{
-			var results = _session.QueryOver<County>()
-				.Select(
-					Projections.ProjectionList()
-						.Add(Projections.Group<County>(o => o.State))
-						.Add(Projections.RowCount())
-						.Add(SpatialProjections.Union<County>(o => o.Boundaries)))
-				.OrderBy(o => o.State).Asc
-				.List<object[]>();
+            CountAndUnionByState((IList)results);
+        }
 
-			CountAndUnionByState((IList)results);
-		}
+        private static void CountAndUnionByState(IList results)
+        {
+            Assert.AreEqual(2, results.Count);
 
-		private static void CountAndUnionByState(IList results)
-		{
-			Assert.AreEqual(2, results.Count);
+            object[] resultAA = (object[])results[0];
+            object[] resultBB = (object[])results[1];
 
-			object[] resultAA = (object[])results[0];
-			object[] resultBB = (object[])results[1];
+            int countAA = (int)resultAA[1];
+            int countBB = (int)resultBB[1];
+            IGeometry aggregatedAA = (IGeometry)resultAA[2];
+            IGeometry aggregatedBB = (IGeometry)resultBB[2];
 
-			int countAA = (int)resultAA[1];
-			int countBB = (int)resultBB[1];
-			IGeometry aggregatedAA = (IGeometry)resultAA[2];
-			IGeometry aggregatedBB = (IGeometry)resultBB[2];
+            IGeometry expectedAA = Wkt.Read("POLYGON((1 0, 1 1, 3 1, 3 0, 1 0))");
+            IGeometry expectedBB = Wkt.Read("POLYGON((1 1, 1 2, 3 2, 3 1, 1 1))");
 
-			IGeometry expectedAA = Wkt.Read("POLYGON((1 0, 1 1, 3 1, 3 0, 1 0))");
-			IGeometry expectedBB = Wkt.Read("POLYGON((1 1, 1 2, 3 2, 3 1, 1 1))");
+            Assert.AreEqual(2, countAA);
+            Assert.AreEqual(2, countBB);
+            Assert.IsTrue(expectedAA.Equals(aggregatedAA));
+            Assert.IsTrue(expectedBB.Equals(aggregatedBB));
+        }
 
-			Assert.AreEqual(2, countAA);
-			Assert.AreEqual(2, countBB);
-			Assert.IsTrue(expectedAA.Equals(aggregatedAA));
-			Assert.IsTrue(expectedBB.Equals(aggregatedBB));
-		}
+        [Test]
+        public void EnvelopeAll()
+        {
+            IList results = _session.CreateCriteria(typeof(County))
+                .SetProjection(SpatialProjections.Envelope("Boundaries"))
+                .List();
 
-		[Test]
-		public void EnvelopeAll()
-		{
-			IList results = _session.CreateCriteria(typeof(County))
-				.SetProjection(SpatialProjections.Envelope("Boundaries"))
-				.List();
+            Assert.AreEqual(1, results.Count);
 
-			Assert.AreEqual(1, results.Count);
+            var aggregated = (IGeometry)results[0];
+            var expected = new Envelope(1, 3, 0, 2);
 
-			var aggregated = (IGeometry)results[0];
-			var expected = new Envelope(1, 3, 0, 2);
+            Assert.IsTrue(expected.Equals(aggregated.EnvelopeInternal));
+        }
 
-			Assert.IsTrue(expected.Equals(aggregated.EnvelopeInternal));
+        [Test]
+        public void CollectAll()
+        {
+            IList results = _session.CreateCriteria(typeof(County))
+                .SetProjection(SpatialProjections.Collect("Boundaries"))
+                .List();
 
-		}
+            Assert.AreEqual(1, results.Count);
 
-		[Test]
-		public void CollectAll()
-		{
-			IList results = _session.CreateCriteria(typeof(County))
-				.SetProjection(SpatialProjections.Collect("Boundaries"))
-				.List();
+            var aggregated = (IGeometry)results[0];
 
-			Assert.AreEqual(1, results.Count);
+            Assert.AreEqual(4, aggregated.NumGeometries);
+            //Assert.AreEqual("GEOMETRYCOLLECTION", aggregated.GeometryType);
+        }
 
-			var aggregated = (IGeometry)results[0];
+        [Test]
+        public void IntersectionAll()
+        {
+            IList results = _session.CreateCriteria(typeof(County))
+                .SetProjection(SpatialProjections.Intersection("Boundaries"))
+                .List();
 
-			Assert.AreEqual(4, aggregated.NumGeometries);
-			//Assert.AreEqual("GEOMETRYCOLLECTION", aggregated.GeometryType);
-		}
+            Assert.AreEqual(1, results.Count);
 
-		[Test]
-		public void IntersectionAll()
-		{
-			IList results = _session.CreateCriteria(typeof(County))
-				.SetProjection(SpatialProjections.Intersection("Boundaries"))
-				.List();
+            IGeometry aggregated = (IGeometry)results[0];
+            IGeometry expected = new Point(2, 1);
 
-			Assert.AreEqual(1, results.Count);
-
-			IGeometry aggregated = (IGeometry)results[0];
-			IGeometry expected = new Point(2, 1);
-
-			Assert.IsTrue(expected.Equals(aggregated));
-		}
+            Assert.IsTrue(expected.Equals(aggregated));
+        }
 
         /// <summary>
         /// Gets all the points sorted by the distance to a certain point
@@ -181,22 +178,19 @@ namespace Tests.NHibernate.Spatial
         [Test]
         public void OrderByDistanceHql()
         {
-            var point = new Point(0.0, 0.0) {SRID = 4326};
+            var point = new Point(0.0, 0.0) { SRID = 4326 };
 
             var result = _session.CreateQuery(
-                @"select p from Simple p 
+                @"select p from Simple p
                   order by NHSP.Distance(p.Geometry, :point)")
                 .SetParameter("point", point, NHibernateUtil.Custom(GeometryType))
                 .List<Simple>();
-
 
             Assert.That(result[0].Description, Is.EqualTo("point 2"));
             Assert.That(result[1].Description, Is.EqualTo("point 4"));
             Assert.That(result[2].Description, Is.EqualTo("point 3"));
             Assert.That(result[3].Description, Is.EqualTo("point 1"));
-
         }
-
 
         [Test]
         public void OrderByDistanceQueryOver()
@@ -228,12 +222,6 @@ namespace Tests.NHibernate.Spatial
             Assert.That(result[1].Description, Is.EqualTo("point 4"));
             Assert.That(result[2].Description, Is.EqualTo("point 3"));
             Assert.That(result[3].Description, Is.EqualTo("point 1"));
-
-
-
         }
-
-
-	}
-
+    }
 }

@@ -31,16 +31,16 @@
  *     www.vividsolutions.com
  */
 
+using GeoAPI.Geometries;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GeoAPI.Geometries;
 
 namespace NetTopologySuite.Windows.Forms
 {
     ///<summary>
     /// An interface for classes which create <see cref="GraphicsPath"/>s to represent
-    /// <see cref="IPoint"/> geometries. Windows.Forms does not provide an actual 
-    /// point shape, so some other shape must be used to render points (e.g. such 
+    /// <see cref="IPoint"/> geometries. Windows.Forms does not provide an actual
+    /// point shape, so some other shape must be used to render points (e.g. such
     /// as a Rectangle or Ellipse)
     ///</summary>
     /// <author>Martin Davis</author>
@@ -66,7 +66,9 @@ namespace NetTopologySuite.Windows.Forms
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        protected BasePointShapeFactory() { }
+        protected BasePointShapeFactory()
+        {
+        }
 
         ///<summary>
         /// Creates a factory for points of given size.
@@ -98,9 +100,14 @@ namespace NetTopologySuite.Windows.Forms
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        public Square() { }
+        public Square()
+        {
+        }
 
-        public Square(double size) : base(size) { }
+        public Square(double size)
+            : base(size)
+        {
+        }
 
         public override GraphicsPath CreatePoint(PointF point)
         {
@@ -121,9 +128,14 @@ namespace NetTopologySuite.Windows.Forms
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        public Star() { }
+        public Star()
+        {
+        }
 
-        public Star(double size) : base(size) { }
+        public Star(double size)
+            : base(size)
+        {
+        }
 
         public override GraphicsPath CreatePoint(PointF point)
         {
@@ -156,13 +168,17 @@ namespace NetTopologySuite.Windows.Forms
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        public Triangle() { }
+        public Triangle()
+        {
+        }
 
-        public Triangle(double size) : base(size) { }
+        public Triangle(double size)
+            : base(size)
+        {
+        }
 
         public override GraphicsPath CreatePoint(PointF point)
         {
-
             var path = new GraphicsPath();
             path.AddPolygon(
                 new[]
@@ -171,22 +187,26 @@ namespace NetTopologySuite.Windows.Forms
                     new PointF((point.X + Size/2), (point.Y + Size/2)),
                     new PointF((point.X - Size/2), (point.Y + Size/2)),
                     new PointF((point.X), (point.Y - Size/2))
-
                 }
                 );
 
             return path;
         }
-
     }
+
     public class Circle : BasePointShapeFactory
     {
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        public Circle() { }
+        public Circle()
+        {
+        }
 
-        public Circle(double size) : base(size) { }
+        public Circle(double size)
+            : base(size)
+        {
+        }
 
         public override GraphicsPath CreatePoint(PointF point)
         {
@@ -195,20 +215,24 @@ namespace NetTopologySuite.Windows.Forms
 
             return pointMarker;
         }
-
     }
+
     public class Cross : BasePointShapeFactory
     {
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        public Cross() { }
+        public Cross()
+        {
+        }
 
-        public Cross(double size) : base(size) { }
+        public Cross(double size)
+            : base(size)
+        {
+        }
 
         public override GraphicsPath CreatePoint(PointF point)
         {
-
             var x1 = point.X - Size / 2f;
             var x2 = point.X - Size / 4f;
             var x3 = point.X + Size / 4f;
@@ -243,18 +267,23 @@ namespace NetTopologySuite.Windows.Forms
             return path;
         }
     }
+
     public class X : BasePointShapeFactory
     {
         ///<summary>
         /// Creates a new factory for points with default size.
         ///</summary>
-        public X() { }
+        public X()
+        {
+        }
 
-        public X(double size) : base(size) { }
+        public X(double size)
+            : base(size)
+        {
+        }
 
         public override GraphicsPath CreatePoint(PointF point)
         {
-
             var path = new GraphicsPath();
             path.AddPolygon(
                 new[]
@@ -274,6 +303,5 @@ namespace NetTopologySuite.Windows.Forms
                 });
             return path;
         }
-
     }
 }

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using GeoAPI.Geometries;
+using System.Collections.Generic;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -25,7 +25,7 @@ namespace Open.Topology.TestRunner.Functions
      * augment the existing methods on {@link Geometry},
      * for use in XML Test files.
      * These should be named differently to the Geometry methods.
-     * 
+     *
      * @author Martin Davis
      *
      */

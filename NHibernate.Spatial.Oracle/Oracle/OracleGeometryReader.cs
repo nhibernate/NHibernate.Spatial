@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // NHibernate.Spatial is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,16 +13,16 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with NHibernate.Spatial; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate.Spatial.MGeometries;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace NHibernate.Spatial.Oracle
 {
@@ -31,9 +31,12 @@ namespace NHibernate.Spatial.Oracle
         private readonly IGeometryFactory factory;
 
         /// <summary>
-        /// Initialize reader with a standard <c>GeometryFactory</c>. 
+        /// Initialize reader with a standard <c>GeometryFactory</c>.
         /// </summary>
-        public OracleGeometryReader() : this(new GeometryFactory()) { }
+        public OracleGeometryReader()
+            : this(new GeometryFactory())
+        {
+        }
 
         /// <summary>
         /// Initialize reader with the given <c>GeometryFactory</c>.
@@ -101,7 +104,7 @@ namespace NHibernate.Spatial.Oracle
             //{
             //    geometries.Add(ReadGeometry(elemGeom));
             //}
-            // TODO : Check if this will work SdoGeometry does not 
+            // TODO : Check if this will work SdoGeometry does not
             // have a getElementgeometries method anymore
             geometries.Add(ReadGeometry(sdoGeom));
             return factory.CreateGeometryCollection(geometries.ToArray());
@@ -206,7 +209,6 @@ namespace NHibernate.Spatial.Oracle
                     : factory.CreateMultiLineString(lines);
             mls.SRID = (int)sdoGeom.Sdo_Srid;
             return mls;
-
         }
 
         private IGeometry ReadPolygon(int dim, int lrsDim, SdoGeometry sdoGeom)
@@ -302,7 +304,7 @@ namespace NHibernate.Spatial.Oracle
 
         /**
          * Gets the ICoordinateSequence corresponding to a compound element.
-         * 
+         *
          * @param idxFirst
          *            the first sub-element of the compound element
          * @param idxLast
@@ -311,6 +313,7 @@ namespace NHibernate.Spatial.Oracle
          *            the SdoGeometry that holds the compound element.
          * @return
          */
+
         private ICoordinateSequence GetCompoundCSeq(int idxFirst, int idxLast, SdoGeometry sdoGeom)
         {
             ICoordinateSequence cs = null;
@@ -332,11 +335,12 @@ namespace NHibernate.Spatial.Oracle
 
         /**
      * Gets the ICoordinateSequence corresponding to an element.
-     * 
+     *
      * @param i
      * @param sdoGeom
      * @return
      */
+
         private ICoordinateSequence GetElementCSeq(int i, SdoGeometry sdoGeom, bool hasNextSE)
         {
             ElementType type = (ElementType)sdoGeom.ElemArray[i * 3 + 1];
@@ -362,7 +366,6 @@ namespace NHibernate.Spatial.Oracle
                 type == ElementType.EXTERIOR_RING_ARC_SEGMENTS ||
                 type == ElementType.EXTERIOR_RING_RECT ||
                 type == ElementType.EXTERIOR_RING_CIRCLE;
-
 
             bool isStraightSegment =
                 type == ElementType.POINT ||
@@ -503,7 +506,7 @@ namespace NHibernate.Spatial.Oracle
 
         /**
      * Linearizes arcs and circles.
-     * 
+     *
      * @param arcOrdinates
      *            arc or circle coordinates
      * @param dim
@@ -514,6 +517,7 @@ namespace NHibernate.Spatial.Oracle
      *            whether the whole arc should be linearized
      * @return linearized interpolation of arcs or circle
      */
+
         private Coordinate[] Linearize(Double[] arcOrdinates, int dim, bool lrs,
                                        bool entireCirlce)
         {
@@ -608,6 +612,5 @@ namespace NHibernate.Spatial.Oracle
         //    stb.Append(")");
         //    return stb.ToString();
         //}
-
     }
 }

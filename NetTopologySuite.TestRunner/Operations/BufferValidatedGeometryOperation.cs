@@ -1,16 +1,15 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using GeoAPI.Operations.Buffer;
 using NetTopologySuite.IO;
 using NetTopologySuite.Operation.Buffer.Validate;
 using NetTopologySuite.Utilities;
 using Open.Topology.TestRunner.Result;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {
-
     /// <summary>
-    /// A <see cref="IGeometryOperation"/> which validates the results of the 
+    /// A <see cref="IGeometryOperation"/> which validates the results of the
     /// <see cref="IGeometry"/> <tt>buffer()</tt> method.
     /// If an invalid result is found, an exception is thrown (this is the most
     /// convenient and noticeable way of flagging the problem when using the TestRunner).
@@ -25,7 +24,6 @@ namespace Open.Topology.TestRunner.Operations
     /// </author>
     public class BufferValidatedGeometryOperation : IGeometryOperation
     {
-
         private const bool ReturnEmptyGeometryCollection = false;
 
         private readonly GeometryMethodOperation _chainOp = new GeometryMethodOperation();
@@ -37,7 +35,6 @@ namespace Open.Topology.TestRunner.Operations
 
         public BufferValidatedGeometryOperation()
         {
-
         }
 
         public Type GetReturnType(XmlTestType op)
@@ -72,7 +69,7 @@ namespace Open.Topology.TestRunner.Operations
             string opName = op.ToString();
             bool isBufferOp = opName.Equals("buffer", StringComparison.InvariantCultureIgnoreCase);
             // if not a buffer op, do the default
-            if (! isBufferOp)
+            if (!isBufferOp)
             {
                 return _chainOp.Invoke(opName, geometry, args);
             }
@@ -83,9 +80,9 @@ namespace Open.Topology.TestRunner.Operations
         private void ParseArgs(Object[] args)
         {
             _argCount = args.Length;
-            _distance = Double.Parse((String) args[0]);
+            _distance = Double.Parse((String)args[0]);
             if (_argCount >= 2)
-                _quadSegments = Int32.Parse((String) args[1]);
+                _quadSegments = Int32.Parse((String)args[1]);
             if (_argCount >= 3)
                 _endCapStyle = (EndCapStyle)Int32.Parse((String)args[2]);
         }
@@ -98,7 +95,7 @@ namespace Open.Topology.TestRunner.Operations
             Validate(geometry, result);
 
             /**
-             * Return an empty GeometryCollection as the result.  
+             * Return an empty GeometryCollection as the result.
              * This allows the test case to avoid specifying an exact result
              */
             if (ReturnEmptyGeometryCollection)
@@ -139,7 +136,7 @@ namespace Open.Topology.TestRunner.Operations
 
         private bool IsEmptyBufferExpected(IGeometry geom)
         {
-            var isNegativeBufferOfNonAreal = (int) geom.Dimension < 2 && _distance <= 0.0;
+            var isNegativeBufferOfNonAreal = (int)geom.Dimension < 2 && _distance <= 0.0;
             return isNegativeBufferOfNonAreal;
         }
 
@@ -173,9 +170,8 @@ namespace Open.Topology.TestRunner.Operations
                 {
                     isCovered = geom.Covers(buffer);
                 }
-
             }
-            if (! isCovered)
+            if (!isCovered)
             {
                 ReportError(errMsg, null);
             }
@@ -184,7 +180,7 @@ namespace Open.Topology.TestRunner.Operations
         private static void CheckDistance(IGeometry geom, double distance, IGeometry buffer)
         {
             var bufValidator = new BufferResultValidator(geom, distance, buffer);
-            if (! bufValidator.IsValid())
+            if (!bufValidator.IsValid())
             {
                 var errorMsg = bufValidator.ErrorMessage;
                 var errorLoc = bufValidator.ErrorLocation;
@@ -199,10 +195,8 @@ namespace Open.Topology.TestRunner.Operations
             {
                 locStr = " at " + WKTWriter.ToPoint(loc);
             }
-//  	System.out.println(msg);
+            //  	System.out.println(msg);
             throw new Exception(msg + locStr);
         }
-
-
     }
 }

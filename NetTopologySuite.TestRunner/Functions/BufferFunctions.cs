@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
+using GeoAPI.Operation.Buffer;
 using GeoAPI.Operations.Buffer;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Operation.Buffer;
 using NetTopologySuite.Operation.Buffer.Validate;
-using GeoAPI.Operation.Buffer;
+using System;
+using System.Collections.Generic;
 
 namespace Open.Topology.TestRunner.Functions
 {
     public class BufferFunctions
     {
-        public static IGeometry Buffer(IGeometry g, double distance) { return g.Buffer(distance); }
+        public static IGeometry Buffer(IGeometry g, double distance)
+        {
+            return g.Buffer(distance);
+        }
 
         public static IGeometry BufferWithParams(IGeometry g, Double? distance,
                 int? quadrantSegments, int? capStyle, int? joinStyle, Double? mitreLimit)
@@ -94,6 +97,5 @@ namespace Open.Topology.TestRunner.Functions
                 throw new InvalidOperationException(errMsg);
             return buf;
         }
-
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
+using System;
 
 namespace Open.Topology.TestRunner.Result
 {
@@ -19,7 +19,7 @@ namespace Open.Topology.TestRunner.Result
                      IResult actualResult, IResult expectedResult,
                      double tolerance);
     }
-    
+
     /// <summary>
     /// An interface for classes which can determine whether
     /// two <see typeref="TestResult"/>s match, within a given <tt>tolerance</tt>.

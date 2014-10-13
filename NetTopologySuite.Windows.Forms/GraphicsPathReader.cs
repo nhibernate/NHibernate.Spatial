@@ -1,10 +1,9 @@
+using GeoAPI.Geometries;
+using NetTopologySuite.Algorithm;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GeoAPI.Geometries;
-using NetTopologySuite.Algorithm;
-using NetTopologySuite.Geometries;
 
 namespace NetTopologySuite.Windows.Forms
 {
@@ -14,7 +13,7 @@ namespace NetTopologySuite.Windows.Forms
     ///</summary>
     ///<remarks>
     /// <para>
-    /// The coordinate system for <see cref="System.Drawing.Graphics"/> is typically screen coordinates, 
+    /// The coordinate system for <see cref="System.Drawing.Graphics"/> is typically screen coordinates,
     /// which has the Y axis inverted  relative to the usual JTS coordinate system.
     /// This is rectified during conversion. </para>
     /// <para>
@@ -22,7 +21,7 @@ namespace NetTopologySuite.Windows.Forms
     /// That is, <see cref="GraphicsPathIterator.HasCurve"/> must always return false.
     /// Otherwise an exception will be thrown.
     /// </para>
-    /// </remarks>  
+    /// </remarks>
     /// <author>Martin Davis</author>
     public class GraphicsPathReader
     {
@@ -39,6 +38,7 @@ namespace NetTopologySuite.Windows.Forms
             var pc = new GraphicsPathReader(geomFact);
             return pc.Read(pathIt);
         }
+
         ///<summary>
         /// Converts a <see cref="GraphicsPath"/> to a Geometry, flattening it first.
         ///</summary>
@@ -74,7 +74,7 @@ namespace NetTopologySuite.Windows.Forms
             var seqIndex = 0;
             while (seqIndex < pathPtSeq.Count)
             {
-                // assume next seq is shell 
+                // assume next seq is shell
                 // TODO: test this
                 var pts = pathPtSeq[seqIndex];
                 var shell = _geometryFactory.CreateLinearRing(pts);
@@ -121,7 +121,6 @@ namespace NetTopologySuite.Windows.Forms
                 Coordinate[] pts = NextCoordinateArray(pathIt, startIndex, endIndex, isClosed);
                 coordArrays.Add(pts);
                 if (endIndex == pathIt.Count - 1) break;
-
             }
             return coordArrays;
         }
@@ -141,6 +140,5 @@ namespace NetTopologySuite.Windows.Forms
 
             return ret;
         }
-
     }
 }

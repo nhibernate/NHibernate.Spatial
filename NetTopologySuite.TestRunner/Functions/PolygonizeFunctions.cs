@@ -1,15 +1,14 @@
-using System.Collections.Generic;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Operation.Polygonize;
 using NetTopologySuite.Utilities;
+using System.Collections.Generic;
 
 namespace Open.Topology.TestRunner.Functions
 {
     public class PolygonizeFunctions
     {
-
         public static IGeometry polygonize(IGeometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
@@ -19,6 +18,7 @@ namespace Open.Topology.TestRunner.Functions
             var polyArray = GeometryFactory.ToPolygonArray(polys);
             return g.Factory.CreateGeometryCollection(polyArray);
         }
+
         public static IGeometry polygonizeDangles(IGeometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
@@ -27,6 +27,7 @@ namespace Open.Topology.TestRunner.Functions
             var geom = polygonizer.GetDangles();
             return g.Factory.BuildGeometry(CollectionUtil.Cast<ILineString, IGeometry>(geom));
         }
+
         public static IGeometry polygonizeCutEdges(IGeometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
@@ -35,6 +36,7 @@ namespace Open.Topology.TestRunner.Functions
             var geom = polygonizer.GetCutEdges();
             return g.Factory.BuildGeometry(CollectionUtil.Cast<ILineString, IGeometry>(geom));
         }
+
         public static IGeometry polygonizeInvalidRingLines(IGeometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
@@ -43,6 +45,7 @@ namespace Open.Topology.TestRunner.Functions
             var geom = polygonizer.GetInvalidRingLines();
             return g.Factory.BuildGeometry(geom);
         }
+
         public static IGeometry polygonizeAllErrors(IGeometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
@@ -54,8 +57,5 @@ namespace Open.Topology.TestRunner.Functions
             errs.AddRange(CollectionUtil.Cast<IGeometry, ILineString>(polygonizer.GetInvalidRingLines()));
             return g.Factory.BuildGeometry(CollectionUtil.Cast<ILineString, IGeometry>(errs));
         }
-
-
-
     }
 }

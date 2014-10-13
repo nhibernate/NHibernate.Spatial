@@ -1,5 +1,5 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
+using System;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -11,7 +11,6 @@ namespace Open.Topology.TestRunner.Functions
     /// <author>Martin Davis</author>
     public interface IGeometryFunction
     {
-
         /// <summary>
         /// Gets the category name of this function
         /// </summary>
@@ -52,9 +51,9 @@ namespace Open.Topology.TestRunner.Functions
         Object Invoke(IGeometry geom, Object[] args);
 
         ///**
-        // * Two functions are the same if they have the 
+        // * Two functions are the same if they have the
         // * same name, parameter types and return type.
-        // * 
+        // *
         // * @param obj
         // * @return true if this object is the same as the <tt>obj</tt> argument
         // */

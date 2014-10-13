@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
+using System.Collections.Generic;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -10,7 +10,7 @@ namespace Open.Topology.TestRunner.Functions
         {
             if (!(g is IGeometryCollection))
             {
-                return g.Factory.CreateGeometryCollection(new[] {g});
+                return g.Factory.CreateGeometryCollection(new[] { g });
             }
 
             var atomicGeoms = new List<IGeometry>();

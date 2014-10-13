@@ -1,9 +1,9 @@
-﻿using System;
-using GeoAPI.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.IO;
 using NetTopologySuite.Operation.Overlay;
 using NetTopologySuite.Operation.Overlay.Validate;
 using Open.Topology.TestRunner.Result;
+using System;
 
 namespace Open.Topology.TestRunner.Operations
 {
@@ -13,12 +13,12 @@ namespace Open.Topology.TestRunner.Operations
      * convenient and noticeable way of flagging the problem when using the TestRunner).
      * All other Geometry methods are executed normally.
      * <p>
-     * In order to eliminate the need to specify the precise result of an overlay, 
+     * In order to eliminate the need to specify the precise result of an overlay,
      * this class forces the final return value to be <tt>GEOMETRYCOLLECTION EMPTY</tt>.
      * <p>
      * This class can be used via the <tt>-geomop</tt> command-line option
      * or by the <tt>&lt;geometryOperation&gt;</tt> XML test file setting.
-     * 
+     *
      * @author Martin Davis
      *
      */
@@ -27,7 +27,7 @@ namespace Open.Topology.TestRunner.Operations
     {
         public static SpatialFunction OverlayOpCode(String methodName)
         {
-            if (methodName.Equals("intersection", StringComparison.InvariantCultureIgnoreCase) ) return SpatialFunction.Intersection;
+            if (methodName.Equals("intersection", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.Intersection;
             if (methodName.Equals("union", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.Union;
             if (methodName.Equals("difference", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.Difference;
             if (methodName.Equals("symDifference", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.SymDifference;
@@ -40,7 +40,6 @@ namespace Open.Topology.TestRunner.Operations
 
         public OverlayValidatedGeometryOperation()
         {
-
         }
 
         public Type GetReturnType(XmlTestType op)
@@ -88,22 +87,23 @@ namespace Open.Topology.TestRunner.Operations
         }
 
         /**
-         * 
+         *
          * and optionally validating the result.
-         * 
+         *
          * @param opCode
          * @param g0
          * @param args
          * @return
          * @throws Exception
          */
+
         /// <summary>
         /// Invokes an overlay op, optionally using snapping,
         /// and optionally validating the result.
         /// </summary>
         public IResult InvokeValidatedOverlayOp(SpatialFunction opCode, IGeometry g0, Object[] args)
         {
-            var g1 = (IGeometry) args[0];
+            var g1 = (IGeometry)args[0];
 
             var result = InvokeGeometryOverlayMethod(opCode, g0, g1);
 
@@ -112,7 +112,7 @@ namespace Open.Topology.TestRunner.Operations
             AreaValidate(g0, g1);
 
             /**
-             * Return an empty GeometryCollection as the result.  
+             * Return an empty GeometryCollection as the result.
              * This allows the test case to avoid specifying an exact result
              */
             if (ReturnEmptyGeometryCollection)
@@ -168,10 +168,13 @@ namespace Open.Topology.TestRunner.Operations
             {
                 case SpatialFunction.Intersection:
                     return g0.Intersection(g1);
+
                 case SpatialFunction.Union:
                     return g0.Union(g1);
+
                 case SpatialFunction.Difference:
                     return g0.Difference(g1);
+
                 case SpatialFunction.SymDifference:
                     return g0.SymmetricDifference(g1);
             }

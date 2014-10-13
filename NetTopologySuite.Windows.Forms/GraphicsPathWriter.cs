@@ -31,10 +31,10 @@
  *     www.vividsolutions.com
  */
 
+using GeoAPI.Geometries;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GeoAPI.Geometries;
 
 namespace NetTopologySuite.Windows.Forms
 {

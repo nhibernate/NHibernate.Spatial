@@ -1,4 +1,3 @@
-using System;
 using GeoAPI.Geometries;
 using GeoAPI.Operations.Buffer;
 using NetTopologySuite.Densify;
@@ -6,6 +5,7 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.Operation.Buffer;
 using NetTopologySuite.Triangulate;
 using Open.Topology.TestRunner.Utility;
+using System;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -23,12 +23,10 @@ namespace Open.Topology.TestRunner.Functions
         {
             return Densifier.Densify(g, distance);
         }
-
     }
 
     public class TriangleFunctions
     {
-
         public static IGeometry circumcentre(IGeometry g)
         {
             var pts = trianglePts(g);
@@ -44,11 +42,11 @@ namespace Open.Topology.TestRunner.Functions
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             var line = new ILineString[3];
             var p0 = (new LineSegment(pts[1], pts[2])).ClosestPoint(cc);
-            line[0] = geomFact.CreateLineString(new Coordinate[] {p0, cc});
+            line[0] = geomFact.CreateLineString(new Coordinate[] { p0, cc });
             var p1 = (new LineSegment(pts[0], pts[2])).ClosestPoint(cc);
-            line[1] = geomFact.CreateLineString(new Coordinate[] {p1, cc});
+            line[1] = geomFact.CreateLineString(new Coordinate[] { p1, cc });
             var p2 = (new LineSegment(pts[0], pts[1])).ClosestPoint(cc);
-            line[2] = geomFact.CreateLineString(new Coordinate[] {p2, cc});
+            line[2] = geomFact.CreateLineString(new Coordinate[] { p2, cc });
             return geomFact.CreateMultiLineString(line);
         }
 
@@ -66,12 +64,11 @@ namespace Open.Topology.TestRunner.Functions
             var cc = Triangle.InCentre(pts[0], pts[1], pts[2]);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             var line = new ILineString[3];
-            line[0] = geomFact.CreateLineString(new Coordinate[] {pts[0], cc});
-            line[1] = geomFact.CreateLineString(new Coordinate[] {pts[1], cc});
-            line[2] = geomFact.CreateLineString(new Coordinate[] {pts[2], cc});
+            line[0] = geomFact.CreateLineString(new Coordinate[] { pts[0], cc });
+            line[1] = geomFact.CreateLineString(new Coordinate[] { pts[1], cc });
+            line[2] = geomFact.CreateLineString(new Coordinate[] { pts[2], cc });
             return geomFact.CreateMultiLineString(line);
         }
-
 
         private static Coordinate[] trianglePts(IGeometry g)
         {
@@ -132,7 +129,6 @@ namespace Open.Topology.TestRunner.Functions
             return diagram;
         }
 
-
         public static IGeometry conformingDelaunayEdges(IGeometry sites, IGeometry constraints)
         {
             ConformingDelaunayTriangulationBuilder builder = new ConformingDelaunayTriangulationBuilder();
@@ -149,14 +145,12 @@ namespace Open.Topology.TestRunner.Functions
         {
             ConformingDelaunayTriangulationBuilder builder = new ConformingDelaunayTriangulationBuilder();
             builder.SetSites(sites);
-            builder.Constraints =constraints;
-            builder.Tolerance=TRIANGULATION_TOLERANCE;
+            builder.Constraints = constraints;
+            builder.Tolerance = TRIANGULATION_TOLERANCE;
 
             var geomFact = sites != null ? sites.Factory : constraints.Factory;
             IGeometry tris = builder.GetTriangles(geomFact);
             return tris;
         }
-
     }
-
 }

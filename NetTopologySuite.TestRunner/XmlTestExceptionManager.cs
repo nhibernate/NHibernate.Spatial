@@ -22,17 +22,17 @@ namespace Open.Topology.TestRunner
 
     public delegate void XmlTestErrorEventHandler(object sender, XmlTestErrorEventArgs args);
 
-	/// <summary>
-	/// Summary description for XmlTestExceptionManager.
-	/// </summary>
-	public class XmlTestExceptionManager
-	{
-		public XmlTestExceptionManager()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
+    /// <summary>
+    /// Summary description for XmlTestExceptionManager.
+    /// </summary>
+    public class XmlTestExceptionManager
+    {
+        public XmlTestExceptionManager()
+        {
+            //
+            // TODO: Add constructor logic here
+            //
+        }
 
         public static event XmlTestErrorEventHandler ErrorEvent;
 
@@ -41,5 +41,5 @@ namespace Open.Topology.TestRunner
             if (ErrorEvent != null)
                 ErrorEvent(typeof(XmlTestExceptionManager), new XmlTestErrorEventArgs(ex));
         }
-	}
+    }
 }

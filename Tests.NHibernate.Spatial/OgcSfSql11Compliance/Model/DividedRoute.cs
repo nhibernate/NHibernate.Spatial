@@ -1,50 +1,53 @@
-using System;
 using GeoAPI.Geometries;
+using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
 {
-	[Serializable]
-	public class DividedRoute
-	{
-		public DividedRoute()
-		{
-		}
+    [Serializable]
+    public class DividedRoute
+    {
+        public DividedRoute()
+        {
+        }
 
-		public DividedRoute(long fid, string name, int numLanes, IGeometry centerlines)
-		{
-			this.Fid = fid;
-			this.Name = name;
-			this.NumLanes = numLanes;
-			this.Centerlines = centerlines;
-		}
+        public DividedRoute(long fid, string name, int numLanes, IGeometry centerlines)
+        {
+            this.Fid = fid;
+            this.Name = name;
+            this.NumLanes = numLanes;
+            this.Centerlines = centerlines;
+        }
 
-		private long fid;
-		public long Fid
-		{
-			get { return fid; }
-			set { fid = value; }
-		}
+        private long fid;
 
-		private string name;
-		public string Name
-		{
-			get { return name; }
-			set { name = value; }
-		}
+        public long Fid
+        {
+            get { return fid; }
+            set { fid = value; }
+        }
 
-		private int numLanes;
-		public int NumLanes
-		{
-			get { return numLanes; }
-			set { numLanes = value; }
-		}
+        private string name;
 
-		private IGeometry centerlines;
-		public IGeometry Centerlines
-		{
-			get { return centerlines; }
-			set { centerlines = value; }
-		}
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
-	}
+        private int numLanes;
+
+        public int NumLanes
+        {
+            get { return numLanes; }
+            set { numLanes = value; }
+        }
+
+        private IGeometry centerlines;
+
+        public IGeometry Centerlines
+        {
+            get { return centerlines; }
+            set { centerlines = value; }
+        }
+    }
 }

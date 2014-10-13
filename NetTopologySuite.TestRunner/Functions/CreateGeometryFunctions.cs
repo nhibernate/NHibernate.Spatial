@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using GeoAPI.Geometries;
-using NetTopologySuite.Geometries;
+﻿using GeoAPI.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Utilities;
 using NetTopologySuite.Windows.Forms;
 using Open.Topology.TestRunner.Utility;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace Open.Topology.TestRunner.Functions
 {
     public class CreateGeometryFunctions
     {
-
         private static readonly int DEFAULT_POINTSIZE = 100;
 
         public static IGeometry fontGlyphSerif(IGeometry g, String text)
@@ -59,16 +57,16 @@ namespace Open.Topology.TestRunner.Functions
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
 
-            int nCellsOnSide = (int) Math.Sqrt(nCells) + 1;
-            double delX = env.Width/nCellsOnSide;
-            double delY = env.Height/nCellsOnSide;
+            int nCellsOnSide = (int)Math.Sqrt(nCells) + 1;
+            double delX = env.Width / nCellsOnSide;
+            double delY = env.Height / nCellsOnSide;
 
             for (int i = 0; i < nCellsOnSide; i++)
             {
                 for (int j = 0; j < nCellsOnSide; j++)
                 {
-                    double x = env.MinX + i*delX;
-                    double y = env.MinY + j*delY;
+                    double x = env.MinX + i * delX;
+                    double y = env.MinY + j * delY;
 
                     var cellEnv = new Envelope(x, x + delX, y, y + delY);
                     geoms.Add(geomFact.ToGeometry(cellEnv));
@@ -97,7 +95,6 @@ namespace Open.Topology.TestRunner.Functions
             return supercircle(g, nPts, 0.5);
         }
 
-
         public static IGeometry supercircle(IGeometry g, int nPts, double pow)
         {
             var gsf = new GeometricShapeFactory();
@@ -108,6 +105,5 @@ namespace Open.Topology.TestRunner.Functions
                 gsf.Envelope = new Envelope(0, 1, 0, 1);
             return gsf.CreateSupercircle(pow);
         }
-
     }
 }

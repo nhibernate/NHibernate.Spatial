@@ -15,12 +15,10 @@
 // along with MsSqlSpatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-using System.Collections;
-using NHibernate.Type;
-using NHibernate.Engine;
 using NHibernate.Dialect.Function;
-using System.Data.SqlTypes;
+using NHibernate.Engine;
+using NHibernate.Type;
+using System.Collections;
 
 namespace NHibernate.Spatial.Dialect.Function
 {
@@ -64,8 +62,6 @@ namespace NHibernate.Spatial.Dialect.Function
             return new SqlCommand.SqlString(this.value);
         }
 
-        #endregion
-
+        #endregion ISQLFunction Members
     }
 }
-
