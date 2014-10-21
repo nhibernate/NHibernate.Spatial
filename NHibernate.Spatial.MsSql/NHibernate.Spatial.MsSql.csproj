@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NHibernate.Spatial</RootNamespace>
-    <AssemblyName>NHibernate.Spatial.MsSql2008</AssemblyName>
+    <AssemblyName>NHibernate.Spatial.MsSql</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

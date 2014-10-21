@@ -34,7 +34,7 @@ namespace NHibernate.Spatial.Dialect
 	{
 		private static readonly IType geometryType = new CustomType(typeof(MsSqlLegacyGeometryType), null);
 
-		private const string DialectPrefix = "ST.";
+		private const string DialectPrefix = "ST";
 
 		ISpatialDialect worker;
 
