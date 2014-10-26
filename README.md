@@ -1,45 +1,30 @@
 ## NHibernate.Spatial
 
+This is a fork of the final commit to NHibernate.Spatial at [Nhibernate Contrib][NHContrib] site made in december 2011. 
+The code has been updated to compile with the latest NTS, GeoAPI and NHibernate binaries. Currently NHibernate 4.0.1 is supported.
 
-This is not the official NH Spatial repo, this is only a copy of the final commit at [Nhibernate Contrib][NHContrib] site, 
-the code has been modified slightly to get it to compile with the latest NTS, GeoAPI and Nhibernate binaries.
+## Nuget Packages
 
+NuGet packages are currently in pre-release, but stable releases for NHibernate 4.0 are expected soon (december 2014). The packages listed below are compatible with NHibernate 3.3.3.
 
-The NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started,
-including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH].
+[Nhibernate.Spatial for Microsoft SQL Server](https://www.nuget.org/packages/NHibernate.Spatial.MsSql2008/)
 
-## Nuget Package
+[Nhibernate.Spatial for MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
 
-Thanks to Andreas for his work on releasing the Nuget package(currently in pre-release).
+[Nhibernate.Spatial for PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
 
-[Nhibernate.Spatial.MsSql2008](https://www.nuget.org/packages/NHibernate.Spatial.MsSql2008/)
+## Getting Started
+For configuring your application, please refer to [Configuration and Mapping](http://nhforge.org/wikis/spatial/configuration-and-mapping.aspx) on the NHForge Wiki. 
+Furthermore you can read about[sample usage](http://nhforge.org/wikis/spatial/sample-usage.aspx). For an updated in-depth look at NHibernate.Spatial, you can 
+read [this excellent blog post](http://build-failed.blogspot.no/2012/02/nhibernate-spatial-part-1.html) written by Pedro Sousa.
 
-[Nhibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
+For general NHibernate help, the NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started with basic NHibernate,
+including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH]. 
 
-[Nhibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
-
-## Need Help
-The Oracle Spatial dialect needs lot of love, if anyone can help with that it would be a nice gesture. At present we are excluding it from the builds since it is messed up.
-
-
-## NHibernate.Spatial (pmcxs fork)
-
-Changes pulled from 
-
-Notable changes:
-* Fixed the remaining references. No longer dependent on "lib" folder.
-* Renamed projects
-* Fixed bugs
-* Refactored code
-* Fixed the unit tests
-* Implemented missing features
-
-This fork will be mostly targeted towards SQL Server 2008/2012 but support for others RDBMS is also on the roadmap
-
-Currently supports NHibernate 3.3.1.
-
-Check the [wiki/Home] for more information
-
+## Request for Contributors
+All contributors are welcome. We need help improving the current dialects, getting tests to pass, identifying and fixing bugs, and keeping the project going.
+Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. 
+Contributors who may be able to help out with this are especially welcome. 
 
 [NHWiki]: http://nhforge.org/wikis
 [NHBlog]: http://nhforge.org/blogs/nhibernate
