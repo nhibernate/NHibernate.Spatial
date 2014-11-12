@@ -21,7 +21,7 @@ read [this excellent blog post](http://build-failed.blogspot.no/2012/02/nhiberna
 For general NHibernate help, the NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started with basic NHibernate,
 including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH]. 
 
-## Request for Contributors
+## Request for Contributors ![Open Hub Stats](https://www.openhub.net/p/5599/widgets/project_partner_badge.gif)
 All contributors are welcome. We need help improving the current dialects, getting tests to pass, identifying and fixing bugs, and keeping the project going.
 Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. 
 Contributors who may be able to help out with this are especially welcome. 
