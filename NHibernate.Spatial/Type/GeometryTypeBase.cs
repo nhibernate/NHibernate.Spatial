@@ -219,7 +219,7 @@ namespace NHibernate.Spatial.Type
             {
                 try
                 {
-                    return ga.SRID == gb.SRID && ga.Equals(gb);
+                    return ga.SRID == gb.SRID && ga.EqualsExact(gb);
                 }
                 catch (TopologyException)
                 {
