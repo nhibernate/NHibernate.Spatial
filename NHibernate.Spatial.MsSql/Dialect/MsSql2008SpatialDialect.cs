@@ -34,9 +34,9 @@ namespace NHibernate.Spatial.Dialect
 	/// </summary>
 	public abstract class MsSql2008SpatialDialect : MsSql2008Dialect, ISpatialDialect, IRegisterationAdaptor
 	{
-		private const string DialectPrefix = "ST";
+		protected const string DialectPrefix = "ST";
 
-		ISpatialDialect worker;
+		protected ISpatialDialect worker;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MsSql2008SpatialDialect"/> class.
