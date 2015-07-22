@@ -101,13 +101,11 @@ namespace NHibernate.Spatial.Type
             {
                 return null;
             }
-            else
-            {
-                OracleGeometryReader reader = new OracleGeometryReader();
-                IGeometry geometry = reader.Read(sdoGeometry);
-                this.SetDefaultSRID(geometry);
-                return geometry;
-            }
+            
+            var reader = new OracleGeometryReader();
+            var geometry = reader.Read(sdoGeometry);
+            this.SetDefaultSRID(geometry);
+            return geometry;
         }
     }
 }

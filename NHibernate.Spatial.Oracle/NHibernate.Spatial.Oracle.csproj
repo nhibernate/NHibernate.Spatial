@@ -63,25 +63,8 @@
     <Reference Include="NetTopologySuite">
       <HintPath>..\packages\NetTopologySuite.1.13.3.2\lib\net40-client\NetTopologySuite.dll</HintPath>
     </Reference>
-    <Reference Include="NetTopologySuite.IO.GeoTools">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.GeoTools.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NetTopologySuite.IO.MsSqlSpatial">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.MsSqlSpatial.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NetTopologySuite.IO.PostGis">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.PostGis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NetTopologySuite.IO.ShapeFile">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.ShapeFile.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.4.0.2.4000\lib\net40\NHibernate.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.DataAccess">
       <HintPath>..\packages\odp.net.x64.112.3.20\lib\net20\Oracle.DataAccess.dll</HintPath>
@@ -95,7 +78,6 @@
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile\Client\System.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
