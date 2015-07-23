@@ -81,6 +81,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Dialect\OracleSpatialDialect.cs" />
     <Compile Include="MGeometries\DoubleComparator.cs">
       <SubType>Code</SubType>
@@ -109,6 +112,7 @@
     <Compile Include="MGeometries\MultiMLineString.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Oracle\ElementInfo.cs" />
     <Compile Include="Oracle\ElementType.cs" />
     <Compile Include="Oracle\SDO_DIMENSION.cs" />
     <Compile Include="Oracle\SDO_ETYPE.cs" />
