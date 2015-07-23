@@ -53,7 +53,10 @@ namespace NHibernate.Spatial.Oracle
         /// </summary>
         protected virtual IGeometryFactory Factory
         {
-            get { return this.factory; }
+            get
+            {
+                return this.factory;
+            }
         }
 
         public IGeometry Read(SdoGeometry geometry)
@@ -160,8 +163,8 @@ namespace NHibernate.Spatial.Oracle
                 //}
                 //else
                 //{
-                    cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
-                    i++;
+                cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
+                i++;
                 //}
             }
 
@@ -174,15 +177,13 @@ namespace NHibernate.Spatial.Oracle
             return ls;
         }
 
-        private IMultiLineString ReadMultiLine(int dim, int lrsDim,
-                                                    SdoGeometry sdoGeom)
+        private IMultiLineString ReadMultiLine(int dim, int lrsDim, SdoGeometry sdoGeom)
         {
             bool lrs = sdoGeom.LRS > 0;
             var info = sdoGeom.ElemArray;
-            ILineString[] lines =
-                lrs
-                    ? new MLineString[sdoGeom.ElemArray.Length]
-                    : new LineString[sdoGeom.ElemArray.Length];
+            ILineString[] lines = lrs
+                                      ? new MLineString[sdoGeom.ElemArray.Length]
+                                      : new LineString[sdoGeom.ElemArray.Length];
             int i = 0;
             while (i < info.Length)
             {
@@ -200,18 +201,17 @@ namespace NHibernate.Spatial.Oracle
                 //}
                 //else
                 //{
-                    cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
-                    //LineString line = lrs ? (LineString)factory.CreateMultiLineString(cs) : factory.CreateLineString(cs);
-                    ILineString line = factory.CreateLineString(cs);
-                    lines[i] = line;
-                    i++;
+                cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
+                //LineString line = lrs ? (LineString)factory.CreateMultiLineString(cs) : factory.CreateLineString(cs);
+                ILineString line = factory.CreateLineString(cs);
+                lines[i] = line;
+                i++;
                 //}
             }
 
-            IMultiLineString mls =
-                lrs
-                    ? factory.CreateMultiLineString((MLineString[])lines)
-                    : factory.CreateMultiLineString(lines);
+            IMultiLineString mls = lrs
+                                       ? factory.CreateMultiLineString((MLineString[])lines)
+                                       : factory.CreateMultiLineString(lines);
 
             mls.SRID = (int)sdoGeom.Sdo_Srid;
             return mls;
@@ -237,7 +237,7 @@ namespace NHibernate.Spatial.Oracle
                 //}
                 //else
                 //{
-                    cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
+                cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
                 //}
                 //if (info.getElementType(i).isInteriorRing())
                 //{
@@ -248,8 +248,8 @@ namespace NHibernate.Spatial.Oracle
                 //}
                 //else
                 //{
-                    shell = factory.CreateLinearRing(cs);
-                    shell.SRID = (int)sdoGeom.Sdo_Srid;
+                shell = factory.CreateLinearRing(cs);
+                shell.SRID = (int)sdoGeom.Sdo_Srid;
                 //}
                 i += 1 + numCompounds;
             }
@@ -276,7 +276,7 @@ namespace NHibernate.Spatial.Oracle
                 //}
                 //else
                 //{
-                    cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
+                cs = Add(cs, GetElementCSeq(i, sdoGeom, false));
                 //}
                 //if (info.getElementType(i).isInteriorRing())
                 //{
@@ -286,16 +286,16 @@ namespace NHibernate.Spatial.Oracle
                 //}
                 //else
                 //{
-                    if (shell != null)
-                    {
-                        IPolygon polygon = factory.CreatePolygon(shell, holes.ToArray());
-                        polygon.SRID = (int)sdoGeom.Sdo_Srid;
-                        polygons.Add(polygon);
-                        shell = null;
-                    }
-                    shell = factory.CreateLinearRing(cs);
-                    shell.SRID = (int)sdoGeom.Sdo_Srid;
-                    holes = new List<ILinearRing>();
+                if (shell != null)
+                {
+                    IPolygon polygon = factory.CreatePolygon(shell, holes.ToArray());
+                    polygon.SRID = (int)sdoGeom.Sdo_Srid;
+                    polygons.Add(polygon);
+                    shell = null;
+                }
+                shell = factory.CreateLinearRing(cs);
+                shell.SRID = (int)sdoGeom.Sdo_Srid;
+                holes = new List<ILinearRing>();
                 //}
                 i += 1 + numCompounds;
             }
@@ -321,7 +321,6 @@ namespace NHibernate.Spatial.Oracle
          *            the SdoGeometry that holds the compound element.
          * @return
          */
-
         private ICoordinateSequence GetCompoundCSeq(int idxFirst, int idxLast, SdoGeometry sdoGeom)
         {
             ICoordinateSequence cs = null;
@@ -342,13 +341,12 @@ namespace NHibernate.Spatial.Oracle
         }
 
         /**
-     * Gets the ICoordinateSequence corresponding to an element.
-     *
-     * @param i
-     * @param sdoGeom
-     * @return
-     */
-
+         * Gets the ICoordinateSequence corresponding to an element.
+         *
+         * @param i
+         * @param sdoGeom
+         * @return
+         */
         private ICoordinateSequence GetElementCSeq(int i, SdoGeometry sdoGeom, bool hasNextSE)
         {
             var eType = sdoGeom.ElemArray[i * 3 + 1];
@@ -390,8 +388,7 @@ namespace NHibernate.Spatial.Oracle
             return cs;
         }
 
-        private ICoordinateSequence Add(ICoordinateSequence seq1,
-                                        ICoordinateSequence seq2)
+        private ICoordinateSequence Add(ICoordinateSequence seq1, ICoordinateSequence seq2)
         {
             if (seq1 == null)
             {
@@ -428,48 +425,50 @@ namespace NHibernate.Spatial.Oracle
             return sdoGeom.OrdinatesArrayOfDoubles.Skip(start).Take(end - start).ToArray();
         }
 
-        private ICoordinateSequence ConvertOrdinateArray(double[] oordinates,
-                                                         SdoGeometry sdoGeom)
+        private ICoordinateSequence ConvertOrdinateArray(double[] oordinates, SdoGeometry sdoGeom)
         {
             int dim = sdoGeom.Dimensionality;
             Coordinate[] coordinates = new Coordinate[oordinates.Length / dim];
-            int zDim = 2;//sdoGeom.getZDimension() - 1;
+            int zDim = 2; //sdoGeom.getZDimension() - 1;
             int lrsDim = sdoGeom.LRS - 1;
             for (int i = 0; i < coordinates.Length; i++)
             {
                 if (dim == 2)
                 {
-                    coordinates[i] = new Coordinate(
-                        oordinates[i * dim],
-                        oordinates[i * dim + 1]);
+                    coordinates[i] = new Coordinate(oordinates[i * dim], oordinates[i * dim + 1]);
                 }
                 else if (dim == 3)
                 {
                     if (sdoGeom.LRS > 0)
                     {
                         coordinates[i] = MCoordinate.Create2dWithMeasure(
-                            oordinates[i * dim], // X
-                            oordinates[i * dim + 1], // Y
+                            oordinates[i * dim],
+                            // X
+                            oordinates[i * dim + 1],
+                            // Y
                             oordinates[i * dim + lrsDim]); // M
                     }
                     else
                     {
                         coordinates[i] = new Coordinate(
-                            oordinates[i * dim], // X
-                            oordinates[i * dim + 1], // Y
+                            oordinates[i * dim],
+                            // X
+                            oordinates[i * dim + 1],
+                            // Y
                             oordinates[i * dim + zDim]); // Z
                     }
                 }
                 else if (dim == 4)
                 {
                     // This must be an LRS Geometry
-                    if (sdoGeom.LRS == 0)
-                        throw new ApplicationException(
-                            "4 dimensional Geometries must be LRS geometry");
+                    if (sdoGeom.LRS == 0) throw new ApplicationException("4 dimensional Geometries must be LRS geometry");
                     coordinates[i] = MCoordinate.Create3dWithMeasure(
-                        oordinates[i * dim], // X
-                        oordinates[i * dim + 1], // Y
-                        oordinates[i * dim + zDim], // Z
+                        oordinates[i * dim],
+                        // X
+                        oordinates[i * dim + 1],
+                        // Y
+                        oordinates[i * dim + zDim],
+                        // Z
                         oordinates[i * dim + lrsDim]); // M
                 }
             }
@@ -489,21 +488,19 @@ namespace NHibernate.Spatial.Oracle
         }
 
         /**
-     * Linearizes arcs and circles.
-     *
-     * @param arcOrdinates
-     *            arc or circle coordinates
-     * @param dim
-     *            coordinate dimension
-     * @param lrs
-     *            whether this is an lrs geometry
-     * @param entireCirlce
-     *            whether the whole arc should be linearized
-     * @return linearized interpolation of arcs or circle
-     */
-
-        private Coordinate[] Linearize(double[] arcOrdinates, int dim, bool lrs,
-                                       bool entireCirlce)
+        * Linearizes arcs and circles.
+        *
+        * @param arcOrdinates
+        *            arc or circle coordinates
+        * @param dim
+        *            coordinate dimension
+        * @param lrs
+        *            whether this is an lrs geometry
+        * @param entireCirlce
+        *            whether the whole arc should be linearized
+        * @return linearized interpolation of arcs or circle
+        */
+        private Coordinate[] Linearize(double[] arcOrdinates, int dim, bool lrs, bool entireCirlce)
         {
             Coordinate[] linearizedCoords = new Coordinate[0];
             // CoordDim is the dimension that includes only non-measure (X,Y,Z)
@@ -511,10 +508,7 @@ namespace NHibernate.Spatial.Oracle
             int coordDim = lrs ? dim - 1 : dim;
             // this only works with 2-Dimensional geometries, since we use
             // JGeometry linearization;
-            if (coordDim != 2)
-                throw new ArgumentException(
-                    "Can only linearize 2D arc segments, but geometry is "
-                    + dim + "D.");
+            if (coordDim != 2) throw new ArgumentException("Can only linearize 2D arc segments, but geometry is " + dim + "D.");
             int numOrd = dim;
             while (numOrd < arcOrdinates.Length)
             {
@@ -553,8 +547,7 @@ namespace NHibernate.Spatial.Oracle
                         mcoord[i] = MCoordinate.ConvertCoordinate(coords[i]);
                         // if we happen to split on the middle measure, then
                         // assign it
-                        if (mcoord[i].X == x2
-                            && mcoord[i].Y == y2)
+                        if (mcoord[i].X == x2 && mcoord[i].Y == y2)
                         {
                             ((MCoordinate)mcoord[i]).M = m2;
                         }
@@ -565,12 +558,10 @@ namespace NHibernate.Spatial.Oracle
                 // if this is not the first arcsegment, the first linearized
                 // point is already in linearizedArc, so disregard this.
                 int resultBegin = 1;
-                if (linearizedCoords.Length == 0)
-                    resultBegin = 0;
+                if (linearizedCoords.Length == 0) resultBegin = 0;
 
                 int destPos = linearizedCoords.Length;
-                Coordinate[] tmpCoords = new Coordinate[linearizedCoords.Length
-                                                        + coords.Length - resultBegin];
+                Coordinate[] tmpCoords = new Coordinate[linearizedCoords.Length + coords.Length - resultBegin];
                 Array.Copy(linearizedCoords, 0, tmpCoords, 0, linearizedCoords.Length);
                 Array.Copy(coords, resultBegin, tmpCoords, destPos, coords.Length - resultBegin);
 

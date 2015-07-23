@@ -256,5 +256,16 @@ namespace NHibernate.Spatial.Oracle
         }
 
         #endregion Ported from Hibernate Spatial SDOGeometryType.java
+
+        public static string ArrayToString<T>(T[] array)
+        {
+            if (array == null)
+            {
+                return "()";
+            }
+
+            var stringArray = string.Join(",", array);
+            return string.Format("({0})", stringArray);
+        }
     }
 }
