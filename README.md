@@ -14,8 +14,8 @@ NuGet packages are currently in pre-release, but stable releases for NHibernate 
 [Nhibernate.Spatial for PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
 
 ## Getting Started
-For configuring your application, please refer to [Configuration and Mapping](http://nhforge.org/wikis/spatial/configuration-and-mapping.aspx) on the NHForge Wiki. 
-Furthermore you can read about [sample usage](http://nhforge.org/wikis/spatial/sample-usage.aspx). For an updated in-depth look at NHibernate.Spatial, you can 
+For configuring your application, please refer to [Configuration and Mapping](http://nhibernate.info/doc/spatial/configuration-and-mapping.html) on the NHForge Wiki. 
+Furthermore you can read about [sample usage](http://nhibernate.info/doc/spatial/sample-usage.html). For an updated in-depth look at NHibernate.Spatial, you can 
 read [this excellent blog post](http://build-failed.blogspot.no/2012/02/nhibernate-spatial-part-1.html) written by Pedro Sousa.
 
 For general NHibernate help, the NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started with basic NHibernate,
