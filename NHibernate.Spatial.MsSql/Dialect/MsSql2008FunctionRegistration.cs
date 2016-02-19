@@ -540,8 +540,9 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="srid">The srid.</param>
 		/// <param name="subtype">The subtype.</param>
 		/// <param name="dimension">The dimension.</param>
+		/// <param name="isNullable">Whether or not the column is nullable</param>
 		/// <returns></returns>
-		public virtual string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
+		public virtual string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
 		{
 			StringBuilder builder = new StringBuilder();
 
@@ -557,11 +558,12 @@ namespace NHibernate.Spatial.Dialect
 
 			builder.Append(this.MultipleQueriesSeparator);
 
-			builder.AppendFormat("ALTER TABLE {0}{1} ADD {2} {3}"
+			builder.AppendFormat("ALTER TABLE {0}{1} ADD {2} {3} {4}"
 				, quotedSchema
 				, quoteForTableName
 				, quoteForColumnName
 				, this.sqlTypeName
+				, isNullable ? "NULL" : "NOT NULL"
 				);
 
 			builder.Append(this.MultipleQueriesSeparator);

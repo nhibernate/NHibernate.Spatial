@@ -123,8 +123,9 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="srid">The srid.</param>
         /// <param name="subtype">The subtype.</param>
         /// <param name="dimension">[3DIS] The dimension</param>
+		/// <param name="isNullable">Whether or not the column is nullable</param>
         /// <returns></returns>
-        string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension);
+        string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable);
 
         /// <summary>
         /// Gets the spatial drop string.

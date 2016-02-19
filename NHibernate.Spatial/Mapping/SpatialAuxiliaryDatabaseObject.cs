@@ -149,7 +149,7 @@ namespace NHibernate.Spatial.Mapping
                 string subtype = geometryType.Subtype;
                 int dimension = geometryType.Dimension;
 
-                builder.Append(spatialDialect.GetSpatialCreateString(defaultSchema, table.Name, column.Name, srid, subtype, dimension));
+                builder.Append(spatialDialect.GetSpatialCreateString(defaultSchema, table.Name, column.Name, srid, subtype, dimension, column.IsNullable));
             });
 
             return builder.ToString();

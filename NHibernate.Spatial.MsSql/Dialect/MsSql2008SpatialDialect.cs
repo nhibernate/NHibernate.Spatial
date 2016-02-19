@@ -95,9 +95,9 @@ namespace NHibernate.Spatial.Dialect
 			return worker.GetSpatialCreateString(schema);
 		}
 
-		public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
+		public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
 		{
-			return worker.GetSpatialCreateString(schema, table, column, srid, subtype, dimension);
+			return worker.GetSpatialCreateString(schema, table, column, srid, subtype, dimension, isNullable);
 		}
 
 		public string GetSpatialDropString(string schema)

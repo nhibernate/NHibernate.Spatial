@@ -477,17 +477,18 @@ namespace NHibernate.Spatial.Dialect
             return this.QuoteForSchemaName(schema) + StringHelper.Dot;
         }
 
-        /// <summary>
-        /// Gets the spatial create string.
-        /// </summary>
-        /// <param name="schema">The schema.</param>
-        /// <param name="table">The table.</param>
-        /// <param name="column">The column.</param>
-        /// <param name="srid">The srid.</param>
-        /// <param name="subtype">The subtype.</param>
-        /// <param name="dimension">[3DIS] The dimension</param>
-        /// <returns></returns>
-        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
+		/// <summary>
+		/// Gets the spatial create string.
+		/// </summary>
+		/// <param name="schema">The schema.</param>
+		/// <param name="table">The table.</param>
+		/// <param name="column">The column.</param>
+		/// <param name="srid">The srid.</param>
+		/// <param name="subtype">The subtype.</param>
+		/// <param name="dimension">[3DIS] The dimension</param>
+		/// <param name="isNullable">Whether or not the column is nullable</param>
+		/// <returns></returns>
+		public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -503,9 +504,18 @@ namespace NHibernate.Spatial.Dialect
                 //this.QuoteSchema(schema), this.QuoteForTableName(table), this.QuoteForColumnName(column), srid, subtype, dimension == 3 ? 3 : 2);
                 schema, table, column, srid, subtype, dimension == 3 ? 3 : 2);
 
-            builder.Append(this.MultipleQueriesSeparator);
+			if (!isNullable)
+			{
+				builder.Append(this.MultipleQueriesSeparator);
+				builder.AppendFormat("ALTER TABLE {0}{1} ALTER COLUMN {2} SET NOT NULL"
+					, this.QuoteSchema(schema)
+					, this.QuoteForTableName(table)
+					, this.QuoteForColumnName(column)
+					);
+			}
 
-            builder.Append(GetSpatialIndexCreateString(schema, table, column));
+			builder.Append(this.MultipleQueriesSeparator);
+			builder.Append(GetSpatialIndexCreateString(schema, table, column));
 
             return builder.ToString();
         }
