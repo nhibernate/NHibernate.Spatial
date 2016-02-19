@@ -5,7 +5,7 @@ The code has been updated to compile with the latest NTS, GeoAPI and NHibernate 
 
 ## Nuget Packages
 
-NuGet packages are currently in pre-release, but stable releases for NHibernate 4.0 are expected soon (december 2014). The packages listed below are compatible with NHibernate 4.0.2 GA.
+NuGet packages are currently in pre-release, but stable releases for NHibernate 4.0 are expected soon (december 2014). The packages listed below are compatible with NHibernate 4.0.4 GA.
 
 [Nhibernate.Spatial for Microsoft SQL Server](https://www.nuget.org/packages/NHibernate.Spatial.MsSql/) (Note! Assembly name has changed from MsSql2008 to MsSql)
 
