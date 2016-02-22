@@ -46,26 +46,6 @@ namespace NHibernate.Spatial.Dialect
             RegisterFunctions();
         }
 
-        // TODO: Remove this property overrriding, it's meant to be temporary.
-        //
-        // "native"=>"serial" is not working with the current mappings.
-        // For PostresSQL 8.1+, this property is supposed to return true.
-        // But to make it work, now it returns false and maps "native"=>"sequence"
-        // An alternative is to use "sequence" in the mapping file directly,
-        // but, by using "native", I intend to keep the same mappings for all dialects.
-        //
-        /// <summary>
-        /// PostgreSQL supports Identity column using the "SERIAL" type.
-        /// </summary>
-        /// <value></value>
-        public override bool SupportsIdentityColumns
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         public override string ToBooleanValueString(bool value)
         {
             return value ? "true" : "false";
