@@ -366,11 +366,11 @@ namespace NHibernate.Spatial.Dialect
             {
                 case SpatialRelation.Covers:
                     string[] patterns = new string[] {
-						"T*****FF*",
-						"*T****FF*",
-						"***T**FF*",
-						"****T*FF*",
-					};
+                        "T*****FF*",
+                        "*T****FF*",
+                        "***T**FF*",
+                        "****T*FF*",
+                    };
                     SqlStringBuilder builder = new SqlStringBuilder();
                     builder.Add("(CASE WHEN ");
                     for (int i = 0; i < patterns.Length; i++)
@@ -660,6 +660,11 @@ namespace NHibernate.Spatial.Dialect
         public bool SupportsSpatialMetadata(MetadataClass metadataClass)
         {
             return metadataClass == MetadataClass.GeometryColumn;
+        }
+
+        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
+        {
+            throw new NotImplementedException();
         }
 
         // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator

@@ -164,7 +164,7 @@ namespace NHibernate.Spatial.Oracle
 
             LineString ls =
                 lrs
-                    ? factory.CreateMultiLineString(cs)
+                    ? (LineString)factory.CreateMultiLineString(cs)
                     : factory.CreateLineString(cs);
             ls.SRID = (int)sdoGeom.Sdo_Srid;
             return ls;
