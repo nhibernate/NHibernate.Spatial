@@ -34,7 +34,7 @@ namespace NHibernate.Spatial.Dialect
     {
         private static readonly IType geometryType = new CustomType(typeof(PostGisGeometryType), null);
 
-        private const string IntersectionAggregateName = "NHSP_IntersectionAggregate";
+        protected const string IntersectionAggregateName = "NHSP_IntersectionAggregate";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostGisDialect"/> class.
@@ -130,38 +130,38 @@ namespace NHibernate.Spatial.Dialect
             RegisterSpatialFunction("SRID", NHibernateUtil.Int32);
             RegisterSpatialFunction("Dimension", NHibernateUtil.Int32);
             RegisterSpatialFunction("NumGeometries", NHibernateUtil.Int32);
-            RegisterSpatialFunction("NumInteriorRings", "NumInteriorRing", NHibernateUtil.Int32);
+            RegisterSpatialFunction("NumInteriorRings", NHibernateUtil.Int32);
             RegisterSpatialFunction("NumPoints", NHibernateUtil.Int32);
 
             RegisterSpatialFunction("Relate", NHibernateUtil.Boolean, 3);
         }
 
-        private void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType, int allowedArgsCount)
+        protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType, int allowedArgsCount)
         {
             RegisterFunction(SpatialDialect.HqlPrefix + standardName, new SpatialStandardSafeFunction(dialectName, returnedType, allowedArgsCount));
         }
 
-        private void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType)
+        protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType)
         {
             RegisterSpatialFunction(standardName, dialectName, returnedType, 1);
         }
 
-        private void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
+        protected virtual void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
         {
             RegisterSpatialFunction(name, name, returnedType, allowedArgsCount);
         }
 
-        private void RegisterSpatialFunction(string name, IType returnedType)
+        protected virtual void RegisterSpatialFunction(string name, IType returnedType)
         {
             RegisterSpatialFunction(name, name, returnedType);
         }
 
-        private void RegisterSpatialFunction(string name, int allowedArgsCount)
+        protected void RegisterSpatialFunction(string name, int allowedArgsCount)
         {
             RegisterSpatialFunction(name, this.GeometryType, allowedArgsCount);
         }
 
-        private void RegisterSpatialFunction(string name)
+        protected void RegisterSpatialFunction(string name)
         {
             RegisterSpatialFunction(name, this.GeometryType);
         }
@@ -245,7 +245,7 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="geometry">The geometry.</param>
         /// <param name="aggregate">The aggregate.</param>
         /// <returns></returns>
-        public SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
+        public virtual SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
         {
             // PostGIS aggregate functions do not need prefix
             string aggregateFunction;
@@ -430,15 +430,21 @@ namespace NHibernate.Spatial.Dialect
         /// </summary>
         /// <param name="schema">The schema.</param>
         /// <returns></returns>
-        public string GetSpatialCreateString(string schema)
+        public virtual string GetSpatialCreateString(string schema)
+        {
+            return GetSpatialCreateString(schema, string.Empty);
+        }
+
+        protected string GetSpatialCreateString(string schema, string prefix)
         {
             // Intersection aggregate function by Mark Fenbers
             // See http://postgis.refractions.net/pipermail/postgis-users/2005-May/008156.html
             string script = string.Format(
                 "DROP AGGREGATE IF EXISTS {0}{1}(GEOMETRY);" +
-                "CREATE AGGREGATE {0}{1}(BASETYPE=GEOMETRY, SFUNC=Intersection, STYPE=GEOMETRY);"
+                "CREATE AGGREGATE {0}{1}(BASETYPE=GEOMETRY, SFUNC={2}Intersection, STYPE=GEOMETRY);"
                 , this.QuoteSchema(schema)
                 , IntersectionAggregateName
+                , prefix
                 );
             return script;
         }
