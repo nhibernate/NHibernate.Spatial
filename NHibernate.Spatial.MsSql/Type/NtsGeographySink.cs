@@ -23,7 +23,7 @@ using System.Collections.Generic;
 
 namespace NHibernate.Spatial.Type
 {
-    internal class NtsGeographySink : IGeographySink
+    internal class NtsGeographySink : IGeographySink110
     {
         private IGeometry geometry;
         private int srid;
@@ -135,6 +135,11 @@ namespace NHibernate.Spatial.Type
             {
                 this.geometries.Add(geometry);
             }
+        }
+
+        public void AddCircularArc(double x1, double y1, double? z1, double? m1, double x2, double y2, double? z2, double? m2)
+        {
+            throw new NotImplementedException();
         }
 
         private IGeometry BuildPoint()
