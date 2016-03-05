@@ -103,7 +103,7 @@ namespace NHibernate.Spatial.MGeometries
             Debug.Assert(!(this.strictMonotone && !this.monotone));
         }
 
-        protected void GeometryChangedAction()
+        protected new void GeometryChangedAction()
         {
             DetermineMonotone();
         }

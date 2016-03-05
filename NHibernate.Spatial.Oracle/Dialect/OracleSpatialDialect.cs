@@ -80,7 +80,7 @@ namespace NHibernate.Spatial.Dialect
             RegisterSpatialFunction(SpatialValidation.IsValid);
         }
 
-        private void RegisterFunctions()
+        protected override void RegisterFunctions()
         {
             RegisterConstantValue("TRUE", "1", NHibernateUtil.Boolean);
             RegisterConstantValue("FALSE", "0", NHibernateUtil.Boolean);
