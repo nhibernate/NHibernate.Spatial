@@ -128,7 +128,7 @@ namespace NHibernate.Spatial.MGeometries
             }
         }
 
-        protected void GeometryChangedAction()
+        protected new void GeometryChangedAction()
         {
             DetermineMonotone();
         }

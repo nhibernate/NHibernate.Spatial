@@ -38,37 +38,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GeoAPI">
-      <HintPath>..\packages\GeoAPI.1.7.3.1\lib\net35-client\GeoAPI.dll</HintPath>
+    <Reference Include="GeoAPI, Version=1.7.3.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeoAPI.1.7.3.1\lib\net40-client\GeoAPI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Iesi.Collections">
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
       <HintPath>..\packages\Microsoft.SqlServer.Types.11.0.2\lib\net20\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NetTopologySuite">
-      <HintPath>..\packages\NetTopologySuite.1.13.3.2\lib\net35-client\NetTopologySuite.dll</HintPath>
+    <Reference Include="NetTopologySuite, Version=1.13.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.1.13.3.2\lib\net40-client\NetTopologySuite.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NetTopologySuite.IO.GeoTools">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net35-client\NetTopologySuite.IO.GeoTools.dll</HintPath>
+    <Reference Include="NetTopologySuite.IO.GeoTools, Version=1.13.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.GeoTools.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NetTopologySuite.IO.MsSqlSpatial">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net35-client\NetTopologySuite.IO.MsSqlSpatial.dll</HintPath>
+    <Reference Include="NetTopologySuite.IO.MsSqlSpatial, Version=1.13.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.MsSqlSpatial.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NetTopologySuite.IO.PostGis">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net35-client\NetTopologySuite.IO.PostGis.dll</HintPath>
+    <Reference Include="NetTopologySuite.IO.PostGis, Version=1.13.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.PostGis.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NetTopologySuite.IO.ShapeFile">
-      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net35-client\NetTopologySuite.IO.ShapeFile.dll</HintPath>
+    <Reference Include="NetTopologySuite.IO.ShapeFile, Version=1.13.3.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.13.3.2\lib\net40-client\NetTopologySuite.IO.ShapeFile.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="PowerCollections">
-      <HintPath>..\packages\NetTopologySuite.1.13.3.2\lib\net35-client\PowerCollections.dll</HintPath>
+    <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2573bf8a1bdddcd5, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.1.13.3.2\lib\net40-client\PowerCollections.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -110,11 +118,6 @@
     <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2008GeometryDialect.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Metadata\SpatialReferenceSystem.MsSqlLegacyDialect.hbm.xml" />
     <EmbeddedResource Include="Metadata\GeometryColumn.MsSqlLegacyDialect.hbm.xml" />
   </ItemGroup>
@@ -123,6 +126,9 @@
       <Project>{50868b60-ac38-47e1-bd09-b4a4aa06b6f2}</Project>
       <Name>NHibernate.Spatial</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
