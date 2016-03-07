@@ -1,5 +1,7 @@
 ## NHibernate.Spatial
 
+[![Join the chat at https://gitter.im/nhibernate/NHibernate.Spatial](https://badges.gitter.im/nhibernate/NHibernate.Spatial.svg)](https://gitter.im/nhibernate/NHibernate.Spatial?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This is a fork of the final commit to NHibernate.Spatial at [Nhibernate Contrib][NHContrib] site made in december 2011. 
 The code has been updated to compile with the latest NTS, GeoAPI and NHibernate binaries.
 
