@@ -5,45 +5,42 @@ namespace NHibernate.Spatial.Oracle
     [OracleCustomTypeMappingAttribute("MDSYS.SDO_POINT_TYPE")]
     public class SdoPoint : OracleCustomTypeBase<SdoPoint>
     {
-        private double? x;
-
         [OracleObjectMappingAttribute("X")]
-        public double? X
+        public decimal? X { get; set; }
+        public double? XD
         {
-            get { return x; }
-            set { x = value; }
+            get { return System.Convert.ToDouble(this.X); }
+            set { this.X = System.Convert.ToDecimal(value); }
         }
-
-        private double? y;
 
         [OracleObjectMappingAttribute("Y")]
-        public double? Y
+        public decimal? Y { get; set; }
+        public double? YD
         {
-            get { return y; }
-            set { y = value; }
+            get { return System.Convert.ToDouble(this.Y); }
+            set { this.Y = System.Convert.ToDecimal(value); }
         }
 
-        private double? z;
-
         [OracleObjectMappingAttribute("Z")]
-        public double? Z
+        public decimal? Z { get; set; }
+        public double? ZD
         {
-            get { return z; }
-            set { z = value; }
+            get { return System.Convert.ToDouble(this.Z); }
+            set { this.Z = System.Convert.ToDecimal(value); }
         }
 
         public override void MapFromCustomObject()
         {
-            SetValue("X", x);
-            SetValue("Y", y);
-            SetValue("Z", z);
+            this.SetValue("X", this.X);
+            this.SetValue("Y", this.Y);
+            this.SetValue("Z", this.Z);
         }
 
         public override void MapToCustomObject()
         {
-            X = GetValue<double?>("X");
-            Y = GetValue<double?>("Y");
-            Z = GetValue<double?>("Z");
+            this.X = this.GetValue<decimal?>("X");
+            this.Y = this.GetValue<decimal?>("Y");
+            this.Z = this.GetValue<decimal?>("Z");
         }
     }
 }
