@@ -1,5 +1,4 @@
 using GeoAPI.Geometries;
-using GeoAPI.Operations.Buffer;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Operation.Buffer;
 using Open.Topology.TestRunner.Operations;
@@ -10,6 +9,7 @@ using System.Globalization;
 
 namespace Open.Topology.TestRunner
 {
+    using GeoAPI.Operation.Buffer;
     using NetTopologySuite.Precision;
 
     #region Test Event Definitions

@@ -1,5 +1,5 @@
 ﻿using GeoAPI.Geometries;
-using GeoAPI.Operations.Buffer;
+using GeoAPI.Operation.Buffer;
 using NetTopologySuite.IO;
 using NetTopologySuite.Operation.Buffer.Validate;
 using NetTopologySuite.Utilities;
@@ -98,10 +98,11 @@ namespace Open.Topology.TestRunner.Operations
              * Return an empty GeometryCollection as the result.
              * This allows the test case to avoid specifying an exact result
              */
-            if (ReturnEmptyGeometryCollection)
-            {
-                result = result.Factory.CreateGeometryCollection(null);
-            }
+
+            //if (ReturnEmptyGeometryCollection)
+            //{
+            //    result = result.Factory.CreateGeometryCollection(null);
+            //}
             return new GeometryResult(result);
         }
 
