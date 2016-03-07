@@ -3,55 +3,29 @@ using System;
 
 namespace NHibernate.Spatial.Oracle
 {
+    /// <summary>
+    /// Oracle UDT for SDO_GEOMETRY. Seems to be taken from https://code.google.com/p/tf-net/wiki/OracleSdoGeometryAsUdt
+    /// Follows http://docs.oracle.com/cd/B19306_01/appdev.102/b14255/sdo_objrelschema.htm
+    /// </summary>
     [OracleCustomTypeMappingAttribute("MDSYS.SDO_GEOMETRY")]
     public class SdoGeometry : OracleCustomTypeBase<SdoGeometry>
     {
         private enum OracleObjectColumns { SDO_GTYPE, SDO_SRID, SDO_POINT, SDO_ELEM_INFO, SDO_ORDINATES }
 
-        private double? sdo_Gtype;
-
         [OracleObjectMappingAttribute(0)]
-        public double? Sdo_Gtype
-        {
-            get { return sdo_Gtype; }
-            set { sdo_Gtype = value; }
-        }
-
-        private double? sdo_Srid;
+        public decimal? Sdo_Gtype { get; private set; }
 
         [OracleObjectMappingAttribute(1)]
-        public double? Sdo_Srid
-        {
-            get { return sdo_Srid; }
-            set { sdo_Srid = value; }
-        }
-
-        private SdoPoint point;
+        public decimal? Sdo_Srid { get; set; }
 
         [OracleObjectMappingAttribute(2)]
-        public SdoPoint Point
-        {
-            get { return point; }
-            set { point = value; }
-        }
-
-        private double[] elemArray;
+        public SdoPoint Point { get; set; }
 
         [OracleObjectMappingAttribute(3)]
-        public double[] ElemArray
-        {
-            get { return elemArray; }
-            set { elemArray = value; }
-        }
-
-        private double[] ordinatesArray;
+        public decimal[] ElemArray { get; set; }
 
         [OracleObjectMappingAttribute(4)]
-        public double[] OrdinatesArray
-        {
-            get { return ordinatesArray; }
-            set { ordinatesArray = value; }
-        }
+        public decimal[] OrdinatesArray { get; set; }
 
         [OracleCustomTypeMappingAttribute("MDSYS.SDO_ELEM_INFO_ARRAY")]
         public class ElemArrayFactory : OracleArrayTypeFactoryBase<decimal> { }
@@ -61,6 +35,7 @@ namespace NHibernate.Spatial.Oracle
 
         public override void MapFromCustomObject()
         {
+            PropertiesToGTYPE();
             SetValue((int)OracleObjectColumns.SDO_GTYPE, Sdo_Gtype);
             SetValue((int)OracleObjectColumns.SDO_SRID, Sdo_Srid);
             SetValue((int)OracleObjectColumns.SDO_POINT, Point);
@@ -70,115 +45,131 @@ namespace NHibernate.Spatial.Oracle
 
         public override void MapToCustomObject()
         {
-            Sdo_Gtype = GetValue<double?>((int)OracleObjectColumns.SDO_GTYPE);
-            Sdo_Srid = GetValue<double?>((int)OracleObjectColumns.SDO_SRID);
+            Sdo_Gtype = GetValue<decimal?>((int)OracleObjectColumns.SDO_GTYPE);
+            Sdo_Srid = GetValue<decimal?>((int)OracleObjectColumns.SDO_SRID);
             Point = GetValue<SdoPoint>((int)OracleObjectColumns.SDO_POINT);
-            ElemArray = GetValue<double[]>((int)OracleObjectColumns.SDO_ELEM_INFO);
-            OrdinatesArray = GetValue<double[]>((int)OracleObjectColumns.SDO_ORDINATES);
+            ElemArray = GetValue<decimal[]>((int)OracleObjectColumns.SDO_ELEM_INFO);
+            OrdinatesArray = GetValue<decimal[]>((int)OracleObjectColumns.SDO_ORDINATES);
+            PropertiesFromGTYPE();
         }
 
         public int[] ElemArrayOfInts
         {
             get
             {
-                return Array.ConvertAll<double, int>(this.elemArray,
-                    delegate(double x) { return Convert.ToInt32(x); });
+                return Array.ConvertAll(this.ElemArray, Convert.ToInt32);
             }
             set
             {
                 if (value != null)
                 {
-                    this.elemArray = Array.ConvertAll<int, double>(value,
-                        delegate(int x) { return Convert.ToDouble(x); });
+                    this.ElemArray = Array.ConvertAll(value, Convert.ToDecimal);
                 }
                 else
                 {
-                    this.elemArray = null;
+                    this.ElemArray = null;
                 }
             }
         }
 
-        public double?[] OrdinatesArrayOfDoubles
+        //public double[] ElemArrayOfDoubles
+        //{
+        //    get
+        //    {
+        //        return Array.ConvertAll(this.ElemArray, Convert.ToDouble);
+        //    }
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            this.ElemArray = Array.ConvertAll(
+        //                value,
+        //                x => Double.IsNaN(x) ? new double?() : x);
+        //        }
+        //        else
+        //        {
+        //            this.ElemArray = null;
+        //        }
+        //    }
+        //}
+
+        public double[] OrdinatesArrayOfDoubles
         {
             get
             {
-                return Array.ConvertAll<double, double?>(
-                    this.ordinatesArray,
-                    delegate(double x) { return (double?)Convert.ToDouble(x); });
+                return Array.ConvertAll(this.OrdinatesArray, Convert.ToDouble);
             }
             set
             {
                 if (value != null)
                 {
-                    this.ordinatesArray = Array.ConvertAll<double?, double>(
-                        value,
-                        delegate(double? x) { return Convert.ToDouble(x); });
+                    this.OrdinatesArray = Array.ConvertAll(value, Convert.ToDecimal);
                 }
                 else
                 {
-                    this.ordinatesArray = null;
+                    this.OrdinatesArray = null;
                 }
             }
         }
 
-        private int _Dimensionality;
+        public int Dimensionality { get; set; }
 
-        public int Dimensionality
-        {
-            get { return _Dimensionality; }
-            set { _Dimensionality = value; }
-        }
-
-        private int _LRS;
+        private int lrs;
 
         public int LRS
         {
-            get { return _LRS; }
-            set { _LRS = value; }
+            get { return this.lrs; }
+            set { this.lrs = value; }
         }
 
-        private int _GeometryType;
-
-        public int GeometryType
-        {
-            get { return _GeometryType; }
-            set { _GeometryType = value; }
-        }
+        public SDO_GTYPE GeometryType { get; set; }
 
         public int PropertiesFromGTYPE()
         {
-            if ((int)this.sdo_Gtype != 0)
+            var sdoGtype = this.Sdo_Gtype;
+            if (sdoGtype != null)
             {
-                int v = (int)this.sdo_Gtype;
-                int dim = v / 1000;
-                Dimensionality = dim;
-                v -= dim * 1000;
-                int lrsDim = v / 100;
-                LRS = lrsDim;
-                v -= lrsDim * 100;
-                GeometryType = v;
-                return (Dimensionality * 1000) + (LRS * 100) + GeometryType;
+                var gtype = this.Sdo_Gtype;
+                if (gtype != null)
+                {
+                    var v = (int)gtype;
+                    var dim = v / 1000;
+                    this.Dimensionality = dim;
+                    v -= dim * 1000;
+                    var lrsDim = v / 100;
+                    this.LRS = lrsDim;
+                    v -= lrsDim * 100;
+                    this.GeometryType = (SDO_GTYPE)v;
+                }
+                return (this.Dimensionality * 1000) + (this.LRS * 100) + (int)this.GeometryType;
             }
             return 0;
         }
 
         public int PropertiesToGTYPE()
         {
-            int v = Dimensionality * 1000;
-            v = v + (LRS * 100);
-            v = v + GeometryType;
-            this.sdo_Gtype = System.Convert.ToDouble(v);
+            int v = this.Dimensionality * 1000;
+            v = v + (this.LRS * 100);
+            v = v + (int)this.GeometryType;
+            this.Sdo_Gtype = Convert.ToDecimal(v);
             return v;
         }
 
         #region Ported from Hibernate Spatial SDOGeometryType.java
 
-        public void addElement(double[] element)
+        public void addElement(decimal[] element)
         {
-            double[] newTriplets = new double[this.elemArray.Length + element.Length];
-            Array.Copy(this.elemArray, 0, newTriplets, 0, this.elemArray.Length);
-            Array.Copy(element, 0, newTriplets, this.elemArray.Length, element.Length);
-            this.elemArray = newTriplets;
+            if (this.ElemArray == null)
+            {
+                this.ElemArray = element;
+            }
+            else
+            {
+                var newTriplets = new decimal[this.ElemArray.Length + element.Length];
+                Array.Copy(this.ElemArray, 0, newTriplets, 0, this.ElemArray.Length);
+                Array.Copy(element, 0, newTriplets, this.ElemArray.Length, element.Length);
+                this.ElemArray = newTriplets;
+            }
         }
 
         //public void addOrdinates(double?[] ordinatesToAdd)
@@ -197,12 +188,19 @@ namespace NHibernate.Spatial.Oracle
         //    this.ordinatesArray = newOrdinates;
         //}
 
-        public void AddOrdinates<T>(T[] ordinatesToAdd)
+        public void AddOrdinates(decimal[] ordinatesToAdd)
         {
-            double[] newOrdinates = new double[this.ordinatesArray.Length + ordinatesToAdd.Length];
-            Array.Copy(this.ordinatesArray, 0, newOrdinates, 0, this.ordinatesArray.Length);
-            Array.Copy(ordinatesToAdd, 0, newOrdinates, this.ordinatesArray.Length, ordinatesToAdd.Length);
-            this.ordinatesArray = newOrdinates;
+            if (this.OrdinatesArray == null)
+            {
+                this.OrdinatesArray = ordinatesToAdd;
+            }
+            else
+            {
+                var newOrdinates = new decimal[this.OrdinatesArray.Length + ordinatesToAdd.Length];
+                Array.Copy(this.OrdinatesArray, 0, newOrdinates, 0, this.OrdinatesArray.Length);
+                Array.Copy(ordinatesToAdd, 0, newOrdinates, this.OrdinatesArray.Length, ordinatesToAdd.Length);
+                this.OrdinatesArray = newOrdinates;
+            }
         }
 
         /**
@@ -215,8 +213,7 @@ namespace NHibernate.Spatial.Oracle
 
         public static SdoGeometry Join(SdoGeometry[] sdoElements)
         {
-            SdoGeometry sdoCollection = new SdoGeometry();
-            sdoCollection.Sdo_Gtype = (double)SDO_GTYPE.COLLECTION;
+            SdoGeometry sdoCollection = new SdoGeometry { GeometryType = SDO_GTYPE.COLLECTION };
             if (sdoElements == null || sdoElements.Length == 0)
             {
                 sdoCollection.Dimensionality = 2;
@@ -232,8 +229,8 @@ namespace NHibernate.Spatial.Oracle
                 int ordinatesOffset = 1;
                 for (int i = 0; i < sdoElements.Length; i++)
                 {
-                    double[] element = sdoElements[i].ElemArray;
-                    double[] ordinates = sdoElements[i].OrdinatesArray;
+                    var element = sdoElements[i].ElemArray;
+                    var ordinates = sdoElements[i].OrdinatesArray;
                     if (element != null && element.Length > 0)
                     {
                         //int shift = ordinatesOffset - element.getOrdinatesOffset(0);
@@ -248,7 +245,7 @@ namespace NHibernate.Spatial.Oracle
             return sdoCollection;
         }
 
-        private static void ShiftOrdinateOffset(double[] elemInfo, int offset)
+        private static void ShiftOrdinateOffset(decimal[] elemInfo, int offset)
         {
             for (int i = 0; i < elemInfo.Length; i++)
             {
@@ -259,5 +256,16 @@ namespace NHibernate.Spatial.Oracle
         }
 
         #endregion Ported from Hibernate Spatial SDOGeometryType.java
+
+        public static string ArrayToString<T>(T[] array)
+        {
+            if (array == null)
+            {
+                return "()";
+            }
+
+            var stringArray = string.Join(",", array);
+            return string.Format("({0})", stringArray);
+        }
     }
 }
