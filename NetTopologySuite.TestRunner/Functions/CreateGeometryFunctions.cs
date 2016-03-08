@@ -30,8 +30,8 @@ namespace Open.Topology.TestRunner.Functions
 
         private static IGeometry fontGlyph(IGeometry g, String text, Font font)
         {
-            var env = FunctionsUtil.getEnvelopeOrDefault(g);
-            var geomFact = FunctionsUtil.getFactoryOrDefault(g);
+            var env = Utility.FunctionsUtil.getEnvelopeOrDefault(g);
+            var geomFact = Utility.FunctionsUtil.getFactoryOrDefault(g);
 
             var textGeom = FontGlyphReader.Read(text, font, geomFact);
             var envText = textGeom.EnvelopeInternal;
@@ -54,8 +54,8 @@ namespace Open.Topology.TestRunner.Functions
         {
             var geoms = new List<IGeometry>();
 
-            var env = FunctionsUtil.getEnvelopeOrDefault(g);
-            var geomFact = FunctionsUtil.getFactoryOrDefault(g);
+            var env = Utility.FunctionsUtil.getEnvelopeOrDefault(g);
+            var geomFact = Utility.FunctionsUtil.getFactoryOrDefault(g);
 
             int nCellsOnSide = (int)Math.Sqrt(nCells) + 1;
             double delX = env.Width / nCellsOnSide;

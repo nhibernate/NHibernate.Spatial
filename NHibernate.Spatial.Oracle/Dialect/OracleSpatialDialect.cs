@@ -366,11 +366,11 @@ namespace NHibernate.Spatial.Dialect
             {
                 case SpatialRelation.Covers:
                     string[] patterns = new string[] {
-						"T*****FF*",
-						"*T****FF*",
-						"***T**FF*",
-						"****T*FF*",
-					};
+                        "T*****FF*",
+                        "*T****FF*",
+                        "***T**FF*",
+                        "****T*FF*",
+                    };
                     SqlStringBuilder builder = new SqlStringBuilder();
                     builder.Add("(CASE WHEN ");
                     for (int i = 0; i < patterns.Length; i++)

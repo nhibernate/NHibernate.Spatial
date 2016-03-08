@@ -1,5 +1,5 @@
 ﻿using GeoAPI.Geometries;
-using GeoAPI.Operations.Buffer;
+using GeoAPI.Operation.Buffer;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Operation.Buffer;
 using NetTopologySuite.Utilities;
@@ -41,7 +41,7 @@ namespace Open.Topology.TestRunner.Functions
 
         private static IGeometry create_J(IGeometry g)
         {
-            var gf = FunctionsUtil.getFactoryOrDefault(g);
+            var gf = Utility.FunctionsUtil.getFactoryOrDefault(g);
 
             var jTop = new Coordinate[]
                            {
@@ -71,7 +71,7 @@ namespace Open.Topology.TestRunner.Functions
 
         private static IGeometry create_T(IGeometry g)
         {
-            var gf = FunctionsUtil.getFactoryOrDefault(g);
+            var gf = Utility.FunctionsUtil.getFactoryOrDefault(g);
 
             var tTop = new[]
                            {
@@ -93,7 +93,7 @@ namespace Open.Topology.TestRunner.Functions
 
         private static IGeometry create_S(IGeometry g)
         {
-            var gf = FunctionsUtil.getFactoryOrDefault(g);
+            var gf = Utility.FunctionsUtil.getFactoryOrDefault(g);
 
             double centreX = WIDTH - S_RADIUS;
 
