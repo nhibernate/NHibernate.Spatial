@@ -80,7 +80,7 @@ namespace NHibernate.Spatial.Dialect
             RegisterSpatialFunction(SpatialValidation.IsValid);
         }
 
-        private void RegisterFunctions()
+        protected override void RegisterFunctions()
         {
             RegisterConstantValue("TRUE", "1", NHibernateUtil.Boolean);
             RegisterConstantValue("FALSE", "0", NHibernateUtil.Boolean);
@@ -520,8 +520,9 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="srid">The srid.</param>
         /// <param name="subtype">The subtype.</param>
         /// <param name="dimension">The dimension.</param>
+        /// <param name="isNullable">Whether or not the column is nullable.</param>
         /// <returns></returns>
-        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension)
+        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
         {
             return null;
         }
@@ -660,11 +661,6 @@ namespace NHibernate.Spatial.Dialect
         public bool SupportsSpatialMetadata(MetadataClass metadataClass)
         {
             return metadataClass == MetadataClass.GeometryColumn;
-        }
-
-        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
-        {
-            throw new NotImplementedException();
         }
 
         // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator

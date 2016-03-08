@@ -18,15 +18,21 @@ For configuring your application, please refer to [Configuration and Mapping](ht
 Furthermore you can read about [sample usage](http://nhibernate.info/doc/spatial/sample-usage.html). For an updated in-depth look at NHibernate.Spatial, you can 
 read [this excellent blog post](http://build-failed.blogspot.no/2012/02/nhibernate-spatial-part-1.html) written by Pedro Sousa.
 
-For general NHibernate help, the NHibernate community website - <http://www.nhforge.org> - has a range of resources to help you get started with basic NHibernate,
+For general NHibernate help, the NHibernate community website - <http://nhibernate.info/> - has a range of resources to help you get started with basic NHibernate,
 including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH]. 
 
-## Request for Contributors ![Open Hub Stats](https://www.openhub.net/p/5599/widgets/project_partner_badge.gif)
+## Discussion Forum
+Discussion is made through the [NHibernate.Spatial Mailing List](https://groups.google.com/forum/#!forum/nhibernate-spatial). Feel free to join in with suggestions or thoughts!
+
+## Request for Contributors 
 All contributors are welcome. We need help improving the current dialects, getting tests to pass, identifying and fixing bugs, and keeping the project going.
 Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. 
 Contributors who may be able to help out with this are especially welcome. 
 
+
+![Open Hub Stats](https://www.openhub.net/p/5599/widgets/project_partner_badge.gif)
+
 [NHWiki]: http://nhforge.org/wikis
-[NHBlog]: http://nhforge.org/blogs/nhibernate
-[NH]: http://nhforge.org/doc/nh/en/index.html
+[NHBlog]: http://nhibernate.info/blog/
+[NH]: http://nhibernate.info/doc/nh/en/index.html
 [NHContrib]: http://sourceforge.net/projects/nhcontrib/

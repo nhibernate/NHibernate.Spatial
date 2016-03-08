@@ -15,15 +15,16 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using NHibernate.SqlTypes;
-using NHibernate.Type;
-using Oracle.DataAccess.Client;
-using System;
-using System.Data;
-using System.Data.SqlTypes;
-
 namespace NHibernate.Spatial.Oracle
 {
+    using System;
+    using System.Data;
+
+    using global::Oracle.DataAccess.Client;
+
+    using NHibernate.SqlTypes;
+    using NHibernate.Type;
+
     /// <summary>
     /// Maps a <see cref="SdoGeometry" /> to a <see cref="SdoGeometry.SDO_GEOMETRY" /> column.
     /// </summary>
@@ -68,14 +69,14 @@ namespace NHibernate.Spatial.Oracle
             return null;
         }
 
-        public override System.Type ReturnedClass
+        public override Type ReturnedClass
         {
             get { return typeof(SdoGeometry); }
         }
 
         public override void Set(IDbCommand cmd, object value, int index)
         {
-            object parameterValue = (value as INullable).IsNull ? DBNull.Value : value;
+            object parameterValue = (value as SdoGeometry) == null ? DBNull.Value : value;
 
             OracleParameter oracleParameter = (OracleParameter)cmd.Parameters[index];
             oracleParameter.OracleDbType = OracleDbType.Object;

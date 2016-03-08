@@ -168,24 +168,29 @@ namespace NHibernate.Spatial.Oracle
                 //}
             }
 
+<<<<<<< HEAD
+            LineString ls =
+                lrs
+                    ? (LineString)factory.CreateMultiLineString(cs)
+                    : factory.CreateLineString(cs);
+=======
             //ILineString ls =
             //    lrs
-            //        ? (LineString)factory.CreateMultiLineString(cs)
+            //        ? factory.CreateMultiLineString(cs)
             //        : factory.CreateLineString(cs);
             ILineString ls = factory.CreateLineString(cs);
+>>>>>>> master
             ls.SRID = (int)sdoGeom.Sdo_Srid;
             return ls;
         }
 
-        private IMultiLineString ReadMultiLine(int dim, int lrsDim,
-                                                    SdoGeometry sdoGeom)
+        private IMultiLineString ReadMultiLine(int dim, int lrsDim, SdoGeometry sdoGeom)
         {
             bool lrs = sdoGeom.LRS > 0;
-            decimal[] info = sdoGeom.ElemArray;
-            ILineString[] lines =
-                lrs
-                    ? new MLineString[sdoGeom.ElemArray.Length]
-                    : new LineString[sdoGeom.ElemArray.Length];
+            var info = sdoGeom.ElemArray;
+            ILineString[] lines = lrs
+                                      ? new MLineString[sdoGeom.ElemArray.Length]
+                                      : new LineString[sdoGeom.ElemArray.Length];
             int i = 0;
             while (i < info.Length)
             {
