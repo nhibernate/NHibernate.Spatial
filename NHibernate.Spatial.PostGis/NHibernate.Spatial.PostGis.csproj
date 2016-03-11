@@ -109,7 +109,6 @@
     <EmbeddedResource Include="Metadata\SpatialReferenceSystem.PostGisDialect.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
