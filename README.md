@@ -23,8 +23,7 @@ including [wikis][NHWiki], [blogs][NHWiki] and [reference documentation][NH].
 
 ## Request for Contributors ![Open Hub Stats](https://www.openhub.net/p/5599/widgets/project_partner_badge.gif)
 All contributors are welcome. We need help improving the current dialects, getting tests to pass, identifying and fixing bugs, and keeping the project going.
-Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. 
-Contributors who may be able to help out with this are especially welcome. 
+~~Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. Contributors who may be able to help out with this are especially welcome.~~
 
 Credits
 -------
