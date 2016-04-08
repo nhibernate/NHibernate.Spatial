@@ -142,12 +142,12 @@ namespace NHibernate.Spatial.Mapping
             builder.Append(spatialDialect.GetSpatialCreateString(defaultSchema));
 
             // Create objects per column
-            VisitGeometryColumns((tbl, col) => ColumnVisitor(tbl, col, builder, defaultSchema, spatialDialect));
+            VisitGeometryColumns((tbl, col) => ColumnVisitorSQLCreate(tbl, col, builder, defaultSchema, spatialDialect));
 
             return builder.ToString();
         }
 
-        private void ColumnVisitor(Table table, Column column, StringBuilder builder, string defaultSchema, ISpatialDialect spatialDialect)
+        private void ColumnVisitorSQLCreate(Table table, Column column, StringBuilder builder, string defaultSchema, ISpatialDialect spatialDialect)
         {
             IGeometryUserType geometryType = (IGeometryUserType)((CustomType)column.Value.Type).UserType;
             int srid = geometryType.SRID;
@@ -170,10 +170,7 @@ namespace NHibernate.Spatial.Mapping
             StringBuilder builder = new StringBuilder();
 
             // Drop objects per column
-            VisitGeometryColumns(delegate (Table table, Column column)
-            {
-                builder.Append(spatialDialect.GetSpatialDropString(defaultSchema, table.Name, column.Name));
-            });
+            VisitGeometryColumns((table, column) => builder.Append(spatialDialect.GetSpatialDropString(defaultSchema, table.Name, column.Name)));
 
             // Drop general objects
             builder.Append(spatialDialect.GetSpatialDropString(defaultSchema));
