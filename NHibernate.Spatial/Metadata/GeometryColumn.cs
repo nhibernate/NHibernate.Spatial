@@ -25,6 +25,11 @@ namespace NHibernate.Spatial.Metadata
     [Serializable]
     public class GeometryColumn
     {
+        // caching the hashCode initalizing to 0 since in most cases,
+        // hashing table name and column name is enough. we will set it
+        // whenever the table name or column name will change
+        private int hashCode = 0;
+
         private string tableCatalog;
 
         /// <summary>
@@ -58,7 +63,7 @@ namespace NHibernate.Spatial.Metadata
         public virtual string TableName
         {
             get { return this.tableName; }
-            set { this.tableName = value; }
+            set { this.tableName = value; SetHashCode(); }
         }
 
         private string name;
@@ -70,7 +75,7 @@ namespace NHibernate.Spatial.Metadata
         public virtual string Name
         {
             get { return this.name; }
-            set { this.name = value; }
+            set { this.name = value; SetHashCode(); }
         }
 
         private int srid;
@@ -137,10 +142,14 @@ namespace NHibernate.Spatial.Metadata
         /// </returns>
         public override int GetHashCode()
         {
-            // In most cases, hashing table name and column name is enough.
-            return this.TableName.GetHashCode() ^ this.Name.GetHashCode();
+            return hashCode;
         }
 
         #endregion System.Object Members
+
+        private void SetHashCode()
+        {
+            this.hashCode = (TableName + '.' + Name).GetHashCode();
+        }
     }
 }

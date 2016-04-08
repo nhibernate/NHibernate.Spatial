@@ -178,9 +178,9 @@ namespace NHibernate.Spatial.Type
         /// The type returned by <c>NullSafeGet()</c>
         /// </summary>
         /// <value></value>
-        public System.Type ReturnedType
+        public virtual System.Type ReturnedType
         {
-            get { return typeof(IGeometry); }
+            get { return typeof(GeometryTypeBase<T>); }
         }
 
         /// <summary>
