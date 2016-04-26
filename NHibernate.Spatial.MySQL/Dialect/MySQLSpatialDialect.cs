@@ -32,7 +32,7 @@ namespace NHibernate.Spatial.Dialect
 	/// </summary>
 	public class MySQLSpatialDialect : MySQL5Dialect, ISpatialDialect
 	{
-		private static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
+		protected static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MySQLDialect"/> class.
@@ -187,7 +187,7 @@ namespace NHibernate.Spatial.Dialect
 		/// Creates the geometry user type.
 		/// </summary>
 		/// <returns></returns>
-		public IGeometryUserType CreateGeometryUserType()
+		public virtual IGeometryUserType CreateGeometryUserType()
 		{
 			return new MySQLGeometryType();
 		}
