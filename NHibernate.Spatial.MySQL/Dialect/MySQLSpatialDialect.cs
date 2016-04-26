@@ -82,7 +82,7 @@ namespace NHibernate.Spatial.Dialect
 			RegisterSpatialFunction(SpatialValidation.IsValid);
 		}
 
-	    protected override void RegisterFunctions()
+		protected override void RegisterFunctions()
 		{
 			RegisterSpatialFunction("Boundary");
 			RegisterSpatialFunction("Centroid");
@@ -134,27 +134,27 @@ namespace NHibernate.Spatial.Dialect
 			RegisterSpatialFunction("Relate", NHibernateUtil.Boolean, 3);
 		}
 
-        protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType, int allowedArgsCount)
+		protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType, int allowedArgsCount)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + standardName, new SpatialStandardSafeFunction(dialectName, returnedType, allowedArgsCount));
 		}
 
-        protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType)
+		protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType)
 		{
 			RegisterSpatialFunction(standardName, dialectName, returnedType, 1);
 		}
 
-        protected void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
+		protected void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
 		{
 			RegisterSpatialFunction(name, name, returnedType, allowedArgsCount);
 		}
 
-        protected void RegisterSpatialFunction(string name, IType returnedType)
+		protected void RegisterSpatialFunction(string name, IType returnedType)
 		{
 			RegisterSpatialFunction(name, name, returnedType);
 		}
 
-        protected void RegisterSpatialFunction(string name, int allowedArgsCount)
+		protected void RegisterSpatialFunction(string name, int allowedArgsCount)
 		{
 			RegisterSpatialFunction(name, this.GeometryType, allowedArgsCount);
 		}
@@ -164,17 +164,17 @@ namespace NHibernate.Spatial.Dialect
 			RegisterSpatialFunction(name, this.GeometryType);
 		}
 
-        protected void RegisterSpatialFunction(SpatialRelation relation)
+		protected void RegisterSpatialFunction(SpatialRelation relation)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + relation, new SpatialRelationFunction(this, relation));
 		}
 
-        protected void RegisterSpatialFunction(SpatialValidation validation)
+		protected void RegisterSpatialFunction(SpatialValidation validation)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + validation, new SpatialValidationFunction(this, validation));
 		}
 
-        protected void RegisterSpatialFunction(SpatialAnalysis analysis)
+		protected void RegisterSpatialFunction(SpatialAnalysis analysis)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + analysis, new SpatialAnalysisFunction(this, analysis));
 		}
@@ -425,8 +425,8 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialCreateString(string schema)
 		{
-            return DoNothingQuery;
-        }
+			return DoNothingQuery;
+		}
 
 		/// <summary>
 		/// Quotes the schema.
@@ -489,19 +489,19 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialDropString(string schema)
 		{
-            return DoNothingQuery;
-        }
+			return DoNothingQuery;
+		}
 
-        /// <summary>
-        /// Gets the spatial drop string.
-        /// </summary>
-        /// <param name="schema">The schema.</param>
-        /// <param name="table">The table.</param>
-        /// <param name="column">The column.</param>
-        /// <returns></returns>
-        public string GetSpatialDropString(string schema, string table, string column)
+		/// <summary>
+		/// Gets the spatial drop string.
+		/// </summary>
+		/// <param name="schema">The schema.</param>
+		/// <param name="table">The table.</param>
+		/// <param name="column">The column.</param>
+		/// <returns></returns>
+		public string GetSpatialDropString(string schema, string table, string column)
 		{
-            return DoNothingQuery;
+			return DoNothingQuery;
 		}
 
 		/// <summary>
@@ -523,14 +523,14 @@ namespace NHibernate.Spatial.Dialect
 			get { return ";"; }
 		}
 
-        /// <summary>
-        /// The MySQL dialect is the only dialect that does not need to create any "general" 
-        /// database objects when performing a schema export. Sadly, NHibernate chokes if
-        /// simply null or string.Empty is returned, and thus this DoNothingQuery was born.
-        /// </summary>
-        public string DoNothingQuery
-        {
-            get { return "SELECT 1"; }
-        }
-    }
+		/// <summary>
+		/// The MySQL dialect is the only dialect that does not need to create any "general" 
+		/// database objects when performing a schema export. Sadly, NHibernate chokes if
+		/// simply null or string.Empty is returned, and thus this DoNothingQuery was born.
+		/// </summary>
+		public string DoNothingQuery
+		{
+			get { return "SELECT 1"; }
+		}
+	}
 }
