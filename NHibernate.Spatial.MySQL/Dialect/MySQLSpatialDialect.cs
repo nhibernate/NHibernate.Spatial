@@ -32,7 +32,7 @@ namespace NHibernate.Spatial.Dialect
 	/// </summary>
 	public class MySQLSpatialDialect : MySQL5Dialect, ISpatialDialect
 	{
-		private static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
+		protected static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MySQLDialect"/> class.
@@ -187,7 +187,7 @@ namespace NHibernate.Spatial.Dialect
 		/// Creates the geometry user type.
 		/// </summary>
 		/// <returns></returns>
-		public IGeometryUserType CreateGeometryUserType()
+		public virtual IGeometryUserType CreateGeometryUserType()
 		{
 			return new MySQLGeometryType();
 		}
@@ -425,8 +425,8 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialCreateString(string schema)
 		{
-			return null;
-		}
+            return DoNothingQuery;
+        }
 
 		/// <summary>
 		/// Quotes the schema.
@@ -489,19 +489,19 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialDropString(string schema)
 		{
-			return null;
-		}
+            return DoNothingQuery;
+        }
 
-		/// <summary>
-		/// Gets the spatial drop string.
-		/// </summary>
-		/// <param name="schema">The schema.</param>
-		/// <param name="table">The table.</param>
-		/// <param name="column">The column.</param>
-		/// <returns></returns>
-		public string GetSpatialDropString(string schema, string table, string column)
+        /// <summary>
+        /// Gets the spatial drop string.
+        /// </summary>
+        /// <param name="schema">The schema.</param>
+        /// <param name="table">The table.</param>
+        /// <param name="column">The column.</param>
+        /// <returns></returns>
+        public string GetSpatialDropString(string schema, string table, string column)
 		{
-			return null;
+            return DoNothingQuery;
 		}
 
 		/// <summary>
@@ -522,5 +522,15 @@ namespace NHibernate.Spatial.Dialect
 		{
 			get { return ";"; }
 		}
-	}
+
+        /// <summary>
+        /// The MySQL dialect is the only dialect that does not need to create any "general" 
+        /// database objects when performing a schema export. Sadly, NHibernate chokes if
+        /// simply null or string.Empty is returned, and thus this DoNothingQuery was born.
+        /// </summary>
+        public string DoNothingQuery
+        {
+            get { return "SELECT 1"; }
+        }
+    }
 }

@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.8\lib\net40\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NetTopologySuite, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
       <HintPath>..\packages\NetTopologySuite.1.14\lib\net40-client\NetTopologySuite.dll</HintPath>
       <Private>True</Private>
@@ -96,6 +100,8 @@
     <Compile Include="Dialect\MySQL57SpatialDialect.cs" />
     <Compile Include="Dialect\MySQLSpatialDialect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Type\MySQL57GeometryType.cs" />
+    <Compile Include="Type\MySQL57GeometryAdapterType.cs" />
     <Compile Include="Type\MySQLGeometryStringType.cs" />
     <Compile Include="Type\MySQLGeometryType.cs" />
     <Compile Include="Type\MySQLReader.cs" />
@@ -108,7 +114,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
