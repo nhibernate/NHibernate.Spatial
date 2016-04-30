@@ -425,15 +425,15 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialCreateString(string schema)
 		{
-			return DoNothingQuery;
-		}
+            return null;
+        }
 
-		/// <summary>
-		/// Quotes the schema.
-		/// </summary>
-		/// <param name="schema">The schema.</param>
-		/// <returns></returns>
-		private string QuoteSchema(string schema)
+        /// <summary>
+        /// Quotes the schema.
+        /// </summary>
+        /// <param name="schema">The schema.</param>
+        /// <returns></returns>
+        private string QuoteSchema(string schema)
 		{
 			if (string.IsNullOrEmpty(schema))
 			{
@@ -489,19 +489,19 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialDropString(string schema)
 		{
-			return DoNothingQuery;
-		}
+            return null;
+        }
 
-		/// <summary>
-		/// Gets the spatial drop string.
-		/// </summary>
-		/// <param name="schema">The schema.</param>
-		/// <param name="table">The table.</param>
-		/// <param name="column">The column.</param>
-		/// <returns></returns>
-		public string GetSpatialDropString(string schema, string table, string column)
+        /// <summary>
+        /// Gets the spatial drop string.
+        /// </summary>
+        /// <param name="schema">The schema.</param>
+        /// <param name="table">The table.</param>
+        /// <param name="column">The column.</param>
+        /// <returns></returns>
+        public string GetSpatialDropString(string schema, string table, string column)
 		{
-			return DoNothingQuery;
+			return null;
 		}
 
 		/// <summary>
@@ -521,16 +521,6 @@ namespace NHibernate.Spatial.Dialect
 		public string MultipleQueriesSeparator
 		{
 			get { return ";"; }
-		}
-
-		/// <summary>
-		/// The MySQL dialect is the only dialect that does not need to create any "general" 
-		/// database objects when performing a schema export. Sadly, NHibernate chokes if
-		/// simply null or string.Empty is returned, and thus this DoNothingQuery was born.
-		/// </summary>
-		public string DoNothingQuery
-		{
-			get { return "SELECT 1"; }
 		}
 	}
 }
