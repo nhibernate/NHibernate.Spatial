@@ -117,7 +117,9 @@ namespace NHibernate.Spatial.Mapping
                 Table table = persistentClass.Table;
                 foreach (Column column in table.ColumnIterator)
                 {
-                    if (column.Value.Type.ReturnedClass is IGeometry)
+                    if (column.Value.Type.ReturnedClass is IGeometry
+                        || (column.Value.Type.ReturnedClass.IsGenericType 
+                                && column.Value.Type.ReturnedClass.GetGenericTypeDefinition() == typeof(GeometryTypeBase<>)))
                     {
                         visitGeometryColumn(table, column);
                     }
