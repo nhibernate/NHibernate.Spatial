@@ -71,7 +71,7 @@ namespace NHibernate.Spatial.Type
 
         public override System.Type ReturnedClass
         {
-            get { return typeof(MySQL57GeometryAdapterType); }
+            get { return typeof(MySqlGeometry); }
         }
 
         public override void Set(IDbCommand cmd, object value, int index)
