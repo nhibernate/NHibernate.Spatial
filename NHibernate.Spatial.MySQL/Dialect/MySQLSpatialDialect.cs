@@ -32,7 +32,7 @@ namespace NHibernate.Spatial.Dialect
 	/// </summary>
 	public class MySQLSpatialDialect : MySQL5Dialect, ISpatialDialect
 	{
-		private static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
+		protected static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MySQLDialect"/> class.
@@ -82,7 +82,7 @@ namespace NHibernate.Spatial.Dialect
 			RegisterSpatialFunction(SpatialValidation.IsValid);
 		}
 
-	    protected override void RegisterFunctions()
+		protected override void RegisterFunctions()
 		{
 			RegisterSpatialFunction("Boundary");
 			RegisterSpatialFunction("Centroid");
@@ -134,47 +134,47 @@ namespace NHibernate.Spatial.Dialect
 			RegisterSpatialFunction("Relate", NHibernateUtil.Boolean, 3);
 		}
 
-		private void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType, int allowedArgsCount)
+		protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType, int allowedArgsCount)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + standardName, new SpatialStandardSafeFunction(dialectName, returnedType, allowedArgsCount));
 		}
 
-		private void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType)
+		protected void RegisterSpatialFunction(string standardName, string dialectName, IType returnedType)
 		{
 			RegisterSpatialFunction(standardName, dialectName, returnedType, 1);
 		}
 
-		private void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
+		protected void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
 		{
 			RegisterSpatialFunction(name, name, returnedType, allowedArgsCount);
 		}
 
-		private void RegisterSpatialFunction(string name, IType returnedType)
+		protected void RegisterSpatialFunction(string name, IType returnedType)
 		{
 			RegisterSpatialFunction(name, name, returnedType);
 		}
 
-		private void RegisterSpatialFunction(string name, int allowedArgsCount)
+		protected void RegisterSpatialFunction(string name, int allowedArgsCount)
 		{
 			RegisterSpatialFunction(name, this.GeometryType, allowedArgsCount);
 		}
 
-		private void RegisterSpatialFunction(string name)
+		protected void RegisterSpatialFunction(string name)
 		{
 			RegisterSpatialFunction(name, this.GeometryType);
 		}
 
-		private void RegisterSpatialFunction(SpatialRelation relation)
+		protected void RegisterSpatialFunction(SpatialRelation relation)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + relation, new SpatialRelationFunction(this, relation));
 		}
 
-		private void RegisterSpatialFunction(SpatialValidation validation)
+		protected void RegisterSpatialFunction(SpatialValidation validation)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + validation, new SpatialValidationFunction(this, validation));
 		}
 
-		private void RegisterSpatialFunction(SpatialAnalysis analysis)
+		protected void RegisterSpatialFunction(SpatialAnalysis analysis)
 		{
 			RegisterFunction(SpatialDialect.HqlPrefix + analysis, new SpatialAnalysisFunction(this, analysis));
 		}
@@ -187,7 +187,7 @@ namespace NHibernate.Spatial.Dialect
 		/// Creates the geometry user type.
 		/// </summary>
 		/// <returns></returns>
-		public IGeometryUserType CreateGeometryUserType()
+		public virtual IGeometryUserType CreateGeometryUserType()
 		{
 			return new MySQLGeometryType();
 		}
@@ -425,7 +425,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialCreateString(string schema)
 		{
-			return null;
+			return DoNothingQuery;
 		}
 
 		/// <summary>
@@ -489,7 +489,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialDropString(string schema)
 		{
-			return null;
+			return DoNothingQuery;
 		}
 
 		/// <summary>
@@ -501,7 +501,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <returns></returns>
 		public string GetSpatialDropString(string schema, string table, string column)
 		{
-			return null;
+			return DoNothingQuery;
 		}
 
 		/// <summary>
@@ -521,6 +521,16 @@ namespace NHibernate.Spatial.Dialect
 		public string MultipleQueriesSeparator
 		{
 			get { return ";"; }
+		}
+
+		/// <summary>
+		/// The MySQL dialect is the only dialect that does not need to create any "general" 
+		/// database objects when performing a schema export. Sadly, NHibernate chokes if
+		/// simply null or string.Empty is returned, and thus this DoNothingQuery was born.
+		/// </summary>
+		public string DoNothingQuery
+		{
+			get { return "SELECT 1"; }
 		}
 	}
 }
