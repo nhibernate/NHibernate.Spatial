@@ -554,7 +554,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT07Hql()
+		public virtual void ConformanceItemT07Hql()
 		{
 			string query =
 				@"select NHSP.GeometryType(t.Centerlines)
@@ -568,7 +568,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT07Linq()
+		public virtual void ConformanceItemT07Linq()
 		{
 			var query =
 				from t in session.Query<DividedRoute>()
@@ -2028,7 +2028,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		//[Ignore("TODO: ToPolygon")]
+		[Ignore("TODO: ToPolygon")]
 		public void ConformanceItemT37Linq()
 		{
 			var query =
