@@ -180,7 +180,7 @@ namespace NHibernate.Spatial.Type
         /// <value></value>
         public virtual System.Type ReturnedType
         {
-            get { return typeof(GeometryTypeBase<T>); }
+            get { return typeof(IGeometry); }
         }
 
         /// <summary>
