@@ -15,6 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using GeoAPI.Geometries;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
 using NHibernate.SqlTypes;
@@ -41,7 +42,7 @@ namespace NHibernate.Spatial.Type
         public override object NullSafeGet(IDataReader rs, string name)
         {
             object value = base.NullSafeGet(rs, name);
-            return value ?? default(MySqlGeometry);
+            return value ?? default(IGeometry);
         }
 
         public override object Get(IDataReader rs, string name)
@@ -71,7 +72,7 @@ namespace NHibernate.Spatial.Type
 
         public override System.Type ReturnedClass
         {
-            get { return typeof(MySqlGeometry); }
+            get { return typeof(IGeometry); }
         }
 
         public override void Set(IDbCommand cmd, object value, int index)

@@ -120,7 +120,7 @@ namespace NHibernate.Spatial.Criterion
         {
             string[] columns = criteriaQuery.GetColumnsUsingProjection(criteria, propertyName);
             IType type = criteriaQuery.GetTypeUsingProjection(criteria, propertyName);
-            if (!(type.ReturnedClass is IGeometry))
+            if (type.ReturnedClass != typeof(IGeometry))
             {
                 throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", base.GetType(), propertyName, typeof(IGeometry), type.ReturnedClass));
             }
