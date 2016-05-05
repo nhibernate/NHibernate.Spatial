@@ -33,11 +33,12 @@ namespace NHibernate.Spatial.Dialect
 	public class MySQLSpatialDialect : MySQL5Dialect, ISpatialDialect
 	{
 		protected static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
+        protected const string DialectPrefix = SpatialDialect.IsoPrefix;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MySQLDialect"/> class.
-		/// </summary>
-		public MySQLSpatialDialect()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MySQLDialect"/> class.
+        /// </summary>
+        public MySQLSpatialDialect()
 		{
 			SpatialDialect.LastInstantiated = this;
 			RegisterBasicFunctions();
@@ -369,7 +370,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="analysis">The analysis.</param>
 		/// <param name="extraArgument">The extra argument.</param>
 		/// <returns></returns>
-		public SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
+		public virtual SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
 		{
 			switch (analysis)
 			{
@@ -407,7 +408,8 @@ namespace NHibernate.Spatial.Dialect
 						.ToSqlString();
 				case SpatialAnalysis.Distance:
 					return new SqlStringBuilder()
-						.Add("st_Distance(")
+                        .Add(DialectPrefix)
+						.Add("Distance(")
 						.AddObject(geometry)
 						.Add(",")
 						.AddObject(extraArgument)

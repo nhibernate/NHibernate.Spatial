@@ -2028,7 +2028,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		//[Ignore("TODO: ToPolygon")]
+		[Ignore("TODO: ToPolygon")]
 		public void ConformanceItemT37Linq()
 		{
 			var query =
