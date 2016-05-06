@@ -42,7 +42,10 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance
 
 		protected ISession session;
 
-		protected override bool CheckDatabaseWasCleanedOnTearDown
+        // Tolerance for floating point precision
+	    private static readonly double Tolerance = 0.000000000001;
+
+	    protected override bool CheckDatabaseWasCleanedOnTearDown
 		{
 			get { return false; }
 		}
@@ -1382,7 +1385,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POINT( 63 15.5 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
 		}
 
 		[Test]
@@ -1396,30 +1399,30 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 63 15.5 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
-		}
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
 
-		/// <summary>
-		/// Conformance Item T25
-		/// PointOnSurface(s Surface) : Point
-		/// For this test we will determine a point on Goose Island.
-		/// NOTE: For this test we will have to uses the Contains function
-		///       (which we don't test until later).
-		///
-		/// ANSWER: 1
-		/// *** Adaptation Alert ***
-		/// If the implementer provides Contains as a boolean function, instead of as
-		/// an INTEGER function, then:
-		/// ANSWER: TRUE or 't'
-		///
-		/// Original SQL:
-		/// <code>
-		///		SELECT Contains(boundary, PointOnSurface(boundary))
-		///		FROM named_places
-		///		WHERE name = 'Goose Island';
-		/// </code>
-		/// </summary>
-		[Test]
+        /// <summary>
+        /// Conformance Item T25
+        /// PointOnSurface(s Surface) : Point
+        /// For this test we will determine a point on Goose Island.
+        /// NOTE: For this test we will have to uses the Contains function
+        ///       (which we don't test until later).
+        ///
+        /// ANSWER: 1
+        /// *** Adaptation Alert ***
+        /// If the implementer provides Contains as a boolean function, instead of as
+        /// an INTEGER function, then:
+        /// ANSWER: TRUE or 't'
+        ///
+        /// Original SQL:
+        /// <code>
+        ///		SELECT Contains(boundary, PointOnSurface(boundary))
+        ///		FROM named_places
+        ///		WHERE name = 'Goose Island';
+        /// </code>
+        /// </summary>
+        [Test]
 		public void ConformanceItemT25()
 		{
 			NamedPlace entity = session.CreateCriteria(typeof(NamedPlace))
@@ -1871,10 +1874,10 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POINT( 25 42 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
-		}
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
 
-		[Test]
+        [Test]
 		public void ConformanceItemT34Linq()
 		{
 			var query =
@@ -1885,30 +1888,30 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 25 42 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
-		}
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
 
-		/// <summary>
-		/// Conformance Item T35
-		/// PointOnSurface(ms MultiSurface) : Point
-		/// For this test we will determine a point on the ponds.
-		/// NOTE: For this test we will have to uses the Contains function
-		///       (which we don't test until later).
-		///
-		/// ANSWER: 1
-		/// *** Adaptation Alert ***
-		/// If the implementer provides Contains as a boolean function, instead of as
-		/// an INTEGER function, then:
-		/// ANSWER: TRUE or 't'
-		///
-		/// Original SQL:
-		/// <code>
-		///		SELECT Contains(shores, PointOnSurface(shores))
-		///		FROM ponds
-		///		WHERE fid = 120;
-		/// </code>
-		/// </summary>
-		[Test]
+        /// <summary>
+        /// Conformance Item T35
+        /// PointOnSurface(ms MultiSurface) : Point
+        /// For this test we will determine a point on the ponds.
+        /// NOTE: For this test we will have to uses the Contains function
+        ///       (which we don't test until later).
+        ///
+        /// ANSWER: 1
+        /// *** Adaptation Alert ***
+        /// If the implementer provides Contains as a boolean function, instead of as
+        /// an INTEGER function, then:
+        /// ANSWER: TRUE or 't'
+        ///
+        /// Original SQL:
+        /// <code>
+        ///		SELECT Contains(shores, PointOnSurface(shores))
+        ///		FROM ponds
+        ///		WHERE fid = 120;
+        /// </code>
+        /// </summary>
+        [Test]
 		public void ConformanceItemT35()
 		{
 			Pond entity = session.CreateCriteria(typeof(Pond))
@@ -2550,10 +2553,10 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
 
-			Assert.IsTrue(expected.Equals(geometry));
-		}
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
 
-		[Test]
+        [Test]
 		public void ConformanceItemT48Linq()
 		{
 			var query =
@@ -2565,30 +2568,30 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
 
-			Assert.IsTrue(expected.Equals(geometry));
-		}
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
 
-		/// <summary>
-		/// Conformance Item T49
-		/// Union(g1 Geometry, g2 Geometry) : Integer
-		/// For this test we will determine the union of Blue Lake and Goose Island
-		///
-		/// ANSWER: 'POLYGON((52 18,66 23,73 9,48 6,52 18))'
-		/// NOTE: The outer ring of BLue Lake is the answer.
-		///
-		/// Original SQL:
-		/// <code>
-		///		SELECT Union(shore, boundary)
-		///		FROM lakes, named_places
-		///		WHERE lakes.name = 'Blue Lake' AND named_places.name = Ashton';
-		/// </code>
-		/// </summary>
-		/// <remarks>
-		/// Correction:
-		/// * Place name condition changed from 'Ashton' to 'Goose Island'
-		///   in order to conform the test enunciation and correct answer.
-		/// </remarks>
-		[Test]
+        /// <summary>
+        /// Conformance Item T49
+        /// Union(g1 Geometry, g2 Geometry) : Integer
+        /// For this test we will determine the union of Blue Lake and Goose Island
+        ///
+        /// ANSWER: 'POLYGON((52 18,66 23,73 9,48 6,52 18))'
+        /// NOTE: The outer ring of BLue Lake is the answer.
+        ///
+        /// Original SQL:
+        /// <code>
+        ///		SELECT Union(shore, boundary)
+        ///		FROM lakes, named_places
+        ///		WHERE lakes.name = 'Blue Lake' AND named_places.name = Ashton';
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Correction:
+        /// * Place name condition changed from 'Ashton' to 'Goose Island'
+        ///   in order to conform the test enunciation and correct answer.
+        /// </remarks>
+        [Test]
 		public void ConformanceItemT49Hql()
 		{
 			string query =
