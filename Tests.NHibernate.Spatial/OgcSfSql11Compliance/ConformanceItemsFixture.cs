@@ -868,7 +868,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT13Hql()
+		public virtual void ConformanceItemT13Hql()
 		{
 			string query =
 				@"select NHSP.AsText(NHSP.Boundary(t.Boundary))
@@ -885,7 +885,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT13Linq()
+		public virtual void ConformanceItemT13Linq()
 		{
 			var query =
 				from t in session.Query<NamedPlace>()
@@ -1150,7 +1150,7 @@ UNIT[""Meter"", 1.0]]";
 		/// </code>
 		/// </summary>
 		[Test]
-		public void ConformanceItemT19Hql()
+		public virtual void ConformanceItemT19Hql()
 		{
 			string query =
 				@"select NHSP.IsClosed(NHSP.Boundary(t.Boundary))
@@ -1164,7 +1164,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT19Linq()
+		public virtual void ConformanceItemT19Linq()
 		{
 			var query =
 				from t in session.Query<NamedPlace>()
@@ -1195,7 +1195,7 @@ UNIT[""Meter"", 1.0]]";
 		/// </code>
 		/// </summary>
 		[Test]
-		public void ConformanceItemT20Hql()
+		public virtual void ConformanceItemT20Hql()
 		{
 			string query =
 				@"select NHSP.IsRing(NHSP.Boundary(t.Boundary))
@@ -1209,7 +1209,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT20Linq()
+		public virtual void ConformanceItemT20Linq()
 		{
 			var query =
 				from t in session.Query<NamedPlace>()
@@ -1433,7 +1433,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT25Hql()
+		public virtual void ConformanceItemT25Hql()
 		{
 			string query =
 				@"select NHSP.Contains(t.Boundary, NHSP.PointOnSurface(t.Boundary))
@@ -1447,7 +1447,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT25Linq()
+		public virtual void ConformanceItemT25Linq()
 		{
 			var query =
 				from t in session.Query<NamedPlace>()
@@ -1922,7 +1922,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT35Hql()
+		public virtual void ConformanceItemT35Hql()
 		{
 			string query =
 				@"select NHSP.Contains(t.Shores, NHSP.PointOnSurface(t.Shores))
@@ -1936,7 +1936,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT35Linq()
+		public virtual void ConformanceItemT35Linq()
 		{
 			var query =
 				from t in session.Query<Pond>()
@@ -2399,7 +2399,7 @@ UNIT[""Meter"", 1.0]]";
 		/// </code>
 		/// </summary>
 		[Test]
-		public void ConformanceItemT45Hql()
+		public virtual void ConformanceItemT45Hql()
 		{
 			string query =
 				@"select NHSP.Relate(f.Boundary, np.Boundary, 'TTTTTTTTT')
@@ -2413,7 +2413,7 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		public void ConformanceItemT45Linq()
+		public virtual void ConformanceItemT45Linq()
 		{
 			var query =
 				from f in session.Query<Forest>()

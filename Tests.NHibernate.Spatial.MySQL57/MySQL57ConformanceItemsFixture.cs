@@ -67,5 +67,81 @@ namespace Tests.NHibernate.Spatial
 
             Assert.IsTrue(expected.Equals(geometry));
         }
+
+        #region Features that are currently missing in MySQL 5.7
+
+        [Test]
+        public override void ConformanceItemT13Hql()
+        {
+            Assert.Ignore("Provider does not support Boundary function");
+        }
+
+        [Test]
+        public override void ConformanceItemT13Linq()
+        {
+            Assert.Ignore("Provider does not support Boundary function");
+        }
+
+        [Test]
+        public override void ConformanceItemT19Hql()
+        {
+            Assert.Ignore("Provider does not support Boundary function");
+        }
+
+        [Test]
+        public override void ConformanceItemT19Linq()
+        {
+            Assert.Ignore("Provider does not support Boundary function");
+        }
+
+        [Test]
+        public override void ConformanceItemT20Hql()
+        {
+            Assert.Ignore("Provider does not support IsRing function");
+        }
+
+        [Test]
+        public override void ConformanceItemT20Linq()
+        {
+            Assert.Ignore("Provider does not support IsRing function");
+        }
+
+        [Test]
+        public override void ConformanceItemT25Hql()
+        {
+            Assert.Ignore("Provider does not support IsRing function");
+        }
+
+        [Test]
+        public override void ConformanceItemT25Linq()
+        {
+            Assert.Ignore("Provider does not support IsRing function");
+        }
+
+        [Test]
+        public override void ConformanceItemT35Hql()
+        {
+            Assert.Ignore("Provider does not support PointOnSurface function");
+        }
+
+        [Test]
+        public override void ConformanceItemT35Linq()
+        {
+            Assert.Ignore("Provider does not support PointOnSurface function");
+        }
+        [Test]
+        public override void ConformanceItemT45Hql()
+        {
+            Assert.Ignore("Provider does not support Boundary function");
+        }
+
+        [Test]
+        public override void ConformanceItemT45Linq()
+        {
+            Assert.Ignore("Provider does not support Boundary function");
+        }
+
+
+        #endregion
     }
 }
