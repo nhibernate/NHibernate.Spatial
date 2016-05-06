@@ -197,7 +197,7 @@ namespace NHibernate.Spatial.Dialect
 		/// Gets the type of the geometry.
 		/// </summary>
 		/// <value>The type of the geometry.</value>
-		public IType GeometryType
+		public virtual IType GeometryType
 		{
 			get { return geometryType; }
 		}
