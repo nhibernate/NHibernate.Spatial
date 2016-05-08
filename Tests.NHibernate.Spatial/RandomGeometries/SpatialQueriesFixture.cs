@@ -200,7 +200,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         }
 
         [Test]
-        public void HqlRelateLineString()
+        public virtual void HqlRelateLineString()
         {
             var count = _session
                 .CreateQuery(
@@ -352,7 +352,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         }
 
         [Test]
-        public void HqlBoundary()
+        public virtual void HqlBoundary()
         {
             IList results = _session
                 .CreateQuery(

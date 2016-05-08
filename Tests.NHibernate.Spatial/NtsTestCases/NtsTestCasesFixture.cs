@@ -392,7 +392,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		#region Relations
 
 		[Test]
-		public void BooleanRelate()
+		public virtual void BooleanRelate()
 		{
 			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", "Relate"))
@@ -446,13 +446,13 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		}
 
 		[Test]
-		public void CoveredBy()
+		public virtual void CoveredBy()
 		{
 			TestBooleanBinaryOperation("CoveredBy", SpatialProjections.CoveredBy, SpatialRestrictions.CoveredBy);
 		}
 
 		[Test]
-		public void Covers()
+		public virtual void Covers()
 		{
 			TestBooleanBinaryOperation("Covers", SpatialProjections.Covers, SpatialRestrictions.Covers);
 		}

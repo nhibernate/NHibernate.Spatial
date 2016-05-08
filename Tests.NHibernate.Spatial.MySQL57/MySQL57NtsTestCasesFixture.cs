@@ -11,5 +11,36 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(configuration);
         }
+
+        #region Unsupported features
+
+        [Test]
+        public override void BooleanRelate()
+        {
+            Assert.Ignore("Provider does not support the Relate function");
+        }
+
+        [Test]
+        public override void CoveredBy()
+        {
+            Assert.Ignore("Provider does not support the Relate function");
+        }
+        [Test]
+        public override void Covers()
+        {
+            Assert.Ignore("Provider does not support the Relate function");
+        }
+        [Test]
+        public override void IsValid()
+        {
+            Assert.Ignore("Provider does not support the IsValid function");
+        }
+        [Test]
+        public override void StringRelate()
+        {
+            Assert.Ignore("Provider does not support the Relate function");
+        }
+
+        #endregion
     }
 }

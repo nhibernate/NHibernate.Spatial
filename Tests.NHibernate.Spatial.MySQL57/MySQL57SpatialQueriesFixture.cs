@@ -12,5 +12,21 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(configuration);
         }
+
+        #region Unsupported features
+
+        [Test]
+        public override void HqlBoundary()
+        {
+            Assert.Ignore("Provider does not support the Boundary function");
+        }
+
+        [Test]
+        public override void HqlRelateLineString()
+        {
+            Assert.Ignore("Provider does not support the Relate function");
+        }
+
+        #endregion
     }
 }
