@@ -122,10 +122,6 @@ namespace NHibernate.Spatial.Mapping
 				{
 					if (column.Value.Type.ReturnedClass == typeof(IGeometry))
 					{
-						var key = table.Name + "." + column.Name;
-						if (!SridMap.ContainsKey(key))
-							SridMap[key] = 0;
-
 						visitGeometryColumn(table, column);
 					}
 				}
@@ -158,6 +154,11 @@ namespace NHibernate.Spatial.Mapping
 		{
 			IGeometryUserType geometryType = (IGeometryUserType)((CustomType)column.Value.Type).UserType;
 			int srid = geometryType.SRID;
+			var key = table.Name + "." + column.Name;
+			if (SridMap.ContainsKey(key) && SridMap[key] > 0)
+			{
+				srid = SridMap[key];
+			}
 			string subtype = geometryType.Subtype;
 			int dimension = geometryType.Dimension;
 
