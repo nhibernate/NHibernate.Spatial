@@ -18,7 +18,7 @@ namespace Open.Topology.TestRunner.Functions
         public static bool IsBinaryGeomFunction(IGeometryFunction func)
         {
             return func.ParameterTypes.Length >= 1
-                   && func.ParameterTypes[0] is IGeometry;
+                   && func.ParameterTypes[0] == typeof(IGeometry);
         }
 
         protected String category;

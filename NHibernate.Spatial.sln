@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial", "NHibernate.Spatial\NHibernate.Spatial.csproj", "{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}"
 EndProject
@@ -38,6 +38,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MySQL57", "Tests.NHibernate.Spatial.MySQL57\Tests.NHibernate.Spatial.MySQL57.csproj", "{903F70BB-59E8-4752-BBC8-57C3C0CC221E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.PostGis20", "Tests.NHibernate.Spatial.PostGis20\Tests.NHibernate.Spatial.PostGis20.csproj", "{F3FA25B4-267D-4DC5-9685-E383BFA8E156}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +97,14 @@ Global
 		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

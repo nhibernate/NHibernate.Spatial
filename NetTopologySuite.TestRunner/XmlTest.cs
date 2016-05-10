@@ -351,7 +351,7 @@ namespace Open.Topology.TestRunner
                     expectedResult = new BooleanResult((bool)Result);
                 else if (returnType == typeof(double))
                     expectedResult = new DoubleResult((int)Result);
-                else if (returnType is IGeometry)
+                else if (returnType == typeof(IGeometry))
                     expectedResult = new GeometryResult((IGeometry)Result);
                 else
                 {
@@ -497,7 +497,7 @@ namespace Open.Topology.TestRunner
                 return new EqualityResultMatcher<BooleanResult>();
             if (returnType == typeof(double))
                 return new EqualityResultMatcher<DoubleResult>();
-            if (returnType is IGeometry)
+            if (returnType == typeof(IGeometry))
                 return new EqualityResultMatcher<GeometryResult>();
 
             Debug.Assert(false);
