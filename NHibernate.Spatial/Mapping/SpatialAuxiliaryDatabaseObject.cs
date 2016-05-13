@@ -120,7 +120,7 @@ namespace NHibernate.Spatial.Mapping
 				Table table = persistentClass.Table;
 				foreach (Column column in table.ColumnIterator)
 				{
-					if (column.Value.Type.ReturnedClass == typeof(IGeometry))
+					if (typeof(IGeometry).IsAssignableFrom(column.Value.Type.ReturnedClass))
 					{
 						visitGeometryColumn(table, column);
 					}
