@@ -79,7 +79,7 @@ namespace NHibernate.Spatial.Criterion
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
 			string[] columnsUsingProjection = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
 			IType typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, this.propertyName);
-			if (typeof(IGeometry).IsAssignableFrom(typeUsingProjection.ReturnedClass))
+			if (!typeof(IGeometry).IsAssignableFrom(typeUsingProjection.ReturnedClass))
 			{
 				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", GetType(), this.propertyName, typeof(IGeometry), typeUsingProjection.ReturnedClass));
 			}
