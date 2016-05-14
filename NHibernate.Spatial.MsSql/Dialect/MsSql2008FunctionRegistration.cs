@@ -265,10 +265,6 @@ namespace NHibernate.Spatial.Dialect
 					aggregateFunction = "UnionAggregate";
 					break;
 
-				case SpatialAggregate.Intersection:
-					aggregateFunction = "STIntersects";
-					break;
-
 				default:
 					throw new ArgumentException("Invalid spatial aggregate argument");
 			}
