@@ -311,7 +311,8 @@ namespace NHibernate.Spatial.Dialect
 
 				default:
 					return new SqlStringBuilder(6)
-						.Add(relation.ToString())
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add(relation.ToString())
 						.Add("(")
 						.AddObject(geometry)
 						.Add(", ")
