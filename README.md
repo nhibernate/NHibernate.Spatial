@@ -26,12 +26,30 @@ Discussion is made through the [NHibernate.Spatial Mailing List](https://groups.
 
 ## Request for Contributors 
 All contributors are welcome. We need help improving the current dialects, getting tests to pass, identifying and fixing bugs, and keeping the project going.
-Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. 
-Contributors who may be able to help out with this are especially welcome. 
+~~Presently the Oracle Spatial dialect is excluded from the solution. The Oracle Dialect has never been functional, but with some work it could be. Contributors who may be able to help out with this are especially welcome.~~
 
+Credits
+-------
 
-![Open Hub Stats](https://www.openhub.net/p/5599/widgets/project_partner_badge.gif)
+Many thanks to the following individuals, organisations and projects whose work is so important to the success
+of NHibernate.Spatial (in no particular order):
+* [Nhibernate][] - Parent library
+* [NUnit][] - unit-testing
+* [GitHub][] and [SourceForge][] - source code hosting
+* [Log4net][] - logging, by the [Apache Software Foundation][]
+* [JetBrains][] - [ReSharper][] licences for NHibernate.Spatial developers
+* [NetTopologySuite][] and [GeoAPI.Net][] - Spatial Libraries
 
+[NUnit]: http://www.nunit.org
+[GitHub]: http://www.github.com
+[SourceForge]: http://www.sourceforge.net
+[Log4net]: http://logging.apache.org/log4net
+[Apache Software Foundation]: http://www.apache.org
+[JetBrains]: http://www.jetbrains.com
+[ReSharper]: http://www.jetbrains.com/resharper
+[GeoAPI.Net]: https://github.com/NetTopologySuite/GeoAPI
+[NetTopologySuite]: https://github.com/NetTopologySuite/NetTopologySuite
+[Nhibernate]: https://github.com/nhibernate/nhibernate-core
 [NHWiki]: http://nhforge.org/wikis
 [NHBlog]: http://nhibernate.info/blog/
 [NH]: http://nhibernate.info/doc/nh/en/index.html

@@ -5,7 +5,7 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
 // (at your option) any later version.
-// 
+//
 // NHibernate.Spatial is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,11 +13,8 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with NHibernate.Spatial; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using System;
-using System.Globalization;
-using System.Text;
 using NetTopologySuite.Geometries;
 using NHibernate.Dialect;
 using NHibernate.Spatial.Dialect.Function;
@@ -26,12 +23,14 @@ using NHibernate.Spatial.Type;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
 using NHibernate.Util;
+using System;
+using System.Globalization;
+using System.Text;
 
 namespace NHibernate.Spatial.Dialect
 {
 	internal class MsSql2008FunctionRegistration : ISpatialDialect
 	{
-
 		private const string DialectPrefix = "ST";
 
 		private IRegisterationAdaptor adaptor;
@@ -39,7 +38,7 @@ namespace NHibernate.Spatial.Dialect
 		protected string sqlTypeName;
 		private string geometryColumnsViewName;
 
-		public MsSql2008FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName,IType geometryType)
+		public MsSql2008FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName, IType geometryType)
 		{
 			this.adaptor = adaptor;
 			this.sqlTypeName = sqlTypeName;

@@ -125,6 +125,7 @@
     <Compile Include="Linq\Functions\SpatialMethodGenerator.cs" />
     <Compile Include="Linq\Functions\SpatialPropertyGenerator.cs" />
     <Compile Include="Linq\SpatialLinqMethodException.cs" />
+    <Compile Include="Mapping\SpatialAuxilaryDatabaseObjectEx.cs" />
     <Compile Include="Mapping\SpatialAuxiliaryDatabaseObject.cs" />
     <Compile Include="Metadata\GeometryColumn.cs" />
     <Compile Include="Metadata\Metadata.cs" />
