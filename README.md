@@ -10,10 +10,8 @@ The packages listed below are compatible with NHibernate 4.0.4 GA.
 [Nhibernate.Spatial for Microsoft SQL Server](https://www.nuget.org/packages/NHibernate.Spatial.MsSql/)
 
 [Nhibernate.Spatial for MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
-
+ 
 [Nhibernate.Spatial for PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
-
-[Nhibernate.Spatial for Oracle](https://www.nuget.org/packages/NHibernate.Spatial.Oracle/)
 
 ## Getting Started
 For configuring your application, please refer to [Configuration and Mapping](http://nhibernate.info/doc/spatial/configuration-and-mapping.html) on the NHForge Wiki. 
