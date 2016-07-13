@@ -546,7 +546,7 @@ namespace NHibernate.Spatial.Dialect
 		{
 			StringBuilder builder = new StringBuilder();
 
-			string quotedSchema = !string.IsNullOrEmpty(schema) ? adaptor.QuoteForSchemaName(schema) : string.Empty;
+			string quotedSchema = adaptor.QuoteSchema(schema);
 			string quoteForTableName = adaptor.QuoteForTableName(table);
 			string quoteForColumnName = adaptor.QuoteForColumnName(column);
 
