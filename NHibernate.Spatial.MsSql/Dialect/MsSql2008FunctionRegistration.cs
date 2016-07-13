@@ -546,8 +546,8 @@ namespace NHibernate.Spatial.Dialect
 		{
 			StringBuilder builder = new StringBuilder();
 
-			string quotedSchema = !string.IsNullOrEmpty(schema) ? adaptor.QuoteForSchemaName(schema) : string.Empty;
-			string quoteForTableName = adaptor.QuoteForTableName(table);
+            string quotedSchema = adaptor.QuoteSchema(schema);
+            string quoteForTableName = adaptor.QuoteForTableName(table);
 			string quoteForColumnName = adaptor.QuoteForColumnName(column);
 
 			builder.AppendFormat("ALTER TABLE {0}{1} DROP COLUMN {2}"
