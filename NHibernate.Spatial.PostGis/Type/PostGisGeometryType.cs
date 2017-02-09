@@ -62,7 +62,26 @@ namespace NHibernate.Spatial.Type
             }
 
             this.SetDefaultSRID(geometry);
-            byte[] bytes = new PostGisWriter().Write(geometry);
+
+            // Determine the ordinality of the geometry to ensure 3D and 4D geometries are
+            // correctly serialized by PostGisWriter (see issue #66)
+            // TODO: Is there a way of getting the ordinates directly from the geometry?
+            var ordinates = Ordinates.XY;
+            var interiorPoint = geometry.InteriorPoint;
+            if (!interiorPoint.IsEmpty && !double.IsNaN(interiorPoint.Z))
+            {
+                ordinates |= Ordinates.Z;
+            }
+            if (!interiorPoint.IsEmpty && !double.IsNaN(interiorPoint.M))
+            {
+                ordinates |= Ordinates.M;
+            }
+
+            var postGisWriter = new PostGisWriter
+            {
+                HandleOrdinates = ordinates
+            };
+            byte[] bytes = postGisWriter.Write(geometry);
             return ToString(bytes);
         }
 
