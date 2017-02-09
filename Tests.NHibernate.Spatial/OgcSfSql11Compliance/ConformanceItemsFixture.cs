@@ -43,7 +43,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance
 		protected ISession session;
 
         // Tolerance for floating point precision
-	    private static readonly double Tolerance = 0.000000000001;
+	    protected static readonly double Tolerance = 0.000000000001;
 
 	    protected override bool CheckDatabaseWasCleanedOnTearDown
 		{
@@ -2540,7 +2540,7 @@ UNIT[""Meter"", 1.0]]";
 		/// </code>
 		/// </summary>
 		[Test]
-		public void ConformanceItemT48Hql()
+		public virtual void ConformanceItemT48Hql()
 		{
 			string query =
 				@"select NHSP.AsText(NHSP.Difference(np.Boundary, f.Boundary))
@@ -2557,7 +2557,7 @@ UNIT[""Meter"", 1.0]]";
         }
 
         [Test]
-		public void ConformanceItemT48Linq()
+		public virtual void ConformanceItemT48Linq()
 		{
 			var query =
 				from np in session.Query<NamedPlace>()
