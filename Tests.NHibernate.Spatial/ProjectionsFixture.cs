@@ -215,7 +215,7 @@ namespace Tests.NHibernate.Spatial
             Geometry point = new Point(0.0, 0.0) { SRID = 4326 };
 
             var result = _session.Query<Simple>()
-                .OrderBy(s => s.Geometry.Distance(point))
+                .OrderBy(s => s.Geometry.Distance(point.MappedAs(NHibernateUtil.Custom(GeometryType))))
                 .ToList();
 
             Assert.That(result[0].Description, Is.EqualTo("point 2"));
