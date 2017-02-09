@@ -365,7 +365,7 @@ namespace NHibernate.Spatial.Dialect
                 .Add(".")
                 .Add(geometryColumnName)
                 .Add(" && ")
-                .AddParameter()
+                .Add(parameter)
                 .Add(")")
                 .ToSqlString();
         }
