@@ -67,5 +67,53 @@ namespace Tests.NHibernate.Spatial
 
             Assert.IsTrue(expected.Equals(geometry));
         }
+
+        /// <summary>
+        /// Conformance Item T48
+        /// Difference(g1 Geometry, g2 Geometry) : Geometry
+        /// For this test we will determine the difference between Ashton and
+        /// Green Forest.
+        ///
+        /// ANSWER: 'POLYGON((56 34, 84 42, 84 48, 62 48, 56 34))'
+        /// NOTE: The order of the vertices here is arbitrary.
+        ///
+        /// Original SQL:
+        /// <code>
+        ///		SELECT Difference(named_places.boundary, forests.boundary)
+        ///		FROM named_places, forests
+        ///		WHERE named_places.name = 'Ashton' AND forests.name = 'Green Forest';
+        /// </code>
+        /// </summary>
+        [Test]
+        public override void ConformanceItemT48Hql()
+        {
+            string query =
+                @"select NHSP.AsText(NHSP.Difference(np.Boundary, f.Boundary))
+				from NamedPlace np, Forest f
+				where np.Name = 'Ashton' and f.Name = 'Green Forest'
+				";
+            string result = session.CreateQuery(query)
+                .UniqueResult<string>();
+
+            IGeometry geometry = Wkt.Read(result);
+            IGeometry expected = Wkt.Read("POLYGON((56 34, 84 42, 84 48, 62 48, 56 34))");
+
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
+
+        [Test]
+        public override void ConformanceItemT48Linq()
+        {
+            var query =
+                from np in session.Query<NamedPlace>()
+                from f in session.Query<Forest>()
+                where np.Name == "Ashton" && f.Name == "Green Forest"
+                select np.Boundary.Difference(f.Boundary);
+
+            IGeometry geometry = query.Single();
+            IGeometry expected = Wkt.Read("POLYGON((56 34, 84 42, 84 48, 62 48, 56 34))");
+
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+        }
     }
 }
