@@ -56,7 +56,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        public void CountAndUnion()
+        public virtual void CountAndUnion()
         {
             IList results = _session.CreateCriteria(typeof(County))
                 .SetProjection(Projections.ProjectionList()
@@ -77,7 +77,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        public void CountAndUnionByState()
+        public virtual void CountAndUnionByState()
         {
             IList results = _session.CreateCriteria(typeof(County))
                 .AddOrder(Order.Asc("State"))
@@ -92,7 +92,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        public void CountAndUnionByStateLambda()
+        public virtual void CountAndUnionByStateLambda()
         {
             var results = _session.QueryOver<County>()
                 .Select(
@@ -128,7 +128,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        public void EnvelopeAll()
+        public virtual void EnvelopeAll()
         {
             IList results = _session.CreateCriteria(typeof(County))
                 .SetProjection(SpatialProjections.Envelope("Boundaries"))
@@ -143,7 +143,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        public void CollectAll()
+        public virtual void CollectAll()
         {
             IList results = _session.CreateCriteria(typeof(County))
                 .SetProjection(SpatialProjections.Collect("Boundaries"))
@@ -158,7 +158,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        public void IntersectionAll()
+        public virtual void IntersectionAll()
         {
             IList results = _session.CreateCriteria(typeof(County))
                 .SetProjection(SpatialProjections.Intersection("Boundaries"))
