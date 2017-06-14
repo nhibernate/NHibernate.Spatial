@@ -16,5 +16,35 @@ namespace Tests.NHibernate.Spatial
         {
             get { return typeof(MsSql2008GeometryType); }
         }
+
+        [Test]
+        [Ignore("MsSql2008 does not support spatial aggregate functions")]
+        public override void CollectAll()
+        { }
+
+        [Test]
+        [Ignore("MsSql2008 does not support spatial aggregate functions")]
+        public override void CountAndUnion()
+        { }
+
+        [Test]
+        [Ignore("MsSql2008 does not support spatial aggregate functions")]
+        public override void CountAndUnionByState()
+        { }
+
+        [Test]
+        [Ignore("MsSql2008 does not support spatial aggregate functions")]
+        public override void CountAndUnionByStateLambda()
+        { }
+
+        [Test]
+        [Ignore("MsSql2008 does not support spatial aggregate functions")]
+        public override void EnvelopeAll()
+        { }
+
+        [Test]
+        [Ignore("MsSql2008 does not support spatial aggregate functions")]
+        public override void IntersectionAll()
+        { }
     }
 }
