@@ -11,5 +11,12 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(configuration);
         }
+
+        [Test]
+        [Ignore("Not supported by MsSqlSpatial")]
+        public override void StringRelate()
+        {
+            base.StringRelate();
+        }
     }
 }
