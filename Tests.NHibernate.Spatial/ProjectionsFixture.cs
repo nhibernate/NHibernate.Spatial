@@ -4,6 +4,7 @@ using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.Spatial.Criterion;
+using NHibernate.Spatial.Dialect;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -183,7 +184,7 @@ namespace Tests.NHibernate.Spatial
             var result = _session.CreateQuery(
                 @"select p from Simple p
                   order by NHSP.Distance(p.Geometry, :point)")
-                .SetParameter("point", point, NHibernateUtil.Custom(GeometryType))
+                .SetParameter("point", point, SpatialDialect.GeometryTypeOf(_session))
                 .List<Simple>();
 
             Assert.That(result[0].Description, Is.EqualTo("point 2"));
@@ -215,7 +216,7 @@ namespace Tests.NHibernate.Spatial
             Geometry point = new Point(0.0, 0.0) { SRID = 4326 };
 
             var result = _session.Query<Simple>()
-                .OrderBy(s => s.Geometry.Distance(point.MappedAs(NHibernateUtil.Custom(GeometryType))))
+                .OrderBy(s => s.Geometry.Distance(point.MappedAs(SpatialDialect.GeometryTypeOf(_session))))
                 .ToList();
 
             Assert.That(result[0].Description, Is.EqualTo("point 2"));

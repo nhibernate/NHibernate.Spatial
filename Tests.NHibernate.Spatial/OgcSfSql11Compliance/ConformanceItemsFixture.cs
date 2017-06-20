@@ -2,6 +2,7 @@ using GeoAPI.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using NHibernate.Spatial.Dialect;
 using NHibernate.Spatial.Linq;
 using NHibernate.Spatial.Metadata;
 using NUnit.Framework;
@@ -2031,15 +2032,17 @@ UNIT[""Meter"", 1.0]]";
 		}
 
 		[Test]
-		[Ignore("TODO: ToPolygon")]
 		public void ConformanceItemT37Linq()
 		{
-			var query =
-				from t in session.Query<NamedPlace>()
-				where t.Name == "Goose Island"
-				select t.Boundary.Equals("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )".ToPolygon(101));
+		    var polygon = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
+		    polygon.SRID = 101;
 
-			bool result = query.Single();
+		    var query =
+		        from t in session.Query<NamedPlace>()
+		        where t.Name == "Goose Island"
+		        select t.Boundary.Equals(polygon.MappedAs(SpatialDialect.GeometryTypeOf(session)));
+
+            bool result = query.Single();
 
 			Assert.IsTrue(result);
 		}

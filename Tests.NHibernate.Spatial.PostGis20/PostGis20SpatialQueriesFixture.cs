@@ -2,7 +2,7 @@ using System.Collections;
 using NHibernate.Cfg;
 using NUnit.Framework;
 
-namespace Tests.NHibernate.Spatial.RandomGeometries
+namespace Tests.NHibernate.Spatial
 {
 	[TestFixture]
 	public class PostGis20SpatialQueriesFixture : PostGisSpatialQueriesFixture

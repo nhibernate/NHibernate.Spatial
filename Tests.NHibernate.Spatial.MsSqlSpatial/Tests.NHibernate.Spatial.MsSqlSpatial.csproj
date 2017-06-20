@@ -123,6 +123,10 @@
       <Project>{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}</Project>
       <Name>NHibernate.Spatial</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tests.NHibernate.Spatial.MsSql2008\Tests.NHibernate.Spatial.MsSql2008.csproj">
+      <Project>{96CE5CA4-56B6-45CD-9581-736C8483CD7A}</Project>
+      <Name>Tests.NHibernate.Spatial.MsSql2008</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.csproj">
       <Project>{CF7F3A94-6560-4A2D-9BCE-F2B5A9583ECA}</Project>
       <Name>Tests.NHibernate.Spatial</Name>

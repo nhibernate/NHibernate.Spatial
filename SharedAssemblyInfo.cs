@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NHibernate.Spatial Community")]
 [assembly: AssemblyProduct("NHibernate.Spatial")]
-[assembly: AssemblyCopyright("Copyright © 2009-2016 Ricardo Stuven, Surya Pratap, Andreas Ravnestad, Pete Whitaker")]
+[assembly: AssemblyCopyright("Copyright © 2009-2017 Ricardo Stuven, Surya Pratap, Andreas Ravnestad, Peet Whitaker")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
