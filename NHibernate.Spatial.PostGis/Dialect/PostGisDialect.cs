@@ -332,6 +332,7 @@ namespace NHibernate.Spatial.Dialect
         {
             SqlStringBuilder builder = new SqlStringBuilder();
             builder
+                .Add(SpatialDialect.IsoPrefix)
                 .Add("Relate(")
                 .AddObject(geometry)
                 .Add(", ")

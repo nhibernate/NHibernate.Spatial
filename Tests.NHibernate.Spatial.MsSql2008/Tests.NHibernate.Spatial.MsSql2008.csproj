@@ -107,7 +107,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RandomGeometries\MsSql2008SpatialQueriesFixture.cs" />
+    <Compile Include="MsSql2008SpatialQueriesFixture.cs" />
     <Compile Include="TestConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>

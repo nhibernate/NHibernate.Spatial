@@ -409,7 +409,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         [Test]
         public void HqlDistanceMin()
         {
-            const int minDistance = 40000;
+            const double minDistance = 40000;
 
             IList results = Session
                 .CreateQuery(
