@@ -17,7 +17,9 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 	/// </summary>
 	public abstract class NtsTestCasesFixture : AbstractFixture
 	{
-		protected override Type[] Mappings
+	    private const string DataPath = @"..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data\vivid";
+
+        protected override Type[] Mappings
 		{
 			get
 			{
@@ -27,36 +29,54 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 			}
 		}
 
-		protected virtual string DataPath
-		{
-			get { return @"..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data"; }
-		}
+	    protected virtual string TestFunctionAADataPath
+	    {
+	        get { return Path.Combine(DataPath, @"TestFunctionAA.xml"); }
+	    }
 
-		protected override void OnTestFixtureSetUp()
+	    protected virtual string TestFunctionAAPrecDataPath
+        {
+	        get { return Path.Combine(DataPath, @"TestFunctionAAPrec.xml"); }
+	    }
+
+	    protected virtual string TestRelateAADataPath
+        {
+	        get { return Path.Combine(DataPath, @"TestRelateAA.xml"); }
+	    }
+
+	    protected virtual string TestRelateACDataPath
+        {
+	        get { return Path.Combine(DataPath, @"TestRelateAC.xml"); }
+	    }
+
+	    protected virtual string TestRectanglePredicateDataPath
+        {
+	        get { return Path.Combine(DataPath, @"TestRectanglePredicate.xml"); }
+	    }
+
+	    protected virtual string TestSimpleDataPath
+        {
+	        get { return Path.Combine(DataPath, @"TestSimple.xml"); }
+	    }
+
+	    protected virtual string TestValidDataPath
+        {
+	        get { return Path.Combine(DataPath, @"TestValid.xml"); }
+	    }
+
+        protected override void OnTestFixtureSetUp()
 		{
 			using (ISession session = sessions.OpenSession())
 			{
-				string basePath = Path.Combine(
-					AppDomain.CurrentDomain.BaseDirectory, DataPath);
-
-				string[] filenames = new string[] {
-					@"vivid\TestFunctionAA.xml",
-					@"vivid\TestFunctionAAPrec.xml",
-
-					@"vivid\TestRelateAA.xml",
-					@"vivid\TestRelateAC.xml",
-
-					@"vivid\TestRectanglePredicate.xml",
-
-					@"vivid\TestSimple.xml",
-					@"vivid\TestValid.xml",
-				};
-
-				long id = 0;
-				for (int i = 0; i < filenames.Length; i++)
-				{
-					LoadTestCases(session, ref id, Path.Combine(basePath, filenames[i]));
-				}
+				string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                long id = 0;
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAADataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAAPrecDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateAADataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateACDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRectanglePredicateDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestSimpleDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestValidDataPath));
 			}
 		}
 
