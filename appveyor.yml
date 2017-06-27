@@ -3,7 +3,11 @@
 #---------------------------------#
 
 services:
-  - mssql2008r2sp2  # start SQL Server 2008 R2 SP2 Express
+  - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
+  - postgresql96      # start PostgreSQL 9.6
+
+install:
+  - appveyor.install.bat
 
 #---------------------------------#
 #       build configuration       #
@@ -19,3 +23,6 @@ build:
   parallel: true                    # enable MSBuild parallel builds
   project: NHibernate.Spatial.sln   # path to Visual Studio solution
   verbosity: minimal                # MSBuild verbosity level
+
+before_build:
+  - appveyor.beforebuild.bat
