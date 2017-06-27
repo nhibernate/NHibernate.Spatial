@@ -10,5 +10,15 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(configuration);
         }
+
+        protected override string TestRelateAADataPath
+        {
+            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2012\NtsTestCases\Data\vivid\TestRelateAA.xml"; }
+        }
+
+        protected override string TestRelateACDataPath
+        {
+            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2012\NtsTestCases\Data\vivid\TestRelateAC.xml"; }
+        }
     }
 }
