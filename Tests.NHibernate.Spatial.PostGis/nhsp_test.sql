@@ -1,6 +1,6 @@
 /* NHibernate.Spatial PostGIS Test Database Creation Script */
 
--- Run this script as superuser using psql , i.e.:
+-- Run this script as superuser using psql, i.e.:
 --    psql -h localhost -p 5432 -U postgres -f path-to-this-file.sql
 
 CREATE ROLE nhsp_test LOGIN

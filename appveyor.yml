@@ -2,12 +2,15 @@
 #    environment configuration    #
 #---------------------------------#
 
-services:
-  - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
-  - postgresql96      # start PostgreSQL 9.6
-
+# scripts that run after cloning repository
 install:
   - appveyor.install.bat
+
+# enable service required for build/tests
+services:
+  - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
+  - mysql57           # start MySQL 5.7
+  - postgresql96      # start PostgreSQL 9.6
 
 #---------------------------------#
 #       build configuration       #
@@ -19,10 +22,16 @@ platform: Any CPU
 # build configuration, i.e. Debug, Release, etc.
 configuration: Release
 
+# MSBuild options
 build:
-  parallel: true                    # enable MSBuild parallel builds
-  project: NHibernate.Spatial.sln   # path to Visual Studio solution
-  verbosity: minimal                # MSBuild verbosity level
+  parallel: true
+  project: NHibernate.Spatial.sln
+  verbosity: minimal
 
-before_build:
-  - appveyor.beforebuild.bat
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+  
+# scripts to run before tests
+before_test:
+  - appveyor.beforetest.bat
