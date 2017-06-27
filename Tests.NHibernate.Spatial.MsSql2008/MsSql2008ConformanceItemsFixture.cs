@@ -17,7 +17,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         /// <summary>
-        /// Overriden because GetPointN is not zero-based in Sql Server
+        /// Overridden because GetPointN is not zero-based in MS SQL Server
         /// </summary>
         [Test]
         public override void ConformanceItemT23Linq()
@@ -35,7 +35,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         /// <summary>
-        /// Overriden because GetInteriorRingN is not zero-based in Sql Server
+        /// Overridden because GetInteriorRingN is not zero-based in MS SQL Server
         /// </summary>
         [Test]
         public override void ConformanceItemT29Linq()
@@ -52,7 +52,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         /// <summary>
-        /// Overriden because GetGeometryN is not zero-based in Sql Server
+        /// Overridden because GetGeometryN is not zero-based in MS SQL Server
         /// </summary>
         [Test]
         public override void ConformanceItemT31Linq()
@@ -69,20 +69,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         /// <summary>
-        /// Conformance Item T48
-        /// Difference(g1 Geometry, g2 Geometry) : Geometry
-        /// For this test we will determine the difference between Ashton and
-        /// Green Forest.
-        ///
-        /// ANSWER: 'POLYGON((56 34, 84 42, 84 48, 62 48, 56 34))'
-        /// NOTE: The order of the vertices here is arbitrary.
-        ///
-        /// Original SQL:
-        /// <code>
-        ///		SELECT Difference(named_places.boundary, forests.boundary)
-        ///		FROM named_places, forests
-        ///		WHERE named_places.name = 'Ashton' AND forests.name = 'Green Forest';
-        /// </code>
+        /// Overridden because polygon points returned in different order in MS SQL Server
         /// </summary>
         [Test]
         public override void ConformanceItemT48Hql()

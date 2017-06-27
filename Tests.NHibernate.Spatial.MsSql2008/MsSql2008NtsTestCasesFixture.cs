@@ -22,7 +22,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         [Test]
-        [Ignore("Not supported by MsSQL 2008")]
+        [Ignore("Not supported by MS SQL")]
         public override void StringRelate()
         {
             base.StringRelate();

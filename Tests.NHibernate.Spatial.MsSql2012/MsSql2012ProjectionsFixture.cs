@@ -1,5 +1,4 @@
 ﻿using NHibernate.Cfg;
-using NHibernate.Spatial.Type;
 using NUnit.Framework;
 
 namespace Tests.NHibernate.Spatial
@@ -11,5 +10,10 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(config);
         }
+
+        [Test]
+        [Ignore("MsSql2012 does not support Intersection spatial aggregate function")]
+        public override void IntersectionAll()
+        { }
     }
 }
