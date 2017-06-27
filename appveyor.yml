@@ -1,0 +1,5 @@
+configuration:
+    - Release
+
+platform:
+    - Any CPU
