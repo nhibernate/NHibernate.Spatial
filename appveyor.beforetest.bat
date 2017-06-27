@@ -1,7 +1,8 @@
-@ECHO ON
-
 REM Setup MS SQL 2008
 sqlcmd -S (local)\SQL2008R2SP2 -i "%APPVEYOR_BUILD_FOLDER%\Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql"
+
+REM Setup MS SQL 2012
+sqlcmd -S (local)\SQL2012SP1 -i "%APPVEYOR_BUILD_FOLDER%\Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql"
 
 REM Setup MySQL 5.7
 SET MYSQL_PWD=Password12!

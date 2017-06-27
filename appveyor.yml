@@ -4,11 +4,12 @@
 
 # scripts that run after cloning repository
 install:
-  - appveyor.install.bat
+  - ps: .\appveyor.install.ps1
 
 # enable service required for build/tests
 services:
   - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
+  - mssql2012sp1      # start SQL Server 2012 Express
   - mysql57           # start MySQL 5.7
   - postgresql96      # start PostgreSQL 9.6
 
