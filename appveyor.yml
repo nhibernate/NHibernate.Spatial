@@ -1,5 +1,8 @@
 configuration:
-    - Release
+  - Release
 
 platform:
-    - Any CPU
+  - Any CPU
+
+build:
+  project: NHibernate.Spatial.sln
