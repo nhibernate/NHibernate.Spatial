@@ -18,7 +18,6 @@ namespace Tests.NHibernate.Spatial
             properties[Environment.ConnectionProvider] = typeof(DebugConnectionProvider).AssemblyQualifiedName;
             properties[Environment.ConnectionDriver] = typeof(MySqlDataDriver).AssemblyQualifiedName;
             properties[Environment.ConnectionString] = Settings.Default.ConnectionString;
-            //properties[Environment.Hbm2ddlAuto] = "create-drop";
             configuration.SetProperties(properties);
         }
     }

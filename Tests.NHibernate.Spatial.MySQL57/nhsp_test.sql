@@ -1,7 +1,7 @@
 /* NHibernate.Spatial MySQL 5.7 Test Database Creation Script */
 
 -- Run this script as superuser using mysql, i.e.:
---    mysql < path-to-this-file.sql
+--    mysql -P 3307 -u root -p"password" < path-to-this-file.sql
 
 CREATE USER 'nhsp_test'@'%' IDENTIFIED BY 'nhsp_test';
 

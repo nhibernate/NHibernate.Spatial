@@ -4,8 +4,17 @@
 
 # scripts that run after cloning repository
 install:
+  # install MySQL 5.6
+  - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
+  - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
+  - cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
+  
+  # change default port for MySQL 5.7 (so it can run simultaneously with MySQL 5.6)
+  - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
+  - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
+  
   # install PostGIS 2.3.2
-  - curl -O -S -s http://download.osgeo.org/postgis/windows/pg96/postgis-bundle-pg96-2.3.2x64.zip
+  - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/postgis-bundle-pg96-2.3.2x64.zip
   - 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
@@ -15,10 +24,11 @@ install:
   - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
   - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
 
-# enable service required for build/tests
+# start services required for build/tests
 services:
   - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
   - mssql2012sp1      # start SQL Server 2012 Express
+  - mysql56           # start MySQL 5.6
   - mysql57           # start MySQL 5.7
   - postgresql96      # start PostgreSQL 9.6
 
@@ -47,15 +57,19 @@ before_test:
   # setup SQL Server 2008
   - sqlcmd -S (local)\SQL2008R2SP2 -i Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql
   
-  # setup MS SQL 2012
+  # setup SQL Server 2012
   - sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
   
-  # setup MySQL 5.7
+  # setup MySQL 5.6
   - SET MYSQL_PWD=Password12!
-  - PATH=C:\Program Files\MySQL\MySQL Server 5.7\bin\;%PATH%
-  - mysql -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql
+  - SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
+  - cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
+  
+  # setup MySQL 5.7
+  - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
+  - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
   
   # setup PostgreSQL 9.6
   - SET PGPASSWORD=Password12!
-  - PATH=C:\Program Files\PostgreSQL\9.6\bin\;%PATH%
-  - psql -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql
+  - SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
+  - cmd /c "%psql% -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
