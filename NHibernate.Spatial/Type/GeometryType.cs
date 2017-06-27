@@ -29,8 +29,7 @@ namespace NHibernate.Spatial.Type
     /// </summary>
     /// <remarks>
     /// To make an explicit dialect selection, just use the specific
-    /// geometry type (eg. MsSqlSpatialGeometryType). See
-    /// <see cref="NHibernate.Spatial.Dialect.SpatialDialect.LastInstantiated"/>
+    /// geometry type. See <see cref="SpatialDialect.LastInstantiated"/>.
     /// </remarks>
     [Serializable]
     public class GeometryType : IGeometryUserType
