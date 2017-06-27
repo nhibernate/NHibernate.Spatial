@@ -1,4 +1,11 @@
 #---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+services:
+  - mssql2008r2sp2  # start SQL Server 2008 R2 SP2 Express
+
+#---------------------------------#
 #       build configuration       #
 #---------------------------------#
 
