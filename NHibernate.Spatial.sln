@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial", "NHibernate.Spatial\NHibernate.Spatial.csproj", "{50868B60-AC38-47E1-BD09-B4A4AA06B6F2}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.PostGis", "NHibernate.Spatial.PostGis\NHibernate.Spatial.PostGis.csproj", "{0DD11B24-D42E-4345-A770-0CE755E17C82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.PostGis", "Tests.NHibernate.Spatial.PostGis\Tests.NHibernate.Spatial.PostGis.csproj", "{FE98272E-2526-471E-88C5-AD4518A447F9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MsSqlSpatial", "Tests.NHibernate.Spatial.MsSqlSpatial\Tests.NHibernate.Spatial.MsSqlSpatial.csproj", "{80606E40-6482-48EF-89B0-3549650EDF9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.MsSql", "NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj", "{EAC092D9-6D47-4A30-803C-7A8583F99DFE}"
 EndProject
@@ -65,10 +63,6 @@ Global
 		{FE98272E-2526-471E-88C5-AD4518A447F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE98272E-2526-471E-88C5-AD4518A447F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE98272E-2526-471E-88C5-AD4518A447F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80606E40-6482-48EF-89B0-3549650EDF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80606E40-6482-48EF-89B0-3549650EDF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80606E40-6482-48EF-89B0-3549650EDF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80606E40-6482-48EF-89B0-3549650EDF9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
