@@ -205,7 +205,7 @@ namespace NHibernate.Spatial.Oracle
                 catch (Exception e)
                 {
                     throw new ApplicationException(
-                        "Found geometry that was not a geometry in MultiPolygon");
+                        "Found geometry that was not a geometry in MultiPolygon", e);
                 }
             }
             return sdoGeometry;

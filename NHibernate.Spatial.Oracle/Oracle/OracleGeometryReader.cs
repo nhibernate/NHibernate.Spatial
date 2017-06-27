@@ -227,7 +227,7 @@ namespace NHibernate.Spatial.Oracle
             var info = sdoGeom.ElemArray;
             var infoSize = info.Length / 3;
             int i = 0;
-            int idxInteriorRings = 0;
+            //int idxInteriorRings = 0;
             while (i < infoSize)
             {
                 ICoordinateSequence cs = null;

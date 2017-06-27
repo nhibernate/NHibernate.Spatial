@@ -24,7 +24,7 @@ using System.Linq.Expressions;
 namespace NHibernate.Spatial.Criterion
 {
     /// <summary>
-    /// This class is semi-deprecated. Please use <see cref="T:NHibernate.Spatial.Criterion.SpatialRestrictions" instead. />.
+    /// This class is semi-deprecated. Please use <see cref="T:NHibernate.Spatial.Criterion.SpatialRestrictions" /> instead.
     /// </summary>
     /// <seealso cref="T:NHibernate.Criterion.Restrictions" />
     public sealed class SpatialExpression : SpatialRestrictions

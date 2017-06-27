@@ -54,12 +54,12 @@ namespace NHibernate.Spatial.Criterion
             this.anotherPropertyName = anotherPropertyName;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
-        /// </summary>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <param name="analysis">The analysis.</param>
-        /// <param name="arguments">The arguments.</param>
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
+        ///// </summary>
+        ///// <param name="propertyName">Name of the property.</param>
+        ///// <param name="analysis">The analysis.</param>
+        ///// <param name="arguments">The arguments.</param>
         //public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, params object[] arguments)
         //    : base(propertyName)
         //{

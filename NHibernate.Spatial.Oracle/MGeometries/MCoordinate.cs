@@ -203,6 +203,11 @@ namespace NHibernate.Spatial.MGeometries
             }
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return "(" + X + "," + Y + "," + Z + "," + " M=" + M + ")";
