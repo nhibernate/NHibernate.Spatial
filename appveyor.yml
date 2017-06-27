@@ -1,8 +1,14 @@
-configuration:
-  - Release
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
 
-platform:
-  - Any CPU
+# build platform, i.e. x86, x64, Any CPU
+platform: Any CPU
+
+# build configuration, i.e. Debug, Release, etc.
+configuration: Release
 
 build:
-  project: NHibernate.Spatial.sln
+  parallel: true                    # enable MSBuild parallel builds
+  project: NHibernate.Spatial.sln   # path to Visual Studio solution
+  verbosity: minimal                # MSBuild verbosity level
