@@ -107,8 +107,6 @@
     <Compile Include="Dialect\MsSql2012GeometryDialect.cs" />
     <Compile Include="Dialect\MsSql2012SpatialDialect.cs" />
     <Compile Include="Dialect\MsSql2008SpatialDialect.cs" />
-    <Compile Include="Dialect\MsSqlLegacyDialect.cs" />
-    <Compile Include="Dialect\MsSqlLegacyFunctionRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Type\MsSql2008GeographyReader.cs" />
     <Compile Include="Type\MsSql2008GeographyType.cs" />
@@ -116,7 +114,6 @@
     <Compile Include="Type\MsSql2008GeometryReader.cs" />
     <Compile Include="Type\MsSql2008GeometryType.cs" />
     <Compile Include="Type\MsSql2008GeometryWriter.cs" />
-    <Compile Include="Type\MsSqlLegacyGeometryType.cs" />
     <Compile Include="Type\NtsGeographySink.cs" />
     <Compile Include="Type\NtsGeometrySink.cs" />
     <Compile Include="Type\SqlGeographyType.cs" />
@@ -125,10 +122,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2008GeographyDialect.hbm.xml" />
     <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2008GeometryDialect.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Metadata\SpatialReferenceSystem.MsSqlLegacyDialect.hbm.xml" />
-    <EmbeddedResource Include="Metadata\GeometryColumn.MsSqlLegacyDialect.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHibernate.Spatial\NHibernate.Spatial.csproj">
