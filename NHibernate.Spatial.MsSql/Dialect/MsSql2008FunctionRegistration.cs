@@ -15,8 +15,6 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using NetTopologySuite.Geometries;
-using NHibernate.Dialect;
 using NHibernate.Spatial.Dialect.Function;
 using NHibernate.Spatial.Metadata;
 using NHibernate.Spatial.Type;
@@ -33,10 +31,9 @@ namespace NHibernate.Spatial.Dialect
 	{
 		private const string DialectPrefix = "ST";
 
-		private IRegisterationAdaptor adaptor;
-
-		protected string sqlTypeName;
-		private string geometryColumnsViewName;
+	    private readonly IRegisterationAdaptor adaptor;
+	    protected readonly string sqlTypeName;
+		private readonly string geometryColumnsViewName;
 
 		public MsSql2008FunctionRegistration(IRegisterationAdaptor adaptor, string sqlTypeName, string geometryColumnsViewName, IType geometryType)
 		{
@@ -156,17 +153,17 @@ namespace NHibernate.Spatial.Dialect
 
 		private void RegisterSpatialFunction(string name, int allowedArgsCount)
 		{
-			RegisterSpatialFunction(name, this.GeometryType, allowedArgsCount);
+			RegisterSpatialFunction(name, GeometryType, allowedArgsCount);
 		}
 
 		private void RegisterSpatialFunctionStatic(string name, int allowedArgsCount)
 		{
 			string standardName = name;
 			string dialectName = DialectPrefix + name;
-			IType returnedType = this.GeometryType;
+			IType returnedType = GeometryType;
 			adaptor.RegisterFunction(
 					SpatialDialect.HqlPrefix + standardName,
-					new SpatialStandardSafeFunction(this.sqlTypeName + "::" + dialectName, returnedType, allowedArgsCount)
+					new SpatialStandardSafeFunction(sqlTypeName + "::" + dialectName, returnedType, allowedArgsCount)
 				);
 		}
 
@@ -185,27 +182,27 @@ namespace NHibernate.Spatial.Dialect
 
 		private void RegisterSpatialFunction(string name)
 		{
-			RegisterSpatialFunction(name, this.GeometryType);
+			RegisterSpatialFunction(name, GeometryType);
 		}
 
 		private void RegisterSpatialFunction(string standardName, string dialectName, int allowedArgsCount)
 		{
-			RegisterSpatialFunction(standardName, dialectName, this.GeometryType);
+			RegisterSpatialFunction(standardName, dialectName, GeometryType);
 		}
 
 		private void RegisterSpatialFunction(SpatialRelation relation)
 		{
-			adaptor.RegisterFunction(SpatialDialect.HqlPrefix + relation.ToString(), new SpatialRelationFunction(this, relation));
+			adaptor.RegisterFunction(SpatialDialect.HqlPrefix + relation, new SpatialRelationFunction(this, relation));
 		}
 
 		private void RegisterSpatialFunction(SpatialValidation validation)
 		{
-			adaptor.RegisterFunction(SpatialDialect.HqlPrefix + validation.ToString(), new SpatialValidationFunction(this, validation));
+			adaptor.RegisterFunction(SpatialDialect.HqlPrefix + validation, new SpatialValidationFunction(this, validation));
 		}
 
 		private void RegisterSpatialFunction(SpatialAnalysis analysis)
 		{
-			adaptor.RegisterFunction(SpatialDialect.HqlPrefix + analysis.ToString(), new SpatialAnalysisFunction(this, analysis));
+			adaptor.RegisterFunction(SpatialDialect.HqlPrefix + analysis, new SpatialAnalysisFunction(this, analysis));
 		}
 
 		#endregion Functions registration
@@ -325,7 +322,7 @@ namespace NHibernate.Spatial.Dialect
 		{
 			if (pattern == null)
 			{
-				throw new ArgumentNullException("pattern",
+				throw new ArgumentNullException(nameof(pattern),
 					"Ms SQL 2008 does not supports the syntax returning a DE-9IM for the two geometries. For STRelate the 'intersection_pattern_matrix' is mandatory and the result is a boolean.");
 			}
 			var builder = new SqlStringBuilder();
@@ -479,7 +476,7 @@ namespace NHibernate.Spatial.Dialect
 				"
 				, adaptor.QuoteSchema(schema)
 				, adaptor.Quote(geometryColumnsViewName)
-				, this.sqlTypeName
+				, sqlTypeName
 			);
 
 			string script = string.Format(@"
@@ -494,7 +491,7 @@ namespace NHibernate.Spatial.Dialect
 				"
 				, adaptor.QuoteSchema(schema)
 				, adaptor.Quote(geometryColumnsViewName)
-				, this.MultipleQueriesSeparator
+				, MultipleQueriesSeparator
 				, viewScript.Replace("'", "''")
 			);
 
@@ -526,17 +523,17 @@ namespace NHibernate.Spatial.Dialect
 				, quoteForColumnName
 				);
 
-			builder.Append(this.MultipleQueriesSeparator);
+			builder.Append(MultipleQueriesSeparator);
 
 			builder.AppendFormat("ALTER TABLE {0}{1} ADD {2} {3} {4}"
 				, quotedSchema
 				, quoteForTableName
 				, quoteForColumnName
-				, this.sqlTypeName
+				, sqlTypeName
 				, isNullable ? "NULL" : "NOT NULL"
 				);
 
-			builder.Append(this.MultipleQueriesSeparator);
+			builder.Append(MultipleQueriesSeparator);
 
 			if (srid > 0)
 			{
@@ -550,7 +547,7 @@ namespace NHibernate.Spatial.Dialect
 					, srid
 					);
 
-				builder.Append(this.MultipleQueriesSeparator);
+				builder.Append(MultipleQueriesSeparator);
 			}
 
 			if (!string.IsNullOrEmpty(subtype) && string.Compare(subtype, "GEOMETRY") != 0)
@@ -564,7 +561,7 @@ namespace NHibernate.Spatial.Dialect
 					, subtype
 					);
 
-				builder.Append(this.MultipleQueriesSeparator);
+				builder.Append(MultipleQueriesSeparator);
 			}
 
 			return builder.ToString();
@@ -609,7 +606,7 @@ namespace NHibernate.Spatial.Dialect
 				, adaptor.QuoteForTableName(table)
 				, adaptor.QuoteForColumnName(column)
 				);
-			builder.Append(this.MultipleQueriesSeparator);
+			builder.Append(MultipleQueriesSeparator);
 			return builder.ToString();
 		}
 

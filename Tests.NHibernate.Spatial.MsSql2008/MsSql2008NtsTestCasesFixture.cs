@@ -16,13 +16,18 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
-        protected override string DataPath
+        protected override string TestSimpleDataPath
         {
-            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data"; }
+            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data\vivid\TestSimple.xml"; }
+        }
+
+        protected override string TestValidDataPath
+        {
+            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data\vivid\TestValid.xml"; }
         }
 
         [Test]
-        [Ignore("Not supported by MsSQL 2008")]
+        [Ignore("Not supported by MS SQL")]
         public override void StringRelate()
         {
             base.StringRelate();

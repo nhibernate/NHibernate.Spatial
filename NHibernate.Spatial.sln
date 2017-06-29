@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.PostGis20", "Tests.NHibernate.Spatial.PostGis20\Tests.NHibernate.Spatial.PostGis20.csproj", "{F3FA25B4-267D-4DC5-9685-E383BFA8E156}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MsSql2012", "Tests.NHibernate.Spatial.MsSql2012\Tests.NHibernate.Spatial.MsSql2012.csproj", "{7BFBE48D-2F43-4721-940F-7480049FF438}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3FA25B4-267D-4DC5-9685-E383BFA8E156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
