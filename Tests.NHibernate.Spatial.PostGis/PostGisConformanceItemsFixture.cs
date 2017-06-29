@@ -16,17 +16,8 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
-        private string postGisVersion;
-
-        protected override void OnTestFixtureSetUp()
-        {
-            this.postGisVersion = PostGisTestsUtil.GetPostGisVersion(this.sessions);
-            base.OnTestFixtureSetUp();
-        }
-
-
         /// <summary>
-        /// Overriden because GetPointN is not zero-based in PostGis 2.0
+        /// Overridden because GetPointN is not zero-based in PostGIS
         /// </summary>
         [Test]
         public override void ConformanceItemT23Linq()
@@ -44,7 +35,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         /// <summary>
-        /// Overriden because GetInteriorRingN is not zero-based in PostGis 2.0
+        /// Overridden because GetInteriorRingN is not zero-based in PostGIS
         /// </summary>
         [Test]
         public override void ConformanceItemT29Linq()
@@ -61,7 +52,7 @@ namespace Tests.NHibernate.Spatial
         }
 
         /// <summary>
-        /// Overriden because GetGeometryN is not zero-based in PostGis 2.0
+        /// Overridden because GetGeometryN is not zero-based in PostGIS
         /// </summary>
         [Test]
         public override void ConformanceItemT31Linq()
@@ -77,33 +68,39 @@ namespace Tests.NHibernate.Spatial
             Assert.IsTrue(expected.Equals(geometry));
         }
 
-
+        /// <summary>
+        /// Overridden because polygon vertices are returned in a different order in PostGIS
+        /// </summary>
         [Test]
-        public override void ConformanceItemT40Hql()
+        public override void ConformanceItemT48Hql()
         {
-            PostGisTestsUtil.IgnoreIfAffectedByIssue22(this.postGisVersion);
-            base.ConformanceItemT40Hql();
+            string query =
+                @"select NHSP.AsText(NHSP.Difference(np.Boundary, f.Boundary))
+				from NamedPlace np, Forest f
+				where np.Name = 'Ashton' and f.Name = 'Green Forest'
+				";
+            string result = session.CreateQuery(query)
+                .UniqueResult<string>();
+
+            IGeometry geometry = Wkt.Read(result);
+            IGeometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
+
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
 
         [Test]
-        public override void ConformanceItemT40Linq()
+        public override void ConformanceItemT48Linq()
         {
-            PostGisTestsUtil.IgnoreIfAffectedByIssue22(this.postGisVersion);
-            base.ConformanceItemT40Linq();
-        }
+            var query =
+                from np in session.Query<NamedPlace>()
+                from f in session.Query<Forest>()
+                where np.Name == "Ashton" && f.Name == "Green Forest"
+                select np.Boundary.Difference(f.Boundary);
 
-        [Test]
-        public override void ConformanceItemT51Hql()
-        {
-            PostGisTestsUtil.IgnoreIfAffectedByIssue22(this.postGisVersion);
-            base.ConformanceItemT51Hql();
-        }
+            IGeometry geometry = query.Single();
+            IGeometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
 
-        [Test]
-        public override void ConformanceItemT51Linq()
-        {
-            PostGisTestsUtil.IgnoreIfAffectedByIssue22(this.postGisVersion);
-            base.ConformanceItemT51Linq();
+            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
     }
 }

@@ -11,27 +11,5 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(configuration);
         }
-
-        private string postGisVersion;
-
-        protected override void OnTestFixtureSetUp()
-        {
-            this.postGisVersion = PostGisTestsUtil.GetPostGisVersion(this.sessions);
-            base.OnTestFixtureSetUp();
-        }
-
-        [Test]
-        public override void Within()
-        {
-            PostGisTestsUtil.IgnoreIfAffectedByIssue22(this.postGisVersion);
-            base.Within();
-        }
-
-        [Test]
-        public override void IsValid()
-        {
-            PostGisTestsUtil.IgnoreIfAffectedByGEOSisvalidIssue(this.postGisVersion);
-            base.IsValid();
-        }
     }
 }
