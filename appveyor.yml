@@ -13,7 +13,21 @@ install:
   - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
   - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
   
-  # install PostGIS 2.3.2
+  # install PostgreSQL 8.4
+  - curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
+  - postgresql-8.4.22-1-windows.exe --mode unattended --superpassword Password12! --serverport 5431
+  
+  # install PostGIS 1.5.5 for PostgreSQL 8.4
+  - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg84/postgis-pg84-binaries-1.5.5.zip
+  - 7z x postgis-pg84-binaries-1.5.5.zip > nul
+  - xcopy /s /y /q postgis-pg84-binaries-1.5.5 "C:\Program Files (x86)\PostgreSQL\8.4"
+  - SET PGPASSWORD=Password12!
+  - SET PGDIR=C:\Program Files (x86)\PostgreSQL\8.4
+  - cmd /c ""%PGDIR%\bin\createdb" -p 5431 -U postgres template_postgis"
+  - cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\postgis.sql""
+  - cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql""
+  
+  # install PostGIS 2.3.2 for PostgreSQL 9.6
   - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/postgis-bundle-pg96-2.3.2x64.zip
   - 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
@@ -69,7 +83,10 @@ before_test:
   - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
   - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
   
+  # setup PostgreSQL 8.4
+  - SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
+  - cmd /c "%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql"
+  
   # setup PostgreSQL 9.6
-  - SET PGPASSWORD=Password12!
   - SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
-  - cmd /c "%psql% -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
+  - cmd /c "%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
