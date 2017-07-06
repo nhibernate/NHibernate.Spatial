@@ -235,9 +235,9 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
 		private delegate AbstractCriterion SpatialRelationCriterionDelegate(string propertyName, object anotherGeometry);
 
-		private delegate SpatialProjection SpatialProjectionUnaryDelegate(string propertyName);
+		protected delegate SpatialProjection SpatialProjectionUnaryDelegate(string propertyName);
 
-		private delegate AbstractCriterion SpatialCriterionUnaryDelegate(string propertyName);
+		protected delegate AbstractCriterion SpatialCriterionUnaryDelegate(string propertyName);
 
 		private void TestGeometryBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection)
 		{
@@ -335,7 +335,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 			Assert.AreEqual(countTrue, countRows);
 		}
 
-		private void TestBooleanUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection, SpatialCriterionUnaryDelegate criterion)
+		protected void TestBooleanUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection, SpatialCriterionUnaryDelegate criterion)
 		{
 			IList results = _session.CreateCriteria(typeof(NtsTestCase))
 				.Add(Restrictions.Eq("Operation", operationCriterion))
@@ -550,7 +550,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		}
 
 		[Test]
-		public void IsSimple()
+		public virtual void IsSimple()
 		{
 			TestBooleanUnaryOperation("IsSimple", SpatialProjections.IsSimple, SpatialRestrictions.IsSimple);
 		}

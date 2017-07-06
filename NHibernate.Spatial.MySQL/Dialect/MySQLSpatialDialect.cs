@@ -226,7 +226,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="validation">The validation.</param>
 		/// <param name="criterion">if set to <c>true</c> [criterion].</param>
 		/// <returns></returns>
-		public SqlString GetSpatialValidationString(object geometry, SpatialValidation validation, bool criterion)
+		public virtual SqlString GetSpatialValidationString(object geometry, SpatialValidation validation, bool criterion)
 		{
 			return new SqlStringBuilder()
 				.Add(validation.ToString())
@@ -242,9 +242,8 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="geometry">The geometry.</param>
 		/// <param name="aggregate">The aggregate.</param>
 		/// <returns></returns>
-		public SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
+		public virtual SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
 		{
-			// PostGIS aggregate functions do not need prefix
 			string aggregateFunction;
 			switch (aggregate)
 			{
@@ -359,7 +358,7 @@ namespace NHibernate.Spatial.Dialect
 				.Add(".")
 				.Add(geometryColumnName)
 				.Add(",")
-				.AddParameter()
+				.Add(parameter)
 				.Add(")")
 				.ToSqlString();
 		}

@@ -66,8 +66,13 @@ namespace NHibernate.Spatial.Type
         {
             WriteByteOrder(writer);
             if (geometry.Coordinate == null || Double.IsNaN(geometry.Coordinate.Z))
-                writer.Write((int)WKBGeometryTypes.WKBGeometryCollection);
-            else writer.Write((int)WKBGeometryTypes.WKBGeometryCollectionZ);
+            {
+                writer.Write((int) WKBGeometryTypes.WKBGeometryCollection);
+            }
+            else
+            {
+                writer.Write((int) WKBGeometryTypes.WKBGeometryCollectionZ);
+            }
             writer.Write(0);
         }
     }

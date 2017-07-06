@@ -15,13 +15,10 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using NHibernate.Spatial.Type;
-using NHibernate.Type;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using NHibernate.Spatial.Type;
 using NHibernate.SqlCommand;
+using NHibernate.Type;
 
 namespace NHibernate.Spatial.Dialect
 {
@@ -29,13 +26,9 @@ namespace NHibernate.Spatial.Dialect
 	/// MySQL spatial dialect that supports the changes introduced in MySQL 5.7
 	/// </summary>
 
-	public class MySQL57SpatialDialect: MySQLSpatialDialect
+	public class MySQL57SpatialDialect : MySQLSpatialDialect
 	{
 		protected new static readonly IType geometryType = new CustomType(typeof(MySQL57GeometryType), null);
-
-	    public MySQL57SpatialDialect():base()
-	    {
-	    }
 
         protected override void RegisterFunctions()
 		{
@@ -58,14 +51,60 @@ namespace NHibernate.Spatial.Dialect
 			get { return geometryType; }
 		}
 
+	    /// <summary>
+	    /// Gets the spatial aggregate string.
+	    /// </summary>
+	    /// <param name="geometry">The geometry.</param>
+	    /// <param name="aggregate">The aggregate.</param>
+	    /// <returns></returns>
+	    public override SqlString GetSpatialAggregateString(object geometry, SpatialAggregate aggregate)
+	    {
+	        string aggregateFunction;
+	        switch (aggregate)
+	        {
+                // MySQL doesn't support spatial aggregate functions directly, therefore
+                // we replicate it by grouping the geometry from each row into a geometry
+                // collection and then performing the function on the geometry collection
+                // See: https://forums.mysql.com/read.php?23,249284,249284#msg-249284
+                case SpatialAggregate.Collect:
+                    return new SqlStringBuilder()
+                        .Add(DialectPrefix)
+                        .Add("GeometryCollectionFromText(CONCAT(\"GEOMETRYCOLLECTION(\", GROUP_CONCAT(")
+                        .Add(DialectPrefix)
+                        .Add("AsText(")
+                        .AddObject(geometry)
+                        .Add(")), \")\"))")
+                        .ToSqlString();
 
-		public override SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis,
-			object extraArgument)
+                case SpatialAggregate.ConvexHull:
+                case SpatialAggregate.Envelope:
+	                aggregateFunction = aggregate.ToString();
+	                break;
+
+	            case SpatialAggregate.Intersection:
+	            case SpatialAggregate.Union:
+                    throw new NotSupportedException($"MySQL does not support {aggregate} spatial aggregate function");
+
+                default:
+	                throw new ArgumentException("Invalid spatial aggregate argument");
+	        }
+
+	        SqlString collectAggregate = GetSpatialAggregateString(geometry, SpatialAggregate.Collect);
+	        return new SqlStringBuilder()
+	            .Add(DialectPrefix)
+	            .Add(aggregateFunction)
+	            .Add("(")
+	            .Add(collectAggregate)
+	            .Add(")")
+	            .ToSqlString();
+	    }
+
+        public override SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
 		{
 			switch (analysis)
 			{
 				case SpatialAnalysis.Buffer:
-					if (!(extraArgument is Parameter || new SqlString(SqlCommand.Parameter.Placeholder).Equals(extraArgument)))
+					if (!(extraArgument is Parameter || new SqlString(Parameter.Placeholder).Equals(extraArgument)))
 					{
 						extraArgument = Convert.ToString(extraArgument, System.Globalization.NumberFormatInfo.InvariantInfo);
 					}
@@ -136,5 +175,23 @@ namespace NHibernate.Spatial.Dialect
 					throw new ArgumentException("Invalid spatial analysis argument");
 			}
 		}
-	}
+
+	    /// <summary>
+	    /// Gets the spatial validation string.
+	    /// </summary>
+	    /// <param name="geometry">The geometry.</param>
+	    /// <param name="validation">The validation.</param>
+	    /// <param name="criterion">if set to <c>true</c> [criterion].</param>
+	    /// <returns></returns>
+	    public override SqlString GetSpatialValidationString(object geometry, SpatialValidation validation, bool criterion)
+	    {
+	        return new SqlStringBuilder()
+                .Add(DialectPrefix)
+	            .Add(validation.ToString())
+	            .Add("(")
+	            .AddObject(geometry)
+	            .Add(")")
+	            .ToSqlString();
+	    }
+    }
 }
