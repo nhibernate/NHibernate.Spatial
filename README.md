@@ -7,11 +7,11 @@ The code has been updated to compile with the latest NTS, GeoAPI and NHibernate 
 
 The packages listed below are compatible with NHibernate 4.1.1 GA.
 
-[Nhibernate.Spatial for Microsoft SQL Server](https://www.nuget.org/packages/NHibernate.Spatial.MsSql/)
-
-[Nhibernate.Spatial for MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL/)
- 
-[Nhibernate.Spatial for PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis/)
+| Package | Version |
+| --- | --- |
+| [NHibernate.Spatial.MsSql](https://www.nuget.org/packages/NHibernate.Spatial.MsSql) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MsSql.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MsSql) |
+| [Nhibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MySQL.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MySQL) |
+| [Nhibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.PostGis.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.PostGis) |
 
 ## Getting Started
 For configuring your application, please refer to [Configuration and Mapping](http://nhibernate.info/doc/spatial/configuration-and-mapping.html) on the NHForge Wiki. 
