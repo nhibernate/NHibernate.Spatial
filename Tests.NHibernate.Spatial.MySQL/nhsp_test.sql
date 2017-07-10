@@ -1,22 +1,10 @@
-CREATE USER 'nhsp_test'@'%' IDENTIFIED BY  'nhsp_test';
+/* NHibernate.Spatial MySQL Test Database Creation Script */
 
-GRANT SELECT , 
-INSERT ,
+-- Run this script as superuser using mysql, i.e.:
+--    mysql -P 3306 -u root -p"password" < path-to-this-file.sql
 
-UPDATE ,
-DELETE ,
-CREATE ,
-DROP ,
-FILE ,
-INDEX ,
-ALTER ,
-CREATE TEMPORARY TABLES ,
-CREATE VIEW ,
-SHOW VIEW ,
-CREATE ROUTINE,
-ALTER ROUTINE,
-EXECUTE ON * . * TO  'nhsp_test'@'%' IDENTIFIED BY  'nhsp_test' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
+CREATE USER 'nhsp_test'@'%' IDENTIFIED BY 'nhsp_test';
 
-CREATE DATABASE IF NOT EXISTS  `nhsp_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `nhsp_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-GRANT ALL PRIVILEGES ON  `nhsp_test` . * TO  'nhsp_test'@'%';
+GRANT ALL PRIVILEGES ON `nhsp_test`.* TO 'nhsp_test'@'%';

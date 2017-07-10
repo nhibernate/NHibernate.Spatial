@@ -93,7 +93,8 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="geometry">SQL expression returning a geometry</param>
         /// <param name="relation">Spatial relation</param>
         /// <param name="anotherGeometry">A string SQL geometry expression or a Parameter.Placeholder</param>
-        /// <returns>A <c><SqlString/c> object containing
+        /// <param name="criterion"></param>
+        /// <returns>A <c>SqlString</c> object containing
         /// a SQL spatial relation expression</returns>
         SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, bool criterion);
 
@@ -103,7 +104,7 @@ namespace NHibernate.Spatial.Dialect
         /// <remarks>
         /// One parameter placeholder must be added to the SqlString.
         /// </remarks>
-        /// <returns>A <c><SqlString/c> object containing
+        /// <returns>A <c>SqlString</c> object containing
         /// a SQL spatial relation expression</returns>
         SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter);
 

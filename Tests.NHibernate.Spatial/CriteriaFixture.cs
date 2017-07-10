@@ -52,7 +52,7 @@ namespace Tests.NHibernate.Spatial
 		}
 
 		[Test]
-		public void IsDirty()
+		public virtual void IsDirty()
 		{
 			Assert.IsFalse(_session.IsDirty());
 
@@ -147,7 +147,7 @@ namespace Tests.NHibernate.Spatial
 		}
 
 		[Test]
-		public void CountNull()
+		public virtual void CountNull()
 		{
 			IList results = _session.CreateCriteria(typeof(Simple))
 				.Add(Restrictions.IsNull("Geometry"))
@@ -170,7 +170,7 @@ namespace Tests.NHibernate.Spatial
 		}
 
 		[Test]
-		public void CountSpatialEmpty()
+		public virtual void CountSpatialEmpty()
 		{
 			IList results = _session.CreateCriteria(typeof(Simple))
 				.Add(SpatialRestrictions.IsEmpty("Geometry"))

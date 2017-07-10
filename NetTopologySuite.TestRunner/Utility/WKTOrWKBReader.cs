@@ -44,7 +44,9 @@ namespace Open.Topology.TestRunner.Utility
         public WKTOrWKBReader(GeometryFactory geomFactory)
         {
             _wktReader = new WKTReader(geomFactory);
+#pragma warning disable 612
             _wkbReader = new WKBReader(geomFactory);
+#pragma warning restore 612
         }
 
         /// <summary>

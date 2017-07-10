@@ -130,7 +130,12 @@ namespace Open.Topology.TestRunner.Functions
 			return true;
 		}
 
-		private static int CompareTo(Type c1, Type c2)
+	    public override int GetHashCode()
+	    {
+	        return base.GetHashCode();
+	    }
+
+	    private static int CompareTo(Type c1, Type c2)
 		{
 			return c1.Name.CompareTo(c2.Name);
 		}

@@ -19,11 +19,6 @@
 using GeoAPI.Geometries;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NetTopologySuite.Geometries;
 using NHibernate.Type;
 
 namespace NHibernate.Spatial.Type
@@ -70,7 +65,7 @@ namespace NHibernate.Spatial.Type
                                 // use GeometryCollection.Empty here, when MySQL supports it.
 			}
 
-            this.SetDefaultSRID(geometry);
+            SetDefaultSRID(geometry);
 			byte[] bytes = new MySQLWriter().Write(geometry);
 			return new MySqlGeometry(MySqlDbType.Geometry, bytes);
 		}
@@ -78,7 +73,7 @@ namespace NHibernate.Spatial.Type
 		/// <summary>
 		/// Converts to GeoAPI geometry type from database geometry type.
 		/// </summary>
-		/// <param name="value">The databse geometry value.</param>
+		/// <param name="value">The database geometry value.</param>
 		/// <returns></returns>
 		protected override IGeometry ToGeometry(object value)
 		{
@@ -91,7 +86,7 @@ namespace NHibernate.Spatial.Type
 
 			MySQLReader reader = new MySQLReader();
 			IGeometry geometry = reader.Read(bytes.Value.Value);
-			this.SetDefaultSRID(geometry);
+			SetDefaultSRID(geometry);
 			return geometry;
 		}
 	}

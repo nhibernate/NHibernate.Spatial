@@ -52,7 +52,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="_allowedArgsCount">The allowed args count.</param>
+        /// <param name="allowedArgsCount">The allowed args count.</param>
         public SpatialMethodSafeFunction(string name, int allowedArgsCount)
             : base(name)
         {

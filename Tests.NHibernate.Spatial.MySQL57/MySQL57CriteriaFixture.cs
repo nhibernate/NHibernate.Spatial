@@ -10,5 +10,20 @@ namespace Tests.NHibernate.Spatial
         {
             TestConfiguration.Configure(configuration);
         }
+
+        [Test]
+        [Ignore("Empty geometry collections not supported by MySql.Data.Types.MySqlGeometry")]
+        public override void CountNull()
+        { }
+
+        [Test]
+        [Ignore("Empty geometry collections not supported by MySql.Data.Types.MySqlGeometry")]
+        public override void CountSpatialEmpty()
+        { }
+
+        [Test]
+        [Ignore("Empty geometry collections not supported by MySql.Data.Types.MySqlGeometry")]
+        public override void IsDirty()
+        { }
     }
 }

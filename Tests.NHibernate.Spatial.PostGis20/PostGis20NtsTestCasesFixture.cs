@@ -1,6 +1,5 @@
 ﻿using NHibernate.Cfg;
 using NUnit.Framework;
-using Tests.NHibernate.Spatial.NtsTestCases;
 
 namespace Tests.NHibernate.Spatial
 {

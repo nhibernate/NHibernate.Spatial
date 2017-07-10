@@ -1,4 +1,4 @@
-## NHibernate.Spatial
+## NHibernate.Spatial [![Build status](https://ci.appveyor.com/api/projects/status/github/nhibernate/NHibernate.Spatial?branch=master&svg=true)](https://ci.appveyor.com/project/nhibernate/nhibernate-spatial)
 
 This is a fork of the final commit to NHibernate.Spatial at [Nhibernate Contrib][NHContrib] site made in december 2011. 
 The code has been updated to compile with the latest NTS, GeoAPI and NHibernate binaries.
@@ -10,8 +10,8 @@ The packages listed below are compatible with NHibernate 4.1.1 GA.
 | Package | Version |
 | --- | --- |
 | [NHibernate.Spatial.MsSql](https://www.nuget.org/packages/NHibernate.Spatial.MsSql) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MsSql.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MsSql) |
-| [Nhibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MySQL.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MySQL) |
-| [Nhibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.PostGis.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.PostGis) |
+| [NHibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MySQL.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MySQL) |
+| [NHibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.PostGis.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.PostGis) |
 
 ## Getting Started
 For configuring your application, please refer to [Configuration and Mapping](http://nhibernate.info/doc/spatial/configuration-and-mapping.html) on the NHForge Wiki. 

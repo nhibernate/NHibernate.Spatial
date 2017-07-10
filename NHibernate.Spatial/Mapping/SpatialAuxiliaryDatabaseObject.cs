@@ -36,7 +36,7 @@ namespace NHibernate.Spatial.Mapping
 	///
 	/// Sample usage:
 	///
-	/// Declare a geometry property specifing SRID (system reference ID):
+	/// Declare a geometry property specifying SRID (system reference ID):
 	///
 	/// <code>
 	/// 	 <class name="MyGeoTableA">
@@ -52,7 +52,6 @@ namespace NHibernate.Spatial.Mapping
 	/// 				 <param name="subtype">POLYGON</param>
 	/// 			 </type>
 	/// 		 </property>
-	///  	 </class>
 	///  	 </class>
 	/// </code>
 	///
