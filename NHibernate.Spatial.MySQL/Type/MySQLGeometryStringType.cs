@@ -19,7 +19,9 @@ using NHibernate.SqlTypes;
 using NHibernate.Type;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Text;
+using NHibernate.Engine;
 
 namespace NHibernate.Spatial.Type
 {
@@ -46,8 +48,9 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="rs"></param>
         /// <param name="index"></param>
+        /// <param name="session"></param>
         /// <returns></returns>
-        public override object Get(IDataReader rs, int index)
+        public override object Get(DbDataReader rs, int index, ISessionImplementor session)
         {
             return Encoding.ASCII.GetString((byte[])rs[index]);
         }
@@ -57,8 +60,9 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="rs"></param>
         /// <param name="name"></param>
+        /// <param name="session"></param>
         /// <returns></returns>
-        public override object Get(IDataReader rs, string name)
+        public override object Get(DbDataReader rs, string name, ISessionImplementor session)
         {
             return Encoding.ASCII.GetString((byte[])rs[name]);
         }
@@ -75,7 +79,8 @@ namespace NHibernate.Spatial.Type
         /// <param name="st"></param>
         /// <param name="value"></param>
         /// <param name="index"></param>
-        public override void Set(IDbCommand st, object value, int index)
+        /// <param name="session"></param>
+        public override void Set(DbCommand st, object value, int index, ISessionImplementor session)
         {
             IDataParameter parm = st.Parameters[index] as IDataParameter;
             parm.Value = value;

@@ -20,8 +20,10 @@ using NHibernate.SqlTypes;
 using NHibernate.Type;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using NHibernate.Engine;
 
 namespace NHibernate.Spatial.Type
 {
@@ -37,15 +39,15 @@ namespace NHibernate.Spatial.Type
         {
         }
 
-        public override object NullSafeGet(IDataReader rs, string name)
+        public override object NullSafeGet(DbDataReader rs, string name, ISessionImplementor session)
         {
-            object value = base.NullSafeGet(rs, name);
+            object value = base.NullSafeGet(rs, name, session);
             return value ?? SqlGeography.Null;
         }
 
-        public override object Get(IDataReader rs, string name)
+        public override object Get(DbDataReader rs, string name, ISessionImplementor session)
         {
-            return Get(rs, rs.GetOrdinal(name));
+            return Get(rs, rs.GetOrdinal(name), session);
         }
 
         public override string ToString(object value)
@@ -58,7 +60,7 @@ namespace NHibernate.Spatial.Type
             get { return ReturnedClass.Name; }
         }
 
-        public override object Get(IDataReader rs, int index)
+        public override object Get(DbDataReader rs, int index, ISessionImplementor session)
         {
             return (SqlGeography)rs[index];
         }
@@ -73,7 +75,7 @@ namespace NHibernate.Spatial.Type
             get { return typeof(SqlGeography); }
         }
 
-        public override void Set(IDbCommand cmd, object value, int index)
+        public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
         {
             object parameterValue = ((INullable)value).IsNull ? DBNull.Value : value;
 

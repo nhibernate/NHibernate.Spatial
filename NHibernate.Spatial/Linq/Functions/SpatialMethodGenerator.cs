@@ -1,5 +1,4 @@
 ﻿using NHibernate.Hql.Ast;
-using NHibernate.Linq;
 using NHibernate.Linq.Functions;
 using NHibernate.Linq.Visitors;
 using NHibernate.Spatial.Dialect;
@@ -8,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using NHibernate.Util;
 
 namespace NHibernate.Spatial.Linq.Functions
 {
@@ -18,7 +18,7 @@ namespace NHibernate.Spatial.Linq.Functions
         protected SpatialMethodGenerator(string methodName, params Expression<Action<TSource>>[] expressions)
         {
             this.methodName = methodName;
-            SupportedMethods = expressions.Select(o => ReflectionHelper.GetMethodDefinition(o)).ToArray();
+            SupportedMethods = expressions.Select(o => ReflectHelper.GetMethodDefinition(o)).ToArray();
         }
 
         protected SpatialMethodGenerator(params Expression<Action<TSource>>[] expressions)
