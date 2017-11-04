@@ -64,6 +64,12 @@ dlldata.c
 # Chutzpah Test files
 _Chutzpah*
 
+# Visual Studio user settings directory
+.vs
+
+# Visual Studio Code user settings directory
+.vscode
+
 # Visual C++ cache files
 ipch/
 *.aps
@@ -82,6 +88,9 @@ $tf/
 
 # Guidance Automation Toolkit
 *.gpState
+
+# JetBrains Rider IDE user settings directory
+.idea
 
 # ReSharper is a .NET coding add-in
 _ReSharper*/
