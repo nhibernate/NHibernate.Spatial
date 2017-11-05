@@ -5,13 +5,13 @@
 # scripts that run after cloning repository
 install:
   # install MySQL 5.6
-  - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
-  - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
-  - cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
+  # - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
+  # - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
+  # - cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
   
   # change default port for MySQL 5.7 (so it can run simultaneously with MySQL 5.6)
-  - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
-  - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
+  # - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
+  # - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
   
   # install PostgreSQL 8.4
   - curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
@@ -42,8 +42,8 @@ install:
 services:
   - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
   - mssql2012sp1      # start SQL Server 2012 Express
-  - mysql56           # start MySQL 5.6
-  - mysql57           # start MySQL 5.7
+  # - mysql56           # start MySQL 5.6
+  # - mysql57           # start MySQL 5.7
   - postgresql96      # start PostgreSQL 9.6
 
 #---------------------------------#
@@ -76,8 +76,9 @@ test:
     only:
     - Tests.NHibernate.Spatial.MsSql2008\bin\Release\Tests.NHibernate.Spatial.MsSql2008.dll
     - Tests.NHibernate.Spatial.MsSql2012\bin\Release\Tests.NHibernate.Spatial.MsSql2012.dll
-    - Tests.NHibernate.Spatial.MySQL\bin\Release\Tests.NHibernate.Spatial.MySQL.dll
-    - Tests.NHibernate.Spatial.MySQL57\bin\Release\Tests.NHibernate.Spatial.MySQL57.dll
+    # Disable MySQL tests until issue #87 is resolved
+    # - Tests.NHibernate.Spatial.MySQL\bin\Release\Tests.NHibernate.Spatial.MySQL.dll
+    # - Tests.NHibernate.Spatial.MySQL57\bin\Release\Tests.NHibernate.Spatial.MySQL57.dll
     - Tests.NHibernate.Spatial.PostGis\bin\Release\Tests.NHibernate.Spatial.PostGis.dll
     - Tests.NHibernate.Spatial.PostGis20\bin\Release\Tests.NHibernate.Spatial.PostGis20.dll
 
@@ -90,13 +91,13 @@ before_test:
   - sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
   
   # setup MySQL 5.6
-  - SET MYSQL_PWD=Password12!
-  - SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
-  - cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
+  # - SET MYSQL_PWD=Password12!
+  # - SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
+  # - cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
   
   # setup MySQL 5.7
-  - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
-  - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
+  # - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
+  # - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
   
   # setup PostgreSQL 8.4
   - SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
