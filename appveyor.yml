@@ -65,7 +65,22 @@ build:
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
-  
+
+# only run each test assembly once
+# NOTE: Must explicitly specify which assemblies to test, otherwise AppVeyor will default to Auto mode, which will recursively
+#       scan the project folder for any test assembly (see: https://www.appveyor.com/docs/running-tests)
+#       Since the test projects reference each other, this will then result in the referenced DLLs being "discovered" and run
+#       multiple times (once in the original project's build folder and then again in each referencing project's build folder)
+test:
+  assemblies:
+    only:
+    - Tests.NHibernate.Spatial.MsSql2008\bin\Release\Tests.NHibernate.Spatial.MsSql2008.dll
+    - Tests.NHibernate.Spatial.MsSql2012\bin\Release\Tests.NHibernate.Spatial.MsSql2012.dll
+    - Tests.NHibernate.Spatial.MySQL\bin\Release\Tests.NHibernate.Spatial.MySQL.dll
+    - Tests.NHibernate.Spatial.MySQL57\bin\Release\Tests.NHibernate.Spatial.MySQL57.dll
+    - Tests.NHibernate.Spatial.PostGis\bin\Release\Tests.NHibernate.Spatial.PostGis.dll
+    - Tests.NHibernate.Spatial.PostGis20\bin\Release\Tests.NHibernate.Spatial.PostGis20.dll
+
 # scripts to run before tests
 before_test:
   # setup SQL Server 2008
