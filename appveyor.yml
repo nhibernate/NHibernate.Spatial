@@ -5,13 +5,13 @@
 # scripts that run after cloning repository
 install:
   # install MySQL 5.6
-  - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
-  - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
-  - cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
+  # - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
+  # - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
+  # - cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
   
   # change default port for MySQL 5.7 (so it can run simultaneously with MySQL 5.6)
-  - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
-  - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
+  # - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
+  # - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
   
   # install PostgreSQL 8.4
   - curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
@@ -28,7 +28,7 @@ install:
   - cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql""
   
   # install PostGIS 2.3.2 for PostgreSQL 9.6
-  - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/postgis-bundle-pg96-2.3.2x64.zip
+  - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/archive/postgis-bundle-pg96-2.3.2x64.zip
   - 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
@@ -42,8 +42,8 @@ install:
 services:
   - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
   - mssql2012sp1      # start SQL Server 2012 Express
-  - mysql56           # start MySQL 5.6
-  - mysql57           # start MySQL 5.7
+  # - mysql56           # start MySQL 5.6
+  # - mysql57           # start MySQL 5.7
   - postgresql96      # start PostgreSQL 9.6
 
 #---------------------------------#
@@ -65,7 +65,23 @@ build:
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
-  
+
+# only run each test assembly once
+# NOTE: Must explicitly specify which assemblies to test, otherwise AppVeyor will default to Auto mode, which will recursively
+#       scan the project folder for any test assembly (see: https://www.appveyor.com/docs/running-tests)
+#       Since the test projects reference each other, this will then result in the referenced DLLs being "discovered" and run
+#       multiple times (once in the original project's build folder and then again in each referencing project's build folder)
+test:
+  assemblies:
+    only:
+    - Tests.NHibernate.Spatial.MsSql2008\bin\Release\Tests.NHibernate.Spatial.MsSql2008.dll
+    - Tests.NHibernate.Spatial.MsSql2012\bin\Release\Tests.NHibernate.Spatial.MsSql2012.dll
+    # Disable MySQL tests until issue #87 is resolved
+    # - Tests.NHibernate.Spatial.MySQL\bin\Release\Tests.NHibernate.Spatial.MySQL.dll
+    # - Tests.NHibernate.Spatial.MySQL57\bin\Release\Tests.NHibernate.Spatial.MySQL57.dll
+    - Tests.NHibernate.Spatial.PostGis\bin\Release\Tests.NHibernate.Spatial.PostGis.dll
+    - Tests.NHibernate.Spatial.PostGis20\bin\Release\Tests.NHibernate.Spatial.PostGis20.dll
+
 # scripts to run before tests
 before_test:
   # setup SQL Server 2008
@@ -75,13 +91,13 @@ before_test:
   - sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
   
   # setup MySQL 5.6
-  - SET MYSQL_PWD=Password12!
-  - SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
-  - cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
+  # - SET MYSQL_PWD=Password12!
+  # - SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
+  # - cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
   
   # setup MySQL 5.7
-  - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
-  - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
+  # - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
+  # - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
   
   # setup PostgreSQL 8.4
   - SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
