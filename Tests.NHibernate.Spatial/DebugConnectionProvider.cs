@@ -1,8 +1,7 @@
-using Iesi.Collections;
 using NHibernate.Connection;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 
 namespace Tests.NHibernate.Spatial
 {
@@ -12,16 +11,16 @@ namespace Tests.NHibernate.Spatial
 	/// </summary>
 	public class DebugConnectionProvider : DriverConnectionProvider
 	{
-		private readonly HashSet<IDbConnection> connections = new HashSet<IDbConnection>();
+		private readonly HashSet<DbConnection> connections = new HashSet<DbConnection>();
 
-		public override IDbConnection GetConnection()
+		public override DbConnection GetConnection()
 		{
-			IDbConnection connection = base.GetConnection();
+			var connection = base.GetConnection();
 			connections.Add(connection);
 			return connection;
 		}
 
-		public override void CloseConnection(IDbConnection conn)
+		public override void CloseConnection(DbConnection conn)
 		{
 			base.CloseConnection(conn);
 			connections.Remove(conn);
@@ -41,9 +40,9 @@ namespace Tests.NHibernate.Spatial
 					return false;
 				}
 				// Disposing of an ISession does not call CloseConnection (should it???)
-				// so a Diposed of ISession will leave an IDbConnection in the list but
-				// the IDbConnection will be closed (atleast with MsSql it works this way).
-				foreach (IDbConnection conn in connections)
+				// so a Diposed of ISession will leave a DbConnection in the list but
+				// the DbConnection will be closed (atleast with MsSql it works this way).
+				foreach (var conn in connections)
 				{
 					if (conn.State != ConnectionState.Closed)
 					{
@@ -61,9 +60,11 @@ namespace Tests.NHibernate.Spatial
 		{
 			while (connections.Count != 0)
 			{
-				IEnumerator en = connections.GetEnumerator();
-				en.MoveNext();
-				CloseConnection(en.Current as IDbConnection);
+				using (var en = connections.GetEnumerator())
+				{
+					en.MoveNext();
+					CloseConnection(en.Current);
+				}
 			}
 		}
 	}

@@ -15,16 +15,14 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
+using System.Data.Common;
+using NHibernate.Engine;
 
 namespace NHibernate.Spatial.Type
 {
@@ -39,15 +37,15 @@ namespace NHibernate.Spatial.Type
 		{
 		}
 
-		public override object NullSafeGet(IDataReader rs, string name)
+		public override object NullSafeGet(DbDataReader rs, string name, ISessionImplementor session)
 		{
-			object value = base.NullSafeGet(rs, name);
+			object value = base.NullSafeGet(rs, name, session);
 			return value ?? default(MySqlGeometry);
 		}
 
-		public override object Get(IDataReader rs, string name)
+		public override object Get(DbDataReader rs, string name, ISessionImplementor session)
 		{
-			return Get(rs, rs.GetOrdinal(name));
+			return Get(rs, rs.GetOrdinal(name), session);
 		}
 
 		public override string ToString(object value)
@@ -60,7 +58,7 @@ namespace NHibernate.Spatial.Type
 			get { return ReturnedClass.Name; }
 		}
 
-		public override object Get(IDataReader rs, int index)
+		public override object Get(DbDataReader rs, int index, ISessionImplementor session)
 		{
 			return new MySqlGeometry(MySqlDbType.Geometry, (byte[])rs[index]);
 		}
@@ -75,18 +73,18 @@ namespace NHibernate.Spatial.Type
 			get { return typeof(MySqlGeometry); }
 		}
 
-		public override object NullSafeGet(IDataReader rs, string[] names)
+		public override object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session)
 		{
-			var result = base.NullSafeGet(rs, names);
+			var result = base.NullSafeGet(rs, names, session);
 
 			return result;
 		}
 
-		public override void Set(IDbCommand cmd, object value, int index)
+		public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
 		{
 			byte[] internalValue = ((MySqlGeometry)value).Value;
 
-			var parameter = (IDbDataParameter)cmd.Parameters[index];
+			var parameter = cmd.Parameters[index];
 
 			parameter.DbType = DbType.Binary;
 

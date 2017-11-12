@@ -22,7 +22,8 @@ using NHibernate.Type;
 using NHibernate.UserTypes;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Data.Common;
+using NHibernate.Engine;
 
 namespace NHibernate.Spatial.Type
 {
@@ -73,7 +74,7 @@ namespace NHibernate.Spatial.Type
 		/// <returns>a copy</returns>
 		public object DeepCopy(object value)
 		{
-			return this.ToGeometry(this.nullableType.DeepCopy(this.FromGeometry(value), EntityMode.Map, null));
+			return this.ToGeometry(this.nullableType.DeepCopy(this.FromGeometry(value), null));
 		}
 
 		/// <summary>
@@ -123,19 +124,22 @@ namespace NHibernate.Spatial.Type
 		}
 
 		/// <summary>
-		/// Retrieve an instance of the mapped class from a JDBC resultset.
+		/// Retrieve an instance of the mapped class from an ADO resultset.
 		/// Implementors should handle possibility of null values.
 		/// </summary>
-		/// <param name="rs">a IDataReader</param>
+		/// <param name="rs">a DbDataReader</param>
 		/// <param name="names">column names</param>
+		/// <param name="session">The session for which the operation is done. Allows access to
+		/// <c>Factory.Dialect</c> and <c>Factory.ConnectionProvider.Driver</c> for adjusting to
+		/// database or data provider capabilities.</param>
 		/// <param name="owner">the containing entity</param>
-		/// <returns></returns>
+		/// <returns>The value.</returns>
 		/// <exception cref="T:NHibernate.HibernateException">HibernateException</exception>
-		public object NullSafeGet(IDataReader rs, string[] names, object owner)
+		public object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner)
 		{
 			try
 			{
-				return this.ToGeometry((T)this.nullableType.NullSafeGet(rs, names));
+				return this.ToGeometry((T)this.nullableType.NullSafeGet(rs, names, session));
 			}
 			catch
 			{
@@ -148,13 +152,16 @@ namespace NHibernate.Spatial.Type
 		/// Implementors should handle possibility of null values.
 		/// A multi-column type should be written to parameters starting from index.
 		/// </summary>
-		/// <param name="cmd">a IDbCommand</param>
+		/// <param name="cmd">a DbCommand</param>
 		/// <param name="value">the object to write</param>
 		/// <param name="index">command parameter index</param>
+		/// <param name="session">The session for which the operation is done. Allows access to
+		/// <c>Factory.Dialect</c> and <c>Factory.ConnectionProvider.Driver</c> for adjusting to
+		/// database or data provider capabilities.</param>
 		/// <exception cref="T:NHibernate.HibernateException">HibernateException</exception>
-		public void NullSafeSet(IDbCommand cmd, object value, int index)
+		public void NullSafeSet(DbCommand cmd, object value, int index, ISessionImplementor session)
 		{
-			this.nullableType.NullSafeSet(cmd, this.FromGeometry(value), index);
+			this.nullableType.NullSafeSet(cmd, this.FromGeometry(value), index, session);
 		}
 
 		/// <summary>

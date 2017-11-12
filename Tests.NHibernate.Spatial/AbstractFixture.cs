@@ -296,12 +296,12 @@ namespace Tests.NHibernate.Spatial
 
             using (IConnectionProvider prov = ConnectionProviderFactory.NewConnectionProvider(configuration.Properties))
             {
-                IDbConnection conn = prov.GetConnection();
+                var conn = prov.GetConnection();
 
                 try
                 {
-                    using (IDbTransaction tran = conn.BeginTransaction())
-                    using (IDbCommand comm = conn.CreateCommand())
+                    using (var tran = conn.BeginTransaction())
+                    using (var comm = conn.CreateCommand())
                     {
                         comm.CommandText = sql;
                         comm.Transaction = tran;

@@ -93,7 +93,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
 
             long count;
-            using (IDbCommand command = Session.Connection.CreateCommand())
+            using (var command = Session.Connection.CreateCommand())
             {
                 command.CommandText = SqlLineStringFilter(FilterString);
                 count = (long)command.ExecuteScalar();
@@ -110,7 +110,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
 
             long count;
-            using (IDbCommand command = Session.Connection.CreateCommand())
+            using (var command = Session.Connection.CreateCommand())
             {
                 command.CommandText = SqlPolygonFilter(FilterString);
                 count = (long)command.ExecuteScalar();
@@ -127,7 +127,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
 
             long count;
-            using (IDbCommand command = Session.Connection.CreateCommand())
+            using (var command = Session.Connection.CreateCommand())
             {
                 command.CommandText = SqlMultiLineStringFilter(FilterString);
                 count = (long)command.ExecuteScalar();
@@ -190,7 +190,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             }
 
             long count;
-            using (IDbCommand command = Session.Connection.CreateCommand())
+            using (var command = Session.Connection.CreateCommand())
             {
                 command.CommandText = SqlOvelapsLineString(FilterString);
                 count = (long)command.ExecuteScalar();
@@ -234,7 +234,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             Assert.AreEqual(intersects, altIntersects);
 
             long count;
-            using (IDbCommand command = Session.Connection.CreateCommand())
+            using (var command = Session.Connection.CreateCommand())
             {
                 command.CommandText = SqlIntersectsLineString(FilterString);
                 count = (long)command.ExecuteScalar();

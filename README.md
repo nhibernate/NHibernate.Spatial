@@ -5,7 +5,7 @@ The code has been updated to compile with the latest NTS, GeoAPI and NHibernate 
 
 ## Nuget Packages
 
-The packages listed below are compatible with NHibernate 4.1.1 GA.
+The packages listed below are compatible with NHibernate 5.0.0.
 
 | Package | Version |
 | --- | --- |

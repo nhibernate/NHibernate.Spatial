@@ -20,7 +20,6 @@ using NHibernate.Spatial.Dialect;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
 using System;
-using System.Collections.Generic;
 
 namespace NHibernate.Spatial.Criterion
 {
@@ -63,9 +62,8 @@ namespace NHibernate.Spatial.Criterion
         /// <param name="criteria"></param>
         /// <param name="position"></param>
         /// <param name="criteriaQuery"></param>
-        /// <param name="enabledFilters"></param>
         /// <returns></returns>
-        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
             ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
             string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);

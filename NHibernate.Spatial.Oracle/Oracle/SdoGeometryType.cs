@@ -15,6 +15,9 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+using System.Data.Common;
+using NHibernate.Engine;
+
 namespace NHibernate.Spatial.Oracle
 {
     using System;
@@ -36,15 +39,15 @@ namespace NHibernate.Spatial.Oracle
         {
         }
 
-        public override object NullSafeGet(IDataReader rs, string name)
+        public override object NullSafeGet(DbDataReader rs, string name, ISessionImplementor session)
         {
-            object value = base.NullSafeGet(rs, name);
+            object value = base.NullSafeGet(rs, name, session);
             return value ?? SdoGeometry.Null;
         }
 
-        public override object Get(IDataReader rs, string name)
+        public override object Get(DbDataReader rs, string name, ISessionImplementor session)
         {
-            return Get(rs, rs.GetOrdinal(name));
+            return Get(rs, rs.GetOrdinal(name), session);
         }
 
         public override string ToString(object value)
@@ -57,7 +60,7 @@ namespace NHibernate.Spatial.Oracle
             get { return ReturnedClass.Name; }
         }
 
-        public override object Get(IDataReader rs, int index)
+        public override object Get(DbDataReader rs, int index, ISessionImplementor session)
         {
             return (SdoGeometry)rs[index];
         }
@@ -74,7 +77,7 @@ namespace NHibernate.Spatial.Oracle
             get { return typeof(SdoGeometry); }
         }
 
-        public override void Set(IDbCommand cmd, object value, int index)
+        public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
         {
             object parameterValue = (value as SdoGeometry) == null ? DBNull.Value : value;
 
