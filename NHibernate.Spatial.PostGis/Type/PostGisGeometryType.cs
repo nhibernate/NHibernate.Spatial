@@ -19,23 +19,26 @@ using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
+using System.Data;
+using System.Data.Common;
+using NHibernate.Engine;
+using NHibernate.SqlTypes;
+using NHibernate.Type;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace NHibernate.Spatial.Type
 {
-    /// <summary>
-    /// This PostGIS geometry type implementation uses strings to represent
-    /// byte arrays in hexadecimal, instead of use byte array directly,
-    /// due to a limitation in Npgsql driver.
-    /// See http://gborg.postgresql.org/project/npgsql/bugs/bugupdate.php?1409
-    /// </summary>
     [Serializable]
-    public class PostGisGeometryType : GeometryTypeBase<string>
+    public class PostGisGeometryType : GeometryTypeBase<byte[]>
     {
+        private static readonly NullableType GeometryType = new CustomGeometryType();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PostGisGeometryType"/> class.
         /// </summary>
         public PostGisGeometryType()
-            : base(NHibernateUtil.StringClob)
+            : base(GeometryType)
         {
         }
 
@@ -44,7 +47,7 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="value">The GeoAPI geometry value.</param>
         /// <returns></returns>
-        protected override string FromGeometry(object value)
+        protected override byte[] FromGeometry(object value)
         {
             IGeometry geometry = value as IGeometry;
             if (geometry == null)
@@ -81,8 +84,7 @@ namespace NHibernate.Spatial.Type
             {
                 HandleOrdinates = ordinates
             };
-            byte[] bytes = postGisWriter.Write(geometry);
-            return ToString(bytes);
+            return postGisWriter.Write(geometry);
         }
 
         /// <summary>
@@ -92,30 +94,13 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         protected override IGeometry ToGeometry(object value)
         {
-            string bytes = value as string;
-
-            if (string.IsNullOrEmpty(bytes))
+            if (!(value is byte[] bytes))
             {
                 return null;
             }
 
-            // Bounding boxes are not serialized as hexadecimal string (?)
-            const string boxToken = "BOX(";
-            if (bytes.StartsWith(boxToken))
-            {
-                // TODO: Optimize?
-                bytes = bytes.Substring(boxToken.Length, bytes.Length - boxToken.Length - 1);
-                string[] parts = bytes.Split(',');
-                string[] min = parts[0].Split(' ');
-                string[] max = parts[1].Split(' ');
-                string wkt = string.Format(
-                    "POLYGON(({0} {1},{0} {3},{2} {3},{2} {1},{0} {1}))",
-                    min[0], min[1], max[0], max[1]);
-                return new WKTReader().Read(wkt);
-            }
-
             PostGisReader reader = new PostGisReader();
-            IGeometry geometry = reader.Read(ToByteArray(bytes));
+            IGeometry geometry = reader.Read(bytes);
             this.SetDefaultSRID(geometry);
             return geometry;
         }
@@ -151,6 +136,60 @@ namespace NHibernate.Spatial.Type
                 data[idx++] = (char)((n2) < 10 ? '0' + n2 : n2 - 10 + 'A');
             }
             return new string(data);
+        }
+
+        [Serializable]
+        private class CustomGeometryType : MutableType
+        {
+            internal CustomGeometryType() : base(new BinarySqlType())
+            {
+            }
+
+            public override object Get(DbDataReader rs, int index, ISessionImplementor session)
+            {
+                // Npgsql 3 from the received bytes creates his own PostGisGeometry type.
+                // As we need to return a byte array that represents the geometry object,
+                // we will retrive the bytes from the reader instead.
+                var length = (int)rs.GetBytes(index, 0, null, 0, 0);
+                var buffer = new byte[length];
+                if (length > 0)
+                {
+                    rs.GetBytes(index, 0, buffer, 0, length);
+                }
+                return buffer;
+            }
+
+            public override object Get(DbDataReader rs, string name, ISessionImplementor session)
+            {
+                return Get(rs, rs.GetOrdinal(name), session);
+            }
+
+            public override string ToString(object val)
+            {
+                return PostGisGeometryType.ToString((byte[])val);
+            }
+
+            public override object FromStringValue(string xml)
+            {
+                return ToByteArray(xml);
+            }
+
+            public override System.Type ReturnedClass => typeof(IGeometry);
+
+            public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
+            {
+                var parameter = (NpgsqlParameter)cmd.Parameters[index];
+                parameter.NpgsqlDbType = NpgsqlDbType.Geometry;
+                parameter.Value = value;
+            }
+
+            public override string Name => "Geometry";
+
+            public override object DeepCopyNotNull(object value)
+            {
+                var arr = (byte[]) value;
+                return arr.Clone();
+            }
         }
     }
 }
