@@ -94,7 +94,8 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         protected override IGeometry ToGeometry(object value)
         {
-            if (!(value is byte[] bytes))
+            var bytes = value as byte[];
+            if (bytes == null)
             {
                 return null;
             }
