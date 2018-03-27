@@ -270,12 +270,17 @@ namespace NHibernate.Spatial.Dialect
                 default:
                     throw new ArgumentException("Invalid spatial aggregate argument");
             }
-            return new SqlStringBuilder()
-                .Add(aggregateFunction)
+            var builder = new SqlStringBuilder();
+            builder.Add(aggregateFunction)
                 .Add("(")
                 .AddObject(geometry)
-                .Add(")")
-                .ToSqlString();
+                .Add(")");
+            // Convert to geometry as there is no binary output function available for type box2d type
+            if (aggregate == SpatialAggregate.Envelope)
+            {
+                builder.Add("::geometry");
+            }
+            return builder.ToSqlString();
         }
 
         public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, bool criterion)
