@@ -30,8 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.Oracle",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTopologySuite.TestRunner", "NetTopologySuite.TestRunner\NetTopologySuite.TestRunner.csproj", "{13669184-2446-404F-8894-5E20B6C3FCC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTopologySuite.Windows.Forms", "NetTopologySuite.Windows.Forms\NetTopologySuite.Windows.Forms.csproj", "{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE42DD50-8C75-4859-87BA-39D6D263A210}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
@@ -90,10 +88,6 @@ Global
 		{13669184-2446-404F-8894-5E20B6C3FCC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13669184-2446-404F-8894-5E20B6C3FCC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13669184-2446-404F-8894-5E20B6C3FCC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB5EFAB5-F90A-4B64-AB99-7C3A750154F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{903F70BB-59E8-4752-BBC8-57C3C0CC221E}.Release|Any CPU.ActiveCfg = Release|Any CPU
