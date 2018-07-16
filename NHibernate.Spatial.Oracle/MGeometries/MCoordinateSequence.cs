@@ -232,12 +232,16 @@ namespace NHibernate.Spatial.MGeometries
 
         public Object Clone()
         {
-            MCoordinate[] cloneCoordinates = new MCoordinate[Count];
+            return Copy();
+        }
+
+        public ICoordinateSequence Copy()
+        {
+            var cloneCoordinates = new MCoordinate[coordinates.Length];
             for (int i = 0; i < coordinates.Length; i++)
             {
-                cloneCoordinates[i] = (MCoordinate)coordinates[i].Clone();
+                cloneCoordinates[i] = (MCoordinate) coordinates[i].Copy();
             }
-
             return new MCoordinateSequence(cloneCoordinates);
         }
 

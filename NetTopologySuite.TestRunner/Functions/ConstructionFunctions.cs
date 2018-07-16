@@ -4,7 +4,6 @@ using NetTopologySuite.Densify;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Operation.Linemerge;
-using System.Collections;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -67,7 +66,7 @@ namespace Open.Topology.TestRunner.Functions
         public static IGeometry extractLines(IGeometry g)
         {
             var lines = LinearComponentExtracter.GetLines(g);
-            return g.Factory.BuildGeometry(NetTopologySuite.Utilities.CollectionUtil.Cast<IGeometry>((ICollection)lines));
+            return g.Factory.BuildGeometry(lines);
         }
     }
 }

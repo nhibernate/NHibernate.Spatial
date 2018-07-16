@@ -2,9 +2,8 @@
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Noding.Snapround;
 using NetTopologySuite.Precision;
-using NetTopologySuite.Utilities;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Open.Topology.TestRunner.Functions
 {
@@ -22,7 +21,7 @@ namespace Open.Topology.TestRunner.Functions
             var noder = new GeometryNoder(pm);
             var lines = noder.Node(geomList);
 
-            return Utility.FunctionsUtil.getFactoryOrDefault(geom).BuildGeometry(CollectionUtil.Cast<IGeometry>((ICollection)lines));
+            return Utility.FunctionsUtil.getFactoryOrDefault(geom).BuildGeometry(lines.Cast<IGeometry>().ToList());
         }
     }
 }
