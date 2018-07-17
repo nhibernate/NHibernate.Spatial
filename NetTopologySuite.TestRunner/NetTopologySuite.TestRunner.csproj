@@ -131,7 +131,6 @@
     <Compile Include="Functions\BufferFunctions.cs" />
     <Compile Include="Functions\ConstructionFunctions.cs" />
     <Compile Include="Functions\ConversionFunctions.cs" />
-    <Compile Include="Functions\CreateGeometryFunctions.cs" />
     <Compile Include="Functions\CreateRandomGeometries.cs" />
     <Compile Include="Functions\DistanceFunctions.cs" />
     <Compile Include="Functions\GeometryFunctionRegistry.cs" />
@@ -220,12 +219,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NetTopologySuite.Windows.Forms\NetTopologySuite.Windows.Forms.csproj">
-      <Project>{db5efab5-f90a-4b64-ab99-7c3a750154f1}</Project>
-      <Name>NetTopologySuite.Windows.Forms</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
