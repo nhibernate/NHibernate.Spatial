@@ -1,7 +1,7 @@
 /* NHibernate.Spatial MS SQL Server 2008 Test Database Creation Script */
 
 -- Run this script using sqlcmd, i.e.:
---    sqlcmd -S (local)\SQLSERVER2008 -i path-to-this-file.sql
+--    sqlcmd -S (local)\SQL2008R2SP2 -i nhsp_test.sql
 
 CREATE LOGIN nhsp_test WITH PASSWORD = 'nhsp_test', CHECK_POLICY = OFF;
 
