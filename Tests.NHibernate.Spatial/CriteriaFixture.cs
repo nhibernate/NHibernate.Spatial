@@ -160,13 +160,19 @@ namespace Tests.NHibernate.Spatial
 		}
 
 		[Test]
-		[ExpectedException(typeof(MappingException))]
 		public void CountEmpty()
 		{
-			IList results = _session.CreateCriteria(typeof(Simple))
-				.Add(Restrictions.IsEmpty("Geometry"))
-				.List();
-			Assert.AreEqual(0, results.Count);
+		    try
+		    {
+		        IList results = _session.CreateCriteria(typeof(Simple))
+		            .Add(Restrictions.IsEmpty("Geometry"))
+		            .List();
+		        Assert.AreEqual(0, results.Count);
+		    }
+		    catch (MappingException)
+		    {
+		        // Ignored
+		    }
 		}
 
 		[Test]

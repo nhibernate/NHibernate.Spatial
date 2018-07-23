@@ -16,7 +16,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using GeoAPI.Geometries;
-using GeoAPI.IO;
 using NetTopologySuite.IO;
 using System.IO;
 
@@ -26,7 +25,10 @@ namespace NHibernate.Spatial.Type
     {
         public override IGeometry Read(Stream stream)
         {
-            using (BinaryReader reader1 = new BinaryReader(stream))
+            // MySQL stores geometry values using the first 4 bytes to indicate the SRID
+            // followed by the WKB representation of the value; see:
+            // https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
+            using (var reader1 = new BinaryReader(stream))
             {
                 int srid = -1;
                 try
@@ -35,25 +37,16 @@ namespace NHibernate.Spatial.Type
                 }
                 catch
                 {
+                    // Ignored
                 }
                 if (srid == 0)
                 {
                     srid = -1;
                 }
 
-                ByteOrder byteOrder = (ByteOrder)stream.ReadByte();
-                BinaryReader reader2;
-                if (byteOrder == ByteOrder.BigEndian)
+                using (var reader2 = new BiEndianBinaryReader(stream))
                 {
-                    reader2 = new BEBinaryReader(stream);
-                }
-                else
-                {
-                    reader2 = new BinaryReader(stream);
-                }
-                using (reader2)
-                {
-                    IGeometry geometry = Read(reader2);
+                    var geometry = Read(reader2);
                     geometry.SRID = srid;
                     return geometry;
                 }
