@@ -2,6 +2,9 @@
 #    environment configuration    #
 #---------------------------------#
 
+# Build worker image (VM template)
+image: Visual Studio 2017
+
 # scripts that run after cloning repository
 install:
   # install MySQL 5.6
