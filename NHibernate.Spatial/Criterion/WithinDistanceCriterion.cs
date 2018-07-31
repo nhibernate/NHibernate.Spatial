@@ -17,11 +17,11 @@
 
 using System;
 using System.Collections;
+using NHibernate.Criterion;
 using NHibernate.Engine;
-using NHibernate.Expression;
 using NHibernate.SqlCommand;
 
-namespace NHibernate.Spatial.Expression
+namespace NHibernate.Spatial.Criterion
 {
 	[Serializable]
 	public class WithinDistanceCriterion : AbstractCriterion
@@ -31,7 +31,12 @@ namespace NHibernate.Spatial.Expression
 			throw new Exception("The method or operation is not implemented.");
 		}
 
-		public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary enabledFilters)
+        public override IProjection[] GetProjections()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
