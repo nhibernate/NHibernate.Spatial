@@ -7,6 +7,20 @@ image: Visual Studio 2017
 
 # scripts that run after cloning repository
 install:
+  # install SQL Server 2008 R2 SP2 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
+  - curl -L -O -S -s https://download.microsoft.com/download/0/4/B/04BE03CD-EAF3-4797-9D8D-2E08E316C998/SQLEXPR_x64_ENU.exe
+  - SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2008R2SP2 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+
+  # install SQL Server 2012 SP1 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
+  - curl -L -O -S -s https://download.microsoft.com/download/5/2/9/529FEF7B-2EFB-439E-A2D1-A1533227CD69/SQLEXPR_x64_ENU.exe
+  - SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2012SP1 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+
+  # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
+
   # install MySQL 5.6
   # - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
   # - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
@@ -35,16 +49,8 @@ install:
   - 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
-  # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
-
 # start services required for build/tests
 services:
-  - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
-  - mssql2012sp1      # start SQL Server 2012 Express
   # - mysql56           # start MySQL 5.6
   # - mysql57           # start MySQL 5.7
   - postgresql96      # start PostgreSQL 9.6
