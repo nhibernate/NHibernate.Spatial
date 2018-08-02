@@ -80,10 +80,10 @@ test:
     - Tests.NHibernate.Spatial.MsSql2008\bin\Release\Tests.NHibernate.Spatial.MsSql2008.dll
     - Tests.NHibernate.Spatial.MsSql2012\bin\Release\Tests.NHibernate.Spatial.MsSql2012.dll
     # Disable MySQL tests until issue #87 is resolved
-    # - Tests.NHibernate.Spatial.MySQL\bin\Release\Tests.NHibernate.Spatial.MySQL.dll
-    # - Tests.NHibernate.Spatial.MySQL57\bin\Release\Tests.NHibernate.Spatial.MySQL57.dll
-    - Tests.NHibernate.Spatial.PostGis\bin\Release\Tests.NHibernate.Spatial.PostGis.dll
-    - Tests.NHibernate.Spatial.PostGis20\bin\Release\Tests.NHibernate.Spatial.PostGis20.dll
+    # - Tests.NHibernate.Spatial.MySQL\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.MySQL.dll
+    # - Tests.NHibernate.Spatial.MySQL57\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.MySQL57.dll
+    - Tests.NHibernate.Spatial.PostGis\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.PostGis.dll
+    - Tests.NHibernate.Spatial.PostGis20\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.PostGis20.dll
 
 # scripts to run before tests
 before_test:
