@@ -16,6 +16,11 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
+        protected override string DataPath
+        {
+            get { return @"..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data\vivid"; }
+        }
+
         protected override string TestSimpleDataPath
         {
             get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data\vivid\TestSimple.xml"; }
