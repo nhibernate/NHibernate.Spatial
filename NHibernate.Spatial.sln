@@ -13,10 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTopologySuite.TestRunner
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial", "Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.csproj", "{1A5B4897-4D2C-4A3E-8012-B428799A5E43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.MsSql2008", "Tests.NHibernate.Spatial.MsSql2008\Tests.NHibernate.Spatial.MsSql2008.csproj", "{111C6BF8-33E4-4CCE-90C0-E45E327D8541}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.MsSql2012", "Tests.NHibernate.Spatial.MsSql2012\Tests.NHibernate.Spatial.MsSql2012.csproj", "{0AE8A327-2881-4031-9ECD-1F4429FEC16A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.MySQL", "Tests.NHibernate.Spatial.MySQL\Tests.NHibernate.Spatial.MySQL.csproj", "{F9815123-A016-49EC-9AA3-BAB059508E29}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.MySQL57", "Tests.NHibernate.Spatial.MySQL57\Tests.NHibernate.Spatial.MySQL57.csproj", "{1825222A-AC75-48B4-8283-BA5FEEE4AC7E}"
@@ -26,6 +22,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.PostGis20", "Tests.NHibernate.Spatial.PostGis20\Tests.NHibernate.Spatial.PostGis20.csproj", "{DAEF5C4F-234D-402D-96E5-1B2CB6EBF10E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.Spatial.MsSql", "NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj", "{EAC092D9-6D47-4A30-803C-7A8583F99DFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MsSql2008", "Tests.NHibernate.Spatial.MsSql2008\Tests.NHibernate.Spatial.MsSql2008.csproj", "{96CE5CA4-56B6-45CD-9581-736C8483CD7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NHibernate.Spatial.MsSql2012", "Tests.NHibernate.Spatial.MsSql2012\Tests.NHibernate.Spatial.MsSql2012.csproj", "{7BFBE48D-2F43-4721-940F-7480049FF438}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +53,6 @@ Global
 		{1A5B4897-4D2C-4A3E-8012-B428799A5E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A5B4897-4D2C-4A3E-8012-B428799A5E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A5B4897-4D2C-4A3E-8012-B428799A5E43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{111C6BF8-33E4-4CCE-90C0-E45E327D8541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{111C6BF8-33E4-4CCE-90C0-E45E327D8541}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{111C6BF8-33E4-4CCE-90C0-E45E327D8541}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{111C6BF8-33E4-4CCE-90C0-E45E327D8541}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AE8A327-2881-4031-9ECD-1F4429FEC16A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AE8A327-2881-4031-9ECD-1F4429FEC16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AE8A327-2881-4031-9ECD-1F4429FEC16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AE8A327-2881-4031-9ECD-1F4429FEC16A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9815123-A016-49EC-9AA3-BAB059508E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9815123-A016-49EC-9AA3-BAB059508E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9815123-A016-49EC-9AA3-BAB059508E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,6 +73,14 @@ Global
 		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC092D9-6D47-4A30-803C-7A8583F99DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96CE5CA4-56B6-45CD-9581-736C8483CD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BFBE48D-2F43-4721-940F-7480049FF438}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
