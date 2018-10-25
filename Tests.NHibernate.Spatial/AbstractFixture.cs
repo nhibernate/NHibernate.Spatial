@@ -36,7 +36,8 @@ namespace Tests.NHibernate.Spatial
         static AbstractFixture()
         {
             // Configure log4net here since configuration through an attribute doesn't always work.
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            var repositoryAssembly = Assembly.GetEntryAssembly();
+            var logRepository = LogManager.GetRepository(repositoryAssembly);
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
         }
 
