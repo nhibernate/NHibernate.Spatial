@@ -71,6 +71,12 @@ build:
   project: NHibernate.Spatial.sln
   verbosity: minimal
 
+# scripts to run before build
+before_build:
+  - cmd: nuget restore
+  - cmd: dotnet --version
+  - cmd: dotnet restore --verbosity minimal
+
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
