@@ -109,5 +109,10 @@ test_script:
   # Disable MySQL tests until issue #87 is resolved
   # - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.MySQL
   # - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.MySQL57
-  - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.PostGis
-  - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.PostGis20
+  - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis
+  - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis20
+
+after_test:
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path PostGis.trx))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path PostGis20.trx))
