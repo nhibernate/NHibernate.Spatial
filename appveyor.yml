@@ -59,9 +59,6 @@ services:
 #       build configuration       #
 #---------------------------------#
 
-# build platform, i.e. x86, x64, Any CPU
-platform: Any CPU
-
 # build configuration, i.e. Debug, Release, etc.
 configuration: Release
 
