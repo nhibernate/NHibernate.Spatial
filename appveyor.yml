@@ -81,22 +81,6 @@ before_build:
 #       tests configuration       #
 #---------------------------------#
 
-# only run each test assembly once
-# NOTE: Must explicitly specify which assemblies to test, otherwise AppVeyor will default to Auto mode, which will recursively
-#       scan the project folder for any test assembly (see: https://www.appveyor.com/docs/running-tests)
-#       Since the test projects reference each other, this will then result in the referenced DLLs being "discovered" and run
-#       multiple times (once in the original project's build folder and then again in each referencing project's build folder)
-test:
-  assemblies:
-    only:
-    - Tests.NHibernate.Spatial.MsSql2008\bin\Release\Tests.NHibernate.Spatial.MsSql2008.dll
-    - Tests.NHibernate.Spatial.MsSql2012\bin\Release\Tests.NHibernate.Spatial.MsSql2012.dll
-    # Disable MySQL tests until issue #87 is resolved
-    # - Tests.NHibernate.Spatial.MySQL\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.MySQL.dll
-    # - Tests.NHibernate.Spatial.MySQL57\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.MySQL57.dll
-    - Tests.NHibernate.Spatial.PostGis\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.PostGis.dll
-    - Tests.NHibernate.Spatial.PostGis20\bin\Release\netcoreapp2.0\Tests.NHibernate.Spatial.PostGis20.dll
-
 # scripts to run before tests
 before_test:
   # setup SQL Server 2008
@@ -121,3 +105,12 @@ before_test:
   # setup PostgreSQL 9.6
   - SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
   - cmd /c "%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
+
+test_script:
+  - cmd: nunit3-console --config=Release --result=MsSql2008.xml;format=AppVeyor "Tests.NHibernate.Spatial.MsSql2008\Tests.NHibernate.Spatial.MsSql2008.csproj"
+  - cmd: nunit3-console --config=Release --result=MsSql2012.xml;format=AppVeyor "Tests.NHibernate.Spatial.MsSql2012\Tests.NHibernate.Spatial.MsSql2012.csproj"
+  # Disable MySQL tests until issue #87 is resolved
+  # - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.MySQL
+  # - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.MySQL57
+  - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.PostGis
+  - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.PostGis20
