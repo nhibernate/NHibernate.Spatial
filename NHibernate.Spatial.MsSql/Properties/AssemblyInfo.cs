@@ -2,4 +2,4 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("NHibernate.Spatial.MsSql")]
-[assembly: Guid("06ed08bd-d308-4d2c-a672-f4f6f72f16f4")]
+[assembly: Guid("543472ab-d41b-4796-a6c9-8e22b18f0b44")]

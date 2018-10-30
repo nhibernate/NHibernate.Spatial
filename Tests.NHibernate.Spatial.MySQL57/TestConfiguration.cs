@@ -1,16 +1,24 @@
+using Microsoft.Extensions.Configuration;
 using NHibernate.Cfg;
 using NHibernate.Driver;
 using NHibernate.Spatial.Dialect;
 using System.Collections.Generic;
-using static Tests.NHibernate.Spatial.Properties.Settings;
 using Environment = NHibernate.Cfg.Environment;
 using NHibernateFactory = NHibernate.Bytecode.DefaultProxyFactoryFactory;
 
 namespace Tests.NHibernate.Spatial
 {
-
     internal static class TestConfiguration
     {
+        private static readonly IConfigurationRoot _configurationRoot;
+
+        static TestConfiguration()
+        {
+            _configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+        }
+
         public static void Configure(Configuration configuration)
         {
             IDictionary<string, string> properties = new Dictionary<string, string>();
@@ -18,7 +26,7 @@ namespace Tests.NHibernate.Spatial
             properties[Environment.Dialect] = typeof(MySQL57SpatialDialect).AssemblyQualifiedName;
             properties[Environment.ConnectionProvider] = typeof(DebugConnectionProvider).AssemblyQualifiedName;
             properties[Environment.ConnectionDriver] = typeof(MySqlDataDriver).AssemblyQualifiedName;
-            properties[Environment.ConnectionString] = Tests.NHibernate.Spatial.Properties.Settings.Default.ConnectionString;
+            properties[Environment.ConnectionString] = _configurationRoot.GetConnectionString("MySQL57");
             configuration.SetProperties(properties);
         }
     }

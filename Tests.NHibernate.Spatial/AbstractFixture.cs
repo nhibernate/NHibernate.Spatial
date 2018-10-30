@@ -15,7 +15,8 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Data;
-using Settings = Tests.NHibernate.Spatial.Properties.Settings;
+using System.IO;
+using System.Reflection;
 
 namespace Tests.NHibernate.Spatial
 {
@@ -35,7 +36,9 @@ namespace Tests.NHibernate.Spatial
         static AbstractFixture()
         {
             // Configure log4net here since configuration through an attribute doesn't always work.
-            XmlConfigurator.Configure();
+            var repositoryAssembly = Assembly.GetEntryAssembly();
+            var logRepository = LogManager.GetRepository(repositoryAssembly);
+            XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
         }
 
         /// <summary>
@@ -254,7 +257,7 @@ namespace Tests.NHibernate.Spatial
             // Isolated configuration doesn't include SpatialReferenceSystem mapping,
             Configuration configuration = CreateConfiguration();
             configuration.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(configuration));
-            new SchemaExport(configuration).Create(Settings.Default.OutputDdl, true);
+            new SchemaExport(configuration).Create(false, true);
         }
 
         protected virtual void OnAfterDropSchema()
@@ -266,7 +269,7 @@ namespace Tests.NHibernate.Spatial
             // Isolated configuration doesn't include SpatialReferenceSystem mapping,
             Configuration configuration = CreateConfiguration();
             configuration.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(configuration));
-            new SchemaExport(configuration).Drop(Settings.Default.OutputDdl, true);
+            new SchemaExport(configuration).Drop(false, true);
             OnAfterDropSchema();
         }
 
