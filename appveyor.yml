@@ -2,8 +2,25 @@
 #    environment configuration    #
 #---------------------------------#
 
+# Build worker image (VM template)
+image: Visual Studio 2017
+
 # scripts that run after cloning repository
 install:
+  # install SQL Server 2008 R2 SP2 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
+  - curl -L -O -S -s https://download.microsoft.com/download/0/4/B/04BE03CD-EAF3-4797-9D8D-2E08E316C998/SQLEXPR_x64_ENU.exe
+  - SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2008R2SP2 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+
+  # install SQL Server 2012 SP1 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
+  - curl -L -O -S -s https://download.microsoft.com/download/5/2/9/529FEF7B-2EFB-439E-A2D1-A1533227CD69/SQLEXPR_x64_ENU.exe
+  - SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2012SP1 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+
+  # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
+  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
+
   # install MySQL 5.6
   # - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
   # - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
@@ -32,16 +49,8 @@ install:
   - 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
-  # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
-
 # start services required for build/tests
 services:
-  - mssql2008r2sp2    # start SQL Server 2008 R2 SP2 Express
-  - mssql2012sp1      # start SQL Server 2012 Express
   # - mysql56           # start MySQL 5.6
   # - mysql57           # start MySQL 5.7
   - postgresql96      # start PostgreSQL 9.6
@@ -49,9 +58,6 @@ services:
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
-
-# build platform, i.e. x86, x64, Any CPU
-platform: Any CPU
 
 # build configuration, i.e. Debug, Release, etc.
 configuration: Release
@@ -62,25 +68,15 @@ build:
   project: NHibernate.Spatial.sln
   verbosity: minimal
 
+# scripts to run before build
+before_build:
+  - cmd: nuget restore
+  - cmd: dotnet --version
+  - cmd: dotnet restore --verbosity minimal
+
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
-
-# only run each test assembly once
-# NOTE: Must explicitly specify which assemblies to test, otherwise AppVeyor will default to Auto mode, which will recursively
-#       scan the project folder for any test assembly (see: https://www.appveyor.com/docs/running-tests)
-#       Since the test projects reference each other, this will then result in the referenced DLLs being "discovered" and run
-#       multiple times (once in the original project's build folder and then again in each referencing project's build folder)
-test:
-  assemblies:
-    only:
-    - Tests.NHibernate.Spatial.MsSql2008\bin\Release\Tests.NHibernate.Spatial.MsSql2008.dll
-    - Tests.NHibernate.Spatial.MsSql2012\bin\Release\Tests.NHibernate.Spatial.MsSql2012.dll
-    # Disable MySQL tests until issue #87 is resolved
-    # - Tests.NHibernate.Spatial.MySQL\bin\Release\Tests.NHibernate.Spatial.MySQL.dll
-    # - Tests.NHibernate.Spatial.MySQL57\bin\Release\Tests.NHibernate.Spatial.MySQL57.dll
-    - Tests.NHibernate.Spatial.PostGis\bin\Release\Tests.NHibernate.Spatial.PostGis.dll
-    - Tests.NHibernate.Spatial.PostGis20\bin\Release\Tests.NHibernate.Spatial.PostGis20.dll
 
 # scripts to run before tests
 before_test:
@@ -106,3 +102,17 @@ before_test:
   # setup PostgreSQL 9.6
   - SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
   - cmd /c "%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
+
+test_script:
+  - cmd: nunit3-console --config=Release --result=MsSql2008.xml;format=AppVeyor "Tests.NHibernate.Spatial.MsSql2008\Tests.NHibernate.Spatial.MsSql2008.csproj"
+  - cmd: nunit3-console --config=Release --result=MsSql2012.xml;format=AppVeyor "Tests.NHibernate.Spatial.MsSql2012\Tests.NHibernate.Spatial.MsSql2012.csproj"
+  # Disable MySQL tests until issue #87 is resolved
+  # - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.MySQL
+  # - cmd: dotnet test -c Release --no-build Tests.NHibernate.Spatial.MySQL57
+  - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis
+  - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis20
+
+after_test:
+  - ps: $wc = New-Object 'System.Net.WebClient'
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path PostGis.trx))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path PostGis20.trx))
