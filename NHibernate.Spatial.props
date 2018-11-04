@@ -1,0 +1,30 @@
+﻿<Project>
+  <PropertyGroup>
+    <!-- Specify version info -->
+    <VersionMajor Condition="'$(VersionMajor)' == ''">5</VersionMajor>
+    <VersionMinor Condition="'$(VersionMinor)' == ''">1</VersionMinor>
+    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
+    <!-- NOTE: Set to "preXYZ" for pre-releases and leave blank for full releases -->
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''">pre001</VersionSuffix>
+
+    <!-- NOTE: Generally shouldn't need to edit anything below this line -->
+    <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
+    <AssemblyVersion>$(VersionMajor).$(VersionMinor).0.0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+
+    <Product>NHibernate.Spatial</Product>
+    <Description>NHibernate.Spatial is a library of spatial extensions for NHibernate, and allows you to connect NHibernate to a spatially enabled database and manipulate geometries in HQL or in .NET code using NetTopologySuite, providing you with a fully integrated GIS programming experience.</Description>
+    <Company>NHibernate.Spatial Community</Company>
+    <Copyright>Licensed under LGPL.</Copyright>
+    <Authors>NHibernate.Spatial Community</Authors>
+
+    <PackageProjectUrl>https://github.com/nhibernate/NHibernate.Spatial</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/nhibernate/NHibernate.Spatial/master/Logo/NHibernate.Spatial.png</PackageIconUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/nhibernate/NHibernate.Spatial/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/nhibernate/NHibernate.Spatial/blob/v$(VersionPrefix)/releasenotes.txt</PackageReleaseNotes>
+    <PackageTags>NHibernate; NHibernate.Spatial; ORM; Database; DAL; GIS; GeoSpatial</PackageTags>
+    <RepositoryUrl>https://github.com/nhibernate/NHibernate.Spatial.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+</Project>

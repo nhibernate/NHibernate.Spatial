@@ -1,4 +1,5 @@
-﻿using NHibernate.Cfg;
+﻿using System.IO;
+using NHibernate.Cfg;
 using NUnit.Framework;
 
 namespace Tests.NHibernate.Spatial
@@ -11,14 +12,16 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
+        private const string LocalDataPath = @"..\..\..\..\Tests.NHibernate.Spatial.MsSql2012\NtsTestCases\Data\vivid";
+
         protected override string TestRelateAADataPath
         {
-            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2012\NtsTestCases\Data\vivid\TestRelateAA.xml"; }
+            get { return Path.Combine(LocalDataPath, @"TestRelateAA.xml"); }
         }
 
         protected override string TestRelateACDataPath
         {
-            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2012\NtsTestCases\Data\vivid\TestRelateAC.xml"; }
+            get { return Path.Combine(LocalDataPath, @"TestRelateAC.xml"); }
         }
     }
 }

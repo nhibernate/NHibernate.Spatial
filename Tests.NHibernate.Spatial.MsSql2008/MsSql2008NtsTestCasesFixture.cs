@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using NHibernate.Spatial.Criterion;
 using NUnit.Framework;
 using System;
+using System.IO;
 using Tests.NHibernate.Spatial.NtsTestCases;
 using Tests.NHibernate.Spatial.NtsTestCases.Model;
 
@@ -16,19 +17,16 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
-        protected override string DataPath
-        {
-            get { return @"..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data\vivid"; }
-        }
+        private const string LocalDataPath = @"..\..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data\vivid";
 
         protected override string TestSimpleDataPath
         {
-            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data\vivid\TestSimple.xml"; }
+            get { return Path.Combine(LocalDataPath, @"TestSimple.xml"); }
         }
 
         protected override string TestValidDataPath
         {
-            get { return @"..\..\..\Tests.NHibernate.Spatial.MsSql2008\NtsTestCases\Data\vivid\TestValid.xml"; }
+            get { return Path.Combine(LocalDataPath, @"TestValid.xml"); }
         }
 
         [Test]

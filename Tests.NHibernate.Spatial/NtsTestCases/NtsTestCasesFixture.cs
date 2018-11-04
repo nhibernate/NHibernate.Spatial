@@ -17,10 +17,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 	/// </summary>
 	public abstract class NtsTestCasesFixture : AbstractFixture
 	{
-	    protected virtual string DataPath
-	    {
-	        get { return @"..\..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data\vivid"; }
-	    }
+	    private const string DataPath = @"..\..\..\..\Tests.NHibernate.Spatial\NtsTestCases\Data\vivid";
 
 	    protected override Type[] Mappings
 		{
