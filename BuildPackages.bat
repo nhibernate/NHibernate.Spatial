@@ -1,5 +1,14 @@
-if not exist "./NuGet Packages" mkdir "./NuGet Packages"
-call ".nuget/NuGet.exe" pack NHibernate.Spatial.MsSql\NHibernate.Spatial.MsSql.csproj -Build -IncludeReferencedProjects -Properties Configuration=Release -OutputDirectory "./NuGet Packages"
-call ".nuget/NuGet.exe" pack NHibernate.Spatial.MySQL\NHibernate.Spatial.MySQL.csproj -Build -IncludeReferencedProjects -Properties Configuration=Release -OutputDirectory "./NuGet Packages"
-call ".nuget/NuGet.exe" pack NHibernate.Spatial.PostGis\NHibernate.Spatial.PostGis.csproj -Build -IncludeReferencedProjects -Properties Configuration=Release -OutputDirectory "./NuGet Packages"
-call ".nuget/NuGet.exe" pack NHibernate.Spatial.Oracle\NHibernate.Spatial.Oracle.csproj -Build -IncludeReferencedProjects -Properties Configuration=Release -OutputDirectory "./NuGet Packages"
+@echo off
+
+REM Create output directory
+set solution_dir=%~dp0
+set output_dir="%solution_dir%\NuGet Packages"
+if not exist %output_dir% mkdir %output_dir%
+
+REM Build NuGet packages
+set options=--configuration Release --output %output_dir%
+dotnet pack %options% NHibernate.Spatial
+dotnet pack %options% NHibernate.Spatial.MsSql
+dotnet pack %options% NHibernate.Spatial.MySQL
+REM dotnet pack %options% NHibernate.Spatial.Oracle
+dotnet pack %options% NHibernate.Spatial.PostGis
