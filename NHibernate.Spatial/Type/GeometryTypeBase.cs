@@ -235,7 +235,7 @@ namespace NHibernate.Spatial.Type
 			}
 			if (ga == null && gb == null)
 			{
-				return Util.EqualsHelper.Equals((T)a, (T)b);
+			    return Equals((T) a, (T) b);
 			}
 			return false;
 		}

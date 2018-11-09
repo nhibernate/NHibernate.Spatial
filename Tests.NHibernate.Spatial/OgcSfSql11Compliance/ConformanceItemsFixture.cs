@@ -607,7 +607,7 @@ UNIT[""Meter"", 1.0]]";
 
 			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
-			Assert.IsTrue(expected.Equals(place.Boundary));
+			Assert.IsTrue(expected.EqualsTopologically(place.Boundary));
 		}
 
 		[Test]
@@ -622,7 +622,7 @@ UNIT[""Meter"", 1.0]]";
 				.UniqueResult<IGeometry>();
 			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
-			Assert.IsTrue(expected.Equals(result));
+			Assert.IsTrue(expected.EqualsTopologically(result));
 		}
 
 		[Test]
@@ -636,7 +636,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry result = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
-			Assert.IsTrue(expected.Equals(result));
+			Assert.IsTrue(expected.EqualsTopologically(result));
 		}
 
 		/// <summary>
@@ -669,7 +669,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -684,7 +684,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -865,7 +865,7 @@ UNIT[""Meter"", 1.0]]";
 
 			IGeometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
 
-			Assert.IsTrue(expected.Equals(entity.Boundary.Boundary));
+			Assert.IsTrue(expected.EqualsTopologically(entity.Boundary.Boundary));
 		}
 
 		[Test]
@@ -882,7 +882,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -896,7 +896,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -927,7 +927,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POLYGON( ( 59 13, 59 18, 67 18, 67 13, 59 13) )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -941,7 +941,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON( ( 59 13, 59 18, 67 18, 67 13, 59 13) )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		#endregion Queries testing functions in section 3.2.10.2 (T1 - T14)
@@ -1070,7 +1070,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POINT( 0 18 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1084,7 +1084,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 0 18 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -1115,7 +1115,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POINT( 44 31 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1129,7 +1129,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 44 31 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -1336,7 +1336,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POINT( 0 18 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1351,7 +1351,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 0 18 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		#endregion Queries testing functions in section 3.2.13.2 (T22 - T23)
@@ -1533,7 +1533,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("LINESTRING(52 18, 66 23, 73  9, 48  6, 52 18)");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1547,7 +1547,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("LINESTRING(52 18, 66 23, 73  9, 48  6, 52 18)");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -1615,7 +1615,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = (entity.Shore as IPolygon).InteriorRings[0];
 			IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1632,7 +1632,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1646,7 +1646,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		#endregion Queries testing functions in section 3.2.15.2 (T27 - T29)
@@ -1718,7 +1718,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = (entity.Centerlines as IMultiLineString).Geometries[1];
 			IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1735,7 +1735,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -1749,7 +1749,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		#endregion Queries testing functions in section 3.2.16.2 (T30 - T31)
@@ -2040,7 +2040,7 @@ UNIT[""Meter"", 1.0]]";
 		    var query =
 		        from t in session.Query<NamedPlace>()
 		        where t.Name == "Goose Island"
-		        select t.Boundary.Equals(polygon.MappedAs(SpatialDialect.GeometryTypeOf(session)));
+		        select t.Boundary.EqualsTopologically(polygon.MappedAs(SpatialDialect.GeometryTypeOf(session)));
 
             bool result = query.Single();
 
@@ -2508,7 +2508,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POINT( 52 18 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -2523,7 +2523,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POINT( 52 18 )");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -2608,7 +2608,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -2623,7 +2623,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -2665,7 +2665,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry result = shore.SymmetricDifference(boundary);
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(result));
+			Assert.IsTrue(expected.EqualsTopologically(result));
 		}
 
 		[Test]
@@ -2682,7 +2682,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -2697,7 +2697,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		/// <summary>
@@ -2782,7 +2782,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = Wkt.Read(result);
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		[Test]
@@ -2796,7 +2796,7 @@ UNIT[""Meter"", 1.0]]";
 			IGeometry geometry = query.Single();
 			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
-			Assert.IsTrue(expected.Equals(geometry));
+			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
 
 		#endregion Queries testing functions in section 3.2.21.2 (T47 - T50)

@@ -307,7 +307,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             {
                 var env = (IGeometry)item[0];
                 var g = (IGeometry)item[1];
-                Assert.IsTrue(g.Envelope.Equals(env));
+                Assert.IsTrue(g.Envelope.EqualsTopologically(env));
             }
         }
 
@@ -362,7 +362,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             {
                 var geom = (IGeometry)item[0];
                 var bound = (IGeometry)item[1];
-                Assert.IsTrue(geom.Boundary.Equals(bound));
+                Assert.IsTrue(geom.Boundary.EqualsTopologically(bound));
             }
         }
 

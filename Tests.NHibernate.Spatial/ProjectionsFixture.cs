@@ -74,7 +74,7 @@ namespace Tests.NHibernate.Spatial
             IGeometry aggregated = (IGeometry)result[1];
 
             Assert.AreEqual(4, result[0]);
-            Assert.IsTrue(expected.Equals(aggregated));
+            Assert.IsTrue(expected.EqualsTopologically(aggregated));
         }
 
         [Test]
@@ -124,8 +124,8 @@ namespace Tests.NHibernate.Spatial
 
             Assert.AreEqual(2, countAA);
             Assert.AreEqual(2, countBB);
-            Assert.IsTrue(expectedAA.Equals(aggregatedAA));
-            Assert.IsTrue(expectedBB.Equals(aggregatedBB));
+            Assert.IsTrue(expectedAA.EqualsTopologically(aggregatedAA));
+            Assert.IsTrue(expectedBB.EqualsTopologically(aggregatedBB));
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace Tests.NHibernate.Spatial
             IGeometry aggregated = (IGeometry)results[0];
             IGeometry expected = new Point(2, 1);
 
-            Assert.IsTrue(expected.Equals(aggregated));
+            Assert.IsTrue(expected.EqualsTopologically(aggregated));
         }
 
         /// <summary>

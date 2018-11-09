@@ -68,7 +68,7 @@ namespace Open.Topology.TestRunner.Functions
         public static IGeometry getCoordinates(IGeometry g)
         {
             var pts = g.Coordinates;
-            return g.Factory.CreateMultiPoint(pts);
+            return g.Factory.CreateMultiPointFromCoords(pts);
         }
     }
 }

@@ -871,7 +871,7 @@ namespace Open.Topology.TestRunner
 			if (geom != null)
 			{
 				var res = NetTopologySuite.Densify.Densifier.Densify(geom, dArg);
-				return res.Equals(geoResult);
+				return res.EqualsTopologically(geoResult);
 			}
 			return false;
 		}
@@ -1091,22 +1091,22 @@ namespace Open.Topology.TestRunner
 			{
 				if (_objArgument1 == null)
 				{
-					return _objGeometryA.Equals(_objGeometryB) == bResult;
+					return _objGeometryA.EqualsTopologically(_objGeometryB) == bResult;
 				}
 				else
 				{
-					return _objGeometryA.Equals((Geometry)_objArgument1) == bResult;
+					return _objGeometryA.EqualsTopologically((Geometry)_objArgument1) == bResult;
 				}
 			}
 			else if (_objGeometryB != null)
 			{
 				if (_objArgument1 == null)
 				{
-					return _objGeometryB.Equals(_objGeometryA) == bResult;
+					return _objGeometryB.EqualsTopologically(_objGeometryA) == bResult;
 				}
 				else
 				{
-					return _objGeometryB.Equals((Geometry)_objArgument1) == bResult;
+					return _objGeometryB.EqualsTopologically((Geometry)_objArgument1) == bResult;
 				}
 			}
 
@@ -1817,7 +1817,7 @@ namespace Open.Topology.TestRunner
 			{
 				MinimumClearance c = new MinimumClearance(_objGeometryA);
 				IGeometry gClearance = c.GetLine();
-				return gResult.Equals(gClearance);
+				return gResult.EqualsTopologically(gClearance);
 			}
 			return false;
 		}
@@ -1830,8 +1830,8 @@ namespace Open.Topology.TestRunner
 		{
 			if (a != null && b != null && a.GetType().Name == b.GetType().Name)
 			{
-				Geometry aClone = (Geometry)a.Clone();
-				Geometry bClone = (Geometry)b.Clone();
+			    Geometry aClone = (Geometry) a.Copy();
+			    Geometry bClone = (Geometry) b.Copy();
 
 				aClone.Normalize();
 				bClone.Normalize();

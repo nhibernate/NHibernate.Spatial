@@ -31,7 +31,7 @@ namespace Tests.NHibernate.Spatial
             IGeometry geometry = query.Single();
             IGeometry expected = Wkt.Read("POINT( 0 18 )");
 
-            Assert.IsTrue(expected.Equals(geometry));
+            Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Tests.NHibernate.Spatial
             IGeometry geometry = query.Single();
             IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
-            Assert.IsTrue(expected.Equals(geometry));
+            Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Tests.NHibernate.Spatial
             IGeometry geometry = query.Single();
             IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
-            Assert.IsTrue(expected.Equals(geometry));
+            Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
 
         /// <summary>
