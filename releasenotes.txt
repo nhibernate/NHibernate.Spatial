@@ -13,6 +13,10 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 5.1.0
+========================
+Targets NHibernate 5.1 and .NET Standard 2.0
+
 Build 5.0.0
 ========================
 Targets NHibernate 5.0.0 and .Net Framework 4.6.1
