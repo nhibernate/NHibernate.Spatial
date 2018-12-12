@@ -3,9 +3,7 @@
 This is a fork of the final commit to NHibernate.Spatial at [Nhibernate Contrib][NHContrib] site made in december 2011. 
 The code has been updated to compile with the latest NTS, GeoAPI and NHibernate binaries.
 
-## Nuget Packages
-
-The packages listed below are compatible with NHibernate 5.0.0.
+## NuGet Packages
 
 | Package | Version |
 | --- | --- |
