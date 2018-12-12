@@ -1,6 +1,6 @@
 ## NHibernate.Spatial [![Build status](https://ci.appveyor.com/api/projects/status/github/nhibernate/NHibernate.Spatial?branch=master&svg=true)](https://ci.appveyor.com/project/nhibernate/nhibernate-spatial/branch/master)
 
-This is a fork of the final commit to NHibernate.Spatial at [Nhibernate Contrib][NHContrib] site made in december 2011. 
+This is a fork of the final commit to NHibernate.Spatial at [NHibernate Contrib][NHContrib] site made in december 2011. 
 The code has been updated to compile with the latest NTS, GeoAPI and NHibernate binaries.
 
 ## NuGet Packages
@@ -30,7 +30,7 @@ Credits
 
 Many thanks to the following individuals, organisations and projects whose work is so important to the success
 of NHibernate.Spatial (in no particular order):
-* [Nhibernate][] - Parent library
+* [NHibernate][] - Parent library
 * [NUnit][] - unit-testing
 * [GitHub][] and [SourceForge][] - source code hosting
 * [Log4net][] - logging, by the [Apache Software Foundation][]
@@ -46,7 +46,7 @@ of NHibernate.Spatial (in no particular order):
 [ReSharper]: http://www.jetbrains.com/resharper
 [GeoAPI.Net]: https://github.com/NetTopologySuite/GeoAPI
 [NetTopologySuite]: https://github.com/NetTopologySuite/NetTopologySuite
-[Nhibernate]: https://github.com/nhibernate/nhibernate-core
+[NHibernate]: https://github.com/nhibernate/nhibernate-core
 [NHWiki]: http://nhforge.org/wikis
 [NHBlog]: http://nhibernate.info/blog/
 [NH]: http://nhibernate.info/doc/nh/en/index.html
