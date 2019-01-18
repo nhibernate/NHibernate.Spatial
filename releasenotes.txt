@@ -13,6 +13,10 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 5.1.1
+========================
+Limit NHibernate dependency version to 5.1.x to avoid breaking changes in 5.2.x (see #104)
+
 Build 5.1.0
 ========================
 Targets NHibernate 5.1 and .NET Standard 2.0
