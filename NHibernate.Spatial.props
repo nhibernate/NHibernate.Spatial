@@ -21,7 +21,7 @@
     <PackageProjectUrl>https://github.com/nhibernate/NHibernate.Spatial</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/nhibernate/NHibernate.Spatial/master/Logo/NHibernate.Spatial.png</PackageIconUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/nhibernate/NHibernate.Spatial/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/nhibernate/NHibernate.Spatial/blob/v$(VersionPrefix)/releasenotes.txt</PackageReleaseNotes>
     <PackageTags>NHibernate; NHibernate.Spatial; ORM; Database; DAL; GIS; GeoSpatial</PackageTags>
     <RepositoryUrl>https://github.com/nhibernate/NHibernate.Spatial.git</RepositoryUrl>
