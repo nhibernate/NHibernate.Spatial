@@ -50,6 +50,7 @@ namespace NHibernate.Spatial.Type
             return Get(rs, rs.GetOrdinal(name), session);
         }
 
+        [Obsolete("This method has no more usages and will be removed in a future version. Override ToLoggableString instead.")]
         public override string ToString(object value)
         {
             return value.ToString();
@@ -65,6 +66,7 @@ namespace NHibernate.Spatial.Type
             return (SqlGeography)rs[index];
         }
 
+        [Obsolete("This method has no more usages and will be removed in a future version.")]
         public override object FromStringValue(string xml)
         {
             return SqlGeography.STGeomFromText(new SqlChars(xml), 0);
