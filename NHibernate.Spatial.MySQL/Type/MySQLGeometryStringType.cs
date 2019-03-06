@@ -117,11 +117,13 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        [Obsolete("This method has no more usages and will be removed in a future version. Override ToLoggableString instead.")]
         public override string ToString(object value)
         {
             return (string)value;
         }
 
+        [Obsolete("This method has no more usages and will be removed in a future version.")]
         public override object FromStringValue(string xml)
         {
             return xml;

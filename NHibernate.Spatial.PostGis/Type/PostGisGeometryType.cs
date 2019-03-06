@@ -165,11 +165,13 @@ namespace NHibernate.Spatial.Type
                 return Get(rs, rs.GetOrdinal(name), session);
             }
 
+            [Obsolete("This method has no more usages and will be removed in a future version. Override ToLoggableString instead.")]
             public override string ToString(object val)
             {
                 return PostGisGeometryType.ToString((byte[])val);
             }
 
+            [Obsolete("This method has no more usages and will be removed in a future version.")]
             public override object FromStringValue(string xml)
             {
                 return ToByteArray(xml);
