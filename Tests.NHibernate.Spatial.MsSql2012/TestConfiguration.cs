@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using NHibernate.Bytecode;
 using NHibernate.Cfg;
 using NHibernate.Driver;
@@ -8,6 +9,15 @@ namespace Tests.NHibernate.Spatial
 {
     internal static class TestConfiguration
     {
+        private static readonly IConfigurationRoot _configurationRoot;
+
+        static TestConfiguration()
+        {
+            _configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+        }
+
         public static void Configure(Configuration configuration)
         {
             IDictionary<string, string> properties = new Dictionary<string, string>
@@ -16,7 +26,7 @@ namespace Tests.NHibernate.Spatial
                 [Environment.Dialect] = typeof(MsSql2012GeometryDialect).AssemblyQualifiedName,
                 [Environment.ConnectionProvider] = typeof(DebugConnectionProvider).AssemblyQualifiedName,
                 [Environment.ConnectionDriver] = typeof(SqlClientDriver).AssemblyQualifiedName,
-                [Environment.ConnectionString] = System.Configuration.ConfigurationManager.ConnectionStrings["SqlServer2012"].ConnectionString
+                [Environment.ConnectionString] = _configurationRoot.GetConnectionString("MsSql2012")
             };
             configuration.SetProperties(properties);
         }
