@@ -2,7 +2,7 @@
   <Import Project="../NHibernate.Spatial.props" />
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>NHibernate.Spatial</RootNamespace>
   </PropertyGroup>
 
