@@ -22,7 +22,7 @@ namespace NHibernate.Spatial.Dialect
 {
     public class MsSql2012GeographyDialect : MsSql2012SpatialDialect
     {
-        private static readonly IType geometryType = new CustomType(typeof(MsSql2008GeographyType), null);
+        private static readonly IType geometryType = new CustomType(typeof(MsSqlGeographyType), null);
 
         public MsSql2012GeographyDialect()
             : base("geography", "NHSP_GEOGRAPHY_COLUMNS", geometryType)
@@ -34,7 +34,7 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public override IGeometryUserType CreateGeometryUserType()
         {
-            return new MsSql2008GeographyType();
+            return new MsSqlGeographyType();
         }
     }
 }

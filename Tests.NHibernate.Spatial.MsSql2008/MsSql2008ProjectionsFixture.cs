@@ -14,7 +14,7 @@ namespace Tests.NHibernate.Spatial
 
         protected override System.Type GeometryType
         {
-            get { return typeof(MsSql2008GeometryType); }
+            get { return typeof(MsSqlGeometryType); }
         }
 
         [Test]
