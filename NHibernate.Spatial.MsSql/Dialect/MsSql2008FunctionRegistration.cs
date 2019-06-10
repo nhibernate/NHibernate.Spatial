@@ -382,15 +382,23 @@ namespace NHibernate.Spatial.Dialect
 					return GetSpatialRelationString(anotherGeometry, SpatialRelation.Covers, geometry, criterion);
 
 				default:
-					return new SqlStringBuilder(8)
-						.AddObject(geometry)
-						.Add(".ST")
-						.Add(relation.ToString())
-						.Add("(")
-						.AddObject(anotherGeometry)
-						.Add(")")
-						.Add(criterion ? " = 1" : "")
-						.ToSqlString();
+                    // NOTE: Cast is only required if "geometry" is passed in as a parameter
+                    //       directly, rather than as a column name. This is because parameter
+                    //       will be passed as binary and SQL Server can't call methods on
+                    //       binary data.
+                    return new SqlStringBuilder()
+                        .Add("CAST(")
+                        .AddObject(geometry)
+                        .Add(" AS ")
+                        .Add(sqlTypeName)
+                        .Add(")")
+                        .Add(".ST")
+                        .Add(relation.ToString())
+                        .Add("(")
+                        .AddObject(anotherGeometry)
+                        .Add(")")
+                        .Add(criterion ? " = 1" : "")
+                        .ToSqlString();
 			}
 		}
 
