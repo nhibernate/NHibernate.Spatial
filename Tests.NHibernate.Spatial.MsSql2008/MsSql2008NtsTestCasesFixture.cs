@@ -24,11 +24,6 @@ namespace Tests.NHibernate.Spatial
             get { return Path.Combine(LocalDataPath, @"TestSimple.xml"); }
         }
 
-        protected override string TestValidDataPath
-        {
-            get { return Path.Combine(LocalDataPath, @"TestValid.xml"); }
-        }
-
         [Test]
         [Ignore("Not supported by MS SQL")]
         public override void StringRelate()

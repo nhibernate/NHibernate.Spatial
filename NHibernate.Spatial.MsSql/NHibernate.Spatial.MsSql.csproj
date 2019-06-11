@@ -2,7 +2,7 @@
   <Import Project="../NHibernate.Spatial.props" />
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>NHibernate.Spatial</RootNamespace>
   </PropertyGroup>
 
@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SqlServer.Types" Version="11.0.2" />
+    <PackageReference Include="NetTopologySuite.IO.SqlServerBytes" Version="1.15.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
   </ItemGroup>
 
   <ItemGroup>
