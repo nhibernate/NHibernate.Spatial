@@ -13,6 +13,10 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 5.2.1
+========================
+Update MsSql dialect to target .NET Standard 2.0
+
 Build 5.2.0
 ========================
 Update NHibernate dependency version to 5.2.4 following #104

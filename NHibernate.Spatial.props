@@ -1,11 +1,12 @@
 ﻿<Project>
   <PropertyGroup>
     <!-- Specify version info -->
+    <!-- https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/ -->
     <VersionMajor Condition="'$(VersionMajor)' == ''">5</VersionMajor>
     <VersionMinor Condition="'$(VersionMinor)' == ''">2</VersionMinor>
-    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
+    <VersionPatch Condition="'$(VersionPatch)' == ''">1</VersionPatch>
     <!-- NOTE: Set to "preXYZ" for pre-releases and leave blank for full releases -->
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''">pre001</VersionSuffix>
 
     <!-- NOTE: Generally shouldn't need to edit anything below this line -->
     <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
