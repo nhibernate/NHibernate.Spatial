@@ -82,8 +82,8 @@ build:
 
 # scripts to run before build
 before_build:
-  - cmd: dotnet --version
-  - cmd: dotnet restore --verbosity minimal
+  - dotnet --version
+  - dotnet restore --verbosity minimal
 
 #---------------------------------#
 #       tests configuration       #
