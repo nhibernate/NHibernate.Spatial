@@ -61,10 +61,11 @@ install:
   - cmd: xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
 # start services required for build/tests
-services:
+# NOTE: Services are now started in "before_test" section as services are not available on Ubuntu image
+# services:
   # - mysql56           # start MySQL 5.6
   # - mysql57           # start MySQL 5.7
-  - postgresql96      # start PostgreSQL 9.6
+  # - postgresql96      # start PostgreSQL 9.6
 
 #---------------------------------#
 #       build configuration       #
@@ -97,11 +98,13 @@ before_test:
   - cmd: sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
   
   # setup MySQL 5.6
+  # - cmd: net start mysql56
   # - cmd: SET MYSQL_PWD=Password12!
   # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
   # - cmd: '%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql'
   
   # setup MySQL 5.7
+  # - cmd: net start mysql57
   # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
   # - cmd: '%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql'
   
@@ -110,6 +113,7 @@ before_test:
   - cmd: '%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql'
   
   # setup PostgreSQL 9.6
+  - cmd: net start postgresql-x64-9.6
   - cmd: SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
   - cmd: '%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql'
 
