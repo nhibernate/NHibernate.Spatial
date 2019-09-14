@@ -3,21 +3,27 @@
 #---------------------------------#
 
 # Build worker image (VM template)
-image: Visual Studio 2017
+image:
+- Visual Studio 2017
+- Ubuntu
+
+# disable execution of PowerShell commands on Linux
+environment:
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
 
 # scripts that run after cloning repository
 install:
   # install SQL Server 2008 R2 SP2 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
-  - curl -L -O -S -s https://download.microsoft.com/download/0/4/B/04BE03CD-EAF3-4797-9D8D-2E08E316C998/SQLEXPR_x64_ENU.exe
-  - SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2008R2SP2 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+  - cmd: curl -L -O -S -s https://download.microsoft.com/download/0/4/B/04BE03CD-EAF3-4797-9D8D-2E08E316C998/SQLEXPR_x64_ENU.exe
+  - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2008R2SP2 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
 
   # install SQL Server 2012 SP1 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
-  - curl -L -O -S -s https://download.microsoft.com/download/5/2/9/529FEF7B-2EFB-439E-A2D1-A1533227CD69/SQLEXPR_x64_ENU.exe
-  - SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2012SP1 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+  - cmd: curl -L -O -S -s https://download.microsoft.com/download/5/2/9/529FEF7B-2EFB-439E-A2D1-A1533227CD69/SQLEXPR_x64_ENU.exe
+  - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2012SP1 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
 
   # install x86 CLR types for SQL Server 2012 SP1 (required when running dotnet test for MsSql tests)
-  - curl -L -O -S -s https://download.microsoft.com/download/4/B/1/4B1E9B0E-A4F3-4715-B417-31C82302A70A/ENU/x86/SQLSysClrTypes.msi
-  - SQLSysClrTypes.msi /passive
+  - cmd: curl -L -O -S -s https://download.microsoft.com/download/4/B/1/4B1E9B0E-A4F3-4715-B417-31C82302A70A/ENU/x86/SQLSysClrTypes.msi
+  - cmd: SQLSysClrTypes.msi /passive
 
   # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
   - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
@@ -26,32 +32,32 @@ install:
   - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
 
   # install MySQL 5.6
-  # - curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
-  # - msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
-  # - cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
+  # - cmd: curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
+  # - cmd: msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
+  # - cmd: cmd /c ""C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent"
   
   # change default port for MySQL 5.7 (so it can run simultaneously with MySQL 5.6)
   # - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
   # - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
   
   # install PostgreSQL 8.4
-  - curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
-  - postgresql-8.4.22-1-windows.exe --mode unattended --superpassword Password12! --serverport 5431
+  - cmd: curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
+  - cmd: postgresql-8.4.22-1-windows.exe --mode unattended --superpassword Password12! --serverport 5431
   
   # install PostGIS 1.5.5 for PostgreSQL 8.4
-  - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg84/postgis-pg84-binaries-1.5.5.zip
-  - 7z x postgis-pg84-binaries-1.5.5.zip > nul
-  - xcopy /s /y /q postgis-pg84-binaries-1.5.5 "C:\Program Files (x86)\PostgreSQL\8.4"
-  - SET PGPASSWORD=Password12!
-  - SET PGDIR=C:\Program Files (x86)\PostgreSQL\8.4
-  - cmd /c ""%PGDIR%\bin\createdb" -p 5431 -U postgres template_postgis"
-  - cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\postgis.sql""
-  - cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql""
+  - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg84/postgis-pg84-binaries-1.5.5.zip
+  - cmd: 7z x postgis-pg84-binaries-1.5.5.zip > nul
+  - cmd: xcopy /s /y /q postgis-pg84-binaries-1.5.5 "C:\Program Files (x86)\PostgreSQL\8.4"
+  - cmd: SET PGPASSWORD=Password12!
+  - cmd: SET PGDIR=C:\Program Files (x86)\PostgreSQL\8.4
+  - cmd: cmd /c ""%PGDIR%\bin\createdb" -p 5431 -U postgres template_postgis"
+  - cmd: cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\postgis.sql""
+  - cmd: cmd /c ""%PGDIR%\bin\psql" -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql""
   
   # install PostGIS 2.3.2 for PostgreSQL 9.6
-  - curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/archive/postgis-bundle-pg96-2.3.2x64.zip
-  - 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
-  - xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
+  - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/archive/postgis-bundle-pg96-2.3.2x64.zip
+  - cmd: 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
+  - cmd: xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
 # start services required for build/tests
 services:
@@ -84,27 +90,27 @@ before_build:
 # scripts to run before tests
 before_test:
   # setup SQL Server 2008
-  - sqlcmd -S (local)\SQL2008R2SP2 -i Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql
+  - cmd: sqlcmd -S (local)\SQL2008R2SP2 -i Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql
   
   # setup SQL Server 2012
-  - sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
+  - cmd: sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
   
   # setup MySQL 5.6
-  # - SET MYSQL_PWD=Password12!
-  # - SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
-  # - cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
+  # - cmd: SET MYSQL_PWD=Password12!
+  # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
+  # - cmd: cmd /c "%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql"
   
   # setup MySQL 5.7
-  # - SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
-  # - cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
+  # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
+  # - cmd: cmd /c "%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql"
   
   # setup PostgreSQL 8.4
-  - SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
-  - cmd /c "%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql"
+  - cmd: SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
+  - cmd: cmd /c "%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql"
   
   # setup PostgreSQL 9.6
-  - SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
-  - cmd /c "%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
+  - cmd: SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
+  - cmd: cmd /c "%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql"
 
 test_script:
   - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MsSql2008.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MsSql2008
