@@ -116,13 +116,11 @@ test_script:
   - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis20
 
 after_test:
-  # NOTE: Temporary fix for test log file names - remove once new dotnet SDK version installed on AppVeyor; see:
-  #       https://github.com/Microsoft/vstest/issues/1951
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $uri = "https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)"
-  - ps: $wc.UploadFile($uri, (Resolve-Path MsSql2008_*.trx))
-  - ps: $wc.UploadFile($uri, (Resolve-Path MsSql2012_*.trx))
+  - ps: $wc.UploadFile($uri, (Resolve-Path MsSql2008.trx))
+  - ps: $wc.UploadFile($uri, (Resolve-Path MsSql2012.trx))
   # - ps: $wc.UploadFile($uri, (Resolve-Path MySQL.trx))
   # - ps: $wc.UploadFile($uri, (Resolve-Path MySQL57.trx))
-  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis_*.trx))
-  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis20_*.trx))
+  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis.trx))
+  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis20.trx))
