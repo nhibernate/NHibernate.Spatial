@@ -7,10 +7,6 @@ image:
 - Visual Studio 2017
 - Ubuntu
 
-# disable execution of PowerShell commands on Linux
-environment:
-  APPVEYOR_YML_DISABLE_PS_LINUX: true
-
 # scripts that run after cloning repository
 install:
   # install SQL Server 2008 R2 SP2 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
@@ -26,10 +22,10 @@ install:
   - cmd: SQLSysClrTypes.msi /passive
 
   # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0'
-  - ps: set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value ''
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value '' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value '' }
 
   # install MySQL 5.6
   # - cmd: curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
@@ -37,8 +33,8 @@ install:
   # - cmd: "C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent
   
   # change default port for MySQL 5.7 (so it can run simultaneously with MySQL 5.6)
-  # - ps: $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini'
-  # - ps: (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath
+  # - ps: if ($isWindows) { $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini' }
+  # - ps: if ($isWindows) { (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath }
   
   # install PostgreSQL 8.4
   - cmd: curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
@@ -55,11 +51,18 @@ install:
   - cmd: psql -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\postgis.sql"
   - cmd: psql -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql"
   
-  # install PostGIS 2.3.2 for PostgreSQL 9.6
+  # install PostGIS 2.3.2 for PostgreSQL 9.6 on Windows
   - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/archive/postgis-bundle-pg96-2.3.2x64.zip
   - cmd: 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - cmd: xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
+  # install PostgreSQL 9.6 and PostGIS 2.3 on Ubuntu
+  - sh: sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main"
+  - sh: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  - sh: sudo apt-get update
+  - sh: sudo apt-get -y install postgresql-9.6 postgresql-9.6-postgis-2.3
+  - sh: sudo sed -i 's/port = [0-9]\+/port = 5432/' /etc/postgresql/9.6/main/postgresql.conf
+
 # start services required for build/tests
 # NOTE: Services are now started in "before_test" section as services are not available on Ubuntu image
 # services:
@@ -112,10 +115,15 @@ before_test:
   - cmd: SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
   - cmd: '%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql'
   
-  # setup PostgreSQL 9.6
+  # setup PostgreSQL 9.6 on Windows
   - cmd: net start postgresql-x64-9.6
   - cmd: SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
   - cmd: '%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql'
+
+  # setup PostgreSQL 9.6 on Ubuntu
+  # NOTE: Need to run psql command as postgres user to prevent peer authentication failure
+  - sh: sudo pg_ctlcluster 9.6 main start
+  - sh: sudo -u postgres psql -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20/nhsp_test.sql
 
 test_script:
   - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MsSql2008.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MsSql2008
@@ -124,14 +132,14 @@ test_script:
   # - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MySQL.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MySQL
   # - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MySQL57.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MySQL57
   - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis
-  - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis20
+  - ps: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20.trx" --results-directory $env:APPVEYOR_BUILD_FOLDER Tests.NHibernate.Spatial.PostGis20
 
 after_test:
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $uri = "https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)"
-  - ps: $wc.UploadFile($uri, (Resolve-Path MsSql2008.trx))
-  - ps: $wc.UploadFile($uri, (Resolve-Path MsSql2012.trx))
+  - ps: if ($isWindows) { $wc.UploadFile($uri, (Resolve-Path MsSql2008.trx)) }
+  - ps: if ($isWindows) { $wc.UploadFile($uri, (Resolve-Path MsSql2012.trx)) }
   # - ps: $wc.UploadFile($uri, (Resolve-Path MySQL.trx))
   # - ps: $wc.UploadFile($uri, (Resolve-Path MySQL57.trx))
-  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis.trx))
+  - ps: if ($isWindows) { $wc.UploadFile($uri, (Resolve-Path PostGis.trx)) }
   - ps: $wc.UploadFile($uri, (Resolve-Path PostGis20.trx))
