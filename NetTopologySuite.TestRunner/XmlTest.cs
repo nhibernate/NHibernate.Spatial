@@ -1,6 +1,6 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Operation.Buffer;
+using NetTopologySuite.Precision;
 using Open.Topology.TestRunner.Operations;
 using Open.Topology.TestRunner.Result;
 using System;
@@ -9,9 +9,6 @@ using System.Globalization;
 
 namespace Open.Topology.TestRunner
 {
-	using GeoAPI.Operation.Buffer;
-	using NetTopologySuite.Precision;
-
 	#region Test Event Definitions
 
 	public class XmlTestEventArgs : EventArgs
@@ -130,8 +127,8 @@ namespace Open.Topology.TestRunner
 		private bool _bSuccess;
 		private object _objResult;
 
-		private IGeometry _objGeometryA;
-		private IGeometry _objGeometryB;
+		private Geometry _objGeometryA;
+		private Geometry _objGeometryB;
 
 		private object[] _objArguments = new object[3];
 		private object _objArgument1;
@@ -207,7 +204,7 @@ namespace Open.Topology.TestRunner
 			}
 		}
 
-		public IGeometry A
+		public Geometry A
 		{
 			get
 			{
@@ -220,7 +217,7 @@ namespace Open.Topology.TestRunner
 			}
 		}
 
-		public IGeometry B
+		public Geometry B
 		{
 			get
 			{
@@ -351,8 +348,8 @@ namespace Open.Topology.TestRunner
 					expectedResult = new BooleanResult((bool)Result);
 				else if (returnType == typeof(double))
 					expectedResult = new DoubleResult((int)Result);
-				else if (typeof(IGeometry).IsAssignableFrom(returnType))
-					expectedResult = new GeometryResult((IGeometry)Result);
+				else if (typeof(Geometry).IsAssignableFrom(returnType))
+					expectedResult = new GeometryResult((Geometry)Result);
 				else
 				{
 					Debug.Assert(false);
@@ -497,7 +494,7 @@ namespace Open.Topology.TestRunner
 				return new EqualityResultMatcher<BooleanResult>();
 			if (returnType == typeof(double))
 				return new EqualityResultMatcher<DoubleResult>();
-			if (typeof(IGeometry).IsAssignableFrom(returnType))
+			if (typeof(Geometry).IsAssignableFrom(returnType))
 				return new EqualityResultMatcher<GeometryResult>();
 
 			Debug.Assert(false);
@@ -520,7 +517,7 @@ namespace Open.Topology.TestRunner
 			if (o == null)
 				return null;
 
-			if (o is IGeometry)
+			if (o is Geometry)
 				return o;
 
 			if (o is string)
@@ -629,7 +626,7 @@ namespace Open.Topology.TestRunner
 		{
 			Geometry geoResult = (Geometry)_objResult;
 			double dArg;
-			if (_objArgument1 is IGeometry)
+			if (_objArgument1 is Geometry)
 				Double.TryParse((string)_objArgument2, NumberStyles.Any, GetNumberFormatInfo(), out dArg);
 			else
 				Double.TryParse((string)_objArgument1, NumberStyles.Any, GetNumberFormatInfo(), out dArg);
@@ -862,7 +859,7 @@ namespace Open.Topology.TestRunner
 
 		protected virtual bool TestDensify()
 		{
-			var geoResult = _objResult as IGeometry;
+			var geoResult = _objResult as Geometry;
 
 			var dArg = GetDoubleArgument();
 
@@ -878,7 +875,7 @@ namespace Open.Topology.TestRunner
 
 		private double GetDoubleArgument()
 		{
-			if (_objArgument1 is IGeometry)
+			if (_objArgument1 is Geometry)
 				return Double.Parse((string)_objArgument2, NumberStyles.Any, GetNumberFormatInfo());
 
 			return Double.Parse((string)_objArgument1, NumberStyles.Any, GetNumberFormatInfo());
@@ -1812,11 +1809,11 @@ namespace Open.Topology.TestRunner
 
 		protected virtual bool TestMinClearanceLine()
 		{
-			IGeometry gResult = (IGeometry)_objResult;
+			Geometry gResult = (Geometry)_objResult;
 			if (_bIsDefaultTarget && _objGeometryA != null)
 			{
 				MinimumClearance c = new MinimumClearance(_objGeometryA);
-				IGeometry gClearance = c.GetLine();
+				Geometry gClearance = c.GetLine();
 				return gResult.EqualsTopologically(gClearance);
 			}
 			return false;

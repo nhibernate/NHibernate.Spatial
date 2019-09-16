@@ -1,13 +1,13 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 
 namespace Open.Topology.TestRunner.Functions
 {
     public class SelectionFunctions
     {
-        public static IGeometry intersects(IGeometry a, IGeometry mask)
+        public static Geometry intersects(Geometry a, Geometry mask)
         {
-            var selected = new List<IGeometry>();
+            var selected = new List<Geometry>();
             for (int i = 0; i < a.NumGeometries; i++)
             {
                 var g = a.GetGeometryN(i);

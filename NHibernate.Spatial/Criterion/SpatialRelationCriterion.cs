@@ -15,7 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.Spatial.Dialect;
@@ -60,7 +60,7 @@ namespace NHibernate.Spatial.Criterion
 		/// </returns>
 		public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
 		{
-			if (this.anotherGeometry is IGeometry)
+			if (this.anotherGeometry is Geometry)
 			{
 				return new TypedValue[] { criteriaQuery.GetTypedValue(criteria, propertyName, anotherGeometry) };
 			}
@@ -93,7 +93,7 @@ namespace NHibernate.Spatial.Criterion
 				{
 					builder.Add(" AND ");
 				}
-				if (this.anotherGeometry is IGeometry)
+				if (this.anotherGeometry is Geometry)
 				{
 					Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
 					builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], this.relation, parameters.Single(), true));
@@ -118,9 +118,9 @@ namespace NHibernate.Spatial.Criterion
 		{
 			string[] columns = criteriaQuery.GetColumnsUsingProjection(criteria, propertyName);
 			IType type = criteriaQuery.GetTypeUsingProjection(criteria, propertyName);
-			if (!typeof(IGeometry).IsAssignableFrom(type.ReturnedClass))
+			if (!typeof(Geometry).IsAssignableFrom(type.ReturnedClass))
 			{
-				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", base.GetType(), propertyName, typeof(IGeometry), type.ReturnedClass));
+				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", base.GetType(), propertyName, typeof(Geometry), type.ReturnedClass));
 			}
 			if (type.IsCollectionType)
 			{
@@ -146,7 +146,7 @@ namespace NHibernate.Spatial.Criterion
 				.Append("(")
 				.Append(this.propertyName)
 				.Append(", ")
-				.Append((this.anotherGeometry is IGeometry ? "<IGeometry>" : this.anotherGeometry.ToString()))
+				.Append((this.anotherGeometry is Geometry ? "<Geometry>" : this.anotherGeometry.ToString()))
 				.Append(")")
 				.ToString();
 		}

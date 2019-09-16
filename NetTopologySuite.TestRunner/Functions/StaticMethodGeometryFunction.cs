@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Utility;
 using System;
 using System.Diagnostics;
@@ -16,7 +16,7 @@ namespace Open.Topology.TestRunner.Functions
         public static StaticMethodGeometryFunction CreateFunction(MethodInfo method)
         {
             var pi = method.GetParameters();
-            Debug.Assert(typeof(IGeometry).IsAssignableFrom(pi[0].GetType()));
+            Debug.Assert(typeof(Geometry).IsAssignableFrom(pi[0].GetType()));
 
             Type clz = method.DeclaringType;
 
@@ -67,7 +67,7 @@ namespace Open.Topology.TestRunner.Functions
             this.method = method;
         }
 
-        public override object Invoke(IGeometry g, Object[] arg)
+        public override object Invoke(Geometry g, Object[] arg)
         {
             return Invoke(method, null, CreateFullArgs(g, arg));
         }
@@ -80,7 +80,7 @@ namespace Open.Topology.TestRunner.Functions
          * @return
          */
 
-        private static Object[] CreateFullArgs(IGeometry g, Object[] arg)
+        private static Object[] CreateFullArgs(Geometry g, Object[] arg)
         {
             var fullArgLen = 1;
             if (arg != null)

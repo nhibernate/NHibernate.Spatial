@@ -15,7 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate.Impl;
 using NHibernate.Spatial.Criterion.Lambda;
 using System;
@@ -68,7 +68,7 @@ namespace NHibernate.Spatial.Criterion
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="envelope">The envelope.</param>
         /// <returns></returns>
-        public static SpatialFilterCriterion Filter(string propertyName, IGeometry envelope)
+        public static SpatialFilterCriterion Filter(string propertyName, Geometry envelope)
         {
             return new SpatialFilterCriterion(propertyName, envelope);
         }

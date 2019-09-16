@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
@@ -605,7 +605,7 @@ UNIT[""Meter"", 1.0]]";
 				.Add(Restrictions.Eq("Name", "Goose Island"))
 				.UniqueResult<NamedPlace>();
 
-			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
+			Geometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(place.Boundary));
 		}
@@ -618,9 +618,9 @@ UNIT[""Meter"", 1.0]]";
 				from NamedPlace t
 				where t.Name = 'Goose Island'
 				";
-			IGeometry result = session.CreateQuery(query)
-				.UniqueResult<IGeometry>();
-			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
+			Geometry result = session.CreateQuery(query)
+				.UniqueResult<Geometry>();
+			Geometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(result));
 		}
@@ -633,8 +633,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Name == "Goose Island"
 				select t.Boundary;
 
-			IGeometry result = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
+			Geometry result = query.Single();
+			Geometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(result));
 		}
@@ -666,8 +666,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -681,8 +681,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Name == "Goose Island"
 				select t.Boundary.AsBinary().ToPolygon(0);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POLYGON( ( 67 13, 67 18, 59 18, 59 13, 67 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -863,7 +863,7 @@ UNIT[""Meter"", 1.0]]";
 				.Add(Restrictions.Eq("Name", "Goose Island"))
 				.UniqueResult<NamedPlace>();
 
-			IGeometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
+			Geometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(entity.Boundary.Boundary));
 		}
@@ -879,8 +879,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -893,8 +893,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Name == "Goose Island"
 				select t.Boundary.Boundary;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("LINESTRING( 67 13, 67 18, 59 18, 59 13, 67 13 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -924,8 +924,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POLYGON( ( 59 13, 59 18, 67 18, 67 13, 59 13) )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POLYGON( ( 59 13, 59 18, 67 18, 67 13, 59 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -938,8 +938,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Name == "Goose Island"
 				select t.Boundary.Envelope;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON( ( 59 13, 59 18, 67 18, 67 13, 59 13) )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POLYGON( ( 59 13, 59 18, 67 18, 67 13, 59 13) )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -986,7 +986,7 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<Bridge>()
 				where t.Name == "Cam Bridge"
-				select ((IPoint)t.Position).X;
+				select ((Point)t.Position).X;
 
 			double result = query.Single();
 
@@ -1031,7 +1031,7 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<Bridge>()
 				where t.Name == "Cam Bridge"
-				select ((IPoint)t.Position).Y;
+				select ((Point)t.Position).Y;
 
 			double result = query.Single();
 
@@ -1067,8 +1067,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POINT( 0 18 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POINT( 0 18 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1079,10 +1079,10 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<RoadSegment>()
 				where t.Fid == 102
-				select ((ICurve)t.Centerline).StartPoint;
+				select ((LineString)t.Centerline).StartPoint;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POINT( 0 18 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POINT( 0 18 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1112,8 +1112,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POINT( 44 31 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POINT( 44 31 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1124,10 +1124,10 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<RoadSegment>()
 				where t.Fid == 102
-				select ((ICurve)t.Centerline).EndPoint;
+				select ((LineString)t.Centerline).EndPoint;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POINT( 44 31 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POINT( 44 31 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1170,7 +1170,7 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<NamedPlace>()
 				where t.Name == "Goose Island"
-				select ((ICurve)t.Boundary.Boundary).IsClosed;
+				select ((LineString)t.Boundary.Boundary).IsClosed;
 
 			bool result = query.Single();
 
@@ -1215,7 +1215,7 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<NamedPlace>()
 				where t.Name == "Goose Island"
-				select ((ICurve)t.Boundary.Boundary).IsRing;
+				select ((LineString)t.Boundary.Boundary).IsRing;
 
 			bool result = query.Single();
 
@@ -1333,8 +1333,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POINT( 0 18 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POINT( 0 18 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1345,11 +1345,11 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<RoadSegment>()
 				where t.Fid == 102
-				select ((ILineString)t.Centerline)
+				select ((LineString)t.Centerline)
 				.GetPointN(0);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POINT( 0 18 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POINT( 0 18 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1383,8 +1383,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POINT( 63 15.5 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POINT( 63 15.5 )");
 
 			Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
 		}
@@ -1397,8 +1397,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Name == "Goose Island"
 				select t.Boundary.Centroid;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POINT( 63 15.5 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POINT( 63 15.5 )");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
@@ -1530,8 +1530,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("LINESTRING(52 18, 66 23, 73  9, 48  6, 52 18)");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("LINESTRING(52 18, 66 23, 73  9, 48  6, 52 18)");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1542,10 +1542,10 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<Lake>()
 				where t.Name == "Blue Lake"
-				select ((IPolygon)t.Shore).ExteriorRing;
+				select ((Polygon)t.Shore).ExteriorRing;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("LINESTRING(52 18, 66 23, 73  9, 48  6, 52 18)");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("LINESTRING(52 18, 66 23, 73  9, 48  6, 52 18)");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1584,7 +1584,7 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<Lake>()
 				where t.Name == "Blue Lake"
-				select ((IPolygon)t.Shore).NumInteriorRings;
+				select ((Polygon)t.Shore).NumInteriorRings;
 
 			int result = query.Single();
 
@@ -1612,8 +1612,8 @@ UNIT[""Meter"", 1.0]]";
 				.Add(Restrictions.Eq("Name", "Blue Lake"))
 				.UniqueResult<Lake>();
 
-			IGeometry geometry = (entity.Shore as IPolygon).InteriorRings[0];
-			IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
+			Geometry geometry = (entity.Shore as Polygon).InteriorRings[0];
+			Geometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1629,8 +1629,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1641,10 +1641,10 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<Lake>()
 				where t.Name == "Blue Lake"
-				select ((IPolygon)t.Shore).GetInteriorRingN(0);
+				select ((Polygon)t.Shore).GetInteriorRingN(0);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1715,8 +1715,8 @@ UNIT[""Meter"", 1.0]]";
 				.Add(Restrictions.Eq("Name", "Route 75"))
 				.UniqueResult<DividedRoute>();
 
-			IGeometry geometry = (entity.Centerlines as IMultiLineString).Geometries[1];
-			IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
+			Geometry geometry = (entity.Centerlines as MultiLineString).Geometries[1];
+			Geometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1732,8 +1732,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1746,8 +1746,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Name == "Route 75"
 				select t.Centerlines.GetGeometryN(1);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -1794,7 +1794,7 @@ UNIT[""Meter"", 1.0]]";
 			var query =
 				from t in session.Query<DividedRoute>()
 				where t.Name == "Route 75"
-				select ((ICurve)t.Centerlines).IsClosed;
+				select ((LineString)t.Centerlines).IsClosed;
 
 			bool result = query.Single();
 
@@ -1872,8 +1872,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POINT( 25 42 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POINT( 25 42 )");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
@@ -1886,8 +1886,8 @@ UNIT[""Meter"", 1.0]]";
 				where t.Fid == 120
 				select t.Shores.Centroid;
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POINT( 25 42 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POINT( 25 42 )");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
@@ -2505,8 +2505,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POINT( 52 18 )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POINT( 52 18 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2520,8 +2520,8 @@ UNIT[""Meter"", 1.0]]";
 				where s.Name == "Cam Stream" && l.Name == "Blue Lake"
 				select s.Centerline.Intersection(l.Shore);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POINT( 52 18 )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POINT( 52 18 )");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2553,8 +2553,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
@@ -2568,8 +2568,8 @@ UNIT[""Meter"", 1.0]]";
 				where np.Name == "Ashton" && f.Name == "Green Forest"
 				select np.Boundary.Difference(f.Boundary);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
@@ -2605,8 +2605,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2620,8 +2620,8 @@ UNIT[""Meter"", 1.0]]";
 				where l.Name == "Blue Lake" && np.Name == "Goose Island"
 				select l.Shore.Union(np.Boundary);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2650,20 +2650,20 @@ UNIT[""Meter"", 1.0]]";
 		[Test]
 		public void ConformanceItemT50()
 		{
-			IGeometry shore = session
+			Geometry shore = session
 				.CreateCriteria(typeof(Lake), "l")
 				.Add(Restrictions.Eq("l.Name", "Blue Lake"))
 				.SetProjection(Projections.Property("l.Shore"))
-				.UniqueResult<IGeometry>();
+				.UniqueResult<Geometry>();
 
-			IGeometry boundary = session
+			Geometry boundary = session
 				.CreateCriteria(typeof(NamedPlace))
 				.Add(Restrictions.Eq("Name", "Goose Island"))
 				.SetProjection(Projections.Property("Boundary"))
-				.UniqueResult<IGeometry>();
+				.UniqueResult<Geometry>();
 
-			IGeometry result = shore.SymmetricDifference(boundary);
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry result = shore.SymmetricDifference(boundary);
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(result));
 		}
@@ -2679,8 +2679,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2694,8 +2694,8 @@ UNIT[""Meter"", 1.0]]";
 				where l.Name == "Blue Lake" && np.Name == "Goose Island"
 				select l.Shore.SymmetricDifference(np.Boundary);
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2779,8 +2779,8 @@ UNIT[""Meter"", 1.0]]";
 			string result = session.CreateQuery(query)
 				.UniqueResult<string>();
 
-			IGeometry geometry = Wkt.Read(result);
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry geometry = Wkt.Read(result);
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}
@@ -2793,8 +2793,8 @@ UNIT[""Meter"", 1.0]]";
 				where l.Name == "Blue Lake"
 				select l.Shore.ConvexHull();
 
-			IGeometry geometry = query.Single();
-			IGeometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
+			Geometry geometry = query.Single();
+			Geometry expected = Wkt.Read("POLYGON((52 18,66 23,73 9,48 6,52 18))");
 
 			Assert.IsTrue(expected.EqualsTopologically(geometry));
 		}

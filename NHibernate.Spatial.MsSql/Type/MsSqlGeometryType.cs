@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using NHibernate.Engine;
 using NHibernate.SqlTypes;
@@ -23,7 +23,7 @@ namespace NHibernate.Spatial.Type
 
         protected override byte[] FromGeometry(object value)
         {
-            var geometry = value as IGeometry;
+            var geometry = value as Geometry;
             if (geometry == null)
             {
                 return null;
@@ -35,7 +35,7 @@ namespace NHibernate.Spatial.Type
             return bytes;
         }
 
-        protected override IGeometry ToGeometry(object value)
+        protected override Geometry ToGeometry(object value)
         {
             var bytes = value as byte[];
             if (bytes == null || bytes.Length == 0)
@@ -58,7 +58,7 @@ namespace NHibernate.Spatial.Type
 
             public override string Name => ReturnedClass.Name;
 
-            public override System.Type ReturnedClass => typeof(IGeometry);
+            public override System.Type ReturnedClass => typeof(Geometry);
 
             public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
             {

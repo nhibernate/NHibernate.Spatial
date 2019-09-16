@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.Model
         {
         }
 
-        public County(string name, string state, IGeometry boundaries)
+        public County(string name, string state, Geometry boundaries)
         {
             this.Name = name;
             this.State = state;
@@ -41,9 +41,9 @@ namespace Tests.NHibernate.Spatial.Model
             set { state = value; }
         }
 
-        private IGeometry boundaries;
+        private Geometry boundaries;
 
-        public virtual IGeometry Boundaries
+        public virtual Geometry Boundaries
         {
             get { return boundaries; }
             set { boundaries = value; }

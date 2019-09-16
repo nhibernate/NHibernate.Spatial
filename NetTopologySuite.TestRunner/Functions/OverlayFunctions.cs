@@ -1,35 +1,35 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 
 namespace Open.Topology.TestRunner.Functions
 {
     public class OverlayFunctions
     {
-        public static IGeometry intersection(IGeometry a, IGeometry b)
+        public static Geometry intersection(Geometry a, Geometry b)
         {
             return a.Intersection(b);
         }
 
-        public static IGeometry union(IGeometry a, IGeometry b)
+        public static Geometry union(Geometry a, Geometry b)
         {
             return a.Union(b);
         }
 
-        public static IGeometry symDifference(IGeometry a, IGeometry b)
+        public static Geometry symDifference(Geometry a, Geometry b)
         {
             return a.SymmetricDifference(b);
         }
 
-        public static IGeometry difference(IGeometry a, IGeometry b)
+        public static Geometry difference(Geometry a, Geometry b)
         {
             return a.Difference(b);
         }
 
-        public static IGeometry differenceBA(IGeometry a, IGeometry b)
+        public static Geometry differenceBA(Geometry a, Geometry b)
         {
             return b.Difference(a);
         }
 
-        public static IGeometry unaryUnion(IGeometry a)
+        public static Geometry unaryUnion(Geometry a)
         {
             return a.Union();
         }

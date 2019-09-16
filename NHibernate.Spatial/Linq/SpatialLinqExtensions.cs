@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 
 namespace NHibernate.Spatial.Linq
 {
@@ -25,64 +25,64 @@ namespace NHibernate.Spatial.Linq
         /// </remarks>
         /// <param name="geometry"></param>
         /// <returns></returns>
-        public static bool IsNull(this IGeometry geometry)
+        public static bool IsNull(this Geometry geometry)
         { return geometry == null; }
 
-        public static int GetDimension(this IGeometry geometry)
+        public static int GetDimension(this Geometry geometry)
         { throw new SpatialLinqMethodException(); }
 
-        public static IGeometry Simplify(this IGeometry geometry, double distance)
+        public static Geometry Simplify(this Geometry geometry, double distance)
         { throw new SpatialLinqMethodException(); }
 
-        public static IGeometry Transform(this IGeometry geometry, int srid)
+        public static Geometry Transform(this Geometry geometry, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IGeometryCollection ToGeometryCollection(this string text, int srid)
+        public static GeometryCollection ToGeometryCollection(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IGeometryCollection ToGeometryCollection(this byte[] wkb, int srid)
+        public static GeometryCollection ToGeometryCollection(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IGeometry ToGeometry(this string text, int srid)
+        public static Geometry ToGeometry(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IGeometry ToGeometry(this byte[] wkb, int srid)
+        public static Geometry ToGeometry(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static ILineString ToLineString(this string text, int srid)
+        public static LineString ToLineString(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static ILineString ToLineString(this byte[] wkb, int srid)
+        public static LineString ToLineString(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IPoint ToPoint(this string text, int srid)
+        public static Point ToPoint(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IPoint ToPoint(this byte[] wkb, int srid)
+        public static Point ToPoint(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IPolygon ToPolygon(this string text, int srid)
+        public static Polygon ToPolygon(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IPolygon ToPolygon(this byte[] wkb, int srid)
+        public static Polygon ToPolygon(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IMultiLineString ToMultiLineString(this string text, int srid)
+        public static MultiLineString ToMultiLineString(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IMultiLineString ToMultiLineString(this byte[] wkb, int srid)
+        public static MultiLineString ToMultiLineString(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IMultiPoint ToMultiPoint(this string text, int srid)
+        public static MultiPoint ToMultiPoint(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IMultiPoint ToMultiPoint(this byte[] wkb, int srid)
+        public static MultiPoint ToMultiPoint(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IMultiPolygon ToMultiPolygon(this string text, int srid)
+        public static MultiPolygon ToMultiPolygon(this string text, int srid)
         { throw new SpatialLinqMethodException(); }
 
-        public static IMultiPolygon ToMultiPolygon(this byte[] wkb, int srid)
+        public static MultiPolygon ToMultiPolygon(this byte[] wkb, int srid)
         { throw new SpatialLinqMethodException(); }
     }
 }

@@ -15,11 +15,9 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
-using System.Data;
 using System.Data.Common;
 using NHibernate.Engine;
 using NHibernate.SqlTypes;
@@ -49,7 +47,7 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         protected override byte[] FromGeometry(object value)
         {
-            IGeometry geometry = value as IGeometry;
+            Geometry geometry = value as Geometry;
             if (geometry == null)
             {
                 return null;
@@ -59,7 +57,7 @@ namespace NHibernate.Spatial.Type
             // and parses WKT of empty geometries always as GeometryCollection
             // (ie. "select AsText(GeomFromText('LINESTRING EMPTY', -1)) = 'GEOMETRYCOLLECTION EMPTY'").
             // Force GeometryCollection.Empty to avoid the error.
-            if (!(geometry is IGeometryCollection) && geometry.IsEmpty)
+            if (!(geometry is GeometryCollection) && geometry.IsEmpty)
             {
                 geometry = GeometryCollection.Empty;
             }
@@ -92,7 +90,7 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="value">The databse geometry value.</param>
         /// <returns></returns>
-        protected override IGeometry ToGeometry(object value)
+        protected override Geometry ToGeometry(object value)
         {
             var bytes = value as byte[];
             if (bytes == null)
@@ -101,7 +99,7 @@ namespace NHibernate.Spatial.Type
             }
 
             PostGisReader reader = new PostGisReader();
-            IGeometry geometry = reader.Read(bytes);
+            Geometry geometry = reader.Read(bytes);
             this.SetDefaultSRID(geometry);
             return geometry;
         }
@@ -177,7 +175,7 @@ namespace NHibernate.Spatial.Type
                 return ToByteArray(xml);
             }
 
-            public override System.Type ReturnedClass => typeof(IGeometry);
+            public override System.Type ReturnedClass => typeof(Geometry);
 
             public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
             {

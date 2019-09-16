@@ -15,7 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System.IO;
 
@@ -23,7 +23,7 @@ namespace NHibernate.Spatial.Type
 {
     public class MySQLReader : WKBReader
     {
-        public override IGeometry Read(Stream stream)
+        public override Geometry Read(Stream stream)
         {
             // MySQL stores geometry values using the first 4 bytes to indicate the SRID
             // followed by the WKB representation of the value; see:

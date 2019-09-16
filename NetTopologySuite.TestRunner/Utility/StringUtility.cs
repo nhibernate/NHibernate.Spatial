@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.Utilities;
 using RTools_NTS.Util;
 using System;
@@ -621,7 +621,7 @@ namespace Open.Topology.TestRunner.Utility
 
     public class GeometryDataUtil
     {
-        public static void setComponentDataToIndex(IGeometry geom)
+        public static void setComponentDataToIndex(Geometry geom)
         {
             for (int i = 0; i < geom.NumGeometries; i++)
             {

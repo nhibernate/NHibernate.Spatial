@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public Lake(long fid, string name, IGeometry shore)
+        public Lake(long fid, string name, Geometry shore)
         {
             this.Fid = fid;
             this.Name = name;
@@ -33,9 +33,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { name = value; }
         }
 
-        private IGeometry shore;
+        private Geometry shore;
 
-        public IGeometry Shore
+        public Geometry Shore
         {
             get { return shore; }
             set { shore = value; }

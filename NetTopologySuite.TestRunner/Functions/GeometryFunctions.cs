@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.Operation.Overlay.Snap;
 
 namespace Open.Topology.TestRunner.Functions
@@ -12,60 +12,60 @@ namespace Open.Topology.TestRunner.Functions
 
     public class GeometryFunctions
     {
-        public static double length(IGeometry g)
+        public static double length(Geometry g)
         {
             return g.Length;
         }
 
-        public static double area(IGeometry g)
+        public static double area(Geometry g)
         {
             return g.Area;
         }
 
-        public static bool isSimple(IGeometry g)
+        public static bool isSimple(Geometry g)
         {
             return g.IsSimple;
         }
 
-        public static bool isValid(IGeometry g)
+        public static bool isValid(Geometry g)
         {
             return g.IsValid;
         }
 
-        public static bool isRectangle(IGeometry g)
+        public static bool isRectangle(Geometry g)
         {
             return g.IsRectangle;
         }
 
-        public static IGeometry envelope(IGeometry g)
+        public static Geometry envelope(Geometry g)
         {
             return g.Envelope;
         }
 
-        public static IGeometry reverse(IGeometry g)
+        public static Geometry reverse(Geometry g)
         {
             return g.Reverse();
         }
 
-        public static IGeometry normalize(IGeometry g)
+        public static Geometry normalize(Geometry g)
         {
-            IGeometry gNorm = (IGeometry)g.Clone();
+            Geometry gNorm = g.Copy();
             gNorm.Normalize();
             return gNorm;
         }
 
-        public static IGeometry snap(IGeometry g, IGeometry g2, double distance)
+        public static Geometry snap(Geometry g, Geometry g2, double distance)
         {
-            IGeometry[] snapped = GeometrySnapper.Snap(g, g2, distance);
+            Geometry[] snapped = GeometrySnapper.Snap(g, g2, distance);
             return snapped[0];
         }
 
-        public static IGeometry getGeometryN(IGeometry g, int i)
+        public static Geometry getGeometryN(Geometry g, int i)
         {
             return g.GetGeometryN(i);
         }
 
-        public static IGeometry getCoordinates(IGeometry g)
+        public static Geometry getCoordinates(Geometry g)
         {
             var pts = g.Coordinates;
             return g.Factory.CreateMultiPointFromCoords(pts);

@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Utility;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Open.Topology.TestRunner.Functions
     {
         private static Random RND = new Random();
 
-        public static IGeometry randomPointsInGrid(IGeometry g, int nPts)
+        public static Geometry randomPointsInGrid(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
@@ -19,7 +19,7 @@ namespace Open.Topology.TestRunner.Functions
             double xLen = env.Width / nCell;
             double yLen = env.Height / nCell;
 
-            var pts = new List<IPoint>();
+            var pts = new List<Point>();
 
             for (int i = 0; i < nCell; i++)
             {
@@ -33,14 +33,14 @@ namespace Open.Topology.TestRunner.Functions
             return geomFact.BuildGeometry(pts.ToArray());
         }
 
-        public static IGeometry randomPoints(IGeometry g, int nPts)
+        public static Geometry randomPoints(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             double xLen = env.Width;
             double yLen = env.Height;
 
-            var pts = new List<IPoint>();
+            var pts = new List<Point>();
 
             for (int i = 0; i < nPts; i++)
             {
@@ -51,7 +51,7 @@ namespace Open.Topology.TestRunner.Functions
             return geomFact.BuildGeometry(pts.ToArray());
         }
 
-        public static IGeometry randomRadialPoints(IGeometry g, int nPts)
+        public static Geometry randomRadialPoints(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
@@ -62,7 +62,7 @@ namespace Open.Topology.TestRunner.Functions
             double centreX = env.MinX + xLen / 2;
             double centreY = env.MinY + yLen / 2;
 
-            var pts = new List<IPoint>();
+            var pts = new List<Point>();
 
             for (int i = 0; i < nPts; i++)
             {
@@ -76,14 +76,14 @@ namespace Open.Topology.TestRunner.Functions
             return geomFact.BuildGeometry(pts.ToArray());
         }
 
-        public static IGeometry randomSegments(IGeometry g, int nPts)
+        public static Geometry randomSegments(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             double xLen = env.Width;
             double yLen = env.Height;
 
-            var lines = new List<IGeometry>();
+            var lines = new List<Geometry>();
 
             for (int i = 0; i < nPts; i++)
             {
@@ -97,7 +97,7 @@ namespace Open.Topology.TestRunner.Functions
             return geomFact.BuildGeometry(lines);
         }
 
-        public static IGeometry randomSegmentsInGrid(IGeometry g, int nPts)
+        public static Geometry randomSegmentsInGrid(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
@@ -107,7 +107,7 @@ namespace Open.Topology.TestRunner.Functions
             double xLen = env.Width / nCell;
             double yLen = env.Height / nCell;
 
-            var lines = new List<IGeometry>();
+            var lines = new List<Geometry>();
 
             for (int i = 0; i < nCell; i++)
             {
@@ -124,7 +124,7 @@ namespace Open.Topology.TestRunner.Functions
             return geomFact.BuildGeometry(lines);
         }
 
-        public static IGeometry randomLineString(IGeometry g, int nPts)
+        public static Geometry randomLineString(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
@@ -142,7 +142,7 @@ namespace Open.Topology.TestRunner.Functions
             return geomFact.CreateLineString(pts);
         }
 
-        public static IGeometry randomRectilinearWalk(IGeometry g, int nPts)
+        public static Geometry randomRectilinearWalk(Geometry g, int nPts)
         {
             var env = FunctionsUtil.getEnvelopeOrDefault(g);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);

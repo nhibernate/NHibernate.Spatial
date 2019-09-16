@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NHibernate.Cfg;
-using NHibernate.Linq;
 using NUnit.Framework;
+using System.Linq;
 using Tests.NHibernate.Spatial.OgcSfSql11Compliance;
 using Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model;
 
@@ -25,11 +24,11 @@ namespace Tests.NHibernate.Spatial
             var query =
                 from t in session.Query<RoadSegment>()
                 where t.Fid == 102
-                select ((ILineString)t.Centerline)
+                select ((LineString)t.Centerline)
                 .GetPointN(1);
 
-            IGeometry geometry = query.Single();
-            IGeometry expected = Wkt.Read("POINT( 0 18 )");
+            Geometry geometry = query.Single();
+            Geometry expected = Wkt.Read("POINT( 0 18 )");
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
@@ -43,10 +42,10 @@ namespace Tests.NHibernate.Spatial
             var query =
                 from t in session.Query<Lake>()
                 where t.Name == "Blue Lake"
-                select ((IPolygon)t.Shore).GetInteriorRingN(1);
+                select ((Polygon)t.Shore).GetInteriorRingN(1);
 
-            IGeometry geometry = query.Single();
-            IGeometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
+            Geometry geometry = query.Single();
+            Geometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
@@ -62,8 +61,8 @@ namespace Tests.NHibernate.Spatial
                 where t.Name == "Route 75"
                 select t.Centerlines.GetGeometryN(2);
 
-            IGeometry geometry = query.Single();
-            IGeometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
+            Geometry geometry = query.Single();
+            Geometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
@@ -82,8 +81,8 @@ namespace Tests.NHibernate.Spatial
             string result = session.CreateQuery(query)
                 .UniqueResult<string>();
 
-            IGeometry geometry = Wkt.Read(result);
-            IGeometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
+            Geometry geometry = Wkt.Read(result);
+            Geometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }
@@ -97,8 +96,8 @@ namespace Tests.NHibernate.Spatial
                 where np.Name == "Ashton" && f.Name == "Green Forest"
                 select np.Boundary.Difference(f.Boundary);
 
-            IGeometry geometry = query.Single();
-            IGeometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
+            Geometry geometry = query.Single();
+            Geometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
 
             Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
         }

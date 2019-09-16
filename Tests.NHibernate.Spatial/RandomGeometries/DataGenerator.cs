@@ -1,4 +1,3 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate;
 using System;
@@ -32,7 +31,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                     {
                         for (int i = 0; i < GeneratedRowsPerEntityCount; i++)
                         {
-                            IGeometry geom = creator.Create();
+                            Geometry geom = creator.Create();
                             geom.SRID = 4326;
                             object entity = Activator.CreateInstance(entityClass, i, "feature " + i, geom);
                             session.Save(entity);
@@ -72,12 +71,12 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
         private interface IGeometryCreator
         {
-            IGeometry Create();
+            Geometry Create();
         }
 
         private class LineStringCreator : IGeometryCreator
         {
-            public IGeometry Create()
+            public Geometry Create()
             {
                 int numCoords = GetRandomNumCoords(2);
                 Coordinate[] coordinates = new Coordinate[numCoords];
@@ -91,17 +90,17 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
         private class MultiLineStringCreator : IGeometryCreator
         {
-            public IGeometry Create()
+            public Geometry Create()
             {
                 // at least two linestrings, otherwise some databases like
                 // Oracle will
                 // store multilinestring as linestring in stead.
                 int numGeoms = 1 + GetRandomNumGeoms();
                 LineStringCreator lsc = new LineStringCreator();
-                ILineString[] lines = new ILineString[numGeoms];
+                LineString[] lines = new LineString[numGeoms];
                 for (int i = 0; i < numGeoms; i++)
                 {
-                    lines[i] = (ILineString)lsc.Create();
+                    lines[i] = (LineString)lsc.Create();
                 }
                 return GeometryFactory.Default.CreateMultiLineString(lines);
             }
@@ -111,7 +110,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         // TODO -- find a better way to generate random linear rings
         private class LinearRingCreator : IGeometryCreator
         {
-            public IGeometry Create()
+            public Geometry Create()
             {
                 const int numCoords = 4;
                 Coordinate[] coordinates = new Coordinate[numCoords + 1];
@@ -124,17 +123,17 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 coordinates[3] = new Coordinate(coordinates[0].X + 10.0d,
                         coordinates[0].Y);
                 coordinates[numCoords] = coordinates[0];
-                ILinearRing lr = GeometryFactory.Default.CreateLinearRing(coordinates);
+                LinearRing lr = GeometryFactory.Default.CreateLinearRing(coordinates);
                 return lr;
             }
         }
 
         private class PolygonCreator : IGeometryCreator
         {
-            public IGeometry Create()
+            public Geometry Create()
             {
-                ILinearRing lr = (ILinearRing)(new LinearRingCreator()).Create();
-                IPolygon pg = GeometryFactory.Default.CreatePolygon(lr, null);
+                LinearRing lr = (LinearRing)(new LinearRingCreator()).Create();
+                Polygon pg = GeometryFactory.Default.CreatePolygon(lr, null);
                 return pg;
             }
         }

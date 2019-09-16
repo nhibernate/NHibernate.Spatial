@@ -1,18 +1,18 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NHibernate.Hql.Ast;
 using NHibernate.Linq.Functions;
 using NHibernate.Linq.Visitors;
 using NHibernate.Spatial.Dialect;
+using NHibernate.Util;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using NHibernate.Util;
 
 namespace NHibernate.Spatial.Linq.Functions
 {
     public abstract class SpatialPropertyGenerator<TGeometry, TResult> : BaseHqlGeneratorForProperty
-        where TGeometry : IGeometry
+        where TGeometry : Geometry
     {
         protected SpatialPropertyGenerator(params Expression<Func<TGeometry, TResult>>[] expressions)
         {

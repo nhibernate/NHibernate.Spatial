@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Result;
 using System;
 
@@ -50,18 +50,18 @@ namespace Open.Topology.TestRunner.Operations
         /// <param name="geometry">The geometry to process</param>
         /// <param name="args">The arguments to the operation (which may be typed as Strings)</param>
         /// <exception cref="Exception">If some error was encountered trying to find or process the operation</exception>
-        public IResult Invoke(XmlTestType opName, IGeometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType opName, Geometry geometry, Object[] args)
         {
             return Invoke(opName.ToString(), geometry, args);
         }
 
-        public IResult Invoke(String opName, IGeometry geometry, Object[] args)
+        public IResult Invoke(String opName, Geometry geometry, Object[] args)
         {
             RunTeeOp(opName, geometry, args);
 
             return _chainOp.Invoke(opName, geometry, args);
         }
 
-        protected abstract void RunTeeOp(String opName, IGeometry geometry, Object[] args);
+        protected abstract void RunTeeOp(String opName, Geometry geometry, Object[] args);
     }
 }

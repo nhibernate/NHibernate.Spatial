@@ -1,11 +1,11 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NHibernate.Hql.Ast;
 using NHibernate.Linq.Functions;
 using NHibernate.Linq.Visitors;
+using NHibernate.Util;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using System.Reflection;
-using NHibernate.Util;
 
 namespace NHibernate.Spatial.Linq.Functions
 {
@@ -15,7 +15,7 @@ namespace NHibernate.Spatial.Linq.Functions
         {
             SupportedMethods = new[]
             {
-                ReflectHelper.GetMethodDefinition<IGeometry>(g => g.IsNull())
+                ReflectHelper.GetMethodDefinition<Geometry>(g => g.IsNull())
             };
         }
 

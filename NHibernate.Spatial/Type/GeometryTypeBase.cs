@@ -15,7 +15,6 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
@@ -46,7 +45,7 @@ namespace NHibernate.Spatial.Type
 		/// </summary>
 		/// <param name="value">The databse geometry value.</param>
 		/// <returns></returns>
-		protected abstract IGeometry ToGeometry(object value);
+		protected abstract Geometry ToGeometry(object value);
 
 		private int srid = -1;
 		private string subtype = "GEOMETRY";
@@ -220,8 +219,8 @@ namespace NHibernate.Spatial.Type
 		/// <returns></returns>
 		bool IUserType.Equals(object a, object b)
 		{
-			IGeometry ga = a as IGeometry;
-			IGeometry gb = b as IGeometry;
+			Geometry ga = a as Geometry;
+			Geometry gb = b as Geometry;
 			if (ga != null && gb != null)
 			{
 				try
@@ -327,7 +326,7 @@ namespace NHibernate.Spatial.Type
 		/// Sets the default SRID.
 		/// </summary>
 		/// <param name="geometry">The geometry.</param>
-		protected virtual void SetDefaultSRID(IGeometry geometry)
+		protected virtual void SetDefaultSRID(Geometry geometry)
 		{
 			if (geometry.SRID <= 0 && this.SRID > 0)
 			{

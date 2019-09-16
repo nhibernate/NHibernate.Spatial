@@ -1,5 +1,4 @@
-﻿using GeoAPI.Geometries;
-using NetTopologySuite.Algorithm;
+﻿using NetTopologySuite.Algorithm;
 using NetTopologySuite.Densify;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
@@ -9,53 +8,53 @@ namespace Open.Topology.TestRunner.Functions
 {
     public class ConstructionFunctions
     {
-        public static IGeometry octagonalEnvelope(IGeometry g)
+        public static Geometry octagonalEnvelope(Geometry g)
         {
             var octEnv = new OctagonalEnvelope(g);
             return octEnv.ToGeometry(g.Factory);
         }
 
-        public static IGeometry minimumDiameter(IGeometry g)
+        public static Geometry minimumDiameter(Geometry g)
         {
             return (new MinimumDiameter(g)).Diameter;
         }
 
-        public static IGeometry minimumRectangle(IGeometry g)
+        public static Geometry minimumRectangle(Geometry g)
         {
             return (new MinimumDiameter(g)).GetMinimumRectangle();
         }
 
-        public static IGeometry minimumBoundingCircle(Geometry g)
+        public static Geometry minimumBoundingCircle(Geometry g)
         {
             return (new MinimumBoundingCircle(g)).GetCircle();
         }
 
-        public static IGeometry boundary(Geometry g)
+        public static Geometry boundary(Geometry g)
         {
             return g.Boundary;
         }
 
-        public static IGeometry convexHull(Geometry g)
+        public static Geometry convexHull(Geometry g)
         {
             return g.ConvexHull();
         }
 
-        public static IGeometry centroid(Geometry g)
+        public static Geometry centroid(Geometry g)
         {
             return g.Centroid;
         }
 
-        public static IGeometry interiorPoint(Geometry g)
+        public static Geometry interiorPoint(Geometry g)
         {
             return g.InteriorPoint;
         }
 
-        public static IGeometry densify(Geometry g, double distance)
+        public static Geometry densify(Geometry g, double distance)
         {
             return Densifier.Densify(g, distance);
         }
 
-        public static IGeometry mergeLines(Geometry g)
+        public static Geometry mergeLines(Geometry g)
         {
             var merger = new LineMerger();
             merger.Add(g);
@@ -63,7 +62,7 @@ namespace Open.Topology.TestRunner.Functions
             return g.Factory.BuildGeometry(lines);
         }
 
-        public static IGeometry extractLines(IGeometry g)
+        public static Geometry extractLines(Geometry g)
         {
             var lines = LinearComponentExtracter.GetLines(g);
             return g.Factory.BuildGeometry(lines);

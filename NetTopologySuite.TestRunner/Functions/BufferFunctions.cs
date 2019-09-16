@@ -1,6 +1,4 @@
-﻿using GeoAPI.Geometries;
-using GeoAPI.Operation.Buffer;
-using NetTopologySuite.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Operation.Buffer;
 using NetTopologySuite.Operation.Buffer.Validate;
@@ -11,12 +9,12 @@ namespace Open.Topology.TestRunner.Functions
 {
     public class BufferFunctions
     {
-        public static IGeometry Buffer(IGeometry g, double distance)
+        public static Geometry Buffer(Geometry g, double distance)
         {
             return g.Buffer(distance);
         }
 
-        public static IGeometry BufferWithParams(IGeometry g, Double? distance,
+        public static Geometry BufferWithParams(Geometry g, Double? distance,
                 int? quadrantSegments, int? capStyle, int? joinStyle, Double? mitreLimit)
         {
             double dist = 0;
@@ -31,12 +29,12 @@ namespace Open.Topology.TestRunner.Functions
             return BufferOp.Buffer(g, dist, bufParams);
         }
 
-        public static IGeometry BufferOffsetCurve(IGeometry g, double distance)
+        public static Geometry BufferOffsetCurve(Geometry g, double distance)
         {
             return BuildCurveSet(g, distance, new BufferParameters());
         }
 
-        public static IGeometry BufferOffsetCurveWithParams(IGeometry g, Double? distance,
+        public static Geometry BufferOffsetCurveWithParams(Geometry g, Double? distance,
                 int? quadrantSegments, int? capStyle, int? joinStyle, Double? mitreLimit)
         {
             double dist = 0;
@@ -51,31 +49,31 @@ namespace Open.Topology.TestRunner.Functions
             return BuildCurveSet(g, dist, bufParams);
         }
 
-        private static IGeometry BuildCurveSet(IGeometry g, double dist, IBufferParameters bufParams)
+        private static Geometry BuildCurveSet(Geometry g, double dist, BufferParameters bufParams)
         {
             // --- now construct curve
             var ocb = new OffsetCurveBuilder(g.Factory.PrecisionModel, bufParams);
             var ocsb = new OffsetCurveSetBuilder(g, dist, ocb);
             var curves = ocsb.GetCurves();
 
-            var lines = new List<IGeometry>();
+            var lines = new List<Geometry>();
             foreach (var ss in curves)
             {
                 var pts = ss.Coordinates;
                 lines.Add(g.Factory.CreateLineString(pts));
             }
-            IGeometry curve = g.Factory.BuildGeometry(lines);
+            Geometry curve = g.Factory.BuildGeometry(lines);
             return curve;
         }
 
-        public static IGeometry BufferLineSimplifier(Geometry g, double distance)
+        public static Geometry BufferLineSimplifier(Geometry g, double distance)
         {
             return BuildBufferLineSimplifiedSet(g, distance);
         }
 
-        private static IGeometry BuildBufferLineSimplifiedSet(Geometry g, double distance)
+        private static Geometry BuildBufferLineSimplifiedSet(Geometry g, double distance)
         {
-            var simpLines = new List<IGeometry>();
+            var simpLines = new List<Geometry>();
 
             var lines = LinearComponentExtracter.GetLines(g);
 
@@ -88,7 +86,7 @@ namespace Open.Topology.TestRunner.Functions
             return simpGeom;
         }
 
-        public static IGeometry BufferValidated(IGeometry g, double distance)
+        public static Geometry BufferValidated(Geometry g, double distance)
         {
             var buf = g.Buffer(distance);
             var errMsg = BufferResultValidator.IsValidMessage(g, distance, buf);

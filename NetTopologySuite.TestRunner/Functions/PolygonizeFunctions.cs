@@ -1,4 +1,3 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Operation.Polygonize;
@@ -9,7 +8,7 @@ namespace Open.Topology.TestRunner.Functions
 {
     public class PolygonizeFunctions
     {
-        public static IGeometry polygonize(IGeometry g)
+        public static Geometry polygonize(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
             var polygonizer = new Polygonizer();
@@ -19,30 +18,30 @@ namespace Open.Topology.TestRunner.Functions
             return g.Factory.CreateGeometryCollection(polyArray);
         }
 
-        public static IGeometry polygonizeDangles(IGeometry g)
+        public static Geometry polygonizeDangles(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
             Polygonizer polygonizer = new Polygonizer();
             polygonizer.Add(lines);
             var geomList = polygonizer.GetDangles()
-                .Select(x => (IGeometry) x)
+                .Select(x => (Geometry) x)
                 .ToList();
 
             return g.Factory.BuildGeometry(geomList);
         }
 
-        public static IGeometry polygonizeCutEdges(IGeometry g)
+        public static Geometry polygonizeCutEdges(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
             Polygonizer polygonizer = new Polygonizer();
             polygonizer.Add(lines);
             var geomList = polygonizer.GetCutEdges()
-                .Select(x => (IGeometry) x)
+                .Select(x => (Geometry) x)
                 .ToList();
             return g.Factory.BuildGeometry(geomList);
         }
 
-        public static IGeometry polygonizeInvalidRingLines(IGeometry g)
+        public static Geometry polygonizeInvalidRingLines(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
             Polygonizer polygonizer = new Polygonizer();
@@ -51,12 +50,12 @@ namespace Open.Topology.TestRunner.Functions
             return g.Factory.BuildGeometry(geom);
         }
 
-        public static IGeometry polygonizeAllErrors(IGeometry g)
+        public static Geometry polygonizeAllErrors(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
             Polygonizer polygonizer = new Polygonizer();
             polygonizer.Add(lines);
-            var geomList = new List<IGeometry>();
+            var geomList = new List<Geometry>();
             geomList.AddRange(polygonizer.GetDangles());
             geomList.AddRange(polygonizer.GetCutEdges());
             geomList.AddRange(polygonizer.GetInvalidRingLines());

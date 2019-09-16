@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public Forest(long fid, string name, IGeometry boundary)
+        public Forest(long fid, string name, Geometry boundary)
         {
             this.Fid = fid;
             this.Name = name;
@@ -33,9 +33,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { name = value; }
         }
 
-        private IGeometry boundary;
+        private Geometry boundary;
 
-        public IGeometry Boundary
+        public Geometry Boundary
         {
             get { return boundary; }
             set { boundary = value; }

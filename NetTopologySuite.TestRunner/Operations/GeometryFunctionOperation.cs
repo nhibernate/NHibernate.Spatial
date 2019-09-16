@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Functions;
 using Open.Topology.TestRunner.Result;
 using System;
@@ -55,7 +55,7 @@ namespace Open.Topology.TestRunner.Operations
         //    return func.ReturnType;
         //}
 
-        public IResult Invoke(XmlTestType opName, IGeometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType opName, Geometry geometry, Object[] args)
         {
             IGeometryFunction func = registry.Find(opName.ToString(), args.Length);
             if (func == null)
@@ -64,7 +64,7 @@ namespace Open.Topology.TestRunner.Operations
             return Invoke(func, geometry, args);
         }
 
-        //public IResult Invoke(String opName, IGeometry geometry, Object[] args)
+        //public IResult Invoke(String opName, Geometry geometry, Object[] args)
         //{
         //    IGeometryFunction func = registry.Find(opName, args.Length);
         //    if (func == null)
@@ -73,7 +73,7 @@ namespace Open.Topology.TestRunner.Operations
         //    return Invoke(func, geometry, args);
         //}
 
-        private IResult Invoke(IGeometryFunction func, IGeometry geometry, Object[] args)
+        private IResult Invoke(IGeometryFunction func, Geometry geometry, Object[] args)
         {
             Object[] actualArgs = argConverter.Convert(func.ParameterTypes, args);
 
@@ -81,9 +81,9 @@ namespace Open.Topology.TestRunner.Operations
             {
                 return new BooleanResult((Boolean)func.Invoke(geometry, actualArgs));
             }
-            if (typeof(IGeometry).IsAssignableFrom(func.ReturnType))
+            if (typeof(Geometry).IsAssignableFrom(func.ReturnType))
             {
-                return new GeometryResult((IGeometry)func.Invoke(geometry, actualArgs));
+                return new GeometryResult((Geometry)func.Invoke(geometry, actualArgs));
             }
             if (func.ReturnType == typeof(double))
             {
