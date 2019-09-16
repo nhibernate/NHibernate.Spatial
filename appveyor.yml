@@ -4,8 +4,8 @@
 
 # Build worker image (VM template)
 image:
-- Visual Studio 2017
-- Ubuntu
+  - Visual Studio 2017
+  - Ubuntu
 
 # scripts that run after cloning repository
 install:
