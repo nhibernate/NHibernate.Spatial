@@ -12,7 +12,7 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
-        private const string LocalDataPath = @"..\..\..\..\Tests.NHibernate.Spatial.MsSql2012\NtsTestCases\Data\vivid";
+        private const string LocalDataPath = @"../../../../Tests.NHibernate.Spatial.MsSql2012/NtsTestCases/Data/vivid";
 
         protected override string TestRelateAADataPath
         {
