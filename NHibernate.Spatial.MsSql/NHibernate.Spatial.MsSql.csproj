@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetTopologySuite.IO.SqlServerBytes" Version="1.15.1" />
+    <PackageReference Include="NetTopologySuite.IO.SqlServerBytes" Version="[1.15, 2.0)" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
   </ItemGroup>
 

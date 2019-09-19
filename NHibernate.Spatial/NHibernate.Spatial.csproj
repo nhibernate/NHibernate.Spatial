@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetTopologySuite" Version="1.15.1" />
+    <PackageReference Include="NetTopologySuite" Version="[1.15, 2.0)" />
     <PackageReference Include="NHibernate" Version="5.2.4" />
   </ItemGroup>
 
