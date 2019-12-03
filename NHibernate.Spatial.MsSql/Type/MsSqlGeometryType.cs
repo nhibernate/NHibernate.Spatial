@@ -63,7 +63,8 @@ namespace NHibernate.Spatial.Type
             public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
             {
                 var parameter = (SqlParameter) cmd.Parameters[index];
-                parameter.SqlDbType = SqlDbType.Binary;
+                parameter.SqlDbType = SqlDbType.VarBinary;
+                parameter.Size = ((byte[])value).Length;
                 parameter.Value = value;
             }
 
