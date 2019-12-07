@@ -56,11 +56,12 @@ install:
   - cmd: 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - cmd: xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
   
-  # install PostgreSQL 9.6 and PostGIS 2.3 on Ubuntu
+  # install PostgreSQL 9.6 and PostGIS 2.4 on Ubuntu
+  # note: PostGIS 2.3 not available in Ubuntu Bionic 18.04 repository
   - sh: sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main"
   - sh: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   - sh: sudo apt-get update
-  - sh: sudo apt-get -y install postgresql-9.6 postgresql-9.6-postgis-2.3
+  - sh: sudo apt-get -y install postgresql-9.6 postgresql-9.6-postgis-2.4
   - sh: sudo sed -i 's/port = [0-9]\+/port = 5432/' /etc/postgresql/9.6/main/postgresql.conf
 
 #---------------------------------#
