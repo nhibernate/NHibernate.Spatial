@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="NetTopologySuite.IO.SqlServerBytes" Version="[1.15, 2.0)" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
 
   <ItemGroup>
