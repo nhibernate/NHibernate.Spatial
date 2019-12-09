@@ -3,10 +3,10 @@
     <!-- Specify version info -->
     <!-- https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/ -->
     <VersionMajor Condition="'$(VersionMajor)' == ''">5</VersionMajor>
-    <VersionMinor Condition="'$(VersionMinor)' == ''">2</VersionMinor>
-    <VersionPatch Condition="'$(VersionPatch)' == ''">1</VersionPatch>
+    <VersionMinor Condition="'$(VersionMinor)' == ''">3</VersionMinor>
+    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
     <!-- NOTE: Set to "preXYZ" for pre-releases and leave blank for full releases -->
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''">pre002</VersionSuffix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
 
     <!-- NOTE: Generally shouldn't need to edit anything below this line -->
     <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>

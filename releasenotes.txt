@@ -13,9 +13,14 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
-Build 5.2.1
+Build 5.3.0
 ========================
 Update MsSql dialect to target .NET Standard 2.0
+Limit NTS dependency version to 1.x to avoid breaking changes in 2.x (see #106)
+
+Update NHibernate dependency version to 5.2.6
+Update System.Data.SqlClient NuGet package to 4.8.0
+Update MySql.Data NuGet package to 8.0.13
 
 Build 5.2.0
 ========================
