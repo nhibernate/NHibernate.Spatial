@@ -6,7 +6,7 @@
     <VersionMinor Condition="'$(VersionMinor)' == ''">2</VersionMinor>
     <VersionPatch Condition="'$(VersionPatch)' == ''">1</VersionPatch>
     <!-- NOTE: Set to "preXYZ" for pre-releases and leave blank for full releases -->
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''">pre001</VersionSuffix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''">pre002</VersionSuffix>
 
     <!-- NOTE: Generally shouldn't need to edit anything below this line -->
     <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
