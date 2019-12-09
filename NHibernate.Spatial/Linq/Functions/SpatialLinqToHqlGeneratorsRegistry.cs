@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NHibernate.Linq.Functions;
 
 namespace NHibernate.Spatial.Linq.Functions
@@ -65,7 +65,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class RelationsGenerator : SpatialMethodGenerator<IGeometry, bool>
+    public class RelationsGenerator : SpatialMethodGenerator<Geometry, bool>
     {
         public RelationsGenerator()
             : base(
@@ -82,7 +82,7 @@ namespace NHibernate.Spatial.Linq.Functions
                 ) { }
     }
 
-    public class AnalysisGenerator : SpatialMethodGenerator<IGeometry, IGeometry>
+    public class AnalysisGenerator : SpatialMethodGenerator<Geometry, Geometry>
     {
         public AnalysisGenerator()
             : base(
@@ -94,7 +94,7 @@ namespace NHibernate.Spatial.Linq.Functions
                 ) { }
     }
 
-    public class AnalysisDistanceGenerator : SpatialMethodGenerator<IGeometry, double>
+    public class AnalysisDistanceGenerator : SpatialMethodGenerator<Geometry, double>
     {
         public AnalysisDistanceGenerator()
             : base(g => g.Distance(null))
@@ -102,7 +102,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class AnalysisSymDifferenceGenerator : SpatialMethodGenerator<IGeometry, IGeometry>
+    public class AnalysisSymDifferenceGenerator : SpatialMethodGenerator<Geometry, Geometry>
     {
         public AnalysisSymDifferenceGenerator()
             : base("SymDifference", g => g.SymmetricDifference(null))
@@ -110,7 +110,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class ValidationsGenerator : SpatialPropertyGenerator<IGeometry, bool>
+    public class ValidationsGenerator : SpatialPropertyGenerator<Geometry, bool>
     {
         public ValidationsGenerator()
             : base(
@@ -120,7 +120,7 @@ namespace NHibernate.Spatial.Linq.Functions
                 ) { }
     }
 
-    public class ValidationsOfCurveGenerator : SpatialPropertyGenerator<ICurve, bool>
+    public class ValidationsOfCurveGenerator : SpatialPropertyGenerator<LineString, bool>
     {
         public ValidationsOfCurveGenerator()
             : base(
@@ -129,7 +129,7 @@ namespace NHibernate.Spatial.Linq.Functions
                 ) { }
     }
 
-    public class BoundaryGenerator : SpatialPropertyGenerator<IGeometry, IGeometry>
+    public class BoundaryGenerator : SpatialPropertyGenerator<Geometry, Geometry>
     {
         public BoundaryGenerator()
             : base(g => g.Boundary)
@@ -137,7 +137,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class CentroidGenerator : SpatialPropertyGenerator<IGeometry, IPoint>
+    public class CentroidGenerator : SpatialPropertyGenerator<Geometry, Point>
     {
         public CentroidGenerator()
             : base(g => g.Centroid)
@@ -145,7 +145,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class EndPointGenerator : SpatialPropertyGenerator<ICurve, IPoint>
+    public class EndPointGenerator : SpatialPropertyGenerator<LineString, Point>
     {
         public EndPointGenerator()
             : base(g => g.EndPoint)
@@ -153,7 +153,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class EnvelopeGenerator : SpatialPropertyGenerator<IGeometry, IGeometry>
+    public class EnvelopeGenerator : SpatialPropertyGenerator<Geometry, Geometry>
     {
         public EnvelopeGenerator()
             : base(g => g.Envelope)
@@ -161,7 +161,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class ExteriorRingGenerator : SpatialPropertyGenerator<IPolygon, ILineString>
+    public class ExteriorRingGenerator : SpatialPropertyGenerator<Polygon, LineString>
     {
         public ExteriorRingGenerator()
             : base(g => g.ExteriorRing)
@@ -169,7 +169,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class GeometryNGenerator : SpatialMethodGenerator<IGeometry, IGeometry>
+    public class GeometryNGenerator : SpatialMethodGenerator<Geometry, Geometry>
     {
         public GeometryNGenerator()
             : base("GeometryN", g => g.GetGeometryN(0))
@@ -177,7 +177,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class InteriorRingNGenerator : SpatialMethodGenerator<IPolygon, ILineString>
+    public class InteriorRingNGenerator : SpatialMethodGenerator<Polygon, LineString>
     {
         public InteriorRingNGenerator()
             : base("InteriorRingN", g => g.GetInteriorRingN(0))
@@ -185,7 +185,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class PointNGenerator : SpatialMethodGenerator<ILineString, IPoint>
+    public class PointNGenerator : SpatialMethodGenerator<LineString, Point>
     {
         public PointNGenerator()
             : base("PointN", g => g.GetPointN(0))
@@ -193,7 +193,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class PointOnSurfaceGenerator : SpatialPropertyGenerator<IGeometry, IPoint>
+    public class PointOnSurfaceGenerator : SpatialPropertyGenerator<Geometry, Point>
     {
         public PointOnSurfaceGenerator()
             : base(g => g.PointOnSurface)
@@ -201,7 +201,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class SimplifyGenerator : SpatialMethodGenerator<IGeometry, IGeometry>
+    public class SimplifyGenerator : SpatialMethodGenerator<Geometry, Geometry>
     {
         public SimplifyGenerator()
             : base(g => g.Simplify(0))
@@ -209,7 +209,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class StartPointGenerator : SpatialPropertyGenerator<ICurve, IPoint>
+    public class StartPointGenerator : SpatialPropertyGenerator<LineString, Point>
     {
         public StartPointGenerator()
             : base(g => g.StartPoint)
@@ -217,7 +217,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class TransformGenerator : SpatialMethodGenerator<IGeometry, IGeometry>
+    public class TransformGenerator : SpatialMethodGenerator<Geometry, Geometry>
     {
         public TransformGenerator()
             : base(g => g.Transform(0))
@@ -225,7 +225,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class GeomCollFromTextGenerator : SpatialMethodGenerator<string, IGeometryCollection>
+    public class GeomCollFromTextGenerator : SpatialMethodGenerator<string, GeometryCollection>
     {
         public GeomCollFromTextGenerator()
             : base("GeomCollFromText", g => g.ToGeometryCollection(0))
@@ -233,7 +233,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class GeomCollFromWKBGenerator : SpatialMethodGenerator<byte[], IGeometryCollection>
+    public class GeomCollFromWKBGenerator : SpatialMethodGenerator<byte[], GeometryCollection>
     {
         public GeomCollFromWKBGenerator()
             : base("GeomCollFromWKB", g => g.ToGeometryCollection(0))
@@ -241,7 +241,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class GeomFromTextGenerator : SpatialMethodGenerator<string, IGeometry>
+    public class GeomFromTextGenerator : SpatialMethodGenerator<string, Geometry>
     {
         public GeomFromTextGenerator()
             : base("GeomFromText", g => g.ToGeometry(0))
@@ -249,7 +249,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class GeomFromWKBGenerator : SpatialMethodGenerator<byte[], IGeometry>
+    public class GeomFromWKBGenerator : SpatialMethodGenerator<byte[], Geometry>
     {
         public GeomFromWKBGenerator()
             : base("GeomFromWKB", g => g.ToGeometry(0))
@@ -257,7 +257,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class LineFromTextGenerator : SpatialMethodGenerator<string, ILineString>
+    public class LineFromTextGenerator : SpatialMethodGenerator<string, LineString>
     {
         public LineFromTextGenerator()
             : base("LineFromText", g => g.ToLineString(0))
@@ -265,7 +265,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class LineFromWKBGenerator : SpatialMethodGenerator<byte[], ILineString>
+    public class LineFromWKBGenerator : SpatialMethodGenerator<byte[], LineString>
     {
         public LineFromWKBGenerator()
             : base("LineFromWKB", g => g.ToLineString(0))
@@ -273,7 +273,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class PointFromTextGenerator : SpatialMethodGenerator<string, IPoint>
+    public class PointFromTextGenerator : SpatialMethodGenerator<string, Point>
     {
         public PointFromTextGenerator()
             : base("PointFromText", g => g.ToPoint(0))
@@ -281,7 +281,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class PointFromWKBGenerator : SpatialMethodGenerator<byte[], IPoint>
+    public class PointFromWKBGenerator : SpatialMethodGenerator<byte[], Point>
     {
         public PointFromWKBGenerator()
             : base("PointFromWKB", g => g.ToPoint(0))
@@ -289,7 +289,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class PolyFromTextGenerator : SpatialMethodGenerator<string, IPolygon>
+    public class PolyFromTextGenerator : SpatialMethodGenerator<string, Polygon>
     {
         public PolyFromTextGenerator()
             : base("PolyFromText", g => g.ToPolygon(0))
@@ -297,7 +297,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class PolyFromWKBGenerator : SpatialMethodGenerator<byte[], IPolygon>
+    public class PolyFromWKBGenerator : SpatialMethodGenerator<byte[], Polygon>
     {
         public PolyFromWKBGenerator()
             : base("PolyFromWKB", g => g.ToPolygon(0))
@@ -305,7 +305,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class MLineFromTextGenerator : SpatialMethodGenerator<string, IMultiLineString>
+    public class MLineFromTextGenerator : SpatialMethodGenerator<string, MultiLineString>
     {
         public MLineFromTextGenerator()
             : base("MLineFromText", g => g.ToMultiLineString(0))
@@ -313,7 +313,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class MLineFromWKBGenerator : SpatialMethodGenerator<byte[], IMultiLineString>
+    public class MLineFromWKBGenerator : SpatialMethodGenerator<byte[], MultiLineString>
     {
         public MLineFromWKBGenerator()
             : base("MLineFromWKB", g => g.ToMultiLineString(0))
@@ -321,7 +321,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class MPointFromTextGenerator : SpatialMethodGenerator<string, IMultiPoint>
+    public class MPointFromTextGenerator : SpatialMethodGenerator<string, MultiPoint>
     {
         public MPointFromTextGenerator()
             : base("MPointFromText", g => g.ToMultiPoint(0))
@@ -329,7 +329,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class MPointFromWKBGenerator : SpatialMethodGenerator<byte[], IMultiPoint>
+    public class MPointFromWKBGenerator : SpatialMethodGenerator<byte[], MultiPoint>
     {
         public MPointFromWKBGenerator()
             : base("MPointFromWKB", g => g.ToMultiPoint(0))
@@ -337,7 +337,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class MPolyFromTextGenerator : SpatialMethodGenerator<string, IMultiPolygon>
+    public class MPolyFromTextGenerator : SpatialMethodGenerator<string, MultiPolygon>
     {
         public MPolyFromTextGenerator()
             : base("MPolyFromText", g => g.ToMultiPolygon(0))
@@ -345,7 +345,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class MPolyFromWKBGenerator : SpatialMethodGenerator<byte[], IMultiPolygon>
+    public class MPolyFromWKBGenerator : SpatialMethodGenerator<byte[], MultiPolygon>
     {
         public MPolyFromWKBGenerator()
             : base("MPolyFromWKB", g => g.ToMultiPolygon(0))
@@ -353,7 +353,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class AsBinaryGenerator : SpatialMethodGenerator<IGeometry, byte[]>
+    public class AsBinaryGenerator : SpatialMethodGenerator<Geometry, byte[]>
     {
         public AsBinaryGenerator()
             : base(g => g.AsBinary())
@@ -361,7 +361,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class AsTextGenerator : SpatialMethodGenerator<IGeometry, string>
+    public class AsTextGenerator : SpatialMethodGenerator<Geometry, string>
     {
         public AsTextGenerator()
             : base(g => g.AsText())
@@ -369,7 +369,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class GeometryTypeGenerator : SpatialPropertyGenerator<IGeometry, string>
+    public class GeometryTypeGenerator : SpatialPropertyGenerator<Geometry, string>
     {
         public GeometryTypeGenerator()
             : base(g => g.GeometryType)
@@ -377,7 +377,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class AreaGenerator : SpatialPropertyGenerator<IGeometry, double>
+    public class AreaGenerator : SpatialPropertyGenerator<Geometry, double>
     {
         public AreaGenerator()
             : base(g => g.Area)
@@ -385,7 +385,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class LengthGenerator : SpatialPropertyGenerator<IGeometry, double>
+    public class LengthGenerator : SpatialPropertyGenerator<Geometry, double>
     {
         public LengthGenerator()
             : base(g => g.Length)
@@ -393,7 +393,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class XGenerator : SpatialPropertyGenerator<IPoint, double>
+    public class XGenerator : SpatialPropertyGenerator<Point, double>
     {
         public XGenerator()
             : base(g => g.X)
@@ -401,7 +401,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class YGenerator : SpatialPropertyGenerator<IPoint, double>
+    public class YGenerator : SpatialPropertyGenerator<Point, double>
     {
         public YGenerator()
             : base(g => g.Y)
@@ -409,7 +409,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class SRIDGenerator : SpatialPropertyGenerator<IGeometry, int>
+    public class SRIDGenerator : SpatialPropertyGenerator<Geometry, int>
     {
         public SRIDGenerator()
             : base(g => g.SRID)
@@ -417,7 +417,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class DimensionGenerator : SpatialMethodGenerator<IGeometry, int>
+    public class DimensionGenerator : SpatialMethodGenerator<Geometry, int>
     {
         public DimensionGenerator()
             : base("Dimension", g => g.GetDimension())
@@ -425,7 +425,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class NumGeometriesGenerator : SpatialPropertyGenerator<IGeometry, int>
+    public class NumGeometriesGenerator : SpatialPropertyGenerator<Geometry, int>
     {
         public NumGeometriesGenerator()
             : base(g => g.NumGeometries)
@@ -433,7 +433,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class NumInteriorRingsGenerator : SpatialPropertyGenerator<IPolygon, int>
+    public class NumInteriorRingsGenerator : SpatialPropertyGenerator<Polygon, int>
     {
         public NumInteriorRingsGenerator()
             : base(g => g.NumInteriorRings)
@@ -441,7 +441,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class NumPointsGenerator : SpatialPropertyGenerator<IGeometry, int>
+    public class NumPointsGenerator : SpatialPropertyGenerator<Geometry, int>
     {
         public NumPointsGenerator()
             : base(g => g.NumPoints)
@@ -449,7 +449,7 @@ namespace NHibernate.Spatial.Linq.Functions
         }
     }
 
-    public class RelateGenerator : SpatialMethodGenerator<IGeometry, bool>
+    public class RelateGenerator : SpatialMethodGenerator<Geometry, bool>
     {
         public RelateGenerator()
             : base(g => g.Relate(null, ""))

@@ -27,7 +27,7 @@ using NHibernate.Engine;
 namespace NHibernate.Spatial.Type
 {
 	/// <summary>
-	/// This class maps MySQLDbType.Geometry to and from IGeometry
+	/// This class maps MySQLDbType.Geometry to and from Geometry
 	/// </summary>
 	[Serializable]
 	public class MySQL57GeometryAdapterType : ImmutableType

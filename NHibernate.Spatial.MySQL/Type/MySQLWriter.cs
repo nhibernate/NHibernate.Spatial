@@ -15,8 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
-using GeoAPI.IO;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
 using System.IO;
@@ -25,19 +24,19 @@ namespace NHibernate.Spatial.Type
 {
     public class MySQLWriter : WKBWriter
     {
-        protected override int SetByteStream(IGeometry geometry)
+        protected override int SetByteStream(Geometry geometry)
         {
             return base.SetByteStream(geometry) + 4; // sizeof(int)
         }
 
-        public override byte[] Write(IGeometry geometry)
+        public override byte[] Write(Geometry geometry)
         {
             byte[] bytes = new byte[SetByteStream(geometry)];
             Write(geometry, new MemoryStream(bytes));
             return bytes;
         }
 
-        public override void Write(IGeometry geometry, Stream stream)
+        public override void Write(Geometry geometry, Stream stream)
         {
             BinaryWriter writer;
             if (this.EncodingType == ByteOrder.LittleEndian)
@@ -62,7 +61,7 @@ namespace NHibernate.Spatial.Type
             }
         }
 
-        protected void WriteGeometryCollectionEmpty(IGeometry geometry, BinaryWriter writer)
+        protected void WriteGeometryCollectionEmpty(Geometry geometry, BinaryWriter writer)
         {
             WriteByteOrder(writer);
             if (geometry.Coordinate == null || Double.IsNaN(geometry.Coordinate.Z))

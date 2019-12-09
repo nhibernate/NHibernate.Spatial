@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 
 namespace Open.Topology.TestRunner.Operations
 {
@@ -18,10 +18,10 @@ namespace Open.Topology.TestRunner.Operations
             set { _tolerance = value; }
         }
 
-        public bool Match(IGeometry a, IGeometry b)
+        public bool Match(Geometry a, Geometry b)
         {
-            var aClone = (IGeometry)a.Clone();
-            var bClone = (IGeometry)b.Clone();
+            var aClone = a.Copy();
+            var bClone = b.Copy();
             aClone.Normalize();
             bClone.Normalize();
             return aClone.EqualsExact(bClone, _tolerance);

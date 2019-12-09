@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public MapNeatline(long fid, IGeometry neatline)
+        public MapNeatline(long fid, Geometry neatline)
         {
             this.Fid = fid;
             this.Neatline = neatline;
@@ -24,9 +24,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { fid = value; }
         }
 
-        private IGeometry neatline;
+        private Geometry neatline;
 
-        public IGeometry Neatline
+        public Geometry Neatline
         {
             get { return neatline; }
             set { neatline = value; }

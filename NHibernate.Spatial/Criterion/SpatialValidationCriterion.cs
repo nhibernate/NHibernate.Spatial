@@ -15,7 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.Spatial.Dialect;
@@ -77,9 +77,9 @@ namespace NHibernate.Spatial.Criterion
 			ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
 			string[] columnsUsingProjection = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
 			IType typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, this.propertyName);
-			if (!typeof(IGeometry).IsAssignableFrom(typeUsingProjection.ReturnedClass))
+			if (!typeof(Geometry).IsAssignableFrom(typeUsingProjection.ReturnedClass))
 			{
-				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", GetType(), this.propertyName, typeof(IGeometry), typeUsingProjection.ReturnedClass));
+				throw new QueryException(string.Format("Type mismatch in {0}: {1} expected type {2}, actual type {3}", GetType(), this.propertyName, typeof(Geometry), typeUsingProjection.ReturnedClass));
 			}
 			if (typeUsingProjection.IsCollectionType)
 			{

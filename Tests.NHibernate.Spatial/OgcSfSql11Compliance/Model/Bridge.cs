@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public Bridge(long fid, string name, IGeometry position)
+        public Bridge(long fid, string name, Geometry position)
         {
             this.Fid = fid;
             this.Name = name;
@@ -33,9 +33,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { name = value; }
         }
 
-        private IGeometry position;
+        private Geometry position;
 
-        public IGeometry Position
+        public Geometry Position
         {
             get { return position; }
             set { position = value; }

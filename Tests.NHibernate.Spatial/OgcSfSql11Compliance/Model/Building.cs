@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public Building(long fid, string address, IGeometry position, IGeometry footprint)
+        public Building(long fid, string address, Geometry position, Geometry footprint)
         {
             this.Fid = fid;
             this.Address = address;
@@ -34,17 +34,17 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { address = value; }
         }
 
-        private IGeometry position;
+        private Geometry position;
 
-        public IGeometry Position
+        public Geometry Position
         {
             get { return position; }
             set { position = value; }
         }
 
-        private IGeometry footprint;
+        private Geometry footprint;
 
-        public IGeometry Footprint
+        public Geometry Footprint
         {
             get { return footprint; }
             set { footprint = value; }

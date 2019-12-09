@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public Stream(long fid, string name, IGeometry centerline)
+        public Stream(long fid, string name, Geometry centerline)
         {
             this.Fid = fid;
             this.Name = name;
@@ -33,9 +33,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { name = value; }
         }
 
-        private IGeometry centerline;
+        private Geometry centerline;
 
-        public IGeometry Centerline
+        public Geometry Centerline
         {
             get { return centerline; }
             set { centerline = value; }

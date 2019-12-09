@@ -1,6 +1,6 @@
-﻿using GeoAPI.Geometries;
-using GeoAPI.Operation.Buffer;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
+using NetTopologySuite.Operation.Buffer;
 using NetTopologySuite.Operation.Buffer.Validate;
 using NetTopologySuite.Utilities;
 using Open.Topology.TestRunner.Result;
@@ -10,7 +10,7 @@ namespace Open.Topology.TestRunner.Operations
 {
     /// <summary>
     /// A <see cref="IGeometryOperation"/> which validates the results of the
-    /// <see cref="IGeometry"/> <tt>buffer()</tt> method.
+    /// <see cref="Geometry"/> <tt>buffer()</tt> method.
     /// If an invalid result is found, an exception is thrown (this is the most
     /// convenient and noticeable way of flagging the problem when using the TestRunner).
     /// All other Geometry methods are executed normally.
@@ -64,7 +64,7 @@ namespace Open.Topology.TestRunner.Operations
         /// <param name="geometry">The geometry to process</param>
         /// <param name="args">The arguments to the operation (which may be typed as Strings)</param>
         /// <exception cref="Exception">If some error was encountered trying to find or process the operation</exception>
-        public IResult Invoke(XmlTestType op, IGeometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType op, Geometry geometry, Object[] args)
         {
             string opName = op.ToString();
             bool isBufferOp = opName.Equals("buffer", StringComparison.InvariantCultureIgnoreCase);
@@ -87,9 +87,9 @@ namespace Open.Topology.TestRunner.Operations
                 _endCapStyle = (EndCapStyle)Int32.Parse((String)args[2]);
         }
 
-        private IResult InvokeBufferOpValidated(IGeometry geometry /*, Object[] args*/)
+        private IResult InvokeBufferOpValidated(Geometry geometry /*, Object[] args*/)
         {
-            IGeometry result = InvokeBuffer(geometry);
+            Geometry result = InvokeBuffer(geometry);
 
             // validate
             Validate(geometry, result);
@@ -106,7 +106,7 @@ namespace Open.Topology.TestRunner.Operations
             return new GeometryResult(result);
         }
 
-        private IGeometry InvokeBuffer(IGeometry geom)
+        private Geometry InvokeBuffer(Geometry geom)
         {
             if (_argCount == 1)
             {
@@ -120,7 +120,7 @@ namespace Open.Topology.TestRunner.Operations
             return null;
         }
 
-        private void Validate(IGeometry geom, IGeometry buffer)
+        private void Validate(Geometry geom, Geometry buffer)
         {
             if (IsEmptyBufferExpected(geom))
             {
@@ -135,13 +135,13 @@ namespace Open.Topology.TestRunner.Operations
             // need special check for negative buffers which disappear.  Somehow need to find maximum inner circle - via skeleton?
         }
 
-        private bool IsEmptyBufferExpected(IGeometry geom)
+        private bool IsEmptyBufferExpected(Geometry geom)
         {
             var isNegativeBufferOfNonAreal = (int)geom.Dimension < 2 && _distance <= 0.0;
             return isNegativeBufferOfNonAreal;
         }
 
-        private static void CheckEmpty(IGeometry geom)
+        private static void CheckEmpty(Geometry geom)
         {
             if (geom.IsEmpty)
             {
@@ -150,7 +150,7 @@ namespace Open.Topology.TestRunner.Operations
             ReportError("Expected empty buffer result", null);
         }
 
-        private void CheckContainment(IGeometry geom, IGeometry buffer)
+        private void CheckContainment(Geometry geom, Geometry buffer)
         {
             var isCovered = true;
             var errMsg = "";
@@ -178,7 +178,7 @@ namespace Open.Topology.TestRunner.Operations
             }
         }
 
-        private static void CheckDistance(IGeometry geom, double distance, IGeometry buffer)
+        private static void CheckDistance(Geometry geom, double distance, Geometry buffer)
         {
             var bufValidator = new BufferResultValidator(geom, distance, buffer);
             if (!bufValidator.IsValid())

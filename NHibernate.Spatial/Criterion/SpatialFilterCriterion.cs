@@ -15,7 +15,6 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate.Criterion;
 using NHibernate.Engine;
@@ -35,7 +34,7 @@ namespace NHibernate.Spatial.Criterion
     public class SpatialFilterCriterion : AbstractCriterion
     {
         private readonly string propertyName;
-        private readonly IGeometry envelope;
+        private readonly Geometry envelope;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialFilterCriterion"/> class.
@@ -55,7 +54,7 @@ namespace NHibernate.Spatial.Criterion
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="envelope">The envelope.</param>
-        public SpatialFilterCriterion(string propertyName, IGeometry envelope)
+        public SpatialFilterCriterion(string propertyName, Geometry envelope)
         {
             this.propertyName = propertyName;
             this.envelope = envelope;

@@ -1,4 +1,3 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Operations;
 using Open.Topology.TestRunner.Result;
@@ -283,7 +282,7 @@ namespace Open.Topology.TestRunner
 
         protected bool ParseGeometry(Target targetType, string targetText, XmlTest xmlTestItem)
         {
-            IGeometry geom;
+            Geometry geom;
             try
             {
                 geom = _objReader.Read(targetText);

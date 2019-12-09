@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.Model
         {
         }
 
-        public Simple(string description, IGeometry geometry)
+        public Simple(string description, Geometry geometry)
         {
             this.Description = description;
             this.Geometry = geometry;
@@ -32,9 +32,9 @@ namespace Tests.NHibernate.Spatial.Model
             set { description = value; }
         }
 
-        private IGeometry geometry;
+        private Geometry geometry;
 
-        public virtual IGeometry Geometry
+        public virtual Geometry Geometry
         {
             get { return geometry; }
             set { geometry = value; }

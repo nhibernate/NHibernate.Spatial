@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Open.Topology.TestRunner.Result
@@ -12,14 +12,14 @@ namespace Open.Topology.TestRunner.Result
     {
         ///<inheritdoc/>
         ///<remarks>Always reports a match.</remarks>
-        public bool IsMatch(IGeometry geom, String opName, Object[] args,
+        public bool IsMatch(Geometry geom, String opName, Object[] args,
                             TResult actualResult, TResult expectedResult,
                             double tolerance)
         {
             return true;
         }
 
-        public bool IsMatch(IGeometry geom, string opName, object[] args, IResult actualResult, IResult expectedResult, double tolerance)
+        public bool IsMatch(Geometry geom, string opName, object[] args, IResult actualResult, IResult expectedResult, double tolerance)
         {
             return true;
         }

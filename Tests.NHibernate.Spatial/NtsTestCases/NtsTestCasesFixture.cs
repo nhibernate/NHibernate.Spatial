@@ -1,4 +1,3 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
@@ -100,7 +99,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 						case XmlTestType.ConvexHull:
 						case XmlTestType.Envelope:
 						case XmlTestType.InteriorPoint:
-							ntsTestCase.GeometryResult = (IGeometry)test.Result;
+							ntsTestCase.GeometryResult = (Geometry)test.Result;
 							break;
 
 						case XmlTestType.Contains:
@@ -172,7 +171,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		/// </summary>
 		/// <param name="geometry"></param>
 		/// <returns></returns>
-		private static IGeometry Prepare(IGeometry geometry)
+		private static Geometry Prepare(Geometry geometry)
 		{
 			if (geometry == null)
 			{
@@ -192,11 +191,11 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 		/// </summary>
 		/// <param name="geometry"></param>
 		/// <returns></returns>
-		private static IGeometry ConvertToSqlGeometryType(IGeometry geometry)
+		private static Geometry ConvertToSqlGeometryType(Geometry geometry)
 		{
-			if (geometry is ILinearRing)
+			if (geometry is LinearRing)
 			{
-				return new Polygon((ILinearRing)geometry, (ILinearRing[])null);
+				return new Polygon((LinearRing)geometry, (LinearRing[])null);
 			}
 			return geometry;
 		}
@@ -255,8 +254,8 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 			foreach (object[] result in results)
 			{
 				string description = (string)result[0];
-				IGeometry expected = (IGeometry)result[1];
-				IGeometry operation = (IGeometry)result[2];
+				Geometry expected = (Geometry)result[1];
+				Geometry operation = (Geometry)result[2];
 
 				expected.Normalize();
 				operation.Normalize();
@@ -284,8 +283,8 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 			foreach (object[] result in results)
 			{
 				string description = (string)result[0];
-				IGeometry expected = (IGeometry)result[1];
-				IGeometry operation = (IGeometry)result[2];
+				Geometry expected = (Geometry)result[1];
+				Geometry operation = (Geometry)result[2];
 
 				expected.Normalize();
 				operation.Normalize();

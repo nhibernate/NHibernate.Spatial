@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.RandomGeometries.Model
@@ -10,13 +10,13 @@ namespace Tests.NHibernate.Spatial.RandomGeometries.Model
         {
         }
 
-        public PolygonEntity(string name, IGeometry geometry)
+        public PolygonEntity(string name, Geometry geometry)
         {
             this.Name = name;
             this.Geometry = geometry;
         }
 
-        public PolygonEntity(long id, string name, IGeometry geometry)
+        public PolygonEntity(long id, string name, Geometry geometry)
         {
             this.Id = id;
             this.Name = name;
@@ -39,9 +39,9 @@ namespace Tests.NHibernate.Spatial.RandomGeometries.Model
             set { name = value; }
         }
 
-        private IGeometry geometry;
+        private Geometry geometry;
 
-        public virtual IGeometry Geometry
+        public virtual Geometry Geometry
         {
             get { return this.geometry; }
             set { this.geometry = value; }

@@ -15,7 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.Spatial.Dialect;
@@ -38,7 +38,7 @@ namespace NHibernate.Spatial.Criterion
         //private readonly object[] arguments;
         private readonly double value;
 
-        private readonly IGeometry geometry;
+        private readonly Geometry geometry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialAnalysisProjection"/> class.
@@ -96,7 +96,7 @@ namespace NHibernate.Spatial.Criterion
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="analysis">The analysis.</param>
         /// <param name="geometry">The arguments.</param>
-        public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, IGeometry geometry)
+        public SpatialAnalysisProjection(string propertyName, SpatialAnalysis analysis, Geometry geometry)
             : base(propertyName)
         {
             this.analysis = analysis;

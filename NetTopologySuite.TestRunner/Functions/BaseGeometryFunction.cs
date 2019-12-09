@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Utility;
 using System;
 using System.Text;
@@ -18,7 +18,7 @@ namespace Open.Topology.TestRunner.Functions
 		public static bool IsBinaryGeomFunction(IGeometryFunction func)
 		{
 			return func.ParameterTypes.Length >= 1
-				   && typeof(IGeometry).IsAssignableFrom(func.ParameterTypes[0]);
+				   && typeof(Geometry).IsAssignableFrom(func.ParameterTypes[0]);
 		}
 
 		protected String category;
@@ -97,7 +97,7 @@ namespace Open.Topology.TestRunner.Functions
 			return (int)args[index];
 		}
 
-		public abstract Object Invoke(IGeometry geom, Object[] args);
+		public abstract Object Invoke(Geometry geom, Object[] args);
 
 		/// <summary>
 		/// Two functions are the same if they have the

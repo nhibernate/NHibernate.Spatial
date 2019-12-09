@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NHibernate.Criterion;
 
 namespace NHibernate.Spatial.Criterion.Lambda
@@ -39,7 +39,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// <summary>
         /// Apply a "filter" constraint to the named property
         /// </summary>
-        public AbstractCriterion Filter(IGeometry value)
+        public AbstractCriterion Filter(Geometry value)
         {
             return this.Process(SpatialRestrictions.Filter(this.propertyName, value));
         }

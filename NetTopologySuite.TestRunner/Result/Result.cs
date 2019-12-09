@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
 
@@ -116,24 +116,24 @@ namespace Open.Topology.TestRunner.Result
         }
     }
 
-    public class GeometryResult : IResult<IGeometry>
+    public class GeometryResult : IResult<Geometry>
     {
-        public GeometryResult(IGeometry result)
+        public GeometryResult(Geometry result)
         {
             Value = result;
         }
 
-        public IGeometry Value { get; private set; }
+        public Geometry Value { get; private set; }
 
         public bool Equals(IResult other, double tolerance)
         {
-            if (!(other is IResult<IGeometry>))
+            if (!(other is IResult<Geometry>))
                 return false;
-            var otherGeometryResult = (IResult<IGeometry>)other;
+            var otherGeometryResult = (IResult<Geometry>)other;
             var otherGeometry = otherGeometryResult.Value;
 
-            var thisGeometryClone = (IGeometry)Value.Clone();
-            var otherGeometryClone = (IGeometry)otherGeometry.Clone();
+            var thisGeometryClone = Value.Copy();
+            var otherGeometryClone = otherGeometry.Copy();
             thisGeometryClone.Normalize();
             otherGeometryClone.Normalize();
 

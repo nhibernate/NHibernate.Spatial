@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public RoadSegment(long fid, string name, string aliases, int numLanes, IGeometry centerline)
+        public RoadSegment(long fid, string name, string aliases, int numLanes, Geometry centerline)
         {
             this.Fid = fid;
             this.Name = name;
@@ -51,9 +51,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { numLanes = value; }
         }
 
-        private IGeometry centerline;
+        private Geometry centerline;
 
-        public IGeometry Centerline
+        public Geometry Centerline
         {
             get { return centerline; }
             set { centerline = value; }

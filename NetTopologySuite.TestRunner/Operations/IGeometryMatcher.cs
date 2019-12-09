@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 
 namespace Open.Topology.TestRunner.Operations
 {
@@ -11,6 +11,6 @@ namespace Open.Topology.TestRunner.Operations
     {
         double Tolerance { get; set; }
 
-        bool Match(IGeometry a, IGeometry b);
+        bool Match(Geometry a, Geometry b);
     }
 }

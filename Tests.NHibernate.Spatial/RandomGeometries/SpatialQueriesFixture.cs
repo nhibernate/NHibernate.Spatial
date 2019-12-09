@@ -1,11 +1,10 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate;
 using NHibernate.Spatial.Criterion;
 using NHibernate.Spatial.Dialect;
 using NUnit.Framework;
 using System;
 using System.Collections;
-using System.Data;
 using Tests.NHibernate.Spatial.RandomGeometries.Model;
 
 namespace Tests.NHibernate.Spatial.RandomGeometries
@@ -16,7 +15,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
     public abstract class SpatialQueriesFixture : AbstractFixture
     {
         private const string FilterString = "POLYGON((0.0 0.0, 25000.0 0.0, 25000.0 25000.0, 0.0 25000.0, 0.0 0.0))";
-        private IGeometry _filter;
+        private Geometry _filter;
 
         protected ISession Session;
 
@@ -305,8 +304,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
             foreach (object[] item in results)
             {
-                var env = (IGeometry)item[0];
-                var g = (IGeometry)item[1];
+                var env = (Geometry)item[0];
+                var g = (Geometry)item[1];
                 Assert.IsTrue(g.Envelope.EqualsTopologically(env));
             }
         }
@@ -360,8 +359,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 .List();
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var bound = (IGeometry)item[1];
+                var geom = (Geometry)item[0];
+                var bound = (Geometry)item[1];
                 Assert.IsTrue(geom.Boundary.EqualsTopologically(bound));
             }
         }
@@ -401,7 +400,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             foreach (object[] item in results)
             {
                 var distance = (double)item[0];
-                var geom = (IGeometry)item[1];
+                var geom = (Geometry)item[1];
                 Assert.AreEqual(geom.Distance(_filter), distance, 0.003);
             }
         }
@@ -429,7 +428,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             {
                 var distance = (double)item[0];
                 Assert.Greater(distance, minDistance);
-                var geom = (IGeometry)item[1];
+                var geom = (Geometry)item[1];
                 Assert.AreEqual(geom.Distance(_filter), distance, 0.003);
             }
         }
@@ -449,9 +448,9 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var buffer = (IGeometry)item[1];
-                IGeometry ntsBuffer = geom.Buffer(distance);
+                var geom = (Geometry)item[0];
+                var buffer = (Geometry)item[1];
+                Geometry ntsBuffer = geom.Buffer(distance);
 
                 buffer.Normalize();
                 ntsBuffer.Normalize();
@@ -474,9 +473,9 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var cvh = (IGeometry)item[1];
-                IGeometry ntsCvh = geom.ConvexHull();
+                var geom = (Geometry)item[0];
+                var cvh = (Geometry)item[1];
+                Geometry ntsCvh = geom.ConvexHull();
 
                 Assert.IsTrue(cvh.Contains(geom));
 
@@ -502,8 +501,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var diff = (IGeometry)item[1];
+                var geom = (Geometry)item[0];
+                var diff = (Geometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -513,7 +512,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 diff.Normalize();
-                IGeometry ntsDiff = geom.Difference(_filter);
+                Geometry ntsDiff = geom.Difference(_filter);
                 ntsDiff.Normalize();
 
                 if (ntsDiff.EqualsExact(diff, 0.5))
@@ -535,8 +534,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var intersect = (IGeometry)item[1];
+                var geom = (Geometry)item[0];
+                var intersect = (Geometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -546,7 +545,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 intersect.Normalize();
-                IGeometry ntsIntersect = geom.Intersection(_filter);
+                Geometry ntsIntersect = geom.Intersection(_filter);
                 ntsIntersect.Normalize();
 
                 if (ntsIntersect.EqualsExact(intersect, 0.5))
@@ -568,8 +567,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var symDiff = (IGeometry)item[1];
+                var geom = (Geometry)item[0];
+                var symDiff = (Geometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -579,7 +578,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 symDiff.Normalize();
-                IGeometry ntsSymDiff = geom.SymmetricDifference(_filter);
+                Geometry ntsSymDiff = geom.SymmetricDifference(_filter);
                 ntsSymDiff.Normalize();
 
                 if (ntsSymDiff.EqualsExact(symDiff, 0.5))
@@ -601,8 +600,8 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             int count = 0;
             foreach (object[] item in results)
             {
-                var geom = (IGeometry)item[0];
-                var union = (IGeometry)item[1];
+                var geom = (Geometry)item[0];
+                var union = (Geometry)item[1];
 
                 // some databases give a null object if the difference is the
                 // null-set
@@ -612,7 +611,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 union.Normalize();
-                IGeometry ntsUnion = geom.Union(_filter);
+                Geometry ntsUnion = geom.Union(_filter);
                 ntsUnion.Normalize();
 
                 if (ntsUnion.EqualsExact(union, 0.5))
@@ -621,9 +620,9 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             Assert.Greater(count, 0);
         }
 
-        private static bool IsApproximateCoincident(IGeometry g1, IGeometry g2, double tolerance)
+        private static bool IsApproximateCoincident(Geometry g1, Geometry g2, double tolerance)
         {
-            IGeometry symdiff;
+            Geometry symdiff;
             if (g1.Dimension < Dimension.Surface && g2.Dimension < Dimension.Surface)
             {
                 g1 = g1.Buffer(tolerance);

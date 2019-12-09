@@ -16,9 +16,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-using GeoAPI.Geometries;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
+using NetTopologySuite.Geometries;
 using NHibernate.Type;
 
 namespace NHibernate.Spatial.Type
@@ -35,7 +35,7 @@ namespace NHibernate.Spatial.Type
 		{
 		}
 
-		protected override void SetDefaultSRID(IGeometry geometry)
+		protected override void SetDefaultSRID(Geometry geometry)
 		{
 			base.SetDefaultSRID(geometry);
 			if (geometry.SRID == -1)
@@ -51,7 +51,7 @@ namespace NHibernate.Spatial.Type
 		/// <returns></returns>
 		protected override MySqlGeometry? FromGeometry(object value)
 		{
-			IGeometry geometry = value as IGeometry;
+			Geometry geometry = value as Geometry;
 			if (geometry == null)
 			{
 				return null;
@@ -75,7 +75,7 @@ namespace NHibernate.Spatial.Type
 		/// </summary>
 		/// <param name="value">The database geometry value.</param>
 		/// <returns></returns>
-		protected override IGeometry ToGeometry(object value)
+		protected override Geometry ToGeometry(object value)
 		{
 			MySqlGeometry? bytes = value as MySqlGeometry?;
 
@@ -85,7 +85,7 @@ namespace NHibernate.Spatial.Type
 		    }
 
 			MySQLReader reader = new MySQLReader();
-			IGeometry geometry = reader.Read(bytes.Value.Value);
+			Geometry geometry = reader.Read(bytes.Value.Value);
 			SetDefaultSRID(geometry);
 			return geometry;
 		}

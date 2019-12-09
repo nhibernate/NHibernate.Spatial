@@ -1,4 +1,4 @@
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using System;
 
 namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
@@ -10,7 +10,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
         {
         }
 
-        public DividedRoute(long fid, string name, int numLanes, IGeometry centerlines)
+        public DividedRoute(long fid, string name, int numLanes, Geometry centerlines)
         {
             this.Fid = fid;
             this.Name = name;
@@ -42,9 +42,9 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
             set { numLanes = value; }
         }
 
-        private IGeometry centerlines;
+        private Geometry centerlines;
 
-        public IGeometry Centerlines
+        public Geometry Centerlines
         {
             get { return centerlines; }
             set { centerlines = value; }

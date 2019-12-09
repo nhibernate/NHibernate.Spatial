@@ -1,4 +1,3 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using NHibernate;
 using NHibernate.Criterion;
@@ -70,8 +69,8 @@ namespace Tests.NHibernate.Spatial
 
             object[] result = (object[])results[0];
 
-            IGeometry expected = Wkt.Read("POLYGON((1 0, 1 1, 1 2, 2 2, 3 2, 3 1, 3 0, 2 0, 1 0))");
-            IGeometry aggregated = (IGeometry)result[1];
+            Geometry expected = Wkt.Read("POLYGON((1 0, 1 1, 1 2, 2 2, 3 2, 3 1, 3 0, 2 0, 1 0))");
+            Geometry aggregated = (Geometry)result[1];
 
             Assert.AreEqual(4, result[0]);
             Assert.IsTrue(expected.EqualsTopologically(aggregated));
@@ -116,11 +115,11 @@ namespace Tests.NHibernate.Spatial
 
             int countAA = (int)resultAA[1];
             int countBB = (int)resultBB[1];
-            IGeometry aggregatedAA = (IGeometry)resultAA[2];
-            IGeometry aggregatedBB = (IGeometry)resultBB[2];
+            Geometry aggregatedAA = (Geometry)resultAA[2];
+            Geometry aggregatedBB = (Geometry)resultBB[2];
 
-            IGeometry expectedAA = Wkt.Read("POLYGON((1 0, 1 1, 3 1, 3 0, 1 0))");
-            IGeometry expectedBB = Wkt.Read("POLYGON((1 1, 1 2, 3 2, 3 1, 1 1))");
+            Geometry expectedAA = Wkt.Read("POLYGON((1 0, 1 1, 3 1, 3 0, 1 0))");
+            Geometry expectedBB = Wkt.Read("POLYGON((1 1, 1 2, 3 2, 3 1, 1 1))");
 
             Assert.AreEqual(2, countAA);
             Assert.AreEqual(2, countBB);
@@ -137,7 +136,7 @@ namespace Tests.NHibernate.Spatial
 
             Assert.AreEqual(1, results.Count);
 
-            var aggregated = (IGeometry)results[0];
+            var aggregated = (Geometry)results[0];
             var expected = new Envelope(1, 3, 0, 2);
 
             Assert.IsTrue(expected.Equals(aggregated.EnvelopeInternal));
@@ -152,7 +151,7 @@ namespace Tests.NHibernate.Spatial
 
             Assert.AreEqual(1, results.Count);
 
-            var aggregated = (IGeometry)results[0];
+            var aggregated = (Geometry)results[0];
 
             Assert.AreEqual(4, aggregated.NumGeometries);
             //Assert.AreEqual("GEOMETRYCOLLECTION", aggregated.GeometryType);
@@ -167,8 +166,8 @@ namespace Tests.NHibernate.Spatial
 
             Assert.AreEqual(1, results.Count);
 
-            IGeometry aggregated = (IGeometry)results[0];
-            IGeometry expected = new Point(2, 1);
+            Geometry aggregated = (Geometry)results[0];
+            Geometry expected = new Point(2, 1);
 
             Assert.IsTrue(expected.EqualsTopologically(aggregated));
         }

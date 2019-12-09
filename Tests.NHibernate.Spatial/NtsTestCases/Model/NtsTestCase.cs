@@ -1,4 +1,3 @@
-using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using System;
 
@@ -23,17 +22,17 @@ namespace Tests.NHibernate.Spatial.NtsTestCases.Model
             set { description = value; }
         }
 
-        private IGeometry geometryA = GeometryCollection.Empty;
+        private Geometry geometryA = GeometryCollection.Empty;
 
-        public virtual IGeometry GeometryA
+        public virtual Geometry GeometryA
         {
             get { return geometryA; }
             set { geometryA = value; }
         }
 
-        private IGeometry geometryB = GeometryCollection.Empty;
+        private Geometry geometryB = GeometryCollection.Empty;
 
-        public virtual IGeometry GeometryB
+        public virtual Geometry GeometryB
         {
             get { return geometryB; }
             set { geometryB = value; }
@@ -55,9 +54,9 @@ namespace Tests.NHibernate.Spatial.NtsTestCases.Model
             set { relatePattern = value; }
         }
 
-        private IGeometry geometryResult = GeometryCollection.Empty;
+        private Geometry geometryResult = GeometryCollection.Empty;
 
-        public virtual IGeometry GeometryResult
+        public virtual Geometry GeometryResult
         {
             get { return geometryResult; }
             set { geometryResult = value; }

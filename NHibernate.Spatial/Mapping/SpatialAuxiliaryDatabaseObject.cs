@@ -15,7 +15,7 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 using NHibernate.Cfg;
 using NHibernate.Engine;
 using NHibernate.Mapping;
@@ -119,7 +119,7 @@ namespace NHibernate.Spatial.Mapping
 				Table table = persistentClass.Table;
 				foreach (Column column in table.ColumnIterator)
 				{
-					if (typeof(IGeometry).IsAssignableFrom(column.Value.Type.ReturnedClass))
+					if (typeof(Geometry).IsAssignableFrom(column.Value.Type.ReturnedClass))
 					{
 						visitGeometryColumn(table, column);
 					}
