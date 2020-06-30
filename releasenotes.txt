@@ -13,6 +13,15 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 6.0.0-pre001
+========================
+Update NetTopologySuite to 2.0
+Enable SourceLink for NHibernate.Spatial NuGet packages
+
+Update NHibernate to 5.2.7
+Update System.Data.SqlClient to 4.8.1
+Update MySql.Data to 8.0.20
+
 Build 5.3.0
 ========================
 Update MsSql dialect to target .NET Standard 2.0
