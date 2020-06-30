@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-
   <ItemGroup>
     <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2008GeographyDialect.hbm.xml" />
     <EmbeddedResource Include="Metadata\GeometryColumn.MsSql2008GeometryDialect.hbm.xml" />

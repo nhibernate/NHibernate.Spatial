@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-
   <ItemGroup>
     <None Remove="Metadata\GeometryColumn.PostGis20Dialect.hbm.xml" />
     <None Remove="Metadata\GeometryColumn.PostGisDialect.hbm.xml" />
