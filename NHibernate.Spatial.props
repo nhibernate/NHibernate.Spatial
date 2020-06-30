@@ -21,6 +21,7 @@
 
     <PackageProjectUrl>https://github.com/nhibernate/NHibernate.Spatial</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/nhibernate/NHibernate.Spatial/master/Logo/NHibernate.Spatial.png</PackageIconUrl>
+    <PackageIcon>NHibernate.Spatial.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/nhibernate/NHibernate.Spatial/blob/v$(VersionPrefix)/releasenotes.txt</PackageReleaseNotes>
@@ -28,4 +29,8 @@
     <RepositoryUrl>https://github.com/nhibernate/NHibernate.Spatial.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Logo\NHibernate.Spatial.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
