@@ -66,14 +66,15 @@ namespace NHibernate.Spatial.Type
 
             // Determine the ordinality of the geometry to ensure 3D and 4D geometries are
             // correctly serialized by PostGisWriter (see issue #66)
+            // NOTE: Cannot use InteriorPoint here as that always returns a 2D point (see #120)
             // TODO: Is there a way of getting the ordinates directly from the geometry?
             var ordinates = Ordinates.XY;
-            var interiorPoint = geometry.InteriorPoint;
-            if (!interiorPoint.IsEmpty && !double.IsNaN(interiorPoint.Z))
+            var coordinate = geometry.Coordinate;
+            if (coordinate != null && !double.IsNaN(coordinate.Z))
             {
                 ordinates |= Ordinates.Z;
             }
-            if (!interiorPoint.IsEmpty && !double.IsNaN(interiorPoint.M))
+            if (coordinate != null && !double.IsNaN(coordinate.M))
             {
                 ordinates |= Ordinates.M;
             }
