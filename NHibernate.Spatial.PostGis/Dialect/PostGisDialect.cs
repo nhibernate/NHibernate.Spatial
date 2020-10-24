@@ -477,7 +477,7 @@ namespace NHibernate.Spatial.Dialect
 		/// <param name="column">The column.</param>
 		/// <param name="srid">The srid.</param>
 		/// <param name="subtype">The subtype.</param>
-		/// <param name="dimension">[3DIS] The dimension</param>
+		/// <param name="dimension">The dimension.</param>
 		/// <param name="isNullable">Whether or not the column is nullable</param>
 		/// <returns></returns>
 		public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
@@ -493,8 +493,7 @@ namespace NHibernate.Spatial.Dialect
             builder.Append(this.MultipleQueriesSeparator);
 
             builder.AppendFormat("SELECT AddGeometryColumn('{0}','{1}','{2}',{3},'{4}',{5})",
-                //this.QuoteSchema(schema), this.QuoteForTableName(table), this.QuoteForColumnName(column), srid, subtype, dimension == 3 ? 3 : 2);
-                schema, table, column, srid, subtype, dimension == 3 ? 3 : 2);
+                schema, table, column, srid, subtype, dimension);
 
 			if (!isNullable)
 			{
