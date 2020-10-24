@@ -9,6 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Models\PolygonM.hbm.xml" />
+    <None Remove="Models\PolygonZ.hbm.xml" />
+    <None Remove="Models\PolygonZM.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Models\PolygonM.hbm.xml" />
+    <EmbeddedResource Include="Models\PolygonZM.hbm.xml" />
+    <EmbeddedResource Include="Models\PolygonZ.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
