@@ -105,39 +105,6 @@ namespace NHibernate.Spatial.Type
             return geometry;
         }
 
-        private static byte[] ToByteArray(string hex)
-        {
-            if (hex.Length % 2 == 1)
-                throw new ArgumentException("Invalid input. It must have an even length.", "hex");
-
-            byte[] data = new byte[hex.Length / 2];
-            for (int i = 0; i < hex.Length; i += 2)
-            {
-                char c1 = hex[i];
-                char c2 = hex[i + 1];
-
-                int result = (c1 < 'A') ? (c1 - '0') : (10 + (c1 - 'A'));
-                result = result << 4;
-                result |= (c2 < 'A') ? (c2 - '0') : (10 + (c2 - 'A'));
-                data[i / 2] = (byte)(result);
-            }
-            return data;
-        }
-
-        private static string ToString(byte[] bytes)
-        {
-            char[] data = new char[bytes.Length * 2];
-            int idx = 0;
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                int n1 = bytes[i] >> 4;
-                int n2 = bytes[i] & 0xF;
-                data[idx++] = (char)((n1) < 10 ? '0' + n1 : n1 - 10 + 'A');
-                data[idx++] = (char)((n2) < 10 ? '0' + n2 : n2 - 10 + 'A');
-            }
-            return new string(data);
-        }
-
         [Serializable]
         private class CustomGeometryType : MutableType
         {
@@ -162,18 +129,6 @@ namespace NHibernate.Spatial.Type
             public override object Get(DbDataReader rs, string name, ISessionImplementor session)
             {
                 return Get(rs, rs.GetOrdinal(name), session);
-            }
-
-            [Obsolete("This method has no more usages and will be removed in a future version. Override ToLoggableString instead.")]
-            public override string ToString(object val)
-            {
-                return PostGisGeometryType.ToString((byte[])val);
-            }
-
-            [Obsolete("This method has no more usages and will be removed in a future version.")]
-            public override object FromStringValue(string xml)
-            {
-                return ToByteArray(xml);
             }
 
             public override System.Type ReturnedClass => typeof(Geometry);

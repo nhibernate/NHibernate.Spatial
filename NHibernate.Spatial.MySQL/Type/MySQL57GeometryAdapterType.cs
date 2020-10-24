@@ -48,12 +48,6 @@ namespace NHibernate.Spatial.Type
 			return Get(rs, rs.GetOrdinal(name), session);
 		}
 
-		[Obsolete("This method has no more usages and will be removed in a future version. Override ToLoggableString instead.")]
-        public override string ToString(object value)
-		{
-			return value.ToString();
-		}
-
 		public override string Name
 		{
 			get { return ReturnedClass.Name; }
@@ -62,12 +56,6 @@ namespace NHibernate.Spatial.Type
 		public override object Get(DbDataReader rs, int index, ISessionImplementor session)
 		{
 			return new MySqlGeometry(MySqlDbType.Geometry, (byte[])rs[index]);
-		}
-
-		[Obsolete("This method has no more usages and will be removed in a future version.")]
-        public override object FromStringValue(string xml)
-		{
-			return MySqlGeometry.Parse(xml);
 		}
 
 		public override System.Type ReturnedClass
