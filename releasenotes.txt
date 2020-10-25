@@ -13,6 +13,16 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 6.0.0
+========================
+All changes from 6.0.0-pre001, plus:
+
+Ensure that Z/M ordinates of 3D/4D PostGIS geometries are saved to the database (see #120)
+Methods marked as obsolete in previous releases have now been removed
+Update NHibernate to 5.3.3
+Update NetTopologySuite to 2.1.0 (and limit to < 3.0)
+Limit Npgsql version to < 4.0 (see #123)
+
 Build 6.0.0-pre001
 ========================
 Update NetTopologySuite to 2.0
