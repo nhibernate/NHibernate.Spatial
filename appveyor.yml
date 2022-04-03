@@ -18,7 +18,7 @@ install:
   - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2012SP1 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
 
   # install x86 CLR types for SQL Server 2012 SP1 (required when running dotnet test for MsSql tests)
-  - cmd: curl -L -O -S -s https://download.microsoft.com/download/4/B/1/4B1E9B0E-A4F3-4715-B417-31C82302A70A/ENU/x86/SQLSysClrTypes.msi
+  - cmd: curl -L -O -S -s https://download.microsoft.com/download/F/E/D/FEDB200F-DE2A-46D8-B661-D019DFE9D470/ENU/x86/SQLSysClrTypes.msi
   - cmd: SQLSysClrTypes.msi /passive
 
   # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
@@ -31,15 +31,15 @@ install:
   # - cmd: curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
   # - cmd: msiexec /i mysql-installer-web-community-5.6.36.0.msi /quiet
   # - cmd: "C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySQLInstallerConsole.exe" community install server;5.6.36;x64:*:port=3306;passwd=Password12! -silent
-  
+
   # change default port for MySQL 5.7 (so it can run simultaneously with MySQL 5.6)
   # - ps: if ($isWindows) { $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini' }
   # - ps: if ($isWindows) { (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath }
-  
+
   # install PostgreSQL 8.4
   - cmd: curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
   - cmd: postgresql-8.4.22-1-windows.exe --mode unattended --superpassword Password12! --serverport 5431
-  
+
   # install PostGIS 1.5.5 for PostgreSQL 8.4
   - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg84/postgis-pg84-binaries-1.5.5.zip
   - cmd: 7z x postgis-pg84-binaries-1.5.5.zip > nul
@@ -50,12 +50,12 @@ install:
   - cmd: createdb -p 5431 -U postgres template_postgis
   - cmd: psql -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\postgis.sql"
   - cmd: psql -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql"
-  
+
   # install PostGIS 2.3.2 for PostgreSQL 9.6 on Windows
   - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/archive/postgis-bundle-pg96-2.3.2x64.zip
   - cmd: 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
   - cmd: xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
-  
+
   # install PostgreSQL 9.6 and PostGIS 2.4 on Ubuntu
   # note: PostGIS 2.3 not available in Ubuntu Bionic 18.04 repository
   - sh: sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main"
@@ -90,25 +90,25 @@ before_build:
 before_test:
   # setup SQL Server 2008
   - cmd: sqlcmd -S (local)\SQL2008R2SP2 -i Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql
-  
+
   # setup SQL Server 2012
   - cmd: sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
-  
+
   # setup MySQL 5.6
   # - cmd: net start mysql56
   # - cmd: SET MYSQL_PWD=Password12!
   # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql.exe"
   # - cmd: '%mysql% -P 3306 -u root < Tests.NHibernate.Spatial.MySQL\nhsp_test.sql'
-  
+
   # setup MySQL 5.7
   # - cmd: net start mysql57
   # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
   # - cmd: '%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql'
-  
+
   # setup PostgreSQL 8.4
   - cmd: SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
   - cmd: '%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql'
-  
+
   # setup PostgreSQL 9.6 on Windows
   - cmd: net start postgresql-x64-9.6
   - cmd: SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
