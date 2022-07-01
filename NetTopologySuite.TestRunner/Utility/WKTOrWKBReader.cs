@@ -42,7 +42,7 @@ namespace Open.Topology.TestRunner.Utility
 
         public WKTOrWKBReader(GeometryFactory geomFactory)
         {
-            _wktReader = new WKTReader(geomFactory);
+            _wktReader = new WKTReader(geomFactory) {  IsOldNtsCoordinateSyntaxAllowed = false };
 #pragma warning disable 612
             _wkbReader = new WKBReader();
 #pragma warning restore 612

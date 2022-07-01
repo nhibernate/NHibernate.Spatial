@@ -3,6 +3,7 @@ using NHibernate.Bytecode;
 using NHibernate.Cfg;
 using NHibernate.Driver;
 using NHibernate.Spatial.Dialect;
+using Npgsql;
 using System.Collections.Generic;
 
 namespace Tests.NHibernate.Spatial
@@ -29,6 +30,7 @@ namespace Tests.NHibernate.Spatial
                 [Environment.ConnectionString] = _configurationRoot.GetConnectionString("PostGis20")
             };
             configuration.SetProperties(properties);
+            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
         }
     }
 }

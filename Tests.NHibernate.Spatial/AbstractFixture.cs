@@ -24,7 +24,7 @@ namespace Tests.NHibernate.Spatial
     public abstract class AbstractFixture
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(AbstractFixture));
-        protected static readonly WKTReader Wkt = new WKTReader();
+        protected static readonly WKTReader Wkt = new WKTReader() { IsOldNtsCoordinateSyntaxAllowed = false };
         protected Configuration configuration;
         protected ISessionFactory sessions;
         private ISpatialDialect spatialDialect;
