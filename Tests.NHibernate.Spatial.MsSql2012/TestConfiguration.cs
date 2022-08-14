@@ -25,7 +25,7 @@ namespace Tests.NHibernate.Spatial
                 [Environment.ProxyFactoryFactoryClass] = typeof(StaticProxyFactoryFactory).AssemblyQualifiedName,
                 [Environment.Dialect] = typeof(MsSql2012GeometryDialect).AssemblyQualifiedName,
                 [Environment.ConnectionProvider] = typeof(DebugConnectionProvider).AssemblyQualifiedName,
-                [Environment.ConnectionDriver] = typeof(SqlClientDriver).AssemblyQualifiedName,
+                [Environment.ConnectionDriver] = typeof(MicrosoftDataSqlClientDriver).AssemblyQualifiedName,
                 [Environment.ConnectionString] = _configurationRoot.GetConnectionString("MsSql2012")
             };
             configuration.SetProperties(properties);
