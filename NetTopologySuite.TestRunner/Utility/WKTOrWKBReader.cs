@@ -1,6 +1,7 @@
-﻿using NetTopologySuite.Geometries;
+﻿using System;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
-using System;
 
 namespace Open.Topology.TestRunner.Utility
 {
@@ -30,19 +31,13 @@ namespace Open.Topology.TestRunner.Utility
 
         private const int MaxCharsToCheck = 6;
 
-        //private GeometryFactory _geomFactory;
         private readonly WKTReader _wktReader;
 
         private readonly WKBReader _wkbReader;
 
-        public WKTOrWKBReader()
-            : this(new GeometryFactory())
+        public WKTOrWKBReader(NtsGeometryServices ntsGeometryServices)
         {
-        }
-
-        public WKTOrWKBReader(GeometryFactory geomFactory)
-        {
-            _wktReader = new WKTReader(geomFactory);
+            _wktReader = new WKTReader(ntsGeometryServices);
 #pragma warning disable 612
             _wkbReader = new WKBReader();
 #pragma warning restore 612

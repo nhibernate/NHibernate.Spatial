@@ -52,8 +52,7 @@ namespace Open.Topology.TestRunner.Functions
         private static Geometry BuildCurveSet(Geometry g, double dist, BufferParameters bufParams)
         {
             // --- now construct curve
-            var ocb = new OffsetCurveBuilder(g.Factory.PrecisionModel, bufParams);
-            var ocsb = new OffsetCurveSetBuilder(g, dist, ocb);
+            var ocsb = new BufferCurveSetBuilder(g, dist, g.Factory.PrecisionModel, bufParams);
             var curves = ocsb.GetCurves();
 
             var lines = new List<Geometry>();

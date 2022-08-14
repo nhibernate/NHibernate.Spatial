@@ -1,9 +1,10 @@
+using System;
+using System.Globalization;
+using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using Open.Topology.TestRunner.Operations;
 using Open.Topology.TestRunner.Result;
 using Open.Topology.TestRunner.Utility;
-using System;
-using System.Globalization;
 
 namespace Open.Topology.TestRunner
 {
@@ -37,10 +38,10 @@ namespace Open.Topology.TestRunner
 
         public XmlTestFactory(PrecisionModel pm, IGeometryOperation geometryOperation, IResultMatcher resultMatcher)
         {
-            ObjGeometryFactory = new GeometryFactory(pm);
+            var geometryServices = new NtsGeometryServices(pm);
             _geometryOperation = geometryOperation;
             _resultMatcher = resultMatcher;
-            _objReader = new WKTOrWKBReader(ObjGeometryFactory);
+            _objReader = new WKTOrWKBReader(geometryServices);
         }
 
         public XmlTest Create(XmlTestInfo testInfo, double tolerance)
