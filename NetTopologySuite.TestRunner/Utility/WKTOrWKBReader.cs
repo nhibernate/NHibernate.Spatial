@@ -37,7 +37,10 @@ namespace Open.Topology.TestRunner.Utility
 
         public WKTOrWKBReader(NtsGeometryServices ntsGeometryServices)
         {
-            _wktReader = new WKTReader(ntsGeometryServices);
+            _wktReader = new WKTReader(ntsGeometryServices)
+            {
+                IsOldNtsCoordinateSyntaxAllowed = false
+            };
 #pragma warning disable 612
             _wkbReader = new WKBReader();
 #pragma warning restore 612

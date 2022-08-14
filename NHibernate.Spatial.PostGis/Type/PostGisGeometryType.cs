@@ -15,10 +15,9 @@
 // along with NHibernate.Spatial; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-using NetTopologySuite.Geometries;
-using NetTopologySuite.IO;
 using System;
 using System.Data.Common;
+using NetTopologySuite.Geometries;
 using NHibernate.Engine;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
@@ -28,7 +27,7 @@ using NpgsqlTypes;
 namespace NHibernate.Spatial.Type
 {
     [Serializable]
-    public class PostGisGeometryType : GeometryTypeBase<byte[]>
+    public class PostGisGeometryType : GeometryTypeBase<Geometry>
     {
         private static readonly NullableType GeometryType = new CustomGeometryType();
 
@@ -45,45 +44,17 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         /// <param name="value">The GeoAPI geometry value.</param>
         /// <returns></returns>
-        protected override byte[] FromGeometry(object value)
+        protected override Geometry FromGeometry(object value)
         {
-            Geometry geometry = value as Geometry;
+            var geometry = value as Geometry;
             if (geometry == null)
             {
                 return null;
             }
-            // PostGIS can't parse a WKB of any empty geometry other than GeomtryCollection
-            // (throws the error: "geometry requires more points")
-            // and parses WKT of empty geometries always as GeometryCollection
-            // (ie. "select AsText(GeomFromText('LINESTRING EMPTY', -1)) = 'GEOMETRYCOLLECTION EMPTY'").
-            // Force GeometryCollection.Empty to avoid the error.
-            if (!(geometry is GeometryCollection) && geometry.IsEmpty)
-            {
-                geometry = GeometryCollection.Empty;
-            }
 
             this.SetDefaultSRID(geometry);
 
-            // Determine the ordinality of the geometry to ensure 3D and 4D geometries are
-            // correctly serialized by PostGisWriter (see issue #66)
-            // NOTE: Cannot use InteriorPoint here as that always returns a 2D point (see #120)
-            // TODO: Is there a way of getting the ordinates directly from the geometry?
-            var ordinates = Ordinates.XY;
-            var coordinate = geometry.Coordinate;
-            if (coordinate != null && !double.IsNaN(coordinate.Z))
-            {
-                ordinates |= Ordinates.Z;
-            }
-            if (coordinate != null && !double.IsNaN(coordinate.M))
-            {
-                ordinates |= Ordinates.M;
-            }
-
-            var postGisWriter = new PostGisWriter
-            {
-                HandleOrdinates = ordinates
-            };
-            return postGisWriter.Write(geometry);
+            return geometry;
         }
 
         /// <summary>
@@ -93,15 +64,14 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         protected override Geometry ToGeometry(object value)
         {
-            var bytes = value as byte[];
-            if (bytes == null)
+            var geometry = value as Geometry;
+            if (geometry == null)
             {
                 return null;
             }
 
-            PostGisReader reader = new PostGisReader();
-            Geometry geometry = reader.Read(bytes);
             this.SetDefaultSRID(geometry);
+
             return geometry;
         }
 
@@ -114,16 +84,7 @@ namespace NHibernate.Spatial.Type
 
             public override object Get(DbDataReader rs, int index, ISessionImplementor session)
             {
-                // Npgsql 3 from the received bytes creates his own PostGisGeometry type.
-                // As we need to return a byte array that represents the geometry object,
-                // we will retrive the bytes from the reader instead.
-                var length = (int)rs.GetBytes(index, 0, null, 0, 0);
-                var buffer = new byte[length];
-                if (length > 0)
-                {
-                    rs.GetBytes(index, 0, buffer, 0, length);
-                }
-                return buffer;
+                return (Geometry)rs.GetValue(index);
             }
 
             public override object Get(DbDataReader rs, string name, ISessionImplementor session)
@@ -144,8 +105,8 @@ namespace NHibernate.Spatial.Type
 
             public override object DeepCopyNotNull(object value)
             {
-                var arr = (byte[]) value;
-                return arr.Clone();
+                var obj = (Geometry)value;
+                return obj.Copy();
             }
         }
     }
