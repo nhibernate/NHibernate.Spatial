@@ -13,6 +13,11 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 6.1.0
+========================
+Replace System.Data.SqlClient with Microsoft.Data.SqlClient (see #128)
+Update NuGet packages
+
 Build 6.0.0
 ========================
 All changes from 6.0.0-pre001, plus:
