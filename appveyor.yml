@@ -11,21 +11,21 @@ image:
 install:
   # install SQL Server 2008 R2 SP2 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
   - cmd: curl -L -O -S -s https://download.microsoft.com/download/0/4/B/04BE03CD-EAF3-4797-9D8D-2E08E316C998/SQLEXPR_x64_ENU.exe
-  - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2008R2SP2 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+  - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=MSSQLSERVER2008 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
 
   # install SQL Server 2012 SP1 Express (not included in VS 2017 image; see: https://www.appveyor.com/docs/build-environment/#databases)
   - cmd: curl -L -O -S -s https://download.microsoft.com/download/5/2/9/529FEF7B-2EFB-439E-A2D1-A1533227CD69/SQLEXPR_x64_ENU.exe
-  - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=SQL2012SP1 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
+  - cmd: SQLEXPR_x64_ENU.exe /QUIET /IACCEPTSQLSERVERLICENSETERMS /ACTION=INSTALL /FEATURES=SQL /INSTANCENAME=MSSQLSERVER2012 /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=Password12! /ADDCURRENTUSERASSQLADMIN /SQLSVCACCOUNT="NT AUTHORITY\Network Service" /AGTSVCACCOUNT="NT AUTHORITY\Network Service"
 
   # install x86 CLR types for SQL Server 2012 SP1 (required when running dotnet test for MsSql tests)
   - cmd: curl -L -O -S -s https://download.microsoft.com/download/F/E/D/FEDB200F-DE2A-46D8-B661-D019DFE9D470/ENU/x86/SQLSysClrTypes.msi
   - cmd: SQLSysClrTypes.msi /passive
 
   # enable dynamic TCP ports for 2008 and 2012 SQL Server instances (so they can be run simultaneously)
-  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0' }
-  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.SQL2008R2SP2\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value '' }
-  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0' }
-  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.SQL2012SP1\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value '' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.MSSQLSERVER2008\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql10_50.MSSQLSERVER2008\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value '' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.MSSQLSERVER2012\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpDynamicPorts -value '0' }
+  - ps: if ($isWindows) { set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql11.MSSQLSERVER2012\mssqlserver\supersocketnetlib\tcp\ipall' -name TcpPort -value '' }
 
   # install MySQL 5.6
   # - cmd: curl -L -O -S -s https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.36.0.msi
@@ -89,10 +89,10 @@ before_build:
 # scripts to run before tests
 before_test:
   # setup SQL Server 2008
-  - cmd: sqlcmd -S (local)\SQL2008R2SP2 -i Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql
+  - cmd: sqlcmd -S (local)\MSSQLSERVER2008 -i Tests.NHibernate.Spatial.MsSql2008\nhsp_test.sql
 
   # setup SQL Server 2012
-  - cmd: sqlcmd -S (local)\SQL2012SP1 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
+  - cmd: sqlcmd -S (local)\MSSQLSERVER2012 -i Tests.NHibernate.Spatial.MsSql2012\nhsp_test.sql
 
   # setup MySQL 5.6
   # - cmd: net start mysql56

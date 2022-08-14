@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using NHibernate.Engine;
