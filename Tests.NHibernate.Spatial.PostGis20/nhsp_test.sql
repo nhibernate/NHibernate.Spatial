@@ -4,7 +4,7 @@
 --    psql -h localhost -p 5432 -U postgres -f path-to-this-file.sql
 
 CREATE ROLE nhsp_test LOGIN
-  ENCRYPTED PASSWORD 'md5c7a746bb04ce57ee60350ff6a98f9ae6' -- md5('nhsp_test' + salt)
+  PASSWORD 'nhsp_test'
   NOSUPERUSER NOINHERIT CREATEDB CREATEROLE;
 
 CREATE DATABASE nhsp_test
