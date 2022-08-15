@@ -13,6 +13,11 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 7.0.0
+========================
+Add support for Npgsql 4+ (see #130)
+Drop support for PostGIS 1.x (see #131)
+
 Build 6.1.1
 ========================
 Fix support for PostGIS 3.1+ (see #129)
