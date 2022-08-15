@@ -13,6 +13,10 @@ https://nhibernate.jira.com/projects/NHSP
 ...and support questions to NH Users mailing list:
 http://groups.google.com/group/nhusers
 
+Build 6.1.1
+========================
+Fix support for PostGIS 3.1+ (see #129)
+
 Build 6.1.0
 ========================
 Replace System.Data.SqlClient with Microsoft.Data.SqlClient (see #128)
