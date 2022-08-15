@@ -66,40 +66,5 @@ namespace Tests.NHibernate.Spatial
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
-
-        /// <summary>
-        /// Overridden because polygon vertices are returned in a different order in PostGIS
-        /// </summary>
-        [Test]
-        public override void ConformanceItemT48Hql()
-        {
-            string query =
-                @"select NHSP.AsText(NHSP.Difference(np.Boundary, f.Boundary))
-				from NamedPlace np, Forest f
-				where np.Name = 'Ashton' and f.Name = 'Green Forest'
-				";
-            string result = session.CreateQuery(query)
-                .UniqueResult<string>();
-
-            Geometry geometry = Wkt.Read(result);
-            Geometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
-
-            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
-        }
-
-        [Test]
-        public override void ConformanceItemT48Linq()
-        {
-            var query =
-                from np in session.Query<NamedPlace>()
-                from f in session.Query<Forest>()
-                where np.Name == "Ashton" && f.Name == "Green Forest"
-                select np.Boundary.Difference(f.Boundary);
-
-            Geometry geometry = query.Single();
-            Geometry expected = Wkt.Read("POLYGON ((62 48, 84 48, 84 42, 56 34, 62 48))");
-
-            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
-        }
     }
 }

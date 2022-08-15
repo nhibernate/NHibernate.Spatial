@@ -445,9 +445,32 @@ namespace NHibernate.Spatial.Dialect
         {
             // Intersection aggregate function by Mark Fenbers
             // See http://postgis.refractions.net/pipermail/postgis-users/2005-May/008156.html
-            string script = string.Format(
-                "DROP AGGREGATE IF EXISTS {0}{1}(GEOMETRY);" +
-                "CREATE AGGREGATE {0}{1}(BASETYPE=GEOMETRY, SFUNC={2}Intersection, STYPE=GEOMETRY);"
+            // NOTE: An additional paramter was added to ST_Intersection in PostGIS 3.1
+            //       https://github.com/nhibernate/NHibernate.Spatial/issues/129
+            string script = string.Format(@"
+                CREATE OR REPLACE FUNCTION {0}NHSP_CreateIntersectionAggregate()
+                RETURNS void AS $$
+                    BEGIN
+                        DROP AGGREGATE IF EXISTS {0}{1}(GEOMETRY);
+                        IF (SELECT PostGIS_Lib_Version() < '3.1') THEN
+                            CREATE AGGREGATE {0}{1}(basetype=geometry, sfunc={2}Intersection, stype=geometry);
+                        ELSE
+                            CREATE OR REPLACE FUNCTION {0}NHSP_Intersection(geometry, geometry)
+                                RETURNS geometry
+                                LANGUAGE SQL
+                                AS 'SELECT {0}{2}Intersection($1, $2)'
+                                IMMUTABLE STRICT
+                                COST 10000;
+                            CREATE AGGREGATE {0}{1}(basetype=geometry, sfunc={0}NHSP_Intersection, stype=geometry);
+                        END IF;
+                    END;
+                $$ LANGUAGE plpgsql;
+
+                -- NOTE: Cast to text required to avoid following error on PostgreSQL 9.0 and lower:
+                --       Npgsql.PostgresException : 42883: no binary output function available for type void
+                --       https://github.com/npgsql/npgsql/issues/818
+                --       https://www.postgresql.org/message-id/21459.1437692282%40sss.pgh.pa.us
+                SELECT {0}NHSP_CreateIntersectionAggregate()::text;"
                 , this.QuoteSchema(schema)
                 , IntersectionAggregateName
                 , prefix

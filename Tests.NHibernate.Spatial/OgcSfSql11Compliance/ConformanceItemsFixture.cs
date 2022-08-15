@@ -2556,7 +2556,7 @@ UNIT[""Meter"", 1.0]]";
 			Geometry geometry = Wkt.Read(result);
 			Geometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
 
-            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+            Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
 
         [Test]
@@ -2571,7 +2571,7 @@ UNIT[""Meter"", 1.0]]";
 			Geometry geometry = query.Single();
 			Geometry expected = Wkt.Read("POLYGON( ( 56 34, 62 48, 84 48, 84 42, 56 34) )");
 
-            Assert.IsTrue(expected.EqualsExact(geometry, Tolerance));
+            Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
 
         /// <summary>
