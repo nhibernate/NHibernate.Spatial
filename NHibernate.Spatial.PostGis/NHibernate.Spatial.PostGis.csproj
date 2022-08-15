@@ -15,16 +15,12 @@
 
   <ItemGroup>
     <None Remove="Metadata\GeometryColumn.PostGis20Dialect.hbm.xml" />
-    <None Remove="Metadata\GeometryColumn.PostGisDialect.hbm.xml" />
     <None Remove="Metadata\SpatialReferenceSystem.PostGis20Dialect.hbm.xml" />
-    <None Remove="Metadata\SpatialReferenceSystem.PostGisDialect.hbm.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Metadata\GeometryColumn.PostGis20Dialect.hbm.xml" />
-    <EmbeddedResource Include="Metadata\GeometryColumn.PostGisDialect.hbm.xml" />
     <EmbeddedResource Include="Metadata\SpatialReferenceSystem.PostGis20Dialect.hbm.xml" />
-    <EmbeddedResource Include="Metadata\SpatialReferenceSystem.PostGisDialect.hbm.xml" />
   </ItemGroup>
 
   <ItemGroup>

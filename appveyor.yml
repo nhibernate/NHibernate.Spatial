@@ -1,3 +1,4 @@
+---
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
@@ -5,7 +6,7 @@
 # Build worker image (VM template)
 image:
   - Visual Studio 2022
-  - Ubuntu
+  - Ubuntu2004
 
 # scripts that run after cloning repository
 install:
@@ -36,33 +37,26 @@ install:
   # - ps: if ($isWindows) { $iniPath = 'C:\ProgramData\MySQL\MySQL Server 5.7\my.ini' }
   # - ps: if ($isWindows) { (Get-Content $iniPath).replace('port=3306', 'port=3307') | Set-Content $iniPath }
 
-  # install PostgreSQL 8.4
-  # - cmd: curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-8.4.22-1-windows.exe
-  # - cmd: postgresql-8.4.22-1-windows.exe --mode unattended --superpassword Password12! --serverport 5431
+  # install PostGIS 2.5 for PostgreSQL 10 on Windows
+  - cmd: curl -L -O -S -s https://ftp.postgresql.org/pub/postgis/pg10/v2.5.3/win64/postgis-bundle-pg10x64-setup-2.5.3-2.exe
+  - cmd: postgis-bundle-pg10x64-setup-2.5.3-2.exe /S /D=C:\Program Files\PostgreSQL\10
 
-  # install PostGIS 1.5.5 for PostgreSQL 8.4
-  # - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg84/postgis-pg84-binaries-1.5.5.zip
-  # - cmd: 7z x postgis-pg84-binaries-1.5.5.zip > nul
-  # - cmd: xcopy /s /y /q postgis-pg84-binaries-1.5.5 "C:\Program Files (x86)\PostgreSQL\8.4"
-  # - cmd: SET PGPASSWORD=Password12!
-  # - cmd: SET PGDIR=C:\Program Files (x86)\PostgreSQL\8.4
-  # - cmd: SET PATH=%PGDIR%\bin;%PATH%
-  # - cmd: createdb -p 5431 -U postgres template_postgis
-  # - cmd: psql -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\postgis.sql"
-  # - cmd: psql -q -p 5431 -U postgres -d template_postgis -f "%PGDIR%\share\contrib\postgis-1.5\spatial_ref_sys.sql"
+  # install PostgreSQL 14 and PostGIS 3.2 on Windows
+  - cmd: curl -L -O -S -s https://get.enterprisedb.com/postgresql/postgresql-14.5-1-windows-x64.exe
+  - cmd: postgresql-14.5-1-windows-x64.exe --mode unattended --superpassword Password12! --serverport 5433
+  - cmd: curl -L -O -S -s https://ftp.postgresql.org/pub/postgis/pg14/v3.2.2/win64/postgis-bundle-pg14x64-setup-3.2.2-2.exe
+  - cmd: postgis-bundle-pg14x64-setup-3.2.2-2.exe /S /D=C:\Program Files\PostgreSQL\14
 
-  # install PostGIS 2.3.2 for PostgreSQL 9.6 on Windows
-  - cmd: curl -L -O -S -s http://download.osgeo.org/postgis/windows/pg96/archive/postgis-bundle-pg96-2.3.2x64.zip
-  - cmd: 7z x postgis-bundle-pg96-2.3.2x64.zip > nul
-  - cmd: xcopy /s /y /q postgis-bundle-pg96-2.3.2x64 "C:\Program Files\PostgreSQL\9.6"
-
-  # install PostgreSQL 9.6 and PostGIS 2.4 on Ubuntu
-  # note: PostGIS 2.3 not available in Ubuntu Bionic 18.04 repository
+  # install PostgreSQL 10 and PostGIS 2.5 on Ubuntu
   - sh: sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main"
   - sh: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   - sh: sudo apt-get update
-  - sh: sudo apt-get -y install postgresql-9.6 postgresql-9.6-postgis-2.4
-  - sh: sudo sed -i 's/port = [0-9]\+/port = 5432/' /etc/postgresql/9.6/main/postgresql.conf
+  - sh: sudo apt-get -y install postgresql-10 postgresql-10-postgis-2.5
+  - sh: sudo sed -i 's/port = [0-9]\+/port = 5432/' /etc/postgresql/10/main/postgresql.conf
+
+  # install PostgreSQL 14 and PostGIS 3 on Ubuntu
+  - sh: sudo apt-get -y install postgresql-14 postgresql-14-postgis-3
+  - sh: sudo sed -i 's/port = [0-9]\+/port = 5433/' /etc/postgresql/14/main/postgresql.conf
 
 #---------------------------------#
 #       build configuration       #
@@ -105,20 +99,25 @@ before_test:
   # - cmd: SET mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
   # - cmd: '%mysql% -P 3307 -u root < Tests.NHibernate.Spatial.MySQL57\nhsp_test.sql'
 
-  # setup PostgreSQL 8.4
-  # - cmd: SET psql="C:\Program Files (x86)\PostgreSQL\8.4\bin\psql.exe"
-  # - cmd: '%psql% -q -p 5431 -U postgres -f Tests.NHibernate.Spatial.PostGis\nhsp_test.sql'
-
-  # setup PostgreSQL 9.6 on Windows
-  - cmd: net start postgresql-x64-9.6
-  - cmd: SET psql="C:\Program Files\PostgreSQL\9.6\bin\psql.exe"
+  # setup PostgreSQL 10 on Windows
+  - cmd: net start postgresql-x64-10
+  - cmd: SET psql="C:\Program Files\PostgreSQL\10\bin\psql.exe"
   - cmd: SET PGPASSWORD=Password12!
-  - cmd: '%psql% -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql'
+  - cmd: '%psql% -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql'
 
-  # setup PostgreSQL 9.6 on Ubuntu
+  # setup PostgreSQL 14 on Windows
+  - cmd: SET psql="C:\Program Files\PostgreSQL\14\bin\psql.exe"
+  - cmd: SET PGPASSWORD=Password12!
+  - cmd: '%psql% -p 5433 -U postgres -f Tests.NHibernate.Spatial.PostGis20\nhsp_test.sql'
+
+  # setup PostgreSQL 10 on Ubuntu
   # NOTE: Need to run psql command as postgres user to prevent peer authentication failure
-  - sh: sudo pg_ctlcluster 9.6 main start
-  - sh: sudo -u postgres psql -q -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20/nhsp_test.sql
+  - sh: sudo pg_ctlcluster 10 main start
+  - sh: sudo -u postgres psql -p 5432 -U postgres -f Tests.NHibernate.Spatial.PostGis20/nhsp_test.sql
+
+  # setup PostgreSQL 14 on Ubuntu
+  - sh: sudo pg_ctlcluster 14 main start
+  - sh: sudo -u postgres psql -p 5433 -U postgres -f Tests.NHibernate.Spatial.PostGis20/nhsp_test.sql
 
 test_script:
   - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MsSql2008.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MsSql2008
@@ -126,8 +125,9 @@ test_script:
   # Disable MySQL tests until issue #87 is resolved
   # - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MySQL.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MySQL
   # - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=MySQL57.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.MySQL57
-  # - cmd: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis.trx" --results-directory %APPVEYOR_BUILD_FOLDER% Tests.NHibernate.Spatial.PostGis
-  - ps: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20.trx" --results-directory $env:APPVEYOR_BUILD_FOLDER Tests.NHibernate.Spatial.PostGis20
+  - ps: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20_PGSQL10_PG25.trx" --results-directory $env:APPVEYOR_BUILD_FOLDER Tests.NHibernate.Spatial.PostGis20
+  - ps: $appSettings = 'Tests.NHibernate.Spatial.PostGis20/bin/Release/net6.0/appsettings.json'; (Get-Content $appSettings) -Replace '5432', '5433' | Set-Content $appSettings
+  - ps: dotnet test -c Release --no-build --logger "trx;LogFileName=PostGis20_PGSQL14_PG32.trx" --results-directory $env:APPVEYOR_BUILD_FOLDER Tests.NHibernate.Spatial.PostGis20
 
 after_test:
   - ps: $wc = New-Object 'System.Net.WebClient'
@@ -136,5 +136,5 @@ after_test:
   - ps: if ($isWindows) { $wc.UploadFile($uri, (Resolve-Path MsSql2012.trx)) }
   # - ps: $wc.UploadFile($uri, (Resolve-Path MySQL.trx))
   # - ps: $wc.UploadFile($uri, (Resolve-Path MySQL57.trx))
-  # - ps: if ($isWindows) { $wc.UploadFile($uri, (Resolve-Path PostGis.trx)) }
-  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis20.trx))
+  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis20_PGSQL10_PG25.trx))
+  - ps: $wc.UploadFile($uri, (Resolve-Path PostGis20_PGSQL14_PG32.trx))

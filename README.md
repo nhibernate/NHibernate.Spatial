@@ -11,6 +11,16 @@ The code has been updated to compile with the latest NTS, GeoAPI and NHibernate 
 | [NHibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MySQL.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MySQL) |
 | [NHibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.PostGis.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.PostGis) |
 
+## Supported Databases
+
+| Package | Minimum Version | CI Tests |
+| ------- | --------------- | -------- |
+| NHibernate.Spatial.MsSql | SQL Server 2008 | SQL Server 2008, SQL Server 2012 |
+| NHibernate.Spatial.MySQL | MySQL 5.6 | MySQL 5.6, MySQL 5.7 |
+| NHibernate.Spatial.PostGis | PostgreSQL 10 w/ PostGIS 2.5 <sup>1</sup> | PostgreSQL 10 w/ PostGIS 2.5, PostgreSQL 14 w/ PostGIS 3.2 |
+
+<sup>1</sup> PostgreSQL 9.1 w/ PostGIS 2.0 or later will likely work, but are not explicitly supported here as they are EOL (see [here](https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS#PostGISSupportMatrix)).
+
 ## Getting Started
 For configuring your application, please refer to [Configuration and Mapping](http://nhibernate.info/doc/spatial/configuration-and-mapping.html) on the NHForge Wiki. 
 Furthermore you can read about [sample usage](http://nhibernate.info/doc/spatial/sample-usage.html). For an updated in-depth look at NHibernate.Spatial, you can 
