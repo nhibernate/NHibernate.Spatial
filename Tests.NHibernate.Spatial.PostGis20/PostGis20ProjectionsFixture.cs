@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Tests.NHibernate.Spatial
 {
     [TestFixture]
-    public class PostGis20ProjectionsFixture : PostGisProjectionsFixture
+    public class PostGis20ProjectionsFixture : ProjectionsFixture
     {
         protected override void Configure(Configuration configuration)
         {

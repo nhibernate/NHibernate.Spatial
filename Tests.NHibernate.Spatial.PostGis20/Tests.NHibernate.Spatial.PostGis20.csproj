@@ -27,7 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tests.NHibernate.Spatial.PostGis\Tests.NHibernate.Spatial.PostGis.csproj" />
+    <ProjectReference Include="..\NHibernate.Spatial.PostGis\NHibernate.Spatial.PostGis.csproj" />
+    <ProjectReference Include="..\Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.csproj" />
   </ItemGroup>
 
   <ItemGroup>
