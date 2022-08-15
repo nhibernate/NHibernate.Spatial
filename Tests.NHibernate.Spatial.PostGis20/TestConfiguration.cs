@@ -3,6 +3,7 @@ using NHibernate.Bytecode;
 using NHibernate.Cfg;
 using NHibernate.Driver;
 using NHibernate.Spatial.Dialect;
+using Npgsql;
 using System.Collections.Generic;
 
 namespace Tests.NHibernate.Spatial
@@ -29,6 +30,10 @@ namespace Tests.NHibernate.Spatial
                 [Environment.ConnectionString] = _configurationRoot.GetConnectionString("PostGis20")
             };
             configuration.SetProperties(properties);
+
+            // Use NTS plugin for mapping PostGIS types; see:
+            // https://www.npgsql.org/doc/release-notes/4.0.html#improved-spatial-support-postgis
+            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
         }
     }
 }
