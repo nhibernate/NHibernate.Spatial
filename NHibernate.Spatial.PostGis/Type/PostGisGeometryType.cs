@@ -36,8 +36,7 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         public PostGisGeometryType()
             : base(GeometryType)
-        {
-        }
+        { }
 
         /// <summary>
         /// Converts from GeoAPI geometry type to database geometry type.
@@ -52,7 +51,7 @@ namespace NHibernate.Spatial.Type
                 return null;
             }
 
-            this.SetDefaultSRID(geometry);
+            SetDefaultSRID(geometry);
 
             return geometry;
         }
@@ -70,7 +69,7 @@ namespace NHibernate.Spatial.Type
                 return null;
             }
 
-            this.SetDefaultSRID(geometry);
+            SetDefaultSRID(geometry);
 
             return geometry;
         }
@@ -79,12 +78,15 @@ namespace NHibernate.Spatial.Type
         private class CustomGeometryType : MutableType
         {
             internal CustomGeometryType() : base(new BinarySqlType())
-            {
-            }
+            { }
+
+            public override System.Type ReturnedClass => typeof(Geometry);
+
+            public override string Name => "Geometry";
 
             public override object Get(DbDataReader rs, int index, ISessionImplementor session)
             {
-                return (Geometry)rs.GetValue(index);
+                return (Geometry) rs.GetValue(index);
             }
 
             public override object Get(DbDataReader rs, string name, ISessionImplementor session)
@@ -92,20 +94,16 @@ namespace NHibernate.Spatial.Type
                 return Get(rs, rs.GetOrdinal(name), session);
             }
 
-            public override System.Type ReturnedClass => typeof(Geometry);
-
             public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
             {
-                var parameter = (NpgsqlParameter)cmd.Parameters[index];
+                var parameter = (NpgsqlParameter) cmd.Parameters[index];
                 parameter.NpgsqlDbType = NpgsqlDbType.Geometry;
                 parameter.Value = value;
             }
 
-            public override string Name => "Geometry";
-
             public override object DeepCopyNotNull(object value)
             {
-                var obj = (Geometry)value;
+                var obj = (Geometry) value;
                 return obj.Copy();
             }
         }

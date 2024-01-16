@@ -12,17 +12,9 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MsSql2008NtsTestCasesFixture : NtsTestCasesFixture
     {
-        protected override void Configure(Configuration configuration)
-        {
-            TestConfiguration.Configure(configuration);
-        }
-
         private const string LocalDataPath = @"../../../../Tests.NHibernate.Spatial.MsSql2008/NtsTestCases/Data/vivid";
 
-        protected override string TestSimpleDataPath
-        {
-            get { return Path.Combine(LocalDataPath, @"TestSimple.xml"); }
-        }
+        protected override string TestSimpleDataPath => Path.Combine(LocalDataPath, @"TestSimple.xml");
 
         [Test]
         [Ignore("Not supported by MS SQL")]
@@ -40,8 +32,13 @@ namespace Tests.NHibernate.Spatial
                     .Add(Projections.Property("Description"))
                     .Add(Projections.Property("RelatePattern"))
                     .Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
-                    )
+                )
                 .List());
+        }
+
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
         }
     }
 }

@@ -5,69 +5,52 @@ using NHibernate.Spatial.Criterion;
 using NUnit.Framework;
 using Open.Topology.TestRunner;
 using System;
-using System.Collections;
 using System.IO;
 using Tests.NHibernate.Spatial.NtsTestCases.Model;
 
 namespace Tests.NHibernate.Spatial.NtsTestCases
 {
-	/// <summary>
-	/// This fixture reuses some NTS test runner data.
-	/// </summary>
-	public abstract class NtsTestCasesFixture : AbstractFixture
-	{
-	    private const string DataPath = @"../../../../Tests.NHibernate.Spatial/NtsTestCases/Data/vivid";
+    /// <summary>
+    /// This fixture reuses some NTS test runner data.
+    /// </summary>
+    public abstract class NtsTestCasesFixture : AbstractFixture
+    {
+        private const string DataPath = @"../../../../Tests.NHibernate.Spatial/NtsTestCases/Data/vivid";
 
-	    protected override Type[] Mappings
-		{
-			get
-			{
-				return new Type[]{
-					typeof(NtsTestCase),
-				};
-			}
-		}
+        protected ISession _session;
 
-	    protected virtual string TestFunctionAADataPath
-	    {
-	        get { return Path.Combine(DataPath, @"TestFunctionAA.xml"); }
-	    }
-
-	    protected virtual string TestFunctionAAPrecDataPath
+        protected override Type[] Mappings
         {
-	        get { return Path.Combine(DataPath, @"TestFunctionAAPrec.xml"); }
-	    }
+            get
+            {
+                return new[]
+                {
+                    typeof(NtsTestCase),
+                };
+            }
+        }
 
-	    protected virtual string TestRelateAADataPath
-        {
-	        get { return Path.Combine(DataPath, @"TestRelateAA.xml"); }
-	    }
+        protected virtual string TestFunctionAADataPath => Path.Combine(DataPath, @"TestFunctionAA.xml");
 
-	    protected virtual string TestRelateACDataPath
-        {
-	        get { return Path.Combine(DataPath, @"TestRelateAC.xml"); }
-	    }
+        protected virtual string TestFunctionAAPrecDataPath => Path.Combine(DataPath, @"TestFunctionAAPrec.xml");
 
-	    protected virtual string TestRectanglePredicateDataPath
-        {
-	        get { return Path.Combine(DataPath, @"TestRectanglePredicate.xml"); }
-	    }
+        protected virtual string TestRelateAADataPath => Path.Combine(DataPath, @"TestRelateAA.xml");
 
-	    protected virtual string TestSimpleDataPath
-        {
-	        get { return Path.Combine(DataPath, @"TestSimple.xml"); }
-	    }
+        protected virtual string TestRelateACDataPath => Path.Combine(DataPath, @"TestRelateAC.xml");
 
-	    protected virtual string TestValidDataPath
-        {
-	        get { return Path.Combine(DataPath, @"TestValid.xml"); }
-	    }
+        protected virtual string TestRectanglePredicateDataPath => Path.Combine(DataPath, @"TestRectanglePredicate.xml");
+
+        protected virtual string TestSimpleDataPath => Path.Combine(DataPath, @"TestSimple.xml");
+
+        protected virtual string TestValidDataPath => Path.Combine(DataPath, @"TestValid.xml");
+
+        protected override bool CheckDatabaseWasCleanedOnTearDown => false;
 
         protected override void OnTestFixtureSetUp()
-		{
-			using (ISession session = sessions.OpenSession())
-			{
-				string basePath = AppDomain.CurrentDomain.BaseDirectory;
+        {
+            using (var session = sessions.OpenSession())
+            {
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 long id = 0;
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAADataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAAPrecDataPath));
@@ -76,490 +59,487 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestRectanglePredicateDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestSimpleDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestValidDataPath));
-			}
-		}
-
-		private void LoadTestCases(ISession session, ref long id, string filename)
-		{
-			XmlTestDocument document = new XmlTestDocument();
-			document.LoadFile(filename);
-			foreach (XmlTestCollection testCase in document.Tests)
-			{
-				foreach (XmlTest test in testCase)
-				{
-					NtsTestCase ntsTestCase = new NtsTestCase();
-					switch (test.TestType)
-					{
-						case XmlTestType.Intersection:
-						case XmlTestType.Union:
-						case XmlTestType.Difference:
-						case XmlTestType.SymmetricDifference:
-						case XmlTestType.Boundary:
-						case XmlTestType.Centroid:
-						case XmlTestType.ConvexHull:
-						case XmlTestType.Envelope:
-						case XmlTestType.InteriorPoint:
-							ntsTestCase.GeometryResult = (Geometry)test.Result;
-							break;
-
-						case XmlTestType.Contains:
-						case XmlTestType.CoveredBy:
-						case XmlTestType.Covers:
-						case XmlTestType.Crosses:
-						case XmlTestType.Disjoint:
-						case XmlTestType.Equals:
-						case XmlTestType.Intersects:
-						case XmlTestType.IsEmpty:
-						case XmlTestType.IsSimple:
-						case XmlTestType.IsValid:
-						case XmlTestType.Touches:
-						case XmlTestType.Within:
-							ntsTestCase.BooleanResult = (bool)test.Result;
-							break;
-
-						case XmlTestType.Relate:
-							ntsTestCase.RelatePattern = (string)test.Argument2;
-							ntsTestCase.BooleanResult = (bool)test.Result;
-							break;
-
-						default:
-							continue;
-					}
-					ntsTestCase.Operation = test.TestType.ToString();
-					ntsTestCase.Description = testCase.Name + ": " + test.Description;
-
-					if (test.IsDefaultTarget)
-					{
-						ntsTestCase.GeometryA = test.A;
-						ntsTestCase.GeometryB = test.B;
-					}
-					else
-					{
-						ntsTestCase.GeometryA = test.B;
-						ntsTestCase.GeometryB = test.A;
-					}
-
-					ntsTestCase.Id = ++id;
-
-					Prepare(ntsTestCase);
-
-					try
-					{
-						session.Save(ntsTestCase);
-						session.Flush();
-					}
-					catch
-					{
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// Prepares an entity for saving.
-		/// </summary>
-		/// <param name="ntsTestCase"></param>
-		private static void Prepare(NtsTestCase ntsTestCase)
-		{
-			ntsTestCase.GeometryA = Prepare(ntsTestCase.GeometryA);
-			ntsTestCase.GeometryB = Prepare(ntsTestCase.GeometryB);
-			ntsTestCase.GeometryResult = Prepare(ntsTestCase.GeometryResult);
-		}
-
-		/// <summary>
-		/// Prepares a geometry for saving.
-		/// </summary>
-		/// <param name="geometry"></param>
-		/// <returns></returns>
-		private static Geometry Prepare(Geometry geometry)
-		{
-			if (geometry == null)
-			{
-				geometry = GeometryCollection.Empty;
-			}
-			else
-			{
-				geometry = ConvertToSqlGeometryType(geometry);
-			}
-			geometry.SRID = -1;
-			return geometry;
-		}
-
-		/// <summary>
-		/// Some geometries are not OGC SQL Geometry Types,
-		/// so we convert them to .
-		/// </summary>
-		/// <param name="geometry"></param>
-		/// <returns></returns>
-		private static Geometry ConvertToSqlGeometryType(Geometry geometry)
-		{
-			if (geometry is LinearRing)
-			{
-				return new Polygon((LinearRing)geometry, (LinearRing[])null);
-			}
-			return geometry;
-		}
-
-		protected override void OnTestFixtureTearDown()
-		{
-			using (ISession session = sessions.OpenSession())
-			{
-				DeleteMappings(session);
-			}
-		}
-
-		protected ISession _session;
-
-		protected override void OnSetUp()
-		{
-			_session = sessions.OpenSession();
-		}
-
-		protected override void OnTearDown()
-		{
-			_session.Clear();
-			_session.Close();
-			_session.Dispose();
-			_session = null;
-		}
-
-		protected override bool CheckDatabaseWasCleanedOnTearDown
-		{
-			get { return false; }
-		}
-
-		#region Supporting test functions
-
-		private delegate SpatialProjection SpatialProjectionBinaryDelegate(string propertyName, string anotherPropertyName);
-
-		private delegate AbstractCriterion SpatialRelationCriterionDelegate(string propertyName, object anotherGeometry);
-
-		protected delegate SpatialProjection SpatialProjectionUnaryDelegate(string propertyName);
-
-		protected delegate AbstractCriterion SpatialCriterionUnaryDelegate(string propertyName);
-
-		private void TestGeometryBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection)
-		{
-			IList results = _session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", operationCriterion))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.Property("Description"))
-					.Add(Projections.Property("GeometryResult"))
-					.Add(projection("GeometryA", "GeometryB"))
-					)
-				.List();
-
-			Assert.Greater(results.Count, 0);
-
-			foreach (object[] result in results)
-			{
-				string description = (string)result[0];
-				Geometry expected = (Geometry)result[1];
-				Geometry operation = (Geometry)result[2];
-
-				expected.Normalize();
-				operation.Normalize();
-
-				bool equals = expected.EqualsExact(operation, 1.5);
-				if (!equals)
-					Console.WriteLine(operationCriterion + ": " + description);
-				//Assert.IsTrue(equals, description);
-			}
-		}
-
-		private void TestGeometryUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection)
-		{
-			IList results = _session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", operationCriterion))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.Property("Description"))
-					.Add(Projections.Property("GeometryResult"))
-					.Add(projection("GeometryA"))
-					)
-				.List();
-
-			Assert.Greater(results.Count, 0);
-
-			foreach (object[] result in results)
-			{
-				string description = (string)result[0];
-				Geometry expected = (Geometry)result[1];
-				Geometry operation = (Geometry)result[2];
-
-				expected.Normalize();
-				operation.Normalize();
-
-				bool equals = expected.EqualsExact(operation, 1.5);
-				if (!equals)
-					Console.WriteLine(operationCriterion + ": " + description);
-				//Assert.IsTrue(equals, description);
-			}
-		}
-
-		private void TestBooleanBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection, SpatialRelationCriterionDelegate criterion)
-		{
-			IList results = _session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", operationCriterion))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.Property("Description"))
-					.Add(Projections.Property("BooleanResult"))
-					.Add(projection("GeometryA", "GeometryB"))
-					)
-				.List();
-
-			Assert.Greater(results.Count, 0);
-
-			long countTrue = 0;
-
-			foreach (object[] result in results)
-			{
-				string description = (string)result[0];
-				bool expected = (bool)result[1];
-				bool operation = (bool)result[2];
-
-				Assert.AreEqual(expected, operation);
-
-				if (operation)
-					countTrue++;
-			}
-
-			// RowCount uses "count(*)" which in PostgreSQL returns Int64 and
-			// in MS SQL Server return Int32.
-			long countRows = Convert.ToInt64(_session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", operationCriterion))
-				.Add(criterion("GeometryA", "GeometryB"))
-				.SetProjection(Projections.RowCount())
-				.UniqueResult());
-
-			Assert.AreEqual(countTrue, countRows);
-		}
-
-		protected void TestBooleanUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection, SpatialCriterionUnaryDelegate criterion)
-		{
-			IList results = _session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", operationCriterion))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.Property("Description"))
-					.Add(Projections.Property("BooleanResult"))
-					.Add(projection("GeometryA"))
-					)
-				.List();
-
-			Assert.Greater(results.Count, 0);
-
-			long countTrue = 0;
-
-			foreach (object[] result in results)
-			{
-				string description = (string)result[0];
-				bool expected = (bool)result[1];
-				bool operation = (bool)result[2];
-
-				Assert.AreEqual(expected, operation, description);
-
-				if (operation)
-					countTrue++;
-			}
-
-			// RowCount uses "count(*)" which in PostgreSQL returns Int64 and
-			// in MS SQL Server return Int32.
-			long countRows = Convert.ToInt64(_session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", operationCriterion))
-				.Add(criterion("GeometryA"))
-				.SetProjection(Projections.RowCount())
-				.UniqueResult());
-
-			Assert.AreEqual(countTrue, countRows);
-		}
-
-		#endregion Supporting test functions
-
-		#region Analysis
-
-		[Test]
-		public void Intersection()
-		{
-			TestGeometryBinaryOperation("Intersection", SpatialProjections.Intersection);
-		}
-
-		[Test]
-		public void Union()
-		{
-			TestGeometryBinaryOperation("Union", SpatialProjections.Union);
-		}
-
-		[Test]
-		public void Difference()
-		{
-			TestGeometryBinaryOperation("Difference", SpatialProjections.Difference);
-		}
-
-		[Test]
-		public void SymmetricDifference()
-		{
-			TestGeometryBinaryOperation("SymmetricDifference", SpatialProjections.SymDifference);
-		}
-
-		[Test]
-		public void ConvexHull()
-		{
-			TestGeometryUnaryOperation("ConvexHull", SpatialProjections.ConvexHull);
-		}
-
-		#endregion Analysis
-
-		#region Relations
-
-		[Test]
-		public virtual void BooleanRelate()
-		{
-			IList results = _session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", "Relate"))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.Property("Description"))
-					.Add(Projections.Property("BooleanResult"))
-					.Add(SpatialProjections.Relate("GeometryA", "GeometryB", "RelatePattern"))
-					)
-				.List();
-
-			Assert.Greater(results.Count, 0);
-
-			foreach (object[] result in results)
-			{
-				string description = (string)result[0];
-				bool expected = (bool)result[1];
-				bool operation = (bool)result[2];
-
-				Assert.AreEqual(expected, operation);
-			}
-		}
-
-		[Test]
-		public virtual void StringRelate()
-		{
-			IList results = _session.CreateCriteria(typeof(NtsTestCase))
-				.Add(Restrictions.Eq("Operation", "Relate"))
-				.SetProjection(Projections.ProjectionList()
-					.Add(Projections.Property("Description"))
-					.Add(Projections.Property("RelatePattern"))
-					.Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
-					)
-				.List();
-
-			Assert.Greater(results.Count, 0);
-
-			foreach (object[] result in results)
-			{
-				string description = (string)result[0];
-				string expected = (string)result[1];
-				string operation = (string)result[2];
-
-				Assert.AreEqual(expected, operation);
-			}
-		}
-
-		[Test]
-		public void Contains()
-		{
-			TestBooleanBinaryOperation("Contains", SpatialProjections.Contains, SpatialRestrictions.Contains);
-		}
-
-		[Test]
-		public virtual void CoveredBy()
-		{
-			TestBooleanBinaryOperation("CoveredBy", SpatialProjections.CoveredBy, SpatialRestrictions.CoveredBy);
-		}
-
-		[Test]
-		public virtual void Covers()
-		{
-			TestBooleanBinaryOperation("Covers", SpatialProjections.Covers, SpatialRestrictions.Covers);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void Crosses()
-		{
-			TestBooleanBinaryOperation("Crosses", SpatialProjections.Crosses, SpatialRestrictions.Crosses);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void Disjoint()
-		{
-			TestBooleanBinaryOperation("Disjoint", SpatialProjections.Disjoint, SpatialRestrictions.Disjoint);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void Equals()
-		{
-			TestBooleanBinaryOperation("Equals", SpatialProjections.Equals, SpatialRestrictions.Eq);
-		}
-
-		[Test]
-		public void Intersects()
-		{
-			TestBooleanBinaryOperation("Intersects", SpatialProjections.Intersects, SpatialRestrictions.Intersects);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void Overlaps()
-		{
-			TestBooleanBinaryOperation("Overlaps", SpatialProjections.Overlaps, SpatialRestrictions.Overlaps);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void Touches()
-		{
-			TestBooleanBinaryOperation("Touches", SpatialProjections.Touches, SpatialRestrictions.Touches);
-		}
-
-		[Test]
-		public virtual void Within()
-		{
-			TestBooleanBinaryOperation("Within", SpatialProjections.Within, SpatialRestrictions.Within);
-		}
-
-		#endregion Relations
-
-		#region Validations
-
-		[Test]
-		[Ignore("No data to test")]
-		public void IsClosed()
-		{
-			TestBooleanUnaryOperation("IsClosed", SpatialProjections.IsClosed, SpatialRestrictions.IsClosed);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void IsEmpty()
-		{
-			TestBooleanUnaryOperation("IsEmpty", SpatialProjections.IsEmpty, SpatialRestrictions.IsEmpty);
-		}
-
-		[Test]
-		[Ignore("No data to test")]
-		public void IsRing()
-		{
-			TestBooleanUnaryOperation("IsRing", SpatialProjections.IsRing, SpatialRestrictions.IsRing);
-		}
-
-		[Test]
-		public virtual void IsSimple()
-		{
-			TestBooleanUnaryOperation("IsSimple", SpatialProjections.IsSimple, SpatialRestrictions.IsSimple);
-		}
-
-		[Test]
-		public virtual void IsValid()
-		{
-			TestBooleanUnaryOperation("IsValid", SpatialProjections.IsValid, SpatialRestrictions.IsValid);
-		}
-
-		#endregion Validations
-	}
+            }
+        }
+
+        protected override void OnTestFixtureTearDown()
+        {
+            using (var session = sessions.OpenSession())
+            {
+                DeleteMappings(session);
+            }
+        }
+
+        protected override void OnSetUp()
+        {
+            _session = sessions.OpenSession();
+        }
+
+        protected override void OnTearDown()
+        {
+            _session.Clear();
+            _session.Close();
+            _session.Dispose();
+            _session = null;
+        }
+
+        /// <summary>
+        /// Prepares an entity for saving.
+        /// </summary>
+        /// <param name="ntsTestCase"></param>
+        private static void Prepare(NtsTestCase ntsTestCase)
+        {
+            ntsTestCase.GeometryA = Prepare(ntsTestCase.GeometryA);
+            ntsTestCase.GeometryB = Prepare(ntsTestCase.GeometryB);
+            ntsTestCase.GeometryResult = Prepare(ntsTestCase.GeometryResult);
+        }
+
+        /// <summary>
+        /// Prepares a geometry for saving.
+        /// </summary>
+        /// <param name="geometry"></param>
+        /// <returns></returns>
+        private static Geometry Prepare(Geometry geometry)
+        {
+            geometry = geometry == null
+                ? GeometryCollection.Empty
+                : ConvertToSqlGeometryType(geometry);
+            geometry.SRID = -1;
+            return geometry;
+        }
+
+        /// <summary>
+        /// Some geometries are not OGC SQL Geometry Types,
+        /// so we convert them to .
+        /// </summary>
+        /// <param name="geometry"></param>
+        /// <returns></returns>
+        private static Geometry ConvertToSqlGeometryType(Geometry geometry)
+        {
+            if (geometry is LinearRing ring)
+            {
+                return new Polygon(ring, (LinearRing[]) null);
+            }
+            return geometry;
+        }
+
+        private void LoadTestCases(ISession session, ref long id, string filename)
+        {
+            var document = new XmlTestDocument();
+            document.LoadFile(filename);
+            foreach (XmlTestCollection testCase in document.Tests)
+            {
+                foreach (XmlTest test in testCase)
+                {
+                    var ntsTestCase = new NtsTestCase();
+                    switch (test.TestType)
+                    {
+                        case XmlTestType.Intersection:
+                        case XmlTestType.Union:
+                        case XmlTestType.Difference:
+                        case XmlTestType.SymmetricDifference:
+                        case XmlTestType.Boundary:
+                        case XmlTestType.Centroid:
+                        case XmlTestType.ConvexHull:
+                        case XmlTestType.Envelope:
+                        case XmlTestType.InteriorPoint:
+                            ntsTestCase.GeometryResult = (Geometry) test.Result;
+                            break;
+
+                        case XmlTestType.Contains:
+                        case XmlTestType.CoveredBy:
+                        case XmlTestType.Covers:
+                        case XmlTestType.Crosses:
+                        case XmlTestType.Disjoint:
+                        case XmlTestType.Equals:
+                        case XmlTestType.Intersects:
+                        case XmlTestType.IsEmpty:
+                        case XmlTestType.IsSimple:
+                        case XmlTestType.IsValid:
+                        case XmlTestType.Touches:
+                        case XmlTestType.Within:
+                            ntsTestCase.BooleanResult = (bool) test.Result;
+                            break;
+
+                        case XmlTestType.Relate:
+                            ntsTestCase.RelatePattern = (string) test.Argument2;
+                            ntsTestCase.BooleanResult = (bool) test.Result;
+                            break;
+
+                        default:
+                            continue;
+                    }
+                    ntsTestCase.Operation = test.TestType.ToString();
+                    ntsTestCase.Description = testCase.Name + ": " + test.Description;
+
+                    if (test.IsDefaultTarget)
+                    {
+                        ntsTestCase.GeometryA = test.A;
+                        ntsTestCase.GeometryB = test.B;
+                    }
+                    else
+                    {
+                        ntsTestCase.GeometryA = test.B;
+                        ntsTestCase.GeometryB = test.A;
+                    }
+
+                    ntsTestCase.Id = ++id;
+
+                    Prepare(ntsTestCase);
+
+                    try
+                    {
+                        session.Save(ntsTestCase);
+                        session.Flush();
+                    }
+                    catch
+                    { }
+                }
+            }
+        }
+
+        #region Supporting test functions
+
+        private delegate SpatialProjection SpatialProjectionBinaryDelegate(string propertyName, string anotherPropertyName);
+
+        private delegate AbstractCriterion SpatialRelationCriterionDelegate(string propertyName, object anotherGeometry);
+
+        protected delegate SpatialProjection SpatialProjectionUnaryDelegate(string propertyName);
+
+        protected delegate AbstractCriterion SpatialCriterionUnaryDelegate(string propertyName);
+
+        private void TestGeometryBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection)
+        {
+            var results = _session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", operationCriterion))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("GeometryResult"))
+                    .Add(projection("GeometryA", "GeometryB"))
+                )
+                .List();
+
+            Assert.Greater(results.Count, 0);
+
+            foreach (object[] result in results)
+            {
+                string description = (string) result[0];
+                var expected = (Geometry) result[1];
+                var operation = (Geometry) result[2];
+
+                expected.Normalize();
+                operation.Normalize();
+
+                bool equals = expected.EqualsExact(operation, 1.5);
+                if (!equals)
+                {
+                    Console.WriteLine(operationCriterion + ": " + description);
+                }
+
+                //Assert.IsTrue(equals, description);
+            }
+        }
+
+        private void TestGeometryUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection)
+        {
+            var results = _session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", operationCriterion))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("GeometryResult"))
+                    .Add(projection("GeometryA"))
+                )
+                .List();
+
+            Assert.Greater(results.Count, 0);
+
+            foreach (object[] result in results)
+            {
+                string description = (string) result[0];
+                var expected = (Geometry) result[1];
+                var operation = (Geometry) result[2];
+
+                expected.Normalize();
+                operation.Normalize();
+
+                bool equals = expected.EqualsExact(operation, 1.5);
+                if (!equals)
+                {
+                    Console.WriteLine(operationCriterion + ": " + description);
+                }
+
+                //Assert.IsTrue(equals, description);
+            }
+        }
+
+        private void TestBooleanBinaryOperation(string operationCriterion, SpatialProjectionBinaryDelegate projection, SpatialRelationCriterionDelegate criterion)
+        {
+            var results = _session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", operationCriterion))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("BooleanResult"))
+                    .Add(projection("GeometryA", "GeometryB"))
+                )
+                .List();
+
+            Assert.Greater(results.Count, 0);
+
+            long countTrue = 0;
+
+            foreach (object[] result in results)
+            {
+                string description = (string) result[0];
+                bool expected = (bool) result[1];
+                bool operation = (bool) result[2];
+
+                Assert.AreEqual(expected, operation);
+
+                if (operation)
+                {
+                    countTrue++;
+                }
+            }
+
+            // RowCount uses "count(*)" which in PostgreSQL returns Int64 and
+            // in MS SQL Server return Int32.
+            long countRows = Convert.ToInt64(_session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", operationCriterion))
+                .Add(criterion("GeometryA", "GeometryB"))
+                .SetProjection(Projections.RowCount())
+                .UniqueResult());
+
+            Assert.AreEqual(countTrue, countRows);
+        }
+
+        protected void TestBooleanUnaryOperation(string operationCriterion, SpatialProjectionUnaryDelegate projection, SpatialCriterionUnaryDelegate criterion)
+        {
+            var results = _session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", operationCriterion))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("BooleanResult"))
+                    .Add(projection("GeometryA"))
+                )
+                .List();
+
+            Assert.Greater(results.Count, 0);
+
+            long countTrue = 0;
+
+            foreach (object[] result in results)
+            {
+                string description = (string) result[0];
+                bool expected = (bool) result[1];
+                bool operation = (bool) result[2];
+
+                Assert.AreEqual(expected, operation, description);
+
+                if (operation)
+                {
+                    countTrue++;
+                }
+            }
+
+            // RowCount uses "count(*)" which in PostgreSQL returns Int64 and
+            // in MS SQL Server return Int32.
+            long countRows = Convert.ToInt64(_session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", operationCriterion))
+                .Add(criterion("GeometryA"))
+                .SetProjection(Projections.RowCount())
+                .UniqueResult());
+
+            Assert.AreEqual(countTrue, countRows);
+        }
+
+        #endregion Supporting test functions
+
+        #region Analysis
+
+        [Test]
+        public void Intersection()
+        {
+            TestGeometryBinaryOperation("Intersection", SpatialProjections.Intersection);
+        }
+
+        [Test]
+        public void Union()
+        {
+            TestGeometryBinaryOperation("Union", SpatialProjections.Union);
+        }
+
+        [Test]
+        public void Difference()
+        {
+            TestGeometryBinaryOperation("Difference", SpatialProjections.Difference);
+        }
+
+        [Test]
+        public void SymmetricDifference()
+        {
+            TestGeometryBinaryOperation("SymmetricDifference", SpatialProjections.SymDifference);
+        }
+
+        [Test]
+        public void ConvexHull()
+        {
+            TestGeometryUnaryOperation("ConvexHull", SpatialProjections.ConvexHull);
+        }
+
+        #endregion Analysis
+
+        #region Relations
+
+        [Test]
+        public virtual void BooleanRelate()
+        {
+            var results = _session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", "Relate"))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("BooleanResult"))
+                    .Add(SpatialProjections.Relate("GeometryA", "GeometryB", "RelatePattern"))
+                )
+                .List();
+
+            Assert.Greater(results.Count, 0);
+
+            foreach (object[] result in results)
+            {
+                string description = (string) result[0];
+                bool expected = (bool) result[1];
+                bool operation = (bool) result[2];
+
+                Assert.AreEqual(expected, operation);
+            }
+        }
+
+        [Test]
+        public virtual void StringRelate()
+        {
+            var results = _session.CreateCriteria(typeof(NtsTestCase))
+                .Add(Restrictions.Eq("Operation", "Relate"))
+                .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("RelatePattern"))
+                    .Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
+                )
+                .List();
+
+            Assert.Greater(results.Count, 0);
+
+            foreach (object[] result in results)
+            {
+                string description = (string) result[0];
+                string expected = (string) result[1];
+                string operation = (string) result[2];
+
+                Assert.AreEqual(expected, operation);
+            }
+        }
+
+        [Test]
+        public void Contains()
+        {
+            TestBooleanBinaryOperation("Contains", SpatialProjections.Contains, SpatialRestrictions.Contains);
+        }
+
+        [Test]
+        public virtual void CoveredBy()
+        {
+            TestBooleanBinaryOperation("CoveredBy", SpatialProjections.CoveredBy, SpatialRestrictions.CoveredBy);
+        }
+
+        [Test]
+        public virtual void Covers()
+        {
+            TestBooleanBinaryOperation("Covers", SpatialProjections.Covers, SpatialRestrictions.Covers);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void Crosses()
+        {
+            TestBooleanBinaryOperation("Crosses", SpatialProjections.Crosses, SpatialRestrictions.Crosses);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void Disjoint()
+        {
+            TestBooleanBinaryOperation("Disjoint", SpatialProjections.Disjoint, SpatialRestrictions.Disjoint);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void Equals()
+        {
+            TestBooleanBinaryOperation("Equals", SpatialProjections.Equals, SpatialRestrictions.Eq);
+        }
+
+        [Test]
+        public void Intersects()
+        {
+            TestBooleanBinaryOperation("Intersects", SpatialProjections.Intersects, SpatialRestrictions.Intersects);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void Overlaps()
+        {
+            TestBooleanBinaryOperation("Overlaps", SpatialProjections.Overlaps, SpatialRestrictions.Overlaps);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void Touches()
+        {
+            TestBooleanBinaryOperation("Touches", SpatialProjections.Touches, SpatialRestrictions.Touches);
+        }
+
+        [Test]
+        public virtual void Within()
+        {
+            TestBooleanBinaryOperation("Within", SpatialProjections.Within, SpatialRestrictions.Within);
+        }
+
+        #endregion Relations
+
+        #region Validations
+
+        [Test]
+        [Ignore("No data to test")]
+        public void IsClosed()
+        {
+            TestBooleanUnaryOperation("IsClosed", SpatialProjections.IsClosed, SpatialRestrictions.IsClosed);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void IsEmpty()
+        {
+            TestBooleanUnaryOperation("IsEmpty", SpatialProjections.IsEmpty, SpatialRestrictions.IsEmpty);
+        }
+
+        [Test]
+        [Ignore("No data to test")]
+        public void IsRing()
+        {
+            TestBooleanUnaryOperation("IsRing", SpatialProjections.IsRing, SpatialRestrictions.IsRing);
+        }
+
+        [Test]
+        public virtual void IsSimple()
+        {
+            TestBooleanUnaryOperation("IsSimple", SpatialProjections.IsSimple, SpatialRestrictions.IsSimple);
+        }
+
+        [Test]
+        public virtual void IsValid()
+        {
+            TestBooleanUnaryOperation("IsValid", SpatialProjections.IsValid, SpatialRestrictions.IsValid);
+        }
+
+        #endregion Validations
+    }
 }

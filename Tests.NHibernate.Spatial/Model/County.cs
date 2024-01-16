@@ -6,47 +6,46 @@ namespace Tests.NHibernate.Spatial.Model
     [Serializable]
     public class County
     {
-        public County()
-        {
-        }
-
-        public County(string name, string state, Geometry boundaries)
-        {
-            this.Name = name;
-            this.State = state;
-            this.Boundaries = boundaries;
-        }
-
         private long id;
-
-        public virtual long Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
 
         private string name;
 
-        public virtual string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
         private string state;
-
-        public virtual string State
-        {
-            get { return state; }
-            set { state = value; }
-        }
 
         private Geometry boundaries;
 
+        public County()
+        { }
+
+        public County(string name, string state, Geometry boundaries)
+        {
+            Name = name;
+            State = state;
+            Boundaries = boundaries;
+        }
+
+        public virtual long Id
+        {
+            get => id;
+            set => id = value;
+        }
+
+        public virtual string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
+        public virtual string State
+        {
+            get => state;
+            set => state = value;
+        }
+
         public virtual Geometry Boundaries
         {
-            get { return boundaries; }
-            set { boundaries = value; }
+            get => boundaries;
+            set => boundaries = value;
         }
     }
 }

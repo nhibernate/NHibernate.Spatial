@@ -48,7 +48,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
         {
-            return spatialDialect.GetSpatialTransformString(column, this.targetSrid);
+            return spatialDialect.GetSpatialTransformString(column, targetSrid);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override string ToString()
         {
-            return "Transform(" + this.propertyName + ", " + this.targetSrid.ToString() + ")";
+            return "Transform(" + propertyName + ", " + targetSrid + ")";
         }
     }
 }

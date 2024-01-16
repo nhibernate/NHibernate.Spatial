@@ -16,16 +16,13 @@ namespace NHibernate.Spatial.Linq.Functions
     {
         protected SpatialPropertyGenerator(params Expression<Func<TGeometry, TResult>>[] expressions)
         {
-            SupportedProperties = expressions.Select(o => ReflectHelper.GetProperty(o)).ToArray();
+            SupportedProperties = expressions.Select(ReflectHelper.GetProperty).ToArray();
         }
 
         public override HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder,
-            IHqlExpressionVisitor visitor)
+                                             IHqlExpressionVisitor visitor)
         {
-            var methodCall = treeBuilder.MethodCall(SpatialDialect.HqlPrefix + member.Name, new[]
-            {
-                visitor.Visit(expression).AsExpression()
-            });
+            var methodCall = treeBuilder.MethodCall(SpatialDialect.HqlPrefix + member.Name, visitor.Visit(expression).AsExpression());
             if (typeof(TResult) == typeof(bool))
             {
                 return treeBuilder.Equality(methodCall, treeBuilder.True());

@@ -18,17 +18,16 @@ namespace NHibernate.Spatial.Linq.Functions
         protected SpatialMethodGenerator(string methodName, params Expression<Action<TSource>>[] expressions)
         {
             this.methodName = methodName;
-            SupportedMethods = expressions.Select(o => ReflectHelper.GetMethodDefinition(o)).ToArray();
+            SupportedMethods = expressions.Select(ReflectHelper.GetMethodDefinition).ToArray();
         }
 
         protected SpatialMethodGenerator(params Expression<Action<TSource>>[] expressions)
             : this(null, expressions)
-        {
-        }
+        { }
 
         public override HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
-            var isExtensionMethod = (targetObject == null);
+            bool isExtensionMethod = targetObject == null;
             var expressions = isExtensionMethod ? arguments : new[] { targetObject }.Concat(arguments);
             var parameters = expressions.Select(o => visitor.Visit(o).AsExpression());
             var methodCall = treeBuilder.MethodCall(SpatialDialect.HqlPrefix + (methodName ?? method.Name), parameters);

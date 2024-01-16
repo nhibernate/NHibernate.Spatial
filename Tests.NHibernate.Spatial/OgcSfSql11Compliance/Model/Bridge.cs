@@ -6,39 +6,38 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
     [Serializable]
     public class Bridge
     {
-        public Bridge()
-        {
-        }
-
-        public Bridge(long fid, string name, Geometry position)
-        {
-            this.Fid = fid;
-            this.Name = name;
-            this.Position = position;
-        }
-
         private long fid;
-
-        public long Fid
-        {
-            get { return fid; }
-            set { fid = value; }
-        }
 
         private string name;
 
-        public string Name
+        private Geometry position;
+
+        public Bridge()
+        { }
+
+        public Bridge(long fid, string name, Geometry position)
         {
-            get { return name; }
-            set { name = value; }
+            Fid = fid;
+            Name = name;
+            Position = position;
         }
 
-        private Geometry position;
+        public long Fid
+        {
+            get => fid;
+            set => fid = value;
+        }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
 
         public Geometry Position
         {
-            get { return position; }
-            set { position = value; }
+            get => position;
+            set => position = value;
         }
     }
 }

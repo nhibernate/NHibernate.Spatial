@@ -4,8 +4,7 @@
     {
         public QueryOverSpatialRestrictionBuilder(IQueryOver<TRoot, TSubType> root, string propertyName)
             : base(root, propertyName)
-        {
-        }
+        { }
 
         public QueryOverSpatialRestrictionBuilder<TRoot, TSubType> Not
         {

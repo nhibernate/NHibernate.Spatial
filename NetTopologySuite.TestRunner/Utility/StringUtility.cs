@@ -16,18 +16,25 @@ namespace Open.Topology.TestRunner.Utility
      *
      * @version 1.7
      */
-
     public class StringUtil
     {
-        public static readonly String NewLine = Environment.NewLine;
+        public static readonly string NewLine = Environment.NewLine;
 
-        public static String RemoveFromEnd(String s, String strToRemove)
+        public static string RemoveFromEnd(string s, string strToRemove)
         {
-            if (s == null || strToRemove == null) return s;
-            if (s.Length < strToRemove.Length) return s;
+            if (s == null || strToRemove == null)
+            {
+                return s;
+            }
+            if (s.Length < strToRemove.Length)
+            {
+                return s;
+            }
             int subLoc = s.Length - strToRemove.Length;
             if (s.Substring(subLoc).Equals(strToRemove, StringComparison.CurrentCultureIgnoreCase))
+            {
                 return s.Substring(0, subLoc);
+            }
             return s;
         }
 
@@ -37,39 +44,39 @@ namespace Open.Topology.TestRunner.Utility
          * @param s the string to capitalize
          * @return the capitalized string
          */
-
-        public static String Capitalize(String s)
+        public static string Capitalize(string s)
         {
-            return Char.ToUpper(s[0]) + s.Substring(1);
+            return char.ToUpper(s[0]) + s.Substring(1);
         }
 
         /**
          *  Returns true if s can be converted to an int.
          */
-
-        public static bool IsInteger(String s)
+        public static bool IsInteger(string s)
         {
             int val;
             if (int.TryParse(s, out val))
+            {
                 return true;
+            }
             return false;
         }
 
         /**
          *  Returns an throwable's stack trace
          */
-
-        public static String GetStackTrace(Exception t)
+        public static string GetStackTrace(Exception t)
         {
             return t.StackTrace;
         }
 
-        public static String GetStackTrace(Exception t, int depth)
+        public static string GetStackTrace(Exception t, int depth)
         {
-            String stackTrace = "";
-            StringReader stringReader = new StringReader(GetStackTrace(t));
+            string stackTrace = "";
+            var stringReader = new StringReader(GetStackTrace(t));
+
             //LineNumberReader lineNumberReader = new LineNumberReader(stringReader);
-            var lineNumber = 0;
+            int lineNumber = 0;
             for (int i = 0; i < depth; i++)
             {
                 try
@@ -87,17 +94,16 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Converts the milliseconds value into a String of the form "9d 22h 15m 8s".
          */
-
-        public static String GetTimeString(long milliseconds)
+        public static string GetTimeString(long milliseconds)
         {
             long remainder = milliseconds;
-            long days = remainder / 86400000;
-            remainder = remainder % 86400000;
-            long hours = remainder / 3600000;
-            remainder = remainder % 3600000;
-            long minutes = remainder / 60000;
-            remainder = remainder % 60000;
-            long seconds = remainder / 1000;
+            long days = remainder/86400000;
+            remainder = remainder%86400000;
+            long hours = remainder/3600000;
+            remainder = remainder%3600000;
+            long minutes = remainder/60000;
+            remainder = remainder%60000;
+            long seconds = remainder/1000;
             return days + "d " + hours + "h " + minutes + "m " + seconds + "s";
         }
 
@@ -105,8 +111,7 @@ namespace Open.Topology.TestRunner.Utility
          *  Returns true if substring is indeed a substring of string.
          *  Case-insensitive.
          */
-
-        public static bool ContainsIgnoreCase(String wholeString, String substring)
+        public static bool ContainsIgnoreCase(string wholeString, string substring)
         {
             return Contains(wholeString.ToLowerInvariant(), substring.ToLowerInvariant());
         }
@@ -114,8 +119,7 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Returns true if substring is indeed a substring of string.
          */
-
-        public static bool Contains(String wholeString, String substring)
+        public static bool Contains(string wholeString, string substring)
         {
             return wholeString.IndexOf(substring) > -1;
         }
@@ -123,13 +127,11 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Returns a string with all occurrences of oldChar replaced by newStr
          */
-
-        public static String Replace(String str, char oldChar, String newStr)
+        public static string Replace(string str, char oldChar, string newStr)
         {
             var buf = new StringBuilder();
-            for (int i = 0; i < str.Length; i++)
+            foreach (char ch in str)
             {
-                var ch = str[i];
                 if (ch == oldChar)
                 {
                     buf.Append(newStr);
@@ -146,8 +148,7 @@ namespace Open.Topology.TestRunner.Utility
          *  Returns a String of the given length consisting entirely of the given
          *  character
          */
-
-        public static String StringOfChar(char ch, int count)
+        public static string StringOfChar(char ch, int count)
         {
             var buf = new StringBuilder();
             for (int i = 0; i < count; i++)
@@ -157,10 +158,10 @@ namespace Open.Topology.TestRunner.Utility
             return buf.ToString();
         }
 
-        public static String Indent(String original, int spaces)
+        public static string Indent(string original, int spaces)
         {
-            String indent = StringOfChar(' ', spaces);
-            String indented = indent + original;
+            string indent = StringOfChar(' ', spaces);
+            string indented = indent + original;
 
             indented = ReplaceAll(indented, "\r\n", "<<<<.CRLF.>>>>");
             indented = ReplaceAll(indented, "\r", "<<<<.CR.>>>>");
@@ -175,20 +176,18 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Returns the elements of v in uppercase
          */
-
         public static IEnumerable<string> ToUpperCase(IEnumerable<string> v)
         {
-            foreach (var s in v)
+            foreach (string s in v)
                 yield return s.ToUpperInvariant();
         }
 
         /**
          *  Returns the elements of v in lowercase
          */
-
         public static IEnumerable<string> ToLowerCase(IEnumerable<string> v)
         {
-            foreach (var s in v)
+            foreach (string s in v)
                 yield return s.ToLowerInvariant();
         }
 
@@ -196,11 +195,12 @@ namespace Open.Topology.TestRunner.Utility
          *  Returns the elements of c separated by commas and enclosed in
          *  single-quotes
          */
-
-        public static String ToCommaDelimitedStringInQuotes<T>(ICollection<T> c)
+        public static string ToCommaDelimitedStringInQuotes<T>(ICollection<T> c)
         {
             if (c == null || c.Count == 0)
+            {
                 throw new ArgumentException("c");
+            }
 
             var result = new StringBuilder();
             foreach (var o in c)
@@ -214,11 +214,12 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Returns the elements of c separated by commas. c must not be empty.
          */
-
-        public static String ToCommaDelimitedString<T>(ICollection<T> c)
+        public static string ToCommaDelimitedString<T>(ICollection<T> c)
         {
             if (c == null || c.Count == 0)
+            {
                 throw new ArgumentException("c");
+            }
 
             var result = new StringBuilder();
             foreach (var o in c)
@@ -232,8 +233,7 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Converts the comma-delimited string into a List of trimmed strings.
          */
-
-        public static List<string> FromCommaDelimitedString(String s)
+        public static List<string> FromCommaDelimitedString(string s)
         {
             var result = new List<string>(s.Split(','));
             return result;
@@ -242,8 +242,7 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  If s is null, returns "null"; otherwise, returns s.
          */
-
-        public static String ToStringNeverNull<T>(T o)
+        public static string ToStringNeverNull<T>(T o)
             where T : class
         {
             return o == null ? "null" : o.ToString();
@@ -254,8 +253,7 @@ namespace Open.Topology.TestRunner.Utility
          *  StringBuffer orig if all is true, or only the first instance if all is
          *  false. Posted by Steve Chapel <schapel@breakthr.com> on UseNet
          */
-
-        public static void Replace(StringBuilder orig, String o, String n, bool all)
+        public static void Replace(StringBuilder orig, string o, string n, bool all)
         {
             if (orig == null || o == null || o.Length == 0 || n == null)
             {
@@ -266,7 +264,7 @@ namespace Open.Topology.TestRunner.Utility
             {
                 if (orig.ToString().Substring(i, i + o.Length).Equals(o))
                 {
-                    orig.Replace(o, n);// (i, i + o.Length, n);
+                    orig.Replace(o, n); // (i, i + o.Length, n);
                     if (!all)
                     {
                         break;
@@ -284,8 +282,7 @@ namespace Open.Topology.TestRunner.Utility
          *  Returns original with all occurrences of oldSubstring replaced by
          *  newSubstring
          */
-
-        public static String ReplaceAll(String original, String oldSubstring, String newSubstring)
+        public static string ReplaceAll(string original, string oldSubstring, string newSubstring)
         {
             return Replace(original, oldSubstring, newSubstring, true);
         }
@@ -294,8 +291,7 @@ namespace Open.Topology.TestRunner.Utility
          *  Returns original with the first occurrenc of oldSubstring replaced by
          *  newSubstring
          */
-
-        public static String ReplaceFirst(String original, String oldSubstring, String newSubstring)
+        public static string ReplaceFirst(string original, string oldSubstring, string newSubstring)
         {
             return Replace(original, oldSubstring, newSubstring, false);
         }
@@ -304,8 +300,7 @@ namespace Open.Topology.TestRunner.Utility
          *  Pads the String with the given character until it has the given length. If
          *  original is longer than the given length, returns original.
          */
-
-        public static String LeftPad(String original, int length, char padChar)
+        public static string LeftPad(string original, int length, char padChar)
         {
             return original.PadLeft(length, padChar);
         }
@@ -314,8 +309,7 @@ namespace Open.Topology.TestRunner.Utility
          *  Pads the String with the given character until it has the given length. If
          *  original is longer than the given length, returns original.
          */
-
-        public static String RightPad(String original, int length, char padChar)
+        public static string RightPad(string original, int length, char padChar)
         {
             return original.PadRight(length, padChar);
         }
@@ -324,23 +318,22 @@ namespace Open.Topology.TestRunner.Utility
          *  Removes the HTML tags from the given String, inserting line breaks at
          *  appropriate places. Needs a little work.
          */
-
-        public static String StripHTMLTags(String original)
+        public static string StripHTMLTags(string original)
         {
             //Strip the tags from the HTML description
-            var skipping = false;
-            var writing = false;
+            bool skipping = false;
+            bool writing = false;
             var buffer = new StringBuilder();
             var tokenizer = new StreamTokenizer();
             tokenizer.Settings.WordChars("<>");
             var tokens = new List<Token>();
             if (tokenizer.Tokenize(tokens))
             {
-                var i = -1;
+                int i = -1;
                 while (i < tokens.Count)
                 {
                     i++;
-                    var token = tokens[i].StringValue;
+                    string token = tokens[i].StringValue;
                     if (token.Equals("<", StringComparison.InvariantCultureIgnoreCase))
                     {
                         skipping = true;
@@ -352,7 +345,10 @@ namespace Open.Topology.TestRunner.Utility
                         skipping = false;
                         continue;
                     }
-                    if (skipping) continue;
+                    if (skipping)
+                    {
+                        continue;
+                    }
 
                     if (token.Trim().Length == 0)
                     {
@@ -372,26 +368,24 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Returns d as a string truncated to the specified number of decimal places
          */
-
-        public static String Format(double d, int decimals)
+        public static string Format(double d, int decimals)
         {
             double factor = Math.Pow(10, decimals);
-            double digits = Math.Round(factor * d);
-            return ((int)Math.Floor(digits / factor)) + "." + ((int)(digits % factor));
+            double digits = Math.Round(factor*d);
+            return (int) Math.Floor(digits/factor) + "." + (int) (digits%factor);
         }
 
         /**
          *  Line-wraps s by inserting CR-LF instead of the first space after the nth
          *  column.
          */
-
-        public static String Split(String s, int n)
+        public static string Split(string s, int n)
         {
             var b = new StringBuilder();
-            var wrapPending = false;
+            bool wrapPending = false;
             for (int i = 0; i < s.Length; i++)
             {
-                if (i % n == 0 && i > 0)
+                if (i%n == 0 && i > 0)
                 {
                     wrapPending = true;
                 }
@@ -412,10 +406,9 @@ namespace Open.Topology.TestRunner.Utility
         /**
          *  Removes vowels from the string. Case-insensitive.
          */
-
-        public static String RemoveVowels(String s)
+        public static string RemoveVowels(string s)
         {
-            String result = s;
+            string result = s;
             result = ReplaceAll(result, "a", "");
             result = ReplaceAll(result, "e", "");
             result = ReplaceAll(result, "i", "");
@@ -433,10 +426,9 @@ namespace Open.Topology.TestRunner.Utility
          *  Removes vowels from the string except those that start words.
          *  Case-insensitive.
          */
-
-        public static String RemoveVowelsSkipStarts(String s)
+        public static string RemoveVowelsSkipStarts(string s)
         {
-            String result = s;
+            string result = s;
             if (!s.StartsWith(" "))
             {
                 result = result.Substring(1);
@@ -455,19 +447,18 @@ namespace Open.Topology.TestRunner.Utility
          *  Replaces consecutive instances of characters with single instances.
          *  Case-insensitive.
          */
-
-        public static String RemoveConsecutiveDuplicates(String s)
+        public static string RemoveConsecutiveDuplicates(string s)
         {
-            String previous = "??";
+            string previous = "??";
             var result = new StringBuilder();
-            for (int i = 0; i < s.Length; i++)
+            foreach (char c in s)
             {
-                String c = s[i] + "";
-                if (!previous.Equals(c, StringComparison.InvariantCultureIgnoreCase))
+                string current = c + "";
+                if (!previous.Equals(current, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    result.Append(c);
+                    result.Append(current);
                 }
-                previous = c;
+                previous = current;
             }
             return result.ToString();
         }
@@ -477,24 +468,28 @@ namespace Open.Topology.TestRunner.Utility
          *  in s starting at start. Ignores text within pairs of parentheses. Returns
          *  -1 if no occurrence is found.
          */
-
-        public static int IndexOfIgnoreParentheses(char c, String s, int start)
+        public static int IndexOfIgnoreParentheses(char c, string s, int start)
         {
             int level = 0;
             for (int i = start; i < s.Length; i++)
             {
                 char other = s[i];
-                if (other == '(')
+                switch (other)
                 {
-                    level++;
-                }
-                else if (other == ')')
-                {
-                    level--;
-                }
-                else if (other == c && level == 0)
-                {
-                    return i;
+                    case '(':
+                        level++;
+                        break;
+                    case ')':
+                        level--;
+                        break;
+                    default:
+                    {
+                        if (other == c && level == 0)
+                        {
+                            return i;
+                        }
+                        break;
+                    }
                 }
             }
             return -1;
@@ -505,11 +500,10 @@ namespace Open.Topology.TestRunner.Utility
          *  newSubstring. Set all to true to replace all occurrences, or false to
          *  replace the first occurrence only.
          */
-
-        public static String Replace(
-            String original,
-            String oldSubstring,
-            String newSubstring,
+        public static string Replace(
+            string original,
+            string oldSubstring,
+            string newSubstring,
             bool all)
         {
             var b = new StringBuilder(original);
@@ -517,51 +511,11 @@ namespace Open.Topology.TestRunner.Utility
             return b.ToString();
         }
 
-        /**
-         *  Replaces vowels that start words with a special code
-         */
-
-        private static String EncodeStartingVowels(String s)
-        {
-            String result = s;
-            result = ReplaceAll(result, " a", "!~b");
-            result = ReplaceAll(result, " e", "!~f");
-            result = ReplaceAll(result, " i", "!~j");
-            result = ReplaceAll(result, " o", "!~p");
-            result = ReplaceAll(result, " u", "!~v");
-            result = ReplaceAll(result, " A", "!~B");
-            result = ReplaceAll(result, " E", "!~F");
-            result = ReplaceAll(result, " I", "!~J");
-            result = ReplaceAll(result, " O", "!~P");
-            result = ReplaceAll(result, " U", "!~V");
-            return result;
-        }
-
-        /**
-         *  Decodes strings returned by #encodeStartingVowels
-         */
-
-        private static String DecodeStartingVowels(String s)
-        {
-            String result = s;
-            result = ReplaceAll(result, "!~b", " a");
-            result = ReplaceAll(result, "!~f", " e");
-            result = ReplaceAll(result, "!~j", " i");
-            result = ReplaceAll(result, "!~p", " o");
-            result = ReplaceAll(result, "!~v", " u");
-            result = ReplaceAll(result, "!~B", " A");
-            result = ReplaceAll(result, "!~F", " E");
-            result = ReplaceAll(result, "!~J", " I");
-            result = ReplaceAll(result, "!~P", " O");
-            result = ReplaceAll(result, "!~V", " U");
-            return result;
-        }
-
         //From: Phil Hanna (pehanna@my-deja.com)
         //Subject: Re: special html characters and java???
         //Newsgroups: comp.lang.java.help
         //Date: 2000/09/16
-        public static String EscapeHTML(String s)
+        public static string EscapeHTML(string s)
         {
             Replace(s, "\r\n", "\n", true);
             Replace(s, "\n\r", "\n", true);
@@ -602,7 +556,7 @@ namespace Open.Topology.TestRunner.Utility
         }
 
         //Based on code from http://developer.java.sun.com/developer/qow/archive/104/index.html
-        public static String CurrentMethodName()
+        public static string CurrentMethodName()
         {
             try
             {
@@ -610,12 +564,50 @@ namespace Open.Topology.TestRunner.Utility
             }
             catch (Exception e)
             {
-                var callStack = e.StackTrace;
-                var atPos = callStack.IndexOf("at");
+                string callStack = e.StackTrace;
+                int atPos = callStack.IndexOf("at");
                 atPos = callStack.IndexOf("at", atPos + 1);
-                var parenthesisPos = callStack.IndexOf("(", atPos);
+                int parenthesisPos = callStack.IndexOf("(", atPos);
                 return callStack.Substring(atPos + 3, parenthesisPos);
             }
+        }
+
+        /**
+         *  Replaces vowels that start words with a special code
+         */
+        private static string EncodeStartingVowels(string s)
+        {
+            string result = s;
+            result = ReplaceAll(result, " a", "!~b");
+            result = ReplaceAll(result, " e", "!~f");
+            result = ReplaceAll(result, " i", "!~j");
+            result = ReplaceAll(result, " o", "!~p");
+            result = ReplaceAll(result, " u", "!~v");
+            result = ReplaceAll(result, " A", "!~B");
+            result = ReplaceAll(result, " E", "!~F");
+            result = ReplaceAll(result, " I", "!~J");
+            result = ReplaceAll(result, " O", "!~P");
+            result = ReplaceAll(result, " U", "!~V");
+            return result;
+        }
+
+        /**
+         *  Decodes strings returned by #encodeStartingVowels
+         */
+        private static string DecodeStartingVowels(string s)
+        {
+            string result = s;
+            result = ReplaceAll(result, "!~b", " a");
+            result = ReplaceAll(result, "!~f", " e");
+            result = ReplaceAll(result, "!~j", " i");
+            result = ReplaceAll(result, "!~p", " o");
+            result = ReplaceAll(result, "!~v", " u");
+            result = ReplaceAll(result, "!~B", " A");
+            result = ReplaceAll(result, "!~F", " E");
+            result = ReplaceAll(result, "!~J", " I");
+            result = ReplaceAll(result, "!~P", " O");
+            result = ReplaceAll(result, "!~V", " U");
+            return result;
         }
     }
 

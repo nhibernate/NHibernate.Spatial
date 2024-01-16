@@ -24,13 +24,13 @@
     <PackageIcon>NHibernate.Spatial.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>LGPL-2.1-only</PackageLicenseExpression>
-    <PackageReleaseNotes>https://github.com/nhibernate/NHibernate.Spatial/blob/v$(VersionPrefix)/releasenotes.txt</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/nhibernate/NHibernate.Spatial/blob/v$(VersionPrefix)/CHANGELOG.txt</PackageReleaseNotes>
     <PackageTags>NHibernate; NHibernate.Spatial; ORM; Database; DAL; GIS; GeoSpatial</PackageTags>
     <RepositoryUrl>https://github.com/nhibernate/NHibernate.Spatial.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\Logo\NHibernate.Spatial.png" Pack="true" PackagePath="\"/>
+    <None Include="..\Logo\NHibernate.Spatial.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

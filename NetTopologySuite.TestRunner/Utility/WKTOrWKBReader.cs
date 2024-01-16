@@ -1,5 +1,4 @@
-﻿using System;
-using NetTopologySuite;
+﻿using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 
@@ -10,25 +9,6 @@ namespace Open.Topology.TestRunner.Utility
     /// </summary>
     public class WKTOrWKBReader
     {
-        private static Boolean IsHex(String str, int maxCharsToTest)
-        {
-            for (int i = 0; i < maxCharsToTest && i < str.Length; i++)
-            {
-                var ch = str[i];
-                if (!IsHexDigit(ch))
-                    return false;
-            }
-            return true;
-        }
-
-        private static Boolean IsHexDigit(char ch)
-        {
-            if (char.IsDigit(ch)) return true;
-            char chLow = char.ToLower(ch);
-            if (chLow >= 'a' && chLow <= 'f') return true;
-            return false;
-        }
-
         private const int MaxCharsToCheck = 6;
 
         private readonly WKTReader _wktReader;
@@ -52,12 +32,41 @@ namespace Open.Topology.TestRunner.Utility
         /// <param name="geomStr"></param>
         /// <returns></returns>
         /// <exception cref="ParseException"></exception>
-        public Geometry Read(String geomStr)
+        public Geometry Read(string geomStr)
         {
-            String trimStr = geomStr.Trim();
+            string trimStr = geomStr.Trim();
             if (IsHex(trimStr, MaxCharsToCheck))
+            {
                 return _wkbReader.Read(WKBReader.HexToBytes(trimStr));
+            }
             return _wktReader.Read(trimStr);
+        }
+
+        private static bool IsHex(string str, int maxCharsToTest)
+        {
+            for (int i = 0; i < maxCharsToTest && i < str.Length; i++)
+            {
+                char ch = str[i];
+                if (!IsHexDigit(ch))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static bool IsHexDigit(char ch)
+        {
+            if (char.IsDigit(ch))
+            {
+                return true;
+            }
+            char chLow = char.ToLower(ch);
+            if (chLow >= 'a' && chLow <= 'f')
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

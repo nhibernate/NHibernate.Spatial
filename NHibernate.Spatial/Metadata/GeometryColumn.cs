@@ -28,9 +28,21 @@ namespace NHibernate.Spatial.Metadata
         // caching the hashCode initalizing to 0 since in most cases,
         // hashing table name and column name is enough. we will set it
         // whenever the table name or column name will change
-        private int hashCode = 0;
+        private int hashCode;
 
         private string tableCatalog;
+
+        private string tableSchema;
+
+        private string tableName;
+
+        private string name;
+
+        private int srid;
+
+        private string subtype;
+
+        private int dimension;
 
         /// <summary>
         /// Gets or sets the table catalog.
@@ -38,11 +50,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The table catalog.</value>
         public virtual string TableCatalog
         {
-            get { return this.tableCatalog; }
-            set { this.tableCatalog = value; }
+            get => tableCatalog;
+            set => tableCatalog = value;
         }
-
-        private string tableSchema;
 
         /// <summary>
         /// Gets or sets the table schema.
@@ -50,11 +60,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The table schema.</value>
         public virtual string TableSchema
         {
-            get { return this.tableSchema; }
-            set { this.tableSchema = value; }
+            get => tableSchema;
+            set => tableSchema = value;
         }
-
-        private string tableName;
 
         /// <summary>
         /// Gets or sets the name of the table.
@@ -62,11 +70,13 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The name of the table.</value>
         public virtual string TableName
         {
-            get { return this.tableName; }
-            set { this.tableName = value; SetHashCode(); }
+            get => tableName;
+            set
+            {
+                tableName = value;
+                SetHashCode();
+            }
         }
-
-        private string name;
 
         /// <summary>
         /// Gets or sets the name of the geometry column.
@@ -74,11 +84,13 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The name.</value>
         public virtual string Name
         {
-            get { return this.name; }
-            set { this.name = value; SetHashCode(); }
+            get => name;
+            set
+            {
+                name = value;
+                SetHashCode();
+            }
         }
-
-        private int srid;
 
         /// <summary>
         /// Gets or sets the SRID.
@@ -86,11 +98,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The SRID.</value>
         public virtual int SRID
         {
-            get { return this.srid; }
-            set { this.srid = value; }
+            get => srid;
+            set => srid = value;
         }
-
-        private string subtype;
 
         /// <summary>
         /// Gets or sets the geometry subtype.
@@ -98,11 +108,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The subtype.</value>
         public virtual string Subtype
         {
-            get { return this.subtype; }
-            set { this.subtype = value; }
+            get => subtype;
+            set => subtype = value;
         }
-
-        private int dimension;
 
         /// <summary>
         /// Gets or sets the geometry dimension.
@@ -110,8 +118,13 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The dimension.</value>
         public virtual int Dimension
         {
-            get { return this.dimension; }
-            set { this.dimension = value; }
+            get => dimension;
+            set => dimension = value;
+        }
+
+        private void SetHashCode()
+        {
+            hashCode = (TableName + '.' + Name).GetHashCode();
         }
 
         #region System.Object Members
@@ -126,12 +139,12 @@ namespace NHibernate.Spatial.Metadata
         /// <exception cref="T:System.NullReferenceException">The <paramref name="obj"/> parameter is null.</exception>
         public override bool Equals(object obj)
         {
-            GeometryColumn other = obj as GeometryColumn;
-            return (other != null
-                && this.TableCatalog == other.TableCatalog
-                && this.TableSchema == other.TableSchema
-                && this.TableName == other.TableName
-                && this.Name == other.Name);
+            var other = obj as GeometryColumn;
+            return other != null
+                   && TableCatalog == other.TableCatalog
+                   && TableSchema == other.TableSchema
+                   && TableName == other.TableName
+                   && Name == other.Name;
         }
 
         /// <summary>
@@ -146,10 +159,5 @@ namespace NHibernate.Spatial.Metadata
         }
 
         #endregion System.Object Members
-
-        private void SetHashCode()
-        {
-            this.hashCode = (TableName + '.' + Name).GetHashCode();
-        }
     }
 }

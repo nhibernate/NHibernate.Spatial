@@ -22,35 +22,16 @@ namespace Open.Topology.TestRunner.Operations
      * @author Martin Davis
      *
      */
-
     public class OverlayValidatedGeometryOperation : IGeometryOperation
     {
-        public static SpatialFunction OverlayOpCode(String methodName)
-        {
-            if (methodName.Equals("intersection", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.Intersection;
-            if (methodName.Equals("union", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.Union;
-            if (methodName.Equals("difference", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.Difference;
-            if (methodName.Equals("symDifference", StringComparison.InvariantCultureIgnoreCase)) return SpatialFunction.SymDifference;
-            throw new ArgumentOutOfRangeException("methodName");
-        }
-
         private const bool ReturnEmptyGeometryCollection = true;
+
+        private const double AreaDiffTol = 5.0;
 
         private readonly GeometryMethodOperation _chainOp = new GeometryMethodOperation();
 
         public OverlayValidatedGeometryOperation()
-        {
-        }
-
-        public Type GetReturnType(XmlTestType op)
-        {
-            return GetReturnType(op.ToString());
-        }
-
-        public Type GetReturnType(String opName)
-        {
-            return _chainOp.GetReturnType(opName);
-        }
+        { }
 
         /// <summary>
         /// Creates a new operation which chains to the given {@link GeometryMethodOperation}
@@ -62,6 +43,64 @@ namespace Open.Topology.TestRunner.Operations
             _chainOp = chainOp;
         }
 
+        public static SpatialFunction OverlayOpCode(string methodName)
+        {
+            if (methodName.Equals("intersection", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return SpatialFunction.Intersection;
+            }
+            if (methodName.Equals("union", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return SpatialFunction.Union;
+            }
+            if (methodName.Equals("difference", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return SpatialFunction.Difference;
+            }
+            if (methodName.Equals("symDifference", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return SpatialFunction.SymDifference;
+            }
+            throw new ArgumentOutOfRangeException(nameof(methodName));
+        }
+
+        public static double AreaDiff(Geometry g0, Geometry g1)
+        {
+            double areaA = g0.Area;
+            double areaAdiffB = g0.Difference(g1).Area;
+            double areaAintB = g0.Intersection(g1).Area;
+            return areaA - areaAdiffB - areaAintB;
+        }
+
+        public static Geometry InvokeGeometryOverlayMethod(SpatialFunction opCode, Geometry g0, Geometry g1)
+        {
+            switch (opCode)
+            {
+                case SpatialFunction.Intersection:
+                    return g0.Intersection(g1);
+
+                case SpatialFunction.Union:
+                    return g0.Union(g1);
+
+                case SpatialFunction.Difference:
+                    return g0.Difference(g1);
+
+                case SpatialFunction.SymDifference:
+                    return g0.SymmetricDifference(g1);
+            }
+            throw new ArgumentException(@"Unknown overlay op code");
+        }
+
+        public Type GetReturnType(XmlTestType op)
+        {
+            return GetReturnType(op.ToString());
+        }
+
+        public Type GetReturnType(string opName)
+        {
+            return _chainOp.GetReturnType(opName);
+        }
+
         /// <summary>
         /// Invokes the named operation.
         /// </summary>
@@ -69,12 +108,12 @@ namespace Open.Topology.TestRunner.Operations
         /// <param name="geometry">The geometry to process</param>
         /// <param name="args">The arguments to the operation (which may be typed as Strings)</param>
         /// <exception cref="Exception">If some error was encountered trying to find or process the operation</exception>
-        public IResult Invoke(XmlTestType opName, Geometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType opName, Geometry geometry, object[] args)
         {
             return Invoke(opName.ToString(), geometry, args);
         }
 
-        public IResult Invoke(String opName, Geometry geometry, Object[] args)
+        public IResult Invoke(string opName, Geometry geometry, object[] args)
         {
             var opCode = OverlayOpCode(opName);
 
@@ -96,14 +135,13 @@ namespace Open.Topology.TestRunner.Operations
          * @return
          * @throws Exception
          */
-
         /// <summary>
         /// Invokes an overlay op, optionally using snapping,
         /// and optionally validating the result.
         /// </summary>
-        public IResult InvokeValidatedOverlayOp(SpatialFunction opCode, Geometry g0, Object[] args)
+        public IResult InvokeValidatedOverlayOp(SpatialFunction opCode, Geometry g0, object[] args)
         {
-            var g1 = (Geometry)args[0];
+            var g1 = (Geometry) args[0];
 
             var result = InvokeGeometryOverlayMethod(opCode, g0, g1);
 
@@ -111,7 +149,7 @@ namespace Open.Topology.TestRunner.Operations
             Validate(opCode, g0, g1, result);
             AreaValidate(g0, g1);
 
-            /**
+            /*
              * Return an empty GeometryCollection as the result.
              * This allows the test case to avoid specifying an exact result
              */
@@ -126,59 +164,29 @@ namespace Open.Topology.TestRunner.Operations
         private static void Validate(SpatialFunction opCode, Geometry g0, Geometry g1, Geometry result)
         {
             var validator = new OverlayResultValidator(g0, g1, result);
+
             // check if computed result is valid
             if (!validator.IsValid(opCode))
             {
                 var invalidLoc = validator.InvalidLocation;
-                String msg = "Operation result is invalid [OverlayResultValidator] ( " + WKTWriter.ToPoint(invalidLoc) + " )";
+                string msg = "Operation result is invalid [OverlayResultValidator] ( " + WKTWriter.ToPoint(invalidLoc) + " )";
                 ReportError(msg);
             }
         }
-
-        private const double AreaDiffTol = 5.0;
 
         private static void AreaValidate(Geometry g0, Geometry g1)
         {
             double areaDiff = AreaDiff(g0, g1);
-            //  	System.out.println("Area diff = " + areaDiff);
             if (Math.Abs(areaDiff) > AreaDiffTol)
             {
-                String msg = "Operation result is invalid [AreaTest] (" + areaDiff + ")";
+                string msg = "Operation result is invalid [AreaTest] (" + areaDiff + ")";
                 ReportError(msg);
             }
         }
 
-        public static double AreaDiff(Geometry g0, Geometry g1)
+        private static void ReportError(string msg)
         {
-            double areaA = g0.Area;
-            double areaAdiffB = g0.Difference(g1).Area;
-            double areaAintB = g0.Intersection(g1).Area;
-            return areaA - areaAdiffB - areaAintB;
-        }
-
-        private static void ReportError(String msg)
-        {
-            //Console.WriteLine(msg);
             throw new Exception(msg);
-        }
-
-        public static Geometry InvokeGeometryOverlayMethod(SpatialFunction opCode, Geometry g0, Geometry g1)
-        {
-            switch (opCode)
-            {
-                case SpatialFunction.Intersection:
-                    return g0.Intersection(g1);
-
-                case SpatialFunction.Union:
-                    return g0.Union(g1);
-
-                case SpatialFunction.Difference:
-                    return g0.Difference(g1);
-
-                case SpatialFunction.SymDifference:
-                    return g0.SymmetricDifference(g1);
-            }
-            throw new ArgumentException(@"Unknown overlay op code");
         }
     }
 }

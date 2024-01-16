@@ -7,15 +7,7 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MsSql2008ProjectionsFixture : ProjectionsFixture
     {
-        protected override void Configure(Configuration config)
-        {
-            TestConfiguration.Configure(config);
-        }
-
-        protected override System.Type GeometryType
-        {
-            get { return typeof(MsSqlGeometryType); }
-        }
+        protected override System.Type GeometryType => typeof(MsSqlGeometryType);
 
         [Test]
         [Ignore("MsSql2008 does not support spatial aggregate functions")]
@@ -46,5 +38,10 @@ namespace Tests.NHibernate.Spatial
         [Ignore("MsSql2008 does not support spatial aggregate functions")]
         public override void IntersectionAll()
         { }
+
+        protected override void Configure(Configuration config)
+        {
+            TestConfiguration.Configure(config);
+        }
     }
 }

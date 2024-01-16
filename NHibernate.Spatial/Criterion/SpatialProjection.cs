@@ -20,7 +20,6 @@ using NHibernate.Spatial.Dialect;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
 using System;
-using System.Collections.Generic;
 
 namespace NHibernate.Spatial.Criterion
 {
@@ -45,6 +44,10 @@ namespace NHibernate.Spatial.Criterion
             this.propertyName = propertyName;
         }
 
+        public override bool IsAggregate => false;
+
+        public override bool IsGrouped => false;
+
         /// <summary>
         /// Gets the types.
         /// </summary>
@@ -53,7 +56,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            return new IType[] { SpatialDialect.GeometryTypeOf(criteriaQuery.Factory) };
+            return new[] { SpatialDialect.GeometryTypeOf(criteriaQuery.Factory) };
         }
 
         /// <summary>
@@ -65,9 +68,9 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
-            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-            string column = criteriaQuery.GetColumn(criteria, this.propertyName);
-            SqlString sqlString = this.ToSqlString(column, spatialDialect);
+            var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
+            string column = criteriaQuery.GetColumn(criteria, propertyName);
+            var sqlString = ToSqlString(column, spatialDialect);
             return new SqlStringBuilder()
                 .Add(sqlString)
                 .Add(" as y")
@@ -85,16 +88,6 @@ namespace NHibernate.Spatial.Criterion
         public virtual SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
         {
             return null;
-        }
-
-        public override bool IsAggregate
-        {
-            get { return false; }
-        }
-
-        public override bool IsGrouped
-        {
-            get { return false; }
         }
 
         public override SqlString ToGroupSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)

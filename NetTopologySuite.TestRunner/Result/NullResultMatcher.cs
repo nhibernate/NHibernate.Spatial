@@ -1,5 +1,4 @@
 using NetTopologySuite.Geometries;
-using System;
 
 namespace Open.Topology.TestRunner.Result
 {
@@ -12,7 +11,7 @@ namespace Open.Topology.TestRunner.Result
     {
         ///<inheritdoc/>
         ///<remarks>Always reports a match.</remarks>
-        public bool IsMatch(Geometry geom, String opName, Object[] args,
+        public bool IsMatch(Geometry geom, string opName, object[] args,
                             TResult actualResult, TResult expectedResult,
                             double tolerance)
         {

@@ -6,39 +6,38 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
     [Serializable]
     public class NamedPlace
     {
-        public NamedPlace()
-        {
-        }
-
-        public NamedPlace(long fid, string name, Geometry boundary)
-        {
-            this.Fid = fid;
-            this.Name = name;
-            this.Boundary = boundary;
-        }
-
         private long fid;
-
-        public long Fid
-        {
-            get { return fid; }
-            set { fid = value; }
-        }
 
         private string name;
 
-        public string Name
+        private Geometry boundary;
+
+        public NamedPlace()
+        { }
+
+        public NamedPlace(long fid, string name, Geometry boundary)
         {
-            get { return name; }
-            set { name = value; }
+            Fid = fid;
+            Name = name;
+            Boundary = boundary;
         }
 
-        private Geometry boundary;
+        public long Fid
+        {
+            get => fid;
+            set => fid = value;
+        }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
 
         public Geometry Boundary
         {
-            get { return boundary; }
-            set { boundary = value; }
+            get => boundary;
+            set => boundary = value;
         }
     }
 }

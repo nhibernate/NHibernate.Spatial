@@ -39,7 +39,7 @@ namespace NHibernate.Spatial.Dialect.Function
         {
             this.spatialDialect = spatialDialect;
             this.validation = validation;
-            this.allowedArgsCount = 1;
+            allowedArgsCount = 1;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NHibernate.Spatial.Dialect.Function
         public override SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
             ValidateArgsCount(args);
-            return this.spatialDialect.GetSpatialValidationString(args[0], this.validation, false);
+            return spatialDialect.GetSpatialValidationString(args[0], validation, false);
         }
     }
 }

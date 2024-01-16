@@ -65,10 +65,10 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
-            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-            string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
-            string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
-            SqlString sqlString = spatialDialect.GetSpatialRelationString(column1, this.relation, column2, false);
+            var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
+            string column1 = criteriaQuery.GetColumn(criteria, propertyName);
+            string column2 = criteriaQuery.GetColumn(criteria, anotherPropertyName);
+            var sqlString = spatialDialect.GetSpatialRelationString(column1, relation, column2, false);
             return new SqlStringBuilder()
                 .Add(sqlString)
                 .Add(" as y")

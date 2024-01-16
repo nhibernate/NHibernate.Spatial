@@ -25,12 +25,19 @@ namespace NHibernate.Spatial.Metadata
     [Serializable]
     public class SpatialReferenceSystem
     {
+        private int srid;
+
+        private string authorityName;
+
+        private int authoritySRID;
+
+        private string wellKnownText;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialReferenceSystem"/> class.
         /// </summary>
         public SpatialReferenceSystem()
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialReferenceSystem"/> class.
@@ -41,13 +48,11 @@ namespace NHibernate.Spatial.Metadata
         /// <param name="wellKnownText">The well known text.</param>
         public SpatialReferenceSystem(int srid, string authorityName, int authoritySRID, string wellKnownText)
         {
-            this.SRID = srid;
-            this.AuthorityName = authorityName;
-            this.AuthoritySRID = authoritySRID;
-            this.WellKnownText = wellKnownText;
+            SRID = srid;
+            AuthorityName = authorityName;
+            AuthoritySRID = authoritySRID;
+            WellKnownText = wellKnownText;
         }
-
-        private int srid;
 
         /// <summary>
         /// Gets or sets the SRID.
@@ -55,11 +60,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The SRID.</value>
         public virtual int SRID
         {
-            get { return this.srid; }
-            set { this.srid = value; }
+            get => srid;
+            set => srid = value;
         }
-
-        private string authorityName;
 
         /// <summary>
         /// Gets or sets the name of the authority.
@@ -67,11 +70,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The name of the authority.</value>
         public virtual string AuthorityName
         {
-            get { return this.authorityName; }
-            set { this.authorityName = value; }
+            get => authorityName;
+            set => authorityName = value;
         }
-
-        private int authoritySRID;
 
         /// <summary>
         /// Gets or sets the authority SRID.
@@ -79,11 +80,9 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The authority SRID.</value>
         public virtual int AuthoritySRID
         {
-            get { return this.authoritySRID; }
-            set { this.authoritySRID = value; }
+            get => authoritySRID;
+            set => authoritySRID = value;
         }
-
-        private string wellKnownText;
 
         /// <summary>
         /// Gets or sets the well known text.
@@ -91,8 +90,8 @@ namespace NHibernate.Spatial.Metadata
         /// <value>The well known text.</value>
         public virtual string WellKnownText
         {
-            get { return this.wellKnownText; }
-            set { this.wellKnownText = value; }
+            get => wellKnownText;
+            set => wellKnownText = value;
         }
     }
 }

@@ -6,7 +6,6 @@ namespace NHibernate.Spatial.Linq
     {
         public SpatialLinqMethodException()
             : base("Method to use only in Linq expressions")
-        {
-        }
+        { }
     }
 }

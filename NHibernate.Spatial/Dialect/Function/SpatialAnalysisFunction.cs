@@ -36,21 +36,12 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="analysis">The analysis.</param>
         public SpatialAnalysisFunction(ISpatialDialect spatialDialect, SpatialAnalysis analysis)
             : base(analysis.ToString(),
-              (analysis == SpatialAnalysis.Distance ?
-                    NHibernateUtil.Double :
-                    spatialDialect.GeometryType)
-              )
+                analysis == SpatialAnalysis.Distance ? NHibernateUtil.Double : spatialDialect.GeometryType
+            )
         {
             this.spatialDialect = spatialDialect;
             this.analysis = analysis;
-            if (this.analysis == SpatialAnalysis.ConvexHull)
-            {
-                this.allowedArgsCount = 1;
-            }
-            else
-            {
-                this.allowedArgsCount = 2;
-            }
+            allowedArgsCount = this.analysis == SpatialAnalysis.ConvexHull ? 1 : 2;
         }
 
         /// <summary>
@@ -62,11 +53,11 @@ namespace NHibernate.Spatial.Dialect.Function
         public override SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
             ValidateArgsCount(args);
-            if (this.analysis == SpatialAnalysis.ConvexHull)
+            if (analysis == SpatialAnalysis.ConvexHull)
             {
-                return this.spatialDialect.GetSpatialAnalysisString(args[0], this.analysis, null);
+                return spatialDialect.GetSpatialAnalysisString(args[0], analysis, null);
             }
-            return this.spatialDialect.GetSpatialAnalysisString(args[0], this.analysis, args[1]);
+            return spatialDialect.GetSpatialAnalysisString(args[0], analysis, args[1]);
         }
     }
 }

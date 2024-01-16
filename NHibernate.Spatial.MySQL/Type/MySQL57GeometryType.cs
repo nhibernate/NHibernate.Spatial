@@ -23,71 +23,70 @@ using NHibernate.Type;
 
 namespace NHibernate.Spatial.Type
 {
-	/// <summary>
-	/// MySQL geometry type (to be used in models) that supports the changes introduced in MySQL 5.7
-	/// </summary>
-	public class MySQL57GeometryType : GeometryTypeBase<MySqlGeometry?>
-	{
-		private static readonly NullableType MySQL57GeometryAdapterType = new MySQL57GeometryAdapterType();
+    /// <summary>
+    /// MySQL geometry type (to be used in models) that supports the changes introduced in MySQL 5.7
+    /// </summary>
+    public class MySQL57GeometryType : GeometryTypeBase<MySqlGeometry?>
+    {
+        private static readonly NullableType MySQL57GeometryAdapterType = new MySQL57GeometryAdapterType();
 
-		public MySQL57GeometryType()
-			: base(MySQL57GeometryAdapterType)
-		{
-		}
+        public MySQL57GeometryType()
+            : base(MySQL57GeometryAdapterType)
+        { }
 
-		protected override void SetDefaultSRID(Geometry geometry)
-		{
-			base.SetDefaultSRID(geometry);
-			if (geometry.SRID == -1)
-			{
-				geometry.SRID = 0;
-			}
-		}
+        protected override void SetDefaultSRID(Geometry geometry)
+        {
+            base.SetDefaultSRID(geometry);
+            if (geometry.SRID == -1)
+            {
+                geometry.SRID = 0;
+            }
+        }
 
-		/// <summary>
-		/// Converts from GeoAPI geometry type to database geometry type.
-		/// </summary>
-		/// <param name="value">The GeoAPI geometry value.</param>
-		/// <returns></returns>
-		protected override MySqlGeometry? FromGeometry(object value)
-		{
-			Geometry geometry = value as Geometry;
-			if (geometry == null)
-			{
-				return null;
-			}
-			// MySQL parses empty geometry as NULL
-			if (geometry.IsEmpty)
-			{
-                return null;    // TODO: Somehow specify an empty geometry and not just null.
-                                // MySqlGeometry does not support empty geometry collections
-                                // so we simply return null for now. At some point we should to
-                                // use GeometryCollection.Empty here, when MySQL supports it.
-			}
+        /// <summary>
+        /// Converts from GeoAPI geometry type to database geometry type.
+        /// </summary>
+        /// <param name="value">The GeoAPI geometry value.</param>
+        /// <returns></returns>
+        protected override MySqlGeometry? FromGeometry(object value)
+        {
+            var geometry = value as Geometry;
+            if (geometry == null)
+            {
+                return null;
+            }
+
+            // MySQL parses empty geometry as NULL
+            if (geometry.IsEmpty)
+            {
+                return null; // TODO: Somehow specify an empty geometry and not just null.
+
+                // MySqlGeometry does not support empty geometry collections
+                // so we simply return null for now. At some point we should to
+                // use GeometryCollection.Empty here, when MySQL supports it.
+            }
 
             SetDefaultSRID(geometry);
-			byte[] bytes = new MySQLWriter().Write(geometry);
-			return new MySqlGeometry(MySqlDbType.Geometry, bytes);
-		}
+            byte[] bytes = new MySQLWriter().Write(geometry);
+            return new MySqlGeometry(MySqlDbType.Geometry, bytes);
+        }
 
-		/// <summary>
-		/// Converts to GeoAPI geometry type from database geometry type.
-		/// </summary>
-		/// <param name="value">The database geometry value.</param>
-		/// <returns></returns>
-		protected override Geometry ToGeometry(object value)
-		{
-			MySqlGeometry? bytes = value as MySqlGeometry?;
+        /// <summary>
+        /// Converts to GeoAPI geometry type from database geometry type.
+        /// </summary>
+        /// <param name="value">The database geometry value.</param>
+        /// <returns></returns>
+        protected override Geometry ToGeometry(object value)
+        {
+            if (!(value is MySqlGeometry bytes))
+            {
+                return null;
+            }
 
-            if (!bytes.HasValue)
-		    {
-		        return null;
-		    }
-
-			MySQLReader reader = new MySQLReader();
-			Geometry geometry = reader.Read(bytes.Value.Value);
-			SetDefaultSRID(geometry);
-			return geometry;
-		}
-	}
+            var reader = new MySQLReader();
+            var geometry = reader.Read(bytes.Value);
+            SetDefaultSRID(geometry);
+            return geometry;
+        }
+    }
 }

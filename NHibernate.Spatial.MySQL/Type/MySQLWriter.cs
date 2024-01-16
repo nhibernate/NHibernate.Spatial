@@ -17,18 +17,12 @@
 
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
-using System;
 using System.IO;
 
 namespace NHibernate.Spatial.Type
 {
     public class MySQLWriter : WKBWriter
     {
-        protected override int SetByteStream(Geometry geometry)
-        {
-            return base.SetByteStream(geometry) + 4; // sizeof(int)
-        }
-
         public override byte[] Write(Geometry geometry)
         {
             byte[] bytes = new byte[SetByteStream(geometry)];
@@ -38,15 +32,9 @@ namespace NHibernate.Spatial.Type
 
         public override void Write(Geometry geometry, Stream stream)
         {
-            BinaryWriter writer;
-            if (this.EncodingType == ByteOrder.LittleEndian)
-            {
-                writer = new BinaryWriter(stream);
-            }
-            else
-            {
-                writer = new BEBinaryWriter(stream);
-            }
+            var writer = EncodingType == ByteOrder.LittleEndian
+                ? new BinaryWriter(stream)
+                : new BEBinaryWriter(stream);
             using (writer)
             {
                 writer.Write(geometry.SRID < 0 ? 0 : geometry.SRID);
@@ -61,10 +49,15 @@ namespace NHibernate.Spatial.Type
             }
         }
 
+        protected override int SetByteStream(Geometry geometry)
+        {
+            return base.SetByteStream(geometry) + 4; // sizeof(int)
+        }
+
         protected void WriteGeometryCollectionEmpty(Geometry geometry, BinaryWriter writer)
         {
             WriteByteOrder(writer);
-            if (geometry.Coordinate == null || Double.IsNaN(geometry.Coordinate.Z))
+            if (geometry.Coordinate == null || double.IsNaN(geometry.Coordinate.Z))
             {
                 writer.Write((int) WKBGeometryTypes.WKBGeometryCollection);
             }

@@ -6,14 +6,8 @@ namespace Open.Topology.TestRunner
 {
     public class XmlTestTimer
     {
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
-
-        [DllImport("Kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(out long lpFrequency);
-
+        private readonly long freq;
         private long startTime, stopTime;
-        private long freq;
 
         // Constructor
         public XmlTestTimer()
@@ -27,6 +21,9 @@ namespace Open.Topology.TestRunner
                 throw new Win32Exception();
             }
         }
+
+        // Returns the duration of the timer (in seconds)
+        public double Duration => (stopTime - startTime)/(double) freq;
 
         // Start the timer
         public void Start()
@@ -43,13 +40,10 @@ namespace Open.Topology.TestRunner
             QueryPerformanceCounter(out stopTime);
         }
 
-        // Returns the duration of the timer (in seconds)
-        public double Duration
-        {
-            get
-            {
-                return (double)(stopTime - startTime) / (double)freq;
-            }
-        }
+        [DllImport("Kernel32.dll")]
+        private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool QueryPerformanceFrequency(out long lpFrequency);
     }
 }

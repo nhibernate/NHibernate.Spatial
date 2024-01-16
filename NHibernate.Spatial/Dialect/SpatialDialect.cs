@@ -64,13 +64,13 @@ namespace NHibernate.Spatial.Dialect
 
         public static ISpatialDialect LastInstantiated
         {
-            get { return lastInstantiated; }
+            get => lastInstantiated;
             set
             {
                 lastInstantiated = value;
 
                 // Set Linq-to-HQL generator registry by default.
-                ((NHibernate.Dialect.Dialect)value)
+                ((NHibernate.Dialect.Dialect) value)
                     .DefaultProperties["linqtohql.generatorsregistry"] =
                     typeof(Linq.Functions.SpatialLinqToHqlGeneratorsRegistry)
                         .AssemblyQualifiedName;
@@ -86,7 +86,7 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public static IType GeometryTypeOf(ISessionFactory sessionFactory)
         {
-            return ((ISpatialDialect)((ISessionFactoryImplementor)sessionFactory).Dialect).GeometryType;
+            return ((ISpatialDialect) ((ISessionFactoryImplementor) sessionFactory).Dialect).GeometryType;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public static IType GeometryTypeOf(ISession session)
         {
-            return ((ISpatialDialect)((ISessionFactoryImplementor)session.SessionFactory).Dialect).GeometryType;
+            return ((ISpatialDialect) ((ISessionFactoryImplementor) session.SessionFactory).Dialect).GeometryType;
         }
 
         #endregion Utility methods

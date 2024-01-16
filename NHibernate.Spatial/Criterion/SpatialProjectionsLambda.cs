@@ -31,6 +31,21 @@ namespace NHibernate.Spatial.Criterion
     /// </remarks>
     public static partial class SpatialProjections
     {
+        #region Functions
+
+        /// <summary>
+        /// Transforms the coordinate reference system of the specified geometry property.
+        /// </summary>
+        /// <param name="expression">Name of the property.</param>
+        /// <param name="srid">The srid.</param>
+        /// <returns></returns>
+        public static SpatialProjection Transform<T>(Expression<Func<T, object>> expression, int srid)
+        {
+            return Transform(GetPropertyName(expression), srid);
+        }
+
+        #endregion Functions
+
         private static string GetPropertyName<T>(Expression<Func<T, object>> expression)
         {
             return ExpressionProcessor.FindMemberExpression(expression.Body);
@@ -365,20 +380,5 @@ namespace NHibernate.Spatial.Criterion
         }
 
         #endregion Validations
-
-        #region Functions
-
-        /// <summary>
-        /// Transforms the coordinate reference system of the specified geometry property.
-        /// </summary>
-        /// <param name="expression">Name of the property.</param>
-        /// <param name="srid">The srid.</param>
-        /// <returns></returns>
-        public static SpatialProjection Transform<T>(Expression<Func<T, object>> expression, int srid)
-        {
-            return Transform(GetPropertyName(expression), srid);
-        }
-
-        #endregion Functions
     }
 }

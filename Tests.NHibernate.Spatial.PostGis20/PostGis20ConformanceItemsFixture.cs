@@ -7,14 +7,9 @@ using Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model;
 
 namespace Tests.NHibernate.Spatial
 {
-	[TestFixture]
-	public class PostGis20ConformanceItemsFixture : ConformanceItemsFixture
-	{
-		protected override void Configure(Configuration configuration)
-		{
-			TestConfiguration.Configure(configuration);
-		}
-
+    [TestFixture]
+    public class PostGis20ConformanceItemsFixture : ConformanceItemsFixture
+    {
         /// <summary>
         /// Overridden because GeometryType includes ISO prefix in PostGIS 2
         /// </summary>
@@ -54,11 +49,11 @@ namespace Tests.NHibernate.Spatial
             var query =
                 from t in session.Query<RoadSegment>()
                 where t.Fid == 102
-                select ((LineString)t.Centerline)
-                .GetPointN(1);
+                select ((LineString) t.Centerline)
+                    .GetPointN(1);
 
             Geometry geometry = query.Single();
-            Geometry expected = Wkt.Read("POINT( 0 18 )");
+            var expected = Wkt.Read("POINT( 0 18 )");
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
@@ -72,10 +67,10 @@ namespace Tests.NHibernate.Spatial
             var query =
                 from t in session.Query<Lake>()
                 where t.Name == "Blue Lake"
-                select ((Polygon)t.Shore).GetInteriorRingN(1);
+                select ((Polygon) t.Shore).GetInteriorRingN(1);
 
             Geometry geometry = query.Single();
-            Geometry expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
+            var expected = Wkt.Read("LINESTRING(59 18, 67 18, 67 13, 59 13, 59 18)");
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
         }
@@ -91,10 +86,15 @@ namespace Tests.NHibernate.Spatial
                 where t.Name == "Route 75"
                 select t.Centerlines.GetGeometryN(2);
 
-            Geometry geometry = query.Single();
-            Geometry expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
+            var geometry = query.Single();
+            var expected = Wkt.Read("LINESTRING( 16 0, 16 23, 16 48 )");
 
             Assert.IsTrue(expected.EqualsTopologically(geometry));
+        }
+
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
         }
     }
 }

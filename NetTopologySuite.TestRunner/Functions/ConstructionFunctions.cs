@@ -16,17 +16,17 @@ namespace Open.Topology.TestRunner.Functions
 
         public static Geometry minimumDiameter(Geometry g)
         {
-            return (new MinimumDiameter(g)).Diameter;
+            return new MinimumDiameter(g).Diameter;
         }
 
         public static Geometry minimumRectangle(Geometry g)
         {
-            return (new MinimumDiameter(g)).GetMinimumRectangle();
+            return new MinimumDiameter(g).GetMinimumRectangle();
         }
 
         public static Geometry minimumBoundingCircle(Geometry g)
         {
-            return (new MinimumBoundingCircle(g)).GetCircle();
+            return new MinimumBoundingCircle(g).GetCircle();
         }
 
         public static Geometry boundary(Geometry g)

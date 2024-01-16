@@ -42,10 +42,7 @@ namespace NHibernate.Spatial.Dialect
 
         #region ISpatialDialect Members
 
-        public virtual IType GeometryType
-        {
-            get { return worker.GeometryType; }
-        }
+        public virtual IType GeometryType => worker.GeometryType;
 
         public abstract IGeometryUserType CreateGeometryUserType();
 
@@ -110,10 +107,7 @@ namespace NHibernate.Spatial.Dialect
         }
 
         // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
-        public string MultipleQueriesSeparator
-        {
-            get { return ";"; }
-        }
+        public string MultipleQueriesSeparator => ";";
 
         #endregion ISpatialDialect Members
 

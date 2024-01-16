@@ -6,11 +6,6 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MySQL57CriteriaFixture : MySQLCriteriaFixture
     {
-        protected override void Configure(Configuration configuration)
-        {
-            TestConfiguration.Configure(configuration);
-        }
-
         [Test]
         [Ignore("Empty geometry collections not supported by MySql.Data.Types.MySqlGeometry")]
         public override void CountNull()
@@ -25,5 +20,10 @@ namespace Tests.NHibernate.Spatial
         [Ignore("Empty geometry collections not supported by MySql.Data.Types.MySqlGeometry")]
         public override void IsDirty()
         { }
+
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
+        }
     }
 }

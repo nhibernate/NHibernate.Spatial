@@ -8,66 +8,66 @@ namespace Tests.NHibernate.Spatial.NtsTestCases.Model
     {
         private long id;
 
-        public virtual long Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
         private string description;
-
-        public virtual string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
 
         private Geometry geometryA = GeometryCollection.Empty;
 
-        public virtual Geometry GeometryA
-        {
-            get { return geometryA; }
-            set { geometryA = value; }
-        }
-
         private Geometry geometryB = GeometryCollection.Empty;
-
-        public virtual Geometry GeometryB
-        {
-            get { return geometryB; }
-            set { geometryB = value; }
-        }
 
         private string operation;
 
-        public virtual string Operation
-        {
-            get { return operation; }
-            set { operation = value; }
-        }
-
         private string relatePattern;
-
-        public virtual string RelatePattern
-        {
-            get { return relatePattern; }
-            set { relatePattern = value; }
-        }
 
         private Geometry geometryResult = GeometryCollection.Empty;
 
-        public virtual Geometry GeometryResult
+        private bool booleanResult;
+
+        public virtual long Id
         {
-            get { return geometryResult; }
-            set { geometryResult = value; }
+            get => id;
+            set => id = value;
         }
 
-        private bool booleanResult;
+        public virtual string Description
+        {
+            get => description;
+            set => description = value;
+        }
+
+        public virtual Geometry GeometryA
+        {
+            get => geometryA;
+            set => geometryA = value;
+        }
+
+        public virtual Geometry GeometryB
+        {
+            get => geometryB;
+            set => geometryB = value;
+        }
+
+        public virtual string Operation
+        {
+            get => operation;
+            set => operation = value;
+        }
+
+        public virtual string RelatePattern
+        {
+            get => relatePattern;
+            set => relatePattern = value;
+        }
+
+        public virtual Geometry GeometryResult
+        {
+            get => geometryResult;
+            set => geometryResult = value;
+        }
 
         public virtual bool BooleanResult
         {
-            get { return booleanResult; }
-            set { booleanResult = value; }
+            get => booleanResult;
+            set => booleanResult = value;
         }
     }
 }

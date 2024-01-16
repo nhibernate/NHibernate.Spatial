@@ -13,25 +13,8 @@ namespace Open.Topology.TestRunner
     /// </summary>
     public class XmlTestFactory
     {
-        private static NumberFormatInfo _nfi;
-
-        protected static IFormatProvider GetNumberFormatInfo()
-        {
-            if (_nfi == null)
-            {
-                _nfi = new NumberFormatInfo { NumberDecimalSeparator = "." };
-            }
-            return _nfi;
-        }
-
-        protected enum Target
-        {
-            A = 1,
-            B = 2,
-            C = 3
-        }
-
         protected GeometryFactory ObjGeometryFactory;
+        private static NumberFormatInfo _nfi;
         private readonly WKTOrWKBReader _objReader;
         private readonly IGeometryOperation _geometryOperation;
         private readonly IResultMatcher _resultMatcher;
@@ -44,135 +27,210 @@ namespace Open.Topology.TestRunner
             _objReader = new WKTOrWKBReader(geometryServices);
         }
 
+        protected enum Target
+        {
+            A = 1,
+            B = 2,
+            C = 3
+        }
+
         public XmlTest Create(XmlTestInfo testInfo, double tolerance)
         {
-            XmlTest xmlTest = new XmlTest(testInfo.GetValue("desc"),
+            var xmlTest = new XmlTest(testInfo.GetValue("desc"),
                 testInfo.IsDefaultTarget(), tolerance, _geometryOperation, _resultMatcher);
 
             // Handle test type or name.
             string strTestType = testInfo.GetValue("name");
             if (string.IsNullOrEmpty(strTestType))
+            {
                 return null;
+            }
 
             ParseType(strTestType, xmlTest);
 
             // Handle the Geometry A:
             string wkt = testInfo.GetValue("a");
             if (!string.IsNullOrEmpty(wkt))
+            {
                 ParseGeometry(Target.A, wkt, xmlTest);
+            }
 
             // Handle the Geometry B:
             wkt = testInfo.GetValue("b");
             if (!string.IsNullOrEmpty(wkt))
+            {
                 ParseGeometry(Target.B, wkt, xmlTest);
+            }
 
             string arg2 = testInfo.GetValue("arg2");
             if (!string.IsNullOrEmpty(arg2))
             {
-                if (arg2 == "a" || arg2 == "A")
-                    xmlTest.Argument1 = xmlTest.A;
-                else if (arg2 == "b" || arg2 == "B")
-                    xmlTest.Argument1 = xmlTest.B;
-                else
-                    xmlTest.Argument1 = arg2;
+                switch (arg2)
+                {
+                    case "a":
+                    case "A":
+                        xmlTest.Argument1 = xmlTest.A;
+                        break;
+                    case "b":
+                    case "B":
+                        xmlTest.Argument1 = xmlTest.B;
+                        break;
+                    default:
+                        xmlTest.Argument1 = arg2;
+                        break;
+                }
             }
 
             string arg3 = testInfo.GetValue("arg3");
             if (!string.IsNullOrEmpty(arg3))
+            {
                 xmlTest.Argument2 = arg3;
+            }
 
             string strResult = testInfo.GetValue("result");
             if (string.IsNullOrEmpty(strResult))
+            {
                 return null;
+            }
 
             ParseResult(strResult, xmlTest);
 
             return xmlTest;
         }
 
+        protected static IFormatProvider GetNumberFormatInfo()
+        {
+            if (_nfi == null)
+            {
+                _nfi = new NumberFormatInfo { NumberDecimalSeparator = "." };
+            }
+            return _nfi;
+        }
+
         protected bool ParseType(string testType, XmlTest xmlTestItem)
         {
             testType = testType.ToLower();
 
-            if (testType == "getarea")
-                xmlTestItem.TestType = XmlTestType.Area;
-            else if (testType == "getboundary")
-                xmlTestItem.TestType = XmlTestType.Boundary;
-            else if (testType == "getboundarydimension")
-                xmlTestItem.TestType = XmlTestType.BoundaryDimension;
-            else if (testType == "buffer")
-                xmlTestItem.TestType = XmlTestType.Buffer;
-            else if (testType == "buffermitredjoin")
-                xmlTestItem.TestType = XmlTestType.BufferMitredJoin;
-            else if (testType == "getcentroid")
-                xmlTestItem.TestType = XmlTestType.Centroid;
-            else if (testType == "contains")
-                xmlTestItem.TestType = XmlTestType.Contains;
-            else if (testType == "convexhull")
-                xmlTestItem.TestType = XmlTestType.ConvexHull;
-            else if (testType == "crosses")
-                xmlTestItem.TestType = XmlTestType.Crosses;
-            else if (testType == "densify")
-                xmlTestItem.TestType = XmlTestType.Densify;
-            else if (testType == "difference")
-                xmlTestItem.TestType = XmlTestType.Difference;
-            else if (testType == "getdimension")
-                xmlTestItem.TestType = XmlTestType.Dimension;
-            else if (testType == "disjoint")
-                xmlTestItem.TestType = XmlTestType.Disjoint;
-            else if (testType == "distance")
-                xmlTestItem.TestType = XmlTestType.Distance;
-            else if (testType == "getenvelope")
-                xmlTestItem.TestType = XmlTestType.Envelope;
-            else if (testType == "equals")
-                xmlTestItem.TestType = XmlTestType.Equals;
-            else if (testType == "getinteriorpoint")
-                xmlTestItem.TestType = XmlTestType.InteriorPoint;
-            else if (testType == "intersection")
-                xmlTestItem.TestType = XmlTestType.Intersection;
-            else if (testType == "intersects")
-                xmlTestItem.TestType = XmlTestType.Intersects;
-            else if (testType == "isempty")
-                xmlTestItem.TestType = XmlTestType.IsEmpty;
-            else if (testType == "issimple")
-                xmlTestItem.TestType = XmlTestType.IsSimple;
-            else if (testType == "isvalid")
-                xmlTestItem.TestType = XmlTestType.IsValid;
-            else if (testType == "iswithindistance")
-                xmlTestItem.TestType = XmlTestType.IsWithinDistance;
-            else if (testType == "getlength")
-                xmlTestItem.TestType = XmlTestType.Length;
-            else if (testType == "getnumpoints")
-                xmlTestItem.TestType = XmlTestType.NumPoints;
-            else if (testType == "overlaps")
-                xmlTestItem.TestType = XmlTestType.Overlaps;
-            else if (testType == "relate")
-                xmlTestItem.TestType = XmlTestType.Relate;
-            else if (testType == "getsrid")
-                xmlTestItem.TestType = XmlTestType.SRID;
-            else if (testType == "symmetricdifference")
-                xmlTestItem.TestType = XmlTestType.SymmetricDifference;
-            else if (testType == "symdifference")
-                xmlTestItem.TestType = XmlTestType.SymmetricDifference;
-            else if (testType == "touches")
-                xmlTestItem.TestType = XmlTestType.Touches;
-            else if (testType == "union")
-                xmlTestItem.TestType = XmlTestType.Union;
-            else if (testType == "within")
-                xmlTestItem.TestType = XmlTestType.Within;
-            else if (testType == "covers")
-                xmlTestItem.TestType = XmlTestType.Covers;
-            else if (testType == "coveredby")
-                xmlTestItem.TestType = XmlTestType.CoveredBy;
-            else if (testType == "equalsexact")
-                xmlTestItem.TestType = XmlTestType.EqualsExact;
-            else if (testType == "equalsnorm")
-                xmlTestItem.TestType = XmlTestType.EqualsNorm;
-            else if (testType == "minclearance")
-                xmlTestItem.TestType = XmlTestType.MinClearance;
-            else if (testType == "minclearanceline")
-                xmlTestItem.TestType = XmlTestType.MinClearanceLine;
-            else throw new ArgumentException(String.Format("The operation type \"{0}\" is not valid: ", testType));
+            switch (testType)
+            {
+                case "getarea":
+                    xmlTestItem.TestType = XmlTestType.Area;
+                    break;
+                case "getboundary":
+                    xmlTestItem.TestType = XmlTestType.Boundary;
+                    break;
+                case "getboundarydimension":
+                    xmlTestItem.TestType = XmlTestType.BoundaryDimension;
+                    break;
+                case "buffer":
+                    xmlTestItem.TestType = XmlTestType.Buffer;
+                    break;
+                case "buffermitredjoin":
+                    xmlTestItem.TestType = XmlTestType.BufferMitredJoin;
+                    break;
+                case "getcentroid":
+                    xmlTestItem.TestType = XmlTestType.Centroid;
+                    break;
+                case "contains":
+                    xmlTestItem.TestType = XmlTestType.Contains;
+                    break;
+                case "convexhull":
+                    xmlTestItem.TestType = XmlTestType.ConvexHull;
+                    break;
+                case "crosses":
+                    xmlTestItem.TestType = XmlTestType.Crosses;
+                    break;
+                case "densify":
+                    xmlTestItem.TestType = XmlTestType.Densify;
+                    break;
+                case "difference":
+                    xmlTestItem.TestType = XmlTestType.Difference;
+                    break;
+                case "getdimension":
+                    xmlTestItem.TestType = XmlTestType.Dimension;
+                    break;
+                case "disjoint":
+                    xmlTestItem.TestType = XmlTestType.Disjoint;
+                    break;
+                case "distance":
+                    xmlTestItem.TestType = XmlTestType.Distance;
+                    break;
+                case "getenvelope":
+                    xmlTestItem.TestType = XmlTestType.Envelope;
+                    break;
+                case "equals":
+                    xmlTestItem.TestType = XmlTestType.Equals;
+                    break;
+                case "getinteriorpoint":
+                    xmlTestItem.TestType = XmlTestType.InteriorPoint;
+                    break;
+                case "intersection":
+                    xmlTestItem.TestType = XmlTestType.Intersection;
+                    break;
+                case "intersects":
+                    xmlTestItem.TestType = XmlTestType.Intersects;
+                    break;
+                case "isempty":
+                    xmlTestItem.TestType = XmlTestType.IsEmpty;
+                    break;
+                case "issimple":
+                    xmlTestItem.TestType = XmlTestType.IsSimple;
+                    break;
+                case "isvalid":
+                    xmlTestItem.TestType = XmlTestType.IsValid;
+                    break;
+                case "iswithindistance":
+                    xmlTestItem.TestType = XmlTestType.IsWithinDistance;
+                    break;
+                case "getlength":
+                    xmlTestItem.TestType = XmlTestType.Length;
+                    break;
+                case "getnumpoints":
+                    xmlTestItem.TestType = XmlTestType.NumPoints;
+                    break;
+                case "overlaps":
+                    xmlTestItem.TestType = XmlTestType.Overlaps;
+                    break;
+                case "relate":
+                    xmlTestItem.TestType = XmlTestType.Relate;
+                    break;
+                case "getsrid":
+                    xmlTestItem.TestType = XmlTestType.SRID;
+                    break;
+                case "symmetricdifference":
+                case "symdifference":
+                    xmlTestItem.TestType = XmlTestType.SymmetricDifference;
+                    break;
+                case "touches":
+                    xmlTestItem.TestType = XmlTestType.Touches;
+                    break;
+                case "union":
+                    xmlTestItem.TestType = XmlTestType.Union;
+                    break;
+                case "within":
+                    xmlTestItem.TestType = XmlTestType.Within;
+                    break;
+                case "covers":
+                    xmlTestItem.TestType = XmlTestType.Covers;
+                    break;
+                case "coveredby":
+                    xmlTestItem.TestType = XmlTestType.CoveredBy;
+                    break;
+                case "equalsexact":
+                    xmlTestItem.TestType = XmlTestType.EqualsExact;
+                    break;
+                case "equalsnorm":
+                    xmlTestItem.TestType = XmlTestType.EqualsNorm;
+                    break;
+                case "minclearance":
+                    xmlTestItem.TestType = XmlTestType.MinClearance;
+                    break;
+                case "minclearanceline":
+                    xmlTestItem.TestType = XmlTestType.MinClearanceLine;
+                    break;
+                default:
+                    throw new ArgumentException($"The operation type \"{testType}\" is not valid: ");
+            }
 
             return true;
         }
@@ -186,36 +244,36 @@ namespace Open.Topology.TestRunner
                 case XmlTestType.Distance:
                 case XmlTestType.Length:
                 case XmlTestType.MinClearance:
+                {
+                    try
                     {
-                        try
-                        {
-                            xmlTestItem.Result = Double.Parse(result, GetNumberFormatInfo());
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            XmlTestExceptionManager.Publish(ex);
-                            return false;
-                        }
+                        xmlTestItem.Result = double.Parse(result, GetNumberFormatInfo());
+                        return true;
                     }
+                    catch (Exception ex)
+                    {
+                        XmlTestExceptionManager.Publish(ex);
+                        return false;
+                    }
+                }
 
                 // Here we expect integer
                 case XmlTestType.BoundaryDimension:
                 case XmlTestType.Dimension:
                 case XmlTestType.NumPoints:
                 case XmlTestType.SRID:
+                {
+                    try
                     {
-                        try
-                        {
-                            xmlTestItem.Result = Int32.Parse(result);
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            XmlTestExceptionManager.Publish(ex);
-                            return false;
-                        }
+                        xmlTestItem.Result = int.Parse(result);
+                        return true;
                     }
+                    catch (Exception ex)
+                    {
+                        XmlTestExceptionManager.Publish(ex);
+                        return false;
+                    }
+                }
 
                 // Here we expect a point
                 case XmlTestType.Boundary:
@@ -231,18 +289,18 @@ namespace Open.Topology.TestRunner
                 case XmlTestType.SymmetricDifference:
                 case XmlTestType.Union:
                 case XmlTestType.MinClearanceLine:
+                {
+                    try
                     {
-                        try
-                        {
-                            xmlTestItem.Result = _objReader.Read(result);
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            XmlTestExceptionManager.Publish(ex);
-                            return false;
-                        }
+                        xmlTestItem.Result = _objReader.Read(result);
+                        return true;
                     }
+                    catch (Exception ex)
+                    {
+                        XmlTestExceptionManager.Publish(ex);
+                        return false;
+                    }
+                }
 
                 // Here we expect boolean
                 case XmlTestType.Contains:
@@ -262,21 +320,21 @@ namespace Open.Topology.TestRunner
                 case XmlTestType.CoveredBy:
                 case XmlTestType.EqualsExact:
                 case XmlTestType.EqualsNorm:
+                {
+                    try
                     {
-                        try
-                        {
-                            xmlTestItem.Result = Boolean.Parse(result);
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            XmlTestExceptionManager.Publish(ex);
-                            return false;
-                        }
+                        xmlTestItem.Result = bool.Parse(result);
+                        return true;
                     }
+                    catch (Exception ex)
+                    {
+                        XmlTestExceptionManager.Publish(ex);
+                        return false;
+                    }
+                }
 
                 default:
-                    string format = String.Format("Test not implemented: {0}", xmlTestItem.TestType);
+                    string format = $"Test not implemented: {xmlTestItem.TestType}";
                     throw new NotImplementedException(format);
             }
         }
@@ -296,7 +354,9 @@ namespace Open.Topology.TestRunner
             }
 
             if (geom == null)
+            {
                 return false;
+            }
 
             switch (targetType)
             {

@@ -6,39 +6,38 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
     [Serializable]
     public class Lake
     {
-        public Lake()
-        {
-        }
-
-        public Lake(long fid, string name, Geometry shore)
-        {
-            this.Fid = fid;
-            this.Name = name;
-            this.Shore = shore;
-        }
-
         private long fid;
-
-        public long Fid
-        {
-            get { return fid; }
-            set { fid = value; }
-        }
 
         private string name;
 
-        public string Name
+        private Geometry shore;
+
+        public Lake()
+        { }
+
+        public Lake(long fid, string name, Geometry shore)
         {
-            get { return name; }
-            set { name = value; }
+            Fid = fid;
+            Name = name;
+            Shore = shore;
         }
 
-        private Geometry shore;
+        public long Fid
+        {
+            get => fid;
+            set => fid = value;
+        }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
 
         public Geometry Shore
         {
-            get { return shore; }
-            set { shore = value; }
+            get => shore;
+            set => shore = value;
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Open.Topology.TestRunner.Functions
      * @author Martin Davis
      *
      */
-
     public class GeometryFunctions
     {
         public static double length(Geometry g)
@@ -49,14 +48,14 @@ namespace Open.Topology.TestRunner.Functions
 
         public static Geometry normalize(Geometry g)
         {
-            Geometry gNorm = g.Copy();
+            var gNorm = g.Copy();
             gNorm.Normalize();
             return gNorm;
         }
 
         public static Geometry snap(Geometry g, Geometry g2, double distance)
         {
-            Geometry[] snapped = GeometrySnapper.Snap(g, g2, distance);
+            var snapped = GeometrySnapper.Snap(g, g2, distance);
             return snapped[0];
         }
 

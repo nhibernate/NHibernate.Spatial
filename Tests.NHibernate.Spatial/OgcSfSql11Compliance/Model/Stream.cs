@@ -6,39 +6,38 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
     [Serializable]
     public class Stream
     {
-        public Stream()
-        {
-        }
-
-        public Stream(long fid, string name, Geometry centerline)
-        {
-            this.Fid = fid;
-            this.Name = name;
-            this.Centerline = centerline;
-        }
-
         private long fid;
-
-        public long Fid
-        {
-            get { return fid; }
-            set { fid = value; }
-        }
 
         private string name;
 
-        public string Name
+        private Geometry centerline;
+
+        public Stream()
+        { }
+
+        public Stream(long fid, string name, Geometry centerline)
         {
-            get { return name; }
-            set { name = value; }
+            Fid = fid;
+            Name = name;
+            Centerline = centerline;
         }
 
-        private Geometry centerline;
+        public long Fid
+        {
+            get => fid;
+            set => fid = value;
+        }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
 
         public Geometry Centerline
         {
-            get { return centerline; }
-            set { centerline = value; }
+            get => centerline;
+            set => centerline = value;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Open.Topology.TestRunner.Functions
         public static Geometry polygonizeDangles(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
-            Polygonizer polygonizer = new Polygonizer();
+            var polygonizer = new Polygonizer();
             polygonizer.Add(lines);
             var geomList = polygonizer.GetDangles()
                 .Select(x => (Geometry) x)
@@ -33,7 +33,7 @@ namespace Open.Topology.TestRunner.Functions
         public static Geometry polygonizeCutEdges(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
-            Polygonizer polygonizer = new Polygonizer();
+            var polygonizer = new Polygonizer();
             polygonizer.Add(lines);
             var geomList = polygonizer.GetCutEdges()
                 .Select(x => (Geometry) x)
@@ -44,7 +44,7 @@ namespace Open.Topology.TestRunner.Functions
         public static Geometry polygonizeInvalidRingLines(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
-            Polygonizer polygonizer = new Polygonizer();
+            var polygonizer = new Polygonizer();
             polygonizer.Add(lines);
             var geom = polygonizer.GetInvalidRingLines();
             return g.Factory.BuildGeometry(geom);
@@ -53,7 +53,7 @@ namespace Open.Topology.TestRunner.Functions
         public static Geometry polygonizeAllErrors(Geometry g)
         {
             var lines = LineStringExtracter.GetLines(g);
-            Polygonizer polygonizer = new Polygonizer();
+            var polygonizer = new Polygonizer();
             polygonizer.Add(lines);
             var geomList = new List<Geometry>();
             geomList.AddRange(polygonizer.GetDangles());

@@ -8,7 +8,7 @@ namespace Open.Topology.TestRunner.Functions
     {
         public static Geometry TransformByVectors(Geometry g, Geometry control)
         {
-            var nControl = control.NumGeometries;
+            int nControl = control.NumGeometries;
             var src = new Coordinate[nControl];
             var dest = new Coordinate[nControl];
             for (int i = 0; i < nControl; i++)
@@ -36,17 +36,6 @@ namespace Open.Topology.TestRunner.Functions
             return trans.Transform(g);
         }
 
-        private static Coordinate EnvelopeCentre(Geometry g)
-        {
-            return g.EnvelopeInternal.Centre;
-        }
-
-        private static Coordinate EnvelopeLowerLeft(Geometry g)
-        {
-            var env = g.EnvelopeInternal;
-            return new Coordinate(env.MinX, env.MinY);
-        }
-
         public static Geometry Scale(Geometry g, double scale)
         {
             var centre = EnvelopeCentre(g);
@@ -71,7 +60,7 @@ namespace Open.Topology.TestRunner.Functions
         public static Geometry Rotate(Geometry g, double multipleOfPi)
         {
             var centre = EnvelopeCentre(g);
-            var trans = AffineTransformation.RotationInstance(multipleOfPi * Math.PI, centre.X, centre.Y);
+            var trans = AffineTransformation.RotationInstance(multipleOfPi*Math.PI, centre.X, centre.Y);
             return trans.Transform(g);
         }
 
@@ -87,6 +76,17 @@ namespace Open.Topology.TestRunner.Functions
             var lowerLeft = EnvelopeLowerLeft(g);
             var trans = AffineTransformation.TranslationInstance(-lowerLeft.X, -lowerLeft.Y);
             return trans.Transform(g);
+        }
+
+        private static Coordinate EnvelopeCentre(Geometry g)
+        {
+            return g.EnvelopeInternal.Centre;
+        }
+
+        private static Coordinate EnvelopeLowerLeft(Geometry g)
+        {
+            var env = g.EnvelopeInternal;
+            return new Coordinate(env.MinX, env.MinY);
         }
     }
 }

@@ -31,8 +31,10 @@ namespace Open.Topology.TestRunner.Functions
 
         public static Geometry densifiedDiscreteHausdorffDistanceLine(Geometry a, Geometry b, double frac)
         {
-            var hausDist = new DiscreteHausdorffDistance(a, b);
-            hausDist.DensifyFraction = frac;
+            var hausDist = new DiscreteHausdorffDistance(a, b)
+            {
+                DensifyFraction = frac
+            };
             hausDist.Distance();
             return a.Factory.CreateLineString(hausDist.Coordinates);
         }

@@ -21,7 +21,6 @@ using NHibernate.Engine;
 using NHibernate.Persister.Entity;
 using NHibernate.Spatial.Dialect;
 using NHibernate.SqlCommand;
-using NHibernate.Type;
 using System;
 using System.Linq;
 
@@ -70,7 +69,7 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            return new TypedValue[] { criteriaQuery.GetTypedValue(criteria, this.propertyName, this.envelope) };
+            return new[] { criteriaQuery.GetTypedValue(criteria, propertyName, envelope) };
         }
 
         public override IProjection[] GetProjections()
@@ -88,29 +87,29 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            string[] columnNames = criteriaQuery.GetColumnsUsingProjection(criteria, this.propertyName);
+            string[] columnNames = criteriaQuery.GetColumnsUsingProjection(criteria, propertyName);
 
-            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
+            var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
 
-            IType typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, this.propertyName);
+            var typeUsingProjection = criteriaQuery.GetTypeUsingProjection(criteria, propertyName);
             if (typeUsingProjection.IsCollectionType)
             {
-                throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), this.propertyName));
+                throw new QueryException(string.Format("cannot use collection property ({0}.{1}) directly in a criterion, use ICriteria.CreateCriteria instead", criteriaQuery.GetEntityName(criteria), propertyName));
             }
             string[] keyColumns = criteriaQuery.GetIdentifierColumns(criteria);
 
-            Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
+            var parameters = criteriaQuery.NewQueryParameter(GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
 
-            string entityType = criteriaQuery.GetEntityName(criteria, this.propertyName);
-            AbstractEntityPersister entityPersister = (AbstractEntityPersister)criteriaQuery.Factory.GetEntityPersister(entityType);
+            string entityType = criteriaQuery.GetEntityName(criteria, propertyName);
+            var entityPersister = (AbstractEntityPersister) criteriaQuery.Factory.GetEntityPersister(entityType);
 
             // Only one key column is assumed
             string keyColumn = keyColumns[0];
-            string alias = criteriaQuery.GetSQLAlias(criteria, this.propertyName);
+            string alias = criteriaQuery.GetSQLAlias(criteria, propertyName);
             string tableName = entityPersister.TableName;
             int aliasLength = alias.Length + 1;
 
-            SqlStringBuilder sqlBuilder = new SqlStringBuilder(10 * columnNames.Length);
+            var sqlBuilder = new SqlStringBuilder(10*columnNames.Length);
             for (int i = 0; i < columnNames.Length; i++)
             {
                 if (i > 0)

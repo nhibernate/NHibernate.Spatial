@@ -11,8 +11,10 @@ namespace Open.Topology.TestRunner.Functions
     {
         public static Geometry bufferMitredJoin(Geometry g, double distance)
         {
-            var bufParams = new BufferParameters();
-            bufParams.JoinStyle = JoinStyle.Mitre;
+            var bufParams = new BufferParameters
+            {
+                JoinStyle = JoinStyle.Mitre
+            };
 
             return BufferOp.Buffer(g, distance, bufParams);
         }
@@ -39,12 +41,12 @@ namespace Open.Topology.TestRunner.Functions
             var cc = Triangle.Circumcentre(pts[0], pts[1], pts[2]);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             var line = new LineString[3];
-            var p0 = (new LineSegment(pts[1], pts[2])).ClosestPoint(cc);
-            line[0] = geomFact.CreateLineString(new Coordinate[] { p0, cc });
-            var p1 = (new LineSegment(pts[0], pts[2])).ClosestPoint(cc);
-            line[1] = geomFact.CreateLineString(new Coordinate[] { p1, cc });
-            var p2 = (new LineSegment(pts[0], pts[1])).ClosestPoint(cc);
-            line[2] = geomFact.CreateLineString(new Coordinate[] { p2, cc });
+            var p0 = new LineSegment(pts[1], pts[2]).ClosestPoint(cc);
+            line[0] = geomFact.CreateLineString(new[] { p0, cc });
+            var p1 = new LineSegment(pts[0], pts[2]).ClosestPoint(cc);
+            line[1] = geomFact.CreateLineString(new[] { p1, cc });
+            var p2 = new LineSegment(pts[0], pts[1]).ClosestPoint(cc);
+            line[2] = geomFact.CreateLineString(new[] { p2, cc });
             return geomFact.CreateMultiLineString(line);
         }
 
@@ -62,9 +64,9 @@ namespace Open.Topology.TestRunner.Functions
             var cc = Triangle.InCentre(pts[0], pts[1], pts[2]);
             var geomFact = FunctionsUtil.getFactoryOrDefault(g);
             var line = new LineString[3];
-            line[0] = geomFact.CreateLineString(new Coordinate[] { pts[0], cc });
-            line[1] = geomFact.CreateLineString(new Coordinate[] { pts[1], cc });
-            line[2] = geomFact.CreateLineString(new Coordinate[] { pts[2], cc });
+            line[0] = geomFact.CreateLineString(new[] { pts[0], cc });
+            line[1] = geomFact.CreateLineString(new[] { pts[1], cc });
+            line[2] = geomFact.CreateLineString(new[] { pts[2], cc });
             return geomFact.CreateMultiLineString(line);
         }
 
@@ -72,7 +74,9 @@ namespace Open.Topology.TestRunner.Functions
         {
             var pts = g.Coordinates;
             if (pts.Length < 3)
+            {
                 throw new ArgumentException("Input geometry must have at least 3 points");
+            }
             return pts;
         }
     }
@@ -104,7 +108,9 @@ namespace Open.Topology.TestRunner.Functions
             var builder = new VoronoiDiagramBuilder();
             builder.SetSites(geom);
             if (g2 != null)
+            {
                 builder.ClipEnvelope = g2.EnvelopeInternal;
+            }
             builder.Tolerance = TRIANGULATION_TOLERANCE;
             Geometry diagram = builder.GetDiagram(geom.Factory);
             return diagram;
@@ -120,7 +126,9 @@ namespace Open.Topology.TestRunner.Functions
             var builder = new VoronoiDiagramBuilder();
             builder.SetSites(mapper.Coordinates);
             if (g2 != null)
+            {
                 builder.ClipEnvelope = g2.EnvelopeInternal;
+            }
             builder.Tolerance = TRIANGULATION_TOLERANCE;
             Geometry diagram = builder.GetDiagram(geom.Factory);
             mapper.TransferData(diagram);
@@ -129,7 +137,7 @@ namespace Open.Topology.TestRunner.Functions
 
         public static Geometry conformingDelaunayEdges(Geometry sites, Geometry constraints)
         {
-            ConformingDelaunayTriangulationBuilder builder = new ConformingDelaunayTriangulationBuilder();
+            var builder = new ConformingDelaunayTriangulationBuilder();
             builder.SetSites(sites);
             builder.Constraints = constraints;
             builder.Tolerance = TRIANGULATION_TOLERANCE;
@@ -141,7 +149,7 @@ namespace Open.Topology.TestRunner.Functions
 
         public static Geometry conformingDelaunayTriangles(Geometry sites, Geometry constraints)
         {
-            ConformingDelaunayTriangulationBuilder builder = new ConformingDelaunayTriangulationBuilder();
+            var builder = new ConformingDelaunayTriangulationBuilder();
             builder.SetSites(sites);
             builder.Constraints = constraints;
             builder.Tolerance = TRIANGULATION_TOLERANCE;

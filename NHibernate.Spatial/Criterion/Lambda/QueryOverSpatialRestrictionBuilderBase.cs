@@ -21,11 +21,11 @@ namespace NHibernate.Spatial.Criterion.Lambda
 
         private TReturn Add(ICriterion criterion)
         {
-            if (this.isNot)
+            if (isNot)
             {
                 criterion = Restrictions.Not(criterion);
             }
-            return (TReturn)this.root.And(criterion);
+            return (TReturn) root.And(criterion);
         }
 
         #region Filter
@@ -35,7 +35,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Filter(Geometry value)
         {
-            return this.Add(SpatialRestrictions.Filter(this.propertyName, value));
+            return Add(SpatialRestrictions.Filter(propertyName, value));
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Filter(Envelope value, int srid)
         {
-            return this.Add(SpatialRestrictions.Filter(this.propertyName, value, srid));
+            return Add(SpatialRestrictions.Filter(propertyName, value, srid));
         }
 
         #endregion Filter
@@ -55,7 +55,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Contains(object value)
         {
-            return this.Add(SpatialRestrictions.Contains(this.propertyName, value));
+            return Add(SpatialRestrictions.Contains(propertyName, value));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn CoveredBy(object value)
         {
-            return this.Add(SpatialRestrictions.CoveredBy(this.propertyName, value));
+            return Add(SpatialRestrictions.CoveredBy(propertyName, value));
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Covers(object value)
         {
-            return this.Add(SpatialRestrictions.Covers(this.propertyName, value));
+            return Add(SpatialRestrictions.Covers(propertyName, value));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Crosses(object value)
         {
-            return this.Add(SpatialRestrictions.Crosses(this.propertyName, value));
+            return Add(SpatialRestrictions.Crosses(propertyName, value));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Disjoint(object value)
         {
-            return this.Add(SpatialRestrictions.Disjoint(this.propertyName, value));
+            return Add(SpatialRestrictions.Disjoint(propertyName, value));
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Eq(object value)
         {
-            return this.Add(SpatialRestrictions.Eq(this.propertyName, value));
+            return Add(SpatialRestrictions.Eq(propertyName, value));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn EqExact(object value, double tolerance)
         {
-            return this.Add(SpatialRestrictions.EqExact(this.propertyName, value, tolerance));
+            return Add(SpatialRestrictions.EqExact(propertyName, value, tolerance));
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Intersects(object value)
         {
-            return this.Add(SpatialRestrictions.Intersects(this.propertyName, value));
+            return Add(SpatialRestrictions.Intersects(propertyName, value));
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Overlaps(object value)
         {
-            return this.Add(SpatialRestrictions.Overlaps(this.propertyName, value));
+            return Add(SpatialRestrictions.Overlaps(propertyName, value));
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Relate(object value, string intersectionPatternMatrix)
         {
-            return this.Add(SpatialRestrictions.Relate(this.propertyName, value, intersectionPatternMatrix));
+            return Add(SpatialRestrictions.Relate(propertyName, value, intersectionPatternMatrix));
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Touches(object value)
         {
-            return this.Add(SpatialRestrictions.Touches(this.propertyName, value));
+            return Add(SpatialRestrictions.Touches(propertyName, value));
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn Within(object value)
         {
-            return this.Add(SpatialRestrictions.Within(this.propertyName, value));
+            return Add(SpatialRestrictions.Within(propertyName, value));
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public TReturn IsWithinDistance(object value, double distance)
         {
-            return this.Add(SpatialRestrictions.IsWithinDistance(this.propertyName, value, distance));
+            return Add(SpatialRestrictions.IsWithinDistance(propertyName, value, distance));
         }
 
         #endregion Relations
@@ -161,42 +161,27 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// <summary>
         /// Apply an "is closed" constraint to the named property
         /// </summary>
-        public TReturn IsClosed
-        {
-            get { return this.Add(SpatialRestrictions.IsClosed(this.propertyName)); }
-        }
+        public TReturn IsClosed => Add(SpatialRestrictions.IsClosed(propertyName));
 
         /// <summary>
         /// Apply an "is empty" constraint to the named property
         /// </summary>
-        public TReturn IsEmpty
-        {
-            get { return this.Add(SpatialRestrictions.IsEmpty(this.propertyName)); }
-        }
+        public TReturn IsEmpty => Add(SpatialRestrictions.IsEmpty(propertyName));
 
         /// <summary>
         /// Apply an "is ring" constraint to the named property
         /// </summary>
-        public TReturn IsRing
-        {
-            get { return this.Add(SpatialRestrictions.IsRing(this.propertyName)); }
-        }
+        public TReturn IsRing => Add(SpatialRestrictions.IsRing(propertyName));
 
         /// <summary>
         /// Apply an "is simple" constraint to the named property
         /// </summary>
-        public TReturn IsSimple
-        {
-            get { return this.Add(SpatialRestrictions.IsSimple(this.propertyName)); }
-        }
+        public TReturn IsSimple => Add(SpatialRestrictions.IsSimple(propertyName));
 
         /// <summary>
         /// Apply an "is valid" constraint to the named property
         /// </summary>
-        public TReturn IsValid
-        {
-            get { return this.Add(SpatialRestrictions.IsValid(this.propertyName)); }
-        }
+        public TReturn IsValid => Add(SpatialRestrictions.IsValid(propertyName));
 
         #endregion Validations
     }

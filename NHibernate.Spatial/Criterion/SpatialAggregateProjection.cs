@@ -40,6 +40,8 @@ namespace NHibernate.Spatial.Criterion
             this.aggregate = aggregate;
         }
 
+        public override bool IsAggregate => true;
+
         /// <summary>
         /// Render the SQL Fragment.
         /// </summary>
@@ -48,7 +50,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override SqlString ToSqlString(string column, ISpatialDialect spatialDialect)
         {
-            return spatialDialect.GetSpatialAggregateString(column, this.aggregate);
+            return spatialDialect.GetSpatialAggregateString(column, aggregate);
         }
 
         /// <summary>
@@ -59,12 +61,7 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override string ToString()
         {
-            return this.aggregate.ToString() + "(" + this.propertyName + ")";
-        }
-
-        public override bool IsAggregate
-        {
-            get { return true; }
+            return aggregate + "(" + propertyName + ")";
         }
     }
 }

@@ -16,27 +16,13 @@ namespace Open.Topology.TestRunner.Operations
      * @author mbdavis
      *
      */
-
     public class PreparedGeometryOperation : IGeometryOperation
     {
         private readonly GeometryMethodOperation _chainOp;
 
         public PreparedGeometryOperation()
             : this(new GeometryMethodOperation())
-        {
-        }
-
-        public Type GetReturnType(XmlTestType op)
-        {
-            return GetReturnType(op.ToString());
-        }
-
-        public Type GetReturnType(String opName)
-        {
-            if (IsPreparedOp(opName))
-                return typeof(bool);
-            return _chainOp.GetReturnType(opName);
-        }
+        { }
 
         /**
    * Creates a new operation which chains to the given {@link GeometryMethodOperation}
@@ -44,19 +30,23 @@ namespace Open.Topology.TestRunner.Operations
    *
    * @param chainOp the operation to chain to
    */
-
         public PreparedGeometryOperation(GeometryMethodOperation chainOp)
         {
             _chainOp = chainOp;
         }
 
-        private static bool IsPreparedOp(String opName)
+        public Type GetReturnType(XmlTestType op)
         {
-            if (opName.Equals("intersects", StringComparison.InvariantCultureIgnoreCase)) return true;
-            if (opName.Equals("contains", StringComparison.InvariantCultureIgnoreCase)) return true;
-            if (opName.Equals("containsProperly", StringComparison.InvariantCultureIgnoreCase)) return true;
-            if (opName.Equals("covers", StringComparison.InvariantCultureIgnoreCase)) return true;
-            return false;
+            return GetReturnType(op.ToString());
+        }
+
+        public Type GetReturnType(string opName)
+        {
+            if (IsPreparedOp(opName))
+            {
+                return typeof(bool);
+            }
+            return _chainOp.GetReturnType(opName);
         }
 
         /**
@@ -69,13 +59,12 @@ namespace Open.Topology.TestRunner.Operations
    * @throws Exception
    * @see GeometryOperation#invoke
    */
-
-        public IResult Invoke(XmlTestType opName, Geometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType opName, Geometry geometry, object[] args)
         {
             return Invoke(opName.ToString(), geometry, args);
         }
 
-        public IResult Invoke(String opName, Geometry geometry, Object[] args)
+        public IResult Invoke(string opName, Geometry geometry, object[] args)
         {
             if (!IsPreparedOp(opName))
             {
@@ -84,9 +73,30 @@ namespace Open.Topology.TestRunner.Operations
             return InvokePreparedOp(opName, geometry, args);
         }
 
-        private static IResult InvokePreparedOp(String opName, Geometry geometry, Object[] args)
+        private static bool IsPreparedOp(string opName)
         {
-            var g2 = (Geometry)args[0];
+            if (opName.Equals("intersects", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+            if (opName.Equals("contains", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+            if (opName.Equals("containsProperly", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+            if (opName.Equals("covers", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static IResult InvokePreparedOp(string opName, Geometry geometry, object[] args)
+        {
+            var g2 = (Geometry) args[0];
             if (opName.Equals("intersects", StringComparison.InvariantCultureIgnoreCase))
             {
                 return new BooleanResult(PreparedGeometryOp.Intersects(geometry, g2));

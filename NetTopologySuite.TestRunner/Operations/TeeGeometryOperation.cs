@@ -21,18 +21,7 @@ namespace Open.Topology.TestRunner.Operations
         private readonly GeometryMethodOperation _chainOp = new GeometryMethodOperation();
 
         protected TeeGeometryOperation()
-        {
-        }
-
-        public Type GetReturnType(XmlTestType op)
-        {
-            return GetReturnType(op.ToString());
-        }
-
-        public Type GetReturnType(String opName)
-        {
-            return _chainOp.GetReturnType(opName);
-        }
+        { }
 
         /// <summary>
         /// Creates a new operation which chains to the given <see cref="IGeometryOperation"/> for non-intercepted methods.
@@ -43,6 +32,16 @@ namespace Open.Topology.TestRunner.Operations
             _chainOp = chainOp;
         }
 
+        public Type GetReturnType(XmlTestType op)
+        {
+            return GetReturnType(op.ToString());
+        }
+
+        public Type GetReturnType(string opName)
+        {
+            return _chainOp.GetReturnType(opName);
+        }
+
         /// <summary>
         /// Invokes the named operation.
         /// </summary>
@@ -50,18 +49,18 @@ namespace Open.Topology.TestRunner.Operations
         /// <param name="geometry">The geometry to process</param>
         /// <param name="args">The arguments to the operation (which may be typed as Strings)</param>
         /// <exception cref="Exception">If some error was encountered trying to find or process the operation</exception>
-        public IResult Invoke(XmlTestType opName, Geometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType opName, Geometry geometry, object[] args)
         {
             return Invoke(opName.ToString(), geometry, args);
         }
 
-        public IResult Invoke(String opName, Geometry geometry, Object[] args)
+        public IResult Invoke(string opName, Geometry geometry, object[] args)
         {
             RunTeeOp(opName, geometry, args);
 
             return _chainOp.Invoke(opName, geometry, args);
         }
 
-        protected abstract void RunTeeOp(String opName, Geometry geometry, Object[] args);
+        protected abstract void RunTeeOp(string opName, Geometry geometry, object[] args);
     }
 }

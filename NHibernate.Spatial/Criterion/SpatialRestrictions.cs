@@ -30,8 +30,7 @@ namespace NHibernate.Spatial.Criterion
     public sealed class SpatialExpression : SpatialRestrictions
     {
         private SpatialExpression()
-        {
-        }
+        { }
     }
 
     /// <summary>
@@ -40,8 +39,7 @@ namespace NHibernate.Spatial.Criterion
     public class SpatialRestrictions
     {
         internal SpatialRestrictions()
-        {
-        }
+        { }
 
         public static LambdaSpatialRestrictionBuilder On<T>(Expression<Func<T, object>> expression)
         {

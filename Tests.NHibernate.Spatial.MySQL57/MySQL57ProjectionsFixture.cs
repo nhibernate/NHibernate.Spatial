@@ -7,14 +7,11 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MySQL57ProjectionsFixture : MySQLProjectionsFixture
     {
+        protected override System.Type GeometryType => typeof(MySQL57GeometryType);
+
         protected override void Configure(Configuration configuration)
         {
             TestConfiguration.Configure(configuration);
-        }
-
-        protected override System.Type GeometryType
-        {
-            get { return typeof(MySQL57GeometryType); }
         }
     }
 }

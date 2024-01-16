@@ -35,8 +35,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="name">The name.</param>
         public SpatialStandardSafeFunction(string name)
             : base(name)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
@@ -45,8 +44,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="typeValue">The type value.</param>
         public SpatialStandardSafeFunction(string name, IType typeValue)
             : base(name, typeValue)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
@@ -71,42 +69,11 @@ namespace NHibernate.Spatial.Dialect.Function
             this.allowedArgsCount = allowedArgsCount;
         }
 
-        #region ISQLFunction Members
-
-        /// <summary>
-        /// Render the function call as SQL.
-        /// </summary>
-        /// <param name="args">List of arguments</param>
-        /// <param name="factory"></param>
-        /// <returns>SQL fragment for the function.</returns>
-        public override SqlString Render(IList args, ISessionFactoryImplementor factory)
-        {
-            this.ValidateArgsCount(args);
-            return base.Render(args, factory);
-        }
-
-        /// <summary>
-        /// Validates the arguments count.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        protected void ValidateArgsCount(IList args)
-        {
-            if (args.Count != allowedArgsCount)
-            {
-                throw new QueryException(string.Format("function '{0}' requires {1} arguments.", this.name, this.allowedArgsCount));
-            }
-        }
-
-        #endregion ISQLFunction Members
-
         /// <summary>
         /// Gets the allowed arguments count.
         /// </summary>
         /// <value>The allowed arguments count.</value>
-        public int AllowedArgsCount
-        {
-            get { return this.allowedArgsCount; }
-        }
+        public int AllowedArgsCount => allowedArgsCount;
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
@@ -118,5 +85,33 @@ namespace NHibernate.Spatial.Dialect.Function
         {
             return name;
         }
+
+        #region ISQLFunction Members
+
+        /// <summary>
+        /// Render the function call as SQL.
+        /// </summary>
+        /// <param name="args">List of arguments</param>
+        /// <param name="factory"></param>
+        /// <returns>SQL fragment for the function.</returns>
+        public override SqlString Render(IList args, ISessionFactoryImplementor factory)
+        {
+            ValidateArgsCount(args);
+            return base.Render(args, factory);
+        }
+
+        /// <summary>
+        /// Validates the arguments count.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        protected void ValidateArgsCount(IList args)
+        {
+            if (args.Count != allowedArgsCount)
+            {
+                throw new QueryException($"function '{name}' requires {allowedArgsCount} arguments.");
+            }
+        }
+
+        #endregion ISQLFunction Members
     }
 }

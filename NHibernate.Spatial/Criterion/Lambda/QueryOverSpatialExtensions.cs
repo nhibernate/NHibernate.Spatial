@@ -8,8 +8,8 @@ namespace NHibernate.Spatial.Criterion.Lambda
     {
         public static QueryOverSpatialRestrictionBuilder<TRoot, TSubType>
             WhereSpatialRestrictionOn<TRoot, TSubType>(
-            this IQueryOver<TRoot, TSubType> root,
-            Expression<Func<TSubType, object>> expression)
+                this IQueryOver<TRoot, TSubType> root,
+                Expression<Func<TSubType, object>> expression)
         {
             return new QueryOverSpatialRestrictionBuilder<TRoot, TSubType>(
                 root,

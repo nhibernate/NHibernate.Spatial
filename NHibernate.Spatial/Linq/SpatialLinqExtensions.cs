@@ -26,63 +26,103 @@ namespace NHibernate.Spatial.Linq
         /// <param name="geometry"></param>
         /// <returns></returns>
         public static bool IsNull(this Geometry geometry)
-        { return geometry == null; }
+        {
+            return geometry == null;
+        }
 
         public static int GetDimension(this Geometry geometry)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Geometry Simplify(this Geometry geometry, double distance)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Geometry Transform(this Geometry geometry, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static GeometryCollection ToGeometryCollection(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static GeometryCollection ToGeometryCollection(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Geometry ToGeometry(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Geometry ToGeometry(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static LineString ToLineString(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static LineString ToLineString(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Point ToPoint(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Point ToPoint(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Polygon ToPolygon(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static Polygon ToPolygon(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static MultiLineString ToMultiLineString(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static MultiLineString ToMultiLineString(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static MultiPoint ToMultiPoint(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static MultiPoint ToMultiPoint(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static MultiPolygon ToMultiPolygon(this string text, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
 
         public static MultiPolygon ToMultiPolygon(this byte[] wkb, int srid)
-        { throw new SpatialLinqMethodException(); }
+        {
+            throw new SpatialLinqMethodException();
+        }
     }
 }

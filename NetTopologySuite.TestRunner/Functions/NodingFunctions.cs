@@ -14,8 +14,7 @@ namespace Open.Topology.TestRunner.Functions
 
             var roundedGeom = GeometryPrecisionReducer.Reduce(geom, pm);
 
-            var geomList = new List<Geometry>();
-            geomList.Add(roundedGeom);
+            var geomList = new List<Geometry> { roundedGeom };
 
             var noder = new GeometryNoder(pm);
             var lines = noder.Node(geomList);

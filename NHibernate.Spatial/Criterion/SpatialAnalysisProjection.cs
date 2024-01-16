@@ -111,7 +111,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            if (this.analysis == SpatialAnalysis.Distance)
+            if (analysis == SpatialAnalysis.Distance)
             {
                 return new IType[] { NHibernateUtil.Double };
             }
@@ -127,26 +127,26 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
-            var spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-            string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
+            var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
+            string column1 = criteriaQuery.GetColumn(criteria, propertyName);
             SqlString sqlString;
 
             if (IsBinaryOperation())
             {
                 if (geometry != null)
                 {
-                    Parameter[] parameters = criteriaQuery.NewQueryParameter(this.GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
-                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, parameters.Single());
+                    var parameters = criteriaQuery.NewQueryParameter(GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
+                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, analysis, parameters.Single());
                 }
                 else
                 {
-                    string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
-                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, column2);
+                    string column2 = criteriaQuery.GetColumn(criteria, anotherPropertyName);
+                    sqlString = spatialDialect.GetSpatialAnalysisString(column1, analysis, column2);
                 }
             }
             else
             {
-                sqlString = spatialDialect.GetSpatialAnalysisString(column1, this.analysis, null);
+                sqlString = spatialDialect.GetSpatialAnalysisString(column1, analysis, null);
             }
 
             return new SqlStringBuilder()
@@ -155,17 +155,6 @@ namespace NHibernate.Spatial.Criterion
                 .Add(position.ToString())
                 .Add("_")
                 .ToSqlString();
-        }
-
-        /// <summary>
-        /// Determines whether is binary operation.
-        /// </summary>
-        /// <returns>
-        /// 	<c>true</c> if is binary operation; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsBinaryOperation()
-        {
-            return (analysis != SpatialAnalysis.Buffer && analysis != SpatialAnalysis.ConvexHull);
         }
 
         /// <summary>
@@ -178,7 +167,18 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            return new[] { criteriaQuery.GetTypedValue(criteria, this.propertyName, this.geometry) };
+            return new[] { criteriaQuery.GetTypedValue(criteria, propertyName, geometry) };
+        }
+
+        /// <summary>
+        /// Determines whether is binary operation.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if is binary operation; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsBinaryOperation()
+        {
+            return analysis != SpatialAnalysis.Buffer && analysis != SpatialAnalysis.ConvexHull;
         }
     }
 }

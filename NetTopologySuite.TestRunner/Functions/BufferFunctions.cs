@@ -14,17 +14,32 @@ namespace Open.Topology.TestRunner.Functions
             return g.Buffer(distance);
         }
 
-        public static Geometry BufferWithParams(Geometry g, Double? distance,
-                int? quadrantSegments, int? capStyle, int? joinStyle, Double? mitreLimit)
+        public static Geometry BufferWithParams(Geometry g, double? distance,
+                                                int? quadrantSegments, int? capStyle, int? joinStyle, double? mitreLimit)
         {
             double dist = 0;
-            if (distance != null) dist = distance.Value;
+            if (distance != null)
+            {
+                dist = distance.Value;
+            }
 
             var bufParams = new BufferParameters();
-            if (quadrantSegments != null) bufParams.QuadrantSegments = quadrantSegments.Value;
-            if (capStyle != null) bufParams.EndCapStyle = (EndCapStyle)capStyle.Value;
-            if (joinStyle != null) bufParams.JoinStyle = (JoinStyle)joinStyle.Value;
-            if (mitreLimit != null) bufParams.MitreLimit = mitreLimit.Value;
+            if (quadrantSegments != null)
+            {
+                bufParams.QuadrantSegments = quadrantSegments.Value;
+            }
+            if (capStyle != null)
+            {
+                bufParams.EndCapStyle = (EndCapStyle) capStyle.Value;
+            }
+            if (joinStyle != null)
+            {
+                bufParams.JoinStyle = (JoinStyle) joinStyle.Value;
+            }
+            if (mitreLimit != null)
+            {
+                bufParams.MitreLimit = mitreLimit.Value;
+            }
 
             return BufferOp.Buffer(g, dist, bufParams);
         }
@@ -34,19 +49,50 @@ namespace Open.Topology.TestRunner.Functions
             return BuildCurveSet(g, distance, new BufferParameters());
         }
 
-        public static Geometry BufferOffsetCurveWithParams(Geometry g, Double? distance,
-                int? quadrantSegments, int? capStyle, int? joinStyle, Double? mitreLimit)
+        public static Geometry BufferOffsetCurveWithParams(Geometry g, double? distance,
+                                                           int? quadrantSegments, int? capStyle, int? joinStyle, double? mitreLimit)
         {
             double dist = 0;
-            if (distance != null) dist = distance.Value;
+            if (distance != null)
+            {
+                dist = distance.Value;
+            }
 
             var bufParams = new BufferParameters();
-            if (quadrantSegments != null) bufParams.QuadrantSegments = quadrantSegments.Value;
-            if (capStyle != null) bufParams.EndCapStyle = (EndCapStyle)capStyle.Value;
-            if (joinStyle != null) bufParams.JoinStyle = (JoinStyle)joinStyle.Value;
-            if (mitreLimit != null) bufParams.MitreLimit = mitreLimit.Value;
+            if (quadrantSegments != null)
+            {
+                bufParams.QuadrantSegments = quadrantSegments.Value;
+            }
+            if (capStyle != null)
+            {
+                bufParams.EndCapStyle = (EndCapStyle) capStyle.Value;
+            }
+            if (joinStyle != null)
+            {
+                bufParams.JoinStyle = (JoinStyle) joinStyle.Value;
+            }
+            if (mitreLimit != null)
+            {
+                bufParams.MitreLimit = mitreLimit.Value;
+            }
 
             return BuildCurveSet(g, dist, bufParams);
+        }
+
+        public static Geometry BufferLineSimplifier(Geometry g, double distance)
+        {
+            return BuildBufferLineSimplifiedSet(g, distance);
+        }
+
+        public static Geometry BufferValidated(Geometry g, double distance)
+        {
+            var buf = g.Buffer(distance);
+            string errMsg = BufferResultValidator.IsValidMessage(g, distance, buf);
+            if (errMsg != null)
+            {
+                throw new InvalidOperationException(errMsg);
+            }
+            return buf;
         }
 
         private static Geometry BuildCurveSet(Geometry g, double dist, BufferParameters bufParams)
@@ -61,13 +107,8 @@ namespace Open.Topology.TestRunner.Functions
                 var pts = ss.Coordinates;
                 lines.Add(g.Factory.CreateLineString(pts));
             }
-            Geometry curve = g.Factory.BuildGeometry(lines);
+            var curve = g.Factory.BuildGeometry(lines);
             return curve;
-        }
-
-        public static Geometry BufferLineSimplifier(Geometry g, double distance)
-        {
-            return BuildBufferLineSimplifiedSet(g, distance);
         }
 
         private static Geometry BuildBufferLineSimplifiedSet(Geometry g, double distance)
@@ -83,15 +124,6 @@ namespace Open.Topology.TestRunner.Functions
             }
             var simpGeom = g.Factory.BuildGeometry(simpLines);
             return simpGeom;
-        }
-
-        public static Geometry BufferValidated(Geometry g, double distance)
-        {
-            var buf = g.Buffer(distance);
-            var errMsg = BufferResultValidator.IsValidMessage(g, distance, buf);
-            if (errMsg != null)
-                throw new InvalidOperationException(errMsg);
-            return buf;
         }
     }
 }

@@ -30,8 +30,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="name">The name.</param>
         public SpatialMethodFunction(string name)
             : base(name)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialMethodFunction"/> class.
@@ -40,8 +39,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="typeValue">The type value.</param>
         public SpatialMethodFunction(string name, IType typeValue)
             : base(name, typeValue)
-        {
-        }
+        { }
 
         /// <summary>
         /// Render the function call as SQL.
@@ -51,7 +49,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <returns>SQL fragment for the function.</returns>
         public override SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
-            SqlStringBuilder builder = new SqlStringBuilder();
+            var builder = new SqlStringBuilder();
             builder.AddObject(args[0]);
             builder.Add(".");
             builder.Add(name);
@@ -59,7 +57,7 @@ namespace NHibernate.Spatial.Dialect.Function
             for (int i = 1; i < args.Count; i++)
             {
                 builder.AddObject(args[i]);
-                if (i < (args.Count - 1))
+                if (i < args.Count - 1)
                 {
                     builder.Add(", ");
                 }

@@ -6,7 +6,7 @@ using System;
 namespace Open.Topology.TestRunner.Operations
 {
     /*
-    **
+     **
      * Invokes a function from registry
      * or a Geometry method determined by a named operation with a list of arguments,
      * the first of which is a {@link Geometry}.
@@ -20,13 +20,12 @@ namespace Open.Topology.TestRunner.Operations
 
     public class GeometryFunctionOperation : IGeometryOperation
     {
-        private GeometryFunctionRegistry registry;
-        private IGeometryOperation defaultOp = new GeometryMethodOperation();
-        private ArgumentConverter argConverter = new ArgumentConverter();
+        private readonly GeometryFunctionRegistry registry;
+        private readonly IGeometryOperation defaultOp = new GeometryMethodOperation();
+        private readonly ArgumentConverter argConverter = new ArgumentConverter();
 
         public GeometryFunctionOperation()
-        {
-        }
+        { }
 
         public GeometryFunctionOperation(GeometryFunctionRegistry registry)
         {
@@ -41,9 +40,11 @@ namespace Open.Topology.TestRunner.Operations
         public Type GetReturnType(XmlTestType op)
         {
             string opName = op.ToString();
-            IGeometryFunction func = registry.Find(opName);
+            var func = registry.Find(opName);
             if (func == null)
+            {
                 return defaultOp.GetReturnType(op);
+            }
             return func.ReturnType;
         }
 
@@ -55,11 +56,13 @@ namespace Open.Topology.TestRunner.Operations
         //    return func.ReturnType;
         //}
 
-        public IResult Invoke(XmlTestType opName, Geometry geometry, Object[] args)
+        public IResult Invoke(XmlTestType opName, Geometry geometry, object[] args)
         {
-            IGeometryFunction func = registry.Find(opName.ToString(), args.Length);
+            var func = registry.Find(opName.ToString(), args.Length);
             if (func == null)
+            {
                 return defaultOp.Invoke(opName, geometry, args);
+            }
 
             return Invoke(func, geometry, args);
         }
@@ -73,25 +76,25 @@ namespace Open.Topology.TestRunner.Operations
         //    return Invoke(func, geometry, args);
         //}
 
-        private IResult Invoke(IGeometryFunction func, Geometry geometry, Object[] args)
+        private IResult Invoke(IGeometryFunction func, Geometry geometry, object[] args)
         {
-            Object[] actualArgs = argConverter.Convert(func.ParameterTypes, args);
+            object[] actualArgs = argConverter.Convert(func.ParameterTypes, args);
 
             if (func.ReturnType == typeof(bool))
             {
-                return new BooleanResult((Boolean)func.Invoke(geometry, actualArgs));
+                return new BooleanResult((bool) func.Invoke(geometry, actualArgs));
             }
             if (typeof(Geometry).IsAssignableFrom(func.ReturnType))
             {
-                return new GeometryResult((Geometry)func.Invoke(geometry, actualArgs));
+                return new GeometryResult((Geometry) func.Invoke(geometry, actualArgs));
             }
             if (func.ReturnType == typeof(double))
             {
-                return new DoubleResult((double)func.Invoke(geometry, actualArgs));
+                return new DoubleResult((double) func.Invoke(geometry, actualArgs));
             }
             if (func.ReturnType == typeof(int))
             {
-                return new IntegerResult((int)func.Invoke(geometry, actualArgs));
+                return new IntegerResult((int) func.Invoke(geometry, actualArgs));
             }
             throw new NTSTestReflectionException("Unsupported result type: "
                                                  + func.ReturnType);

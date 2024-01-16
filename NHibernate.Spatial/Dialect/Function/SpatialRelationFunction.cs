@@ -39,7 +39,7 @@ namespace NHibernate.Spatial.Dialect.Function
         {
             this.spatialDialect = spatialDialect;
             this.relation = relation;
-            this.allowedArgsCount = 2;
+            allowedArgsCount = 2;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NHibernate.Spatial.Dialect.Function
         public override SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
             ValidateArgsCount(args);
-            return this.spatialDialect.GetSpatialRelationString(args[0], this.relation, args[1], false);
+            return spatialDialect.GetSpatialRelationString(args[0], relation, args[1], false);
         }
     }
 }

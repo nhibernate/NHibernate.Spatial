@@ -13,65 +13,51 @@ namespace Tests.NHibernate.Spatial
             TestConfiguration.Configure(configuration);
         }
 
-        #region Unsupported features
-
-        [Test]
-        [Ignore("Provider does not support the Boundary function")]
-        public override void HqlBoundary()
-        { }
-
-        [Test]
-        [Ignore("Provider does not support the Relate function")]
-        public override void HqlRelateLineString()
-        { }
-
-        #endregion
-
         protected override string SqlLineStringFilter(string filterString)
         {
-            return string.Format(@"
+            return $@"
 SELECT count(*)
 FROM linestringtest
-WHERE MBRIntersects(the_geom, GeomFromText('{0}', 4326))
-", filterString);
+WHERE MBRIntersects(the_geom, GeomFromText('{filterString}', 4326))
+";
         }
 
         protected override string SqlPolygonFilter(string filterString)
         {
-            return string.Format(@"
+            return $@"
 SELECT count(*)
 FROM polygontest
-WHERE MBRIntersects(the_geom, GeomFromText('{0}', 4326))
-", filterString);
+WHERE MBRIntersects(the_geom, GeomFromText('{filterString}', 4326))
+";
         }
 
         protected override string SqlMultiLineStringFilter(string filterString)
         {
-            return string.Format(@"
+            return $@"
 SELECT count(*)
 FROM multilinestringtest
-WHERE MBRIntersects(the_geom, GeomFromText('{0}', 4326))
-", filterString);
+WHERE MBRIntersects(the_geom, GeomFromText('{filterString}', 4326))
+";
         }
 
         protected override string SqlOvelapsLineString(string filterString)
         {
-            return string.Format(@"
+            return $@"
 SELECT count(*)
 FROM linestringtest
 WHERE the_geom IS NOT NULL
-AND Overlaps(PolygonFromText('{0}', 4326), the_geom)
-", filterString);
+AND Overlaps(PolygonFromText('{filterString}', 4326), the_geom)
+";
         }
 
         protected override string SqlIntersectsLineString(string filterString)
         {
-            return string.Format(@"
+            return $@"
 SELECT count(*)
 FROM linestringtest
 WHERE the_geom IS NOT NULL
-AND Intersects(PolygonFromText('{0}', 4326), the_geom)
-", filterString);
+AND Intersects(PolygonFromText('{filterString}', 4326), the_geom)
+";
         }
 
         protected override ISQLQuery SqlIsEmptyLineString(ISession session)
@@ -104,7 +90,21 @@ FROM linestringtest
 WHERE oid = ?
 AND the_geom IS NOT NULL
 ")
-        .AddScalar("result", NHibernateUtil.BinaryBlob);
+                .AddScalar("result", NHibernateUtil.BinaryBlob);
         }
+
+        #region Unsupported features
+
+        [Test]
+        [Ignore("Provider does not support the Boundary function")]
+        public override void HqlBoundary()
+        { }
+
+        [Test]
+        [Ignore("Provider does not support the Relate function")]
+        public override void HqlRelateLineString()
+        { }
+
+        #endregion
     }
 }

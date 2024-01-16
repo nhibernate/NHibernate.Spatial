@@ -6,11 +6,6 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MySQLProjectionsFixture : ProjectionsFixture
     {
-        protected override void Configure(Configuration configuration)
-        {
-            TestConfiguration.Configure(configuration);
-        }
-
         [Test]
         [Ignore("MySQL does not support Union spatial aggregate function")]
         public override void CountAndUnion()
@@ -30,5 +25,10 @@ namespace Tests.NHibernate.Spatial
         [Ignore("MySQL does not support Intersection spatial aggregate function")]
         public override void IntersectionAll()
         { }
+
+        protected override void Configure(Configuration configuration)
+        {
+            TestConfiguration.Configure(configuration);
+        }
     }
 }

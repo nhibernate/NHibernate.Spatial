@@ -5,8 +5,8 @@ namespace NHibernate.Spatial.Criterion.Lambda
 {
     public class LambdaSpatialRestrictionBuilder
     {
+        private readonly string propertyName;
         private bool isNot;
-        private string propertyName;
 
         /// <summary>
         /// Constructed with property name
@@ -16,22 +16,22 @@ namespace NHibernate.Spatial.Criterion.Lambda
             this.propertyName = propertyName;
         }
 
-        private AbstractCriterion Process(AbstractCriterion criterion)
-        {
-            if (this.isNot)
-            {
-                return Restrictions.Not(criterion);
-            }
-            return criterion;
-        }
-
         public LambdaSpatialRestrictionBuilder Not
         {
             get
             {
-                this.isNot = !this.isNot;
+                isNot = !isNot;
                 return this;
             }
+        }
+
+        private AbstractCriterion Process(AbstractCriterion criterion)
+        {
+            if (isNot)
+            {
+                return Restrictions.Not(criterion);
+            }
+            return criterion;
         }
 
         #region Filter
@@ -41,7 +41,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Filter(Geometry value)
         {
-            return this.Process(SpatialRestrictions.Filter(this.propertyName, value));
+            return Process(SpatialRestrictions.Filter(propertyName, value));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Filter(Envelope value, int srid)
         {
-            return this.Process(SpatialRestrictions.Filter(this.propertyName, value, srid));
+            return Process(SpatialRestrictions.Filter(propertyName, value, srid));
         }
 
         #endregion Filter
@@ -61,7 +61,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Contains(object value)
         {
-            return this.Process(SpatialRestrictions.Contains(this.propertyName, value));
+            return Process(SpatialRestrictions.Contains(propertyName, value));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion CoveredBy(object value)
         {
-            return this.Process(SpatialRestrictions.CoveredBy(this.propertyName, value));
+            return Process(SpatialRestrictions.CoveredBy(propertyName, value));
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Covers(object value)
         {
-            return this.Process(SpatialRestrictions.Covers(this.propertyName, value));
+            return Process(SpatialRestrictions.Covers(propertyName, value));
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Crosses(object value)
         {
-            return this.Process(SpatialRestrictions.Crosses(this.propertyName, value));
+            return Process(SpatialRestrictions.Crosses(propertyName, value));
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Disjoint(object value)
         {
-            return this.Process(SpatialRestrictions.Disjoint(this.propertyName, value));
+            return Process(SpatialRestrictions.Disjoint(propertyName, value));
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Eq(object value)
         {
-            return this.Process(SpatialRestrictions.Eq(this.propertyName, value));
+            return Process(SpatialRestrictions.Eq(propertyName, value));
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion EqExact(object value, double tolerance)
         {
-            return this.Process(SpatialRestrictions.EqExact(this.propertyName, value, tolerance));
+            return Process(SpatialRestrictions.EqExact(propertyName, value, tolerance));
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Intersects(object value)
         {
-            return this.Process(SpatialRestrictions.Intersects(this.propertyName, value));
+            return Process(SpatialRestrictions.Intersects(propertyName, value));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Overlaps(object value)
         {
-            return this.Process(SpatialRestrictions.Overlaps(this.propertyName, value));
+            return Process(SpatialRestrictions.Overlaps(propertyName, value));
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Relate(object value, string intersectionPatternMatrix)
         {
-            return this.Process(SpatialRestrictions.Relate(this.propertyName, value, intersectionPatternMatrix));
+            return Process(SpatialRestrictions.Relate(propertyName, value, intersectionPatternMatrix));
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Touches(object value)
         {
-            return this.Process(SpatialRestrictions.Touches(this.propertyName, value));
+            return Process(SpatialRestrictions.Touches(propertyName, value));
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion Within(object value)
         {
-            return this.Process(SpatialRestrictions.Within(this.propertyName, value));
+            return Process(SpatialRestrictions.Within(propertyName, value));
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// </summary>
         public AbstractCriterion IsWithinDistance(object value, double distance)
         {
-            return this.Process(SpatialRestrictions.IsWithinDistance(this.propertyName, value, distance));
+            return Process(SpatialRestrictions.IsWithinDistance(propertyName, value, distance));
         }
 
         #endregion Relations
@@ -167,42 +167,27 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// <summary>
         /// Apply an "is closed" constraint to the named property
         /// </summary>
-        public AbstractCriterion IsClosed
-        {
-            get { return this.Process(SpatialRestrictions.IsClosed(this.propertyName)); }
-        }
+        public AbstractCriterion IsClosed => Process(SpatialRestrictions.IsClosed(propertyName));
 
         /// <summary>
         /// Apply an "is empty" constraint to the named property
         /// </summary>
-        public AbstractCriterion IsEmpty
-        {
-            get { return this.Process(SpatialRestrictions.IsEmpty(this.propertyName)); }
-        }
+        public AbstractCriterion IsEmpty => Process(SpatialRestrictions.IsEmpty(propertyName));
 
         /// <summary>
         /// Apply an "is ring" constraint to the named property
         /// </summary>
-        public AbstractCriterion IsRing
-        {
-            get { return this.Process(SpatialRestrictions.IsRing(this.propertyName)); }
-        }
+        public AbstractCriterion IsRing => Process(SpatialRestrictions.IsRing(propertyName));
 
         /// <summary>
         /// Apply an "is simple" constraint to the named property
         /// </summary>
-        public AbstractCriterion IsSimple
-        {
-            get { return this.Process(SpatialRestrictions.IsSimple(this.propertyName)); }
-        }
+        public AbstractCriterion IsSimple => Process(SpatialRestrictions.IsSimple(propertyName));
 
         /// <summary>
         /// Apply an "is valid" constraint to the named property
         /// </summary>
-        public AbstractCriterion IsValid
-        {
-            get { return this.Process(SpatialRestrictions.IsValid(this.propertyName)); }
-        }
+        public AbstractCriterion IsValid => Process(SpatialRestrictions.IsValid(propertyName));
 
         #endregion Validations
     }

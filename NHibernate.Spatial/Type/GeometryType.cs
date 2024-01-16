@@ -46,7 +46,7 @@ namespace NHibernate.Spatial.Type
             {
                 throw new MappingException("A GeometryType column has been declared, but there is no spatial dialect configured");
             }
-            this.geometryUserType = SpatialDialect.LastInstantiated.CreateGeometryUserType();
+            geometryUserType = SpatialDialect.LastInstantiated.CreateGeometryUserType();
         }
 
         #region IGeometryType Members
@@ -62,7 +62,7 @@ namespace NHibernate.Spatial.Type
         /// </returns>
         public object Assemble(object cached, object owner)
         {
-            return this.geometryUserType.Assemble(cached, owner);
+            return geometryUserType.Assemble(cached, owner);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace NHibernate.Spatial.Type
         /// <returns>a copy</returns>
         public object DeepCopy(object value)
         {
-            return this.geometryUserType.DeepCopy(value);
+            return geometryUserType.DeepCopy(value);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace NHibernate.Spatial.Type
         /// <returns>a cacheable representation of the object</returns>
         public object Disassemble(object value)
         {
-            return this.geometryUserType.Disassemble(value);
+            return geometryUserType.Disassemble(value);
         }
 
         /// <summary>
@@ -95,17 +95,14 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         public int GetHashCode(object x)
         {
-            return this.geometryUserType.GetHashCode(x);
+            return geometryUserType.GetHashCode(x);
         }
 
         /// <summary>
         /// Are objects of this type mutable?
         /// </summary>
         /// <value></value>
-        public bool IsMutable
-        {
-            get { return this.geometryUserType.IsMutable; }
-        }
+        public bool IsMutable => geometryUserType.IsMutable;
 
         /// <summary>
         /// Retrieve an instance of the mapped class from an ADO resultset.
@@ -121,7 +118,7 @@ namespace NHibernate.Spatial.Type
         /// <exception cref="T:NHibernate.HibernateException">HibernateException</exception>
         public object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner)
         {
-            return this.geometryUserType.NullSafeGet(rs, names, session, owner);
+            return geometryUserType.NullSafeGet(rs, names, session, owner);
         }
 
         /// <summary>
@@ -138,7 +135,7 @@ namespace NHibernate.Spatial.Type
         /// <exception cref="T:NHibernate.HibernateException">HibernateException</exception>
         public void NullSafeSet(DbCommand cmd, object value, int index, ISessionImplementor session)
         {
-            this.geometryUserType.NullSafeSet(cmd, value, index, session);
+            geometryUserType.NullSafeSet(cmd, value, index, session);
         }
 
         /// <summary>
@@ -155,26 +152,20 @@ namespace NHibernate.Spatial.Type
         /// <returns>the value to be merged</returns>
         public object Replace(object original, object target, object owner)
         {
-            return this.geometryUserType.Replace(original, target, owner);
+            return geometryUserType.Replace(original, target, owner);
         }
 
         /// <summary>
         /// The type returned by <c>NullSafeGet()</c>
         /// </summary>
         /// <value></value>
-        public System.Type ReturnedType
-        {
-            get { return this.geometryUserType.ReturnedType; }
-        }
+        public System.Type ReturnedType => geometryUserType.ReturnedType;
 
         /// <summary>
         /// The SQL types for the columns mapped by this type.
         /// </summary>
         /// <value></value>
-        public SqlTypes.SqlType[] SqlTypes
-        {
-            get { return this.geometryUserType.SqlTypes; }
-        }
+        public SqlTypes.SqlType[] SqlTypes => geometryUserType.SqlTypes;
 
         /// <summary>
         /// Determines whether the specified object is equals to another object.
@@ -184,7 +175,7 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         bool IUserType.Equals(object a, object b)
         {
-            return this.geometryUserType.Equals(a, b);
+            return geometryUserType.Equals(a, b);
         }
 
         /// <summary>
@@ -194,34 +185,25 @@ namespace NHibernate.Spatial.Type
         /// <param name="parameters"></param>
         public void SetParameterValues(IDictionary<string, string> parameters)
         {
-            this.geometryUserType.SetParameterValues(parameters);
+            geometryUserType.SetParameterValues(parameters);
         }
 
         /// <summary>
         /// Gets the system reference identification
         /// </summary>
         /// <value></value>
-        public int SRID
-        {
-            get { return this.geometryUserType.SRID; }
-        }
+        public int SRID => geometryUserType.SRID;
 
         /// <summary>
         /// Gets the OGC geometry subtype name
         /// </summary>
         /// <value></value>
-        public string Subtype
-        {
-            get { return this.geometryUserType.Subtype; }
-        }
+        public string Subtype => geometryUserType.Subtype;
 
         /// <summary>
         /// [3DIS] Gets the Dimension [2,3]
         /// </summary>
-        public int Dimension
-        {
-            get { return this.geometryUserType.Dimension; }
-        }
+        public int Dimension => geometryUserType.Dimension;
 
         /// <summary>
         /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.

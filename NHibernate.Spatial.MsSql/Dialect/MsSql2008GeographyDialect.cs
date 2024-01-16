@@ -20,23 +20,21 @@ using NHibernate.Type;
 
 namespace NHibernate.Spatial.Dialect
 {
-	public class MsSql2008GeographyDialect : MsSql2008SpatialDialect
-	{
+    public class MsSql2008GeographyDialect : MsSql2008SpatialDialect
+    {
+        private static readonly IType geometryType = new CustomType(typeof(MsSqlGeographyType), null);
 
-		private static readonly IType geometryType = new CustomType(typeof(MsSqlGeographyType), null);
+        public MsSql2008GeographyDialect()
+            : base("geography", "NHSP_GEOGRAPHY_COLUMNS", geometryType)
+        { }
 
-		public MsSql2008GeographyDialect()
-			: base("geography", "NHSP_GEOGRAPHY_COLUMNS", geometryType)
-		{
-		}
-
-		/// <summary>
-		/// Creates the geometry user type.
-		/// </summary>
-		/// <returns></returns>
-		public override IGeometryUserType CreateGeometryUserType()
-		{
-			return new MsSqlGeographyType();
-		}
-	}
+        /// <summary>
+        /// Creates the geometry user type.
+        /// </summary>
+        /// <returns></returns>
+        public override IGeometryUserType CreateGeometryUserType()
+        {
+            return new MsSqlGeographyType();
+        }
+    }
 }

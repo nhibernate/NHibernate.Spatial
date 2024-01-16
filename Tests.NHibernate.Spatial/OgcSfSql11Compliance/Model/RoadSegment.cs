@@ -6,57 +6,56 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
     [Serializable]
     public class RoadSegment
     {
-        public RoadSegment()
-        {
-        }
-
-        public RoadSegment(long fid, string name, string aliases, int numLanes, Geometry centerline)
-        {
-            this.Fid = fid;
-            this.Name = name;
-            this.Aliases = aliases;
-            this.NumLanes = numLanes;
-            this.Centerline = centerline;
-        }
-
         private long fid;
-
-        public long Fid
-        {
-            get { return fid; }
-            set { fid = value; }
-        }
 
         private string name;
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
         private string aliases;
-
-        public string Aliases
-        {
-            get { return aliases; }
-            set { aliases = value; }
-        }
 
         private int numLanes;
 
-        public int NumLanes
+        private Geometry centerline;
+
+        public RoadSegment()
+        { }
+
+        public RoadSegment(long fid, string name, string aliases, int numLanes, Geometry centerline)
         {
-            get { return numLanes; }
-            set { numLanes = value; }
+            Fid = fid;
+            Name = name;
+            Aliases = aliases;
+            NumLanes = numLanes;
+            Centerline = centerline;
         }
 
-        private Geometry centerline;
+        public long Fid
+        {
+            get => fid;
+            set => fid = value;
+        }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
+        public string Aliases
+        {
+            get => aliases;
+            set => aliases = value;
+        }
+
+        public int NumLanes
+        {
+            get => numLanes;
+            set => numLanes = value;
+        }
 
         public Geometry Centerline
         {
-            get { return centerline; }
-            set { centerline = value; }
+            get => centerline;
+            set => centerline = value;
         }
     }
 }

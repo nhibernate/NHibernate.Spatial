@@ -41,7 +41,7 @@ namespace NHibernate.Spatial.Criterion
             : base(propertyName)
         {
             this.anotherPropertyName = anotherPropertyName;
-            this.pattern = null;
+            pattern = null;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            if (this.pattern == null)
+            if (pattern == null)
             {
                 return new IType[] { NHibernateUtil.String };
             }
@@ -81,26 +81,21 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
-            ISpatialDialect spatialDialect = (ISpatialDialect)criteriaQuery.Factory.Dialect;
-            string column1 = criteriaQuery.GetColumn(criteria, this.propertyName);
-            string column2 = criteriaQuery.GetColumn(criteria, this.anotherPropertyName);
+            var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
+            string column1 = criteriaQuery.GetColumn(criteria, propertyName);
+            string column2 = criteriaQuery.GetColumn(criteria, anotherPropertyName);
 
             SqlString sqlString;
-            if (this.pattern == null)
+            if (pattern == null)
             {
                 sqlString = spatialDialect.GetSpatialRelateString(column1, column2, null, false, false);
             }
             else
             {
-                string column3 = criteriaQuery.GetColumn(criteria, this.pattern);
-                if (column3 == null)
-                {
-                    sqlString = spatialDialect.GetSpatialRelateString(column1, column2, this.pattern, true, false);
-                }
-                else
-                {
-                    sqlString = spatialDialect.GetSpatialRelateString(column1, column2, column3, false, false);
-                }
+                string column3 = criteriaQuery.GetColumn(criteria, pattern);
+                sqlString = column3 == null
+                    ? spatialDialect.GetSpatialRelateString(column1, column2, pattern, true, false)
+                    : spatialDialect.GetSpatialRelateString(column1, column2, column3, false, false);
             }
             return new SqlStringBuilder()
                 .Add(sqlString)

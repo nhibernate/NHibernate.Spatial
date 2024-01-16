@@ -28,6 +28,21 @@ namespace NHibernate.Spatial.Criterion
     /// </remarks>
     public static partial class SpatialProjections
     {
+        #region Functions
+
+        /// <summary>
+        /// Transforms the coordinate reference system of the specified geometry property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="srid">The srid.</param>
+        /// <returns></returns>
+        public static SpatialProjection Transform(string propertyName, int srid)
+        {
+            return new SpatialTransformProjection(propertyName, srid);
+        }
+
+        #endregion Functions
+
         #region Aggregates
 
         /// <summary>
@@ -353,20 +368,5 @@ namespace NHibernate.Spatial.Criterion
         }
 
         #endregion Validations
-
-        #region Functions
-
-        /// <summary>
-        /// Transforms the coordinate reference system of the specified geometry property.
-        /// </summary>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <param name="srid">The srid.</param>
-        /// <returns></returns>
-        public static SpatialProjection Transform(string propertyName, int srid)
-        {
-            return new SpatialTransformProjection(propertyName, srid);
-        }
-
-        #endregion Functions
     }
 }

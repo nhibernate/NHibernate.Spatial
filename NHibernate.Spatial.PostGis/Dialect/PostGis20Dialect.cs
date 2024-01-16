@@ -46,6 +46,9 @@ namespace NHibernate.Spatial.Dialect
             RegisterFunctions();
         }
 
+        // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
+        public string MultipleQueriesSeparator => ";";
+
         public override string ToBooleanValueString(bool value)
         {
             return value ? "true" : "false";
@@ -168,17 +171,17 @@ namespace NHibernate.Spatial.Dialect
 
         private void RegisterSpatialFunction(SpatialRelation relation)
         {
-            RegisterFunction(SpatialDialect.HqlPrefix + relation.ToString(), new SpatialRelationFunction(this, relation));
+            RegisterFunction(SpatialDialect.HqlPrefix + relation, new SpatialRelationFunction(this, relation));
         }
 
         private void RegisterSpatialFunction(SpatialValidation validation)
         {
-            RegisterFunction(SpatialDialect.HqlPrefix + validation.ToString(), new SpatialValidationFunction(this, validation));
+            RegisterFunction(SpatialDialect.HqlPrefix + validation, new SpatialValidationFunction(this, validation));
         }
 
         private void RegisterSpatialFunction(SpatialAnalysis analysis)
         {
-            RegisterFunction(SpatialDialect.HqlPrefix + analysis.ToString(), new SpatialAnalysisFunction(this, analysis));
+            RegisterFunction(SpatialDialect.HqlPrefix + analysis, new SpatialAnalysisFunction(this, analysis));
         }
 
         #endregion Functions registration
@@ -198,10 +201,7 @@ namespace NHibernate.Spatial.Dialect
         /// Gets the type of the geometry.
         /// </summary>
         /// <value>The type of the geometry.</value>
-        public IType GeometryType
-        {
-            get { return geometryType; }
-        }
+        public IType GeometryType => geometryType;
 
         /// <summary>
         /// Gets the spatial transform string.
@@ -273,6 +273,7 @@ namespace NHibernate.Spatial.Dialect
                 .Add("(")
                 .AddObject(geometry)
                 .Add(")");
+
             // Convert to geometry as there is no binary output function available for type box2d type
             if (aggregate == SpatialAggregate.Envelope)
             {
@@ -286,18 +287,21 @@ namespace NHibernate.Spatial.Dialect
             switch (relation)
             {
                 case SpatialRelation.Covers:
-                    string[] patterns = new string[] {
+                    string[] patterns =
+                    {
                         "T*****FF*",
                         "*T****FF*",
                         "***T**FF*",
                         "****T*FF*",
                     };
-                    SqlStringBuilder builder = new SqlStringBuilder();
+                    var builder = new SqlStringBuilder();
                     builder.Add("(");
                     for (int i = 0; i < patterns.Length; i++)
                     {
                         if (i > 0)
+                        {
                             builder.Add(" OR ");
+                        }
                         builder
                             .Add(SpatialDialect.IsoPrefix)
                             .Add("Relate")
@@ -333,7 +337,7 @@ namespace NHibernate.Spatial.Dialect
 
         public SqlString GetSpatialRelateString(object geometry, object anotherGeometry, object pattern, bool isStringPattern, bool criterion)
         {
-            SqlStringBuilder builder = new SqlStringBuilder();
+            var builder = new SqlStringBuilder();
             builder
                 .Add(SpatialDialect.IsoPrefix)
                 .Add("Relate(")
@@ -347,7 +351,7 @@ namespace NHibernate.Spatial.Dialect
                 {
                     builder
                         .Add("'")
-                        .Add((string)pattern)
+                        .Add((string) pattern)
                         .Add("'");
                 }
                 else
@@ -386,7 +390,7 @@ namespace NHibernate.Spatial.Dialect
             switch (analysis)
             {
                 case SpatialAnalysis.Buffer:
-                    if (!(extraArgument is Parameter || new SqlString(SqlCommand.Parameter.Placeholder).Equals(extraArgument)))
+                    if (!(extraArgument is Parameter || new SqlString(Parameter.Placeholder).Equals(extraArgument)))
                     {
                         extraArgument = Convert.ToString(extraArgument, System.Globalization.NumberFormatInfo.InvariantInfo);
                     }
@@ -494,13 +498,13 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             builder.AppendFormat("ALTER TABLE {0}{1} DROP COLUMN {2}"
                 , QuoteSchema(schema)
                 , QuoteForTableName(table)
                 , QuoteForColumnName(column)
-                );
+            );
 
             builder.Append(MultipleQueriesSeparator);
 
@@ -514,7 +518,7 @@ namespace NHibernate.Spatial.Dialect
                     , QuoteSchema(schema)
                     , QuoteForTableName(table)
                     , QuoteForColumnName(column)
-                    );
+                );
             }
 
             builder.Append(MultipleQueriesSeparator);
@@ -525,17 +529,21 @@ namespace NHibernate.Spatial.Dialect
 
         private string GetSpatialIndexCreateString(string schema, string table, string column)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             builder.Append(GetSpatialIndexDropString(schema, table, column));
             builder.Append(MultipleQueriesSeparator);
 
             if (string.IsNullOrEmpty(schema))
+            {
                 builder.AppendFormat("CREATE INDEX {0}_{1}_idx ON {2} USING GIST ({3})",
-                                table, column, QuoteForTableName(table), QuoteForColumnName(column));
+                    table, column, QuoteForTableName(table), QuoteForColumnName(column));
+            }
             else
+            {
                 builder.AppendFormat("CREATE INDEX {0}_{1}_idx ON {2}{3} USING GIST ({4})",
-                                table, column, QuoteSchema(schema), QuoteForTableName(table), QuoteForColumnName(column));
+                    table, column, QuoteSchema(schema), QuoteForTableName(table), QuoteForColumnName(column));
+            }
             builder.Append(MultipleQueriesSeparator);
 
             return builder.ToString();
@@ -552,7 +560,7 @@ namespace NHibernate.Spatial.Dialect
                 "DROP AGGREGATE IF EXISTS {0}{1}(GEOMETRY);"
                 , QuoteSchema(schema)
                 , IntersectionAggregateName
-                );
+            );
             return script;
         }
 
@@ -565,15 +573,19 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public string GetSpatialDropString(string schema, string table, string column)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             builder.Append(GetSpatialIndexDropString(schema, table, column));
             if (string.IsNullOrEmpty(schema))
+            {
                 builder.AppendFormat("SELECT DropGeometryColumn('{0}','{1}')",
                     table, column);
+            }
             else
+            {
                 builder.AppendFormat("SELECT DropGeometryColumn('{0}','{1}','{2}')",
                     schema, table, column);
+            }
             builder.Append(MultipleQueriesSeparator);
 
             return builder.ToString();
@@ -581,14 +593,18 @@ namespace NHibernate.Spatial.Dialect
 
         private string GetSpatialIndexDropString(string schema, string table, string column)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             if (string.IsNullOrEmpty(schema))
+            {
                 builder.AppendFormat("DROP INDEX IF EXISTS {0}_{1}_idx",
-                                     table, column);
+                    table, column);
+            }
             else
+            {
                 builder.AppendFormat("DROP INDEX IF EXISTS {0}{1}_{2}_idx",
-                                     QuoteSchema(schema), table, column);
+                    QuoteSchema(schema), table, column);
+            }
 
             builder.Append(MultipleQueriesSeparator);
 
@@ -599,7 +615,7 @@ namespace NHibernate.Spatial.Dialect
         /// Gets a value indicating whether it supports spatial metadata.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
+        /// <c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
         /// </value>
         public bool SupportsSpatialMetadata(MetadataClass metadataClass)
         {
@@ -607,11 +623,5 @@ namespace NHibernate.Spatial.Dialect
         }
 
         #endregion ISpatialDialect Members
-
-        // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
-        public string MultipleQueriesSeparator
-        {
-            get { return ";"; }
-        }
     }
 }

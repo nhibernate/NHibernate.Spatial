@@ -6,17 +6,23 @@ namespace Open.Topology.TestRunner.Utility
     {
         public static readonly Envelope DefaultEnvelope = new Envelope(0, 100, 0, 100);
 
+        private static readonly GeometryFactory Factory = new GeometryFactory();
+
         public static Envelope getEnvelopeOrDefault(Geometry g)
         {
-            if (g == null) return DefaultEnvelope;
+            if (g == null)
+            {
+                return DefaultEnvelope;
+            }
             return g.EnvelopeInternal;
         }
 
-        private static readonly GeometryFactory Factory = new GeometryFactory();
-
         public static GeometryFactory getFactoryOrDefault(Geometry g)
         {
-            if (g == null) return Factory; /*NTSTestBuilder.getGeometryFactory()*/;
+            if (g == null)
+            {
+                return Factory; /*NTSTestBuilder.getGeometryFactory()*/
+            }
             return g.Factory;
         }
 

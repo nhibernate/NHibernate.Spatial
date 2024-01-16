@@ -35,8 +35,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="name">The name.</param>
         public SpatialMethodSafeFunction(string name)
             : base(name)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
@@ -45,8 +44,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <param name="typeValue">The type value.</param>
         public SpatialMethodSafeFunction(string name, IType typeValue)
             : base(name, typeValue)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialStandardSafeFunction"/> class.
@@ -56,7 +54,7 @@ namespace NHibernate.Spatial.Dialect.Function
         public SpatialMethodSafeFunction(string name, int allowedArgsCount)
             : base(name)
         {
-            this._allowedArgsCount = allowedArgsCount;
+            _allowedArgsCount = allowedArgsCount;
         }
 
         /// <summary>
@@ -68,7 +66,24 @@ namespace NHibernate.Spatial.Dialect.Function
         public SpatialMethodSafeFunction(string name, IType typeValue, int allowedArgsCount)
             : base(name, typeValue)
         {
-            this._allowedArgsCount = allowedArgsCount;
+            _allowedArgsCount = allowedArgsCount;
+        }
+
+        /// <summary>
+        /// Gets the allowed arguments count.
+        /// </summary>
+        /// <value>The allowed arguments count.</value>
+        public int AllowedArgsCount => _allowedArgsCount;
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
+        public override string ToString()
+        {
+            return name;
         }
 
         #region ISQLFunction Members
@@ -81,7 +96,7 @@ namespace NHibernate.Spatial.Dialect.Function
         /// <returns>SQL fragment for the function.</returns>
         public override SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
-            this.ValidateArgsCount(args);
+            ValidateArgsCount(args);
             return base.Render(args, factory);
         }
 
@@ -93,30 +108,10 @@ namespace NHibernate.Spatial.Dialect.Function
         {
             if (args.Count != _allowedArgsCount)
             {
-                throw new QueryException(string.Format("function '{0}' requires {1} arguments.", this.name, this._allowedArgsCount));
+                throw new QueryException($"function '{name}' requires {_allowedArgsCount} arguments.");
             }
         }
 
         #endregion ISQLFunction Members
-
-        /// <summary>
-        /// Gets the allowed arguments count.
-        /// </summary>
-        /// <value>The allowed arguments count.</value>
-        public int AllowedArgsCount
-        {
-            get { return this._allowedArgsCount; }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-        /// </returns>
-        public override string ToString()
-        {
-            return name;
-        }
     }
 }

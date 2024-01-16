@@ -42,9 +42,9 @@ namespace NHibernate.Spatial
         /// </summary>
         Union,
 
-		/// <summary>
-		/// 
-		/// </summary>
-		ConvexHull
+        /// <summary>
+        /// 
+        /// </summary>
+        ConvexHull
     }
 }

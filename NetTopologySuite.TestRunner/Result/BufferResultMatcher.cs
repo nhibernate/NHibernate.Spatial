@@ -14,6 +14,15 @@ namespace Open.Topology.TestRunner.Result
     /// <author>mbdavis</author>
     public class BufferResultMatcher : IResultMatcher<GeometryResult>
     {
+        private const double MaxRelativeAreaDifference = 1.0E-3;
+        private const double MaxHausdorffDistanceFactor = 100;
+
+        /**
+         * The minimum distance tolerance which will be used.
+         * This is required because densified vertices do no lie precisely on their parent segment.
+         */
+        private const double MinDistanceTolerance = 1.0e-8;
+
         private readonly IResultMatcher<GeometryResult> _defaultMatcher = new EqualityResultMatcher<GeometryResult>();
 
         /// <summary>
@@ -27,32 +36,26 @@ namespace Open.Topology.TestRunner.Result
         /// <param name="expectedResult">The expected result of the test</param>
         /// <param name="tolerance">The tolerance for the test</param>
         /// <returns>true if the actual and expected results are considered equal</returns>
-        public bool IsMatch(Geometry geom, String opName, Object[] args,
+        public bool IsMatch(Geometry geom, string opName, object[] args,
                             GeometryResult actualResult, GeometryResult expectedResult,
                             double tolerance)
         {
-            if (String.Compare(opName, "buffer", true) != 0)
+            if (string.Compare(opName, "buffer", true) != 0)
+            {
                 return _defaultMatcher.IsMatch(geom, opName, args, actualResult, expectedResult, tolerance);
+            }
 
-            double distance;
-            double.TryParse(((String)args[0]), NumberStyles.Any, CultureInfo.InvariantCulture, out distance);
+            double.TryParse((string) args[0], NumberStyles.Any, CultureInfo.InvariantCulture, out double distance);
 
             return IsBufferResultMatch(actualResult.Value, expectedResult.Value, distance);
         }
 
-        private const double MaxRelativeAreaDifference = 1.0E-3;
-        private const double MaxHausdorffDistanceFactor = 100;
-
-        /**
-         * The minimum distance tolerance which will be used.
-         * This is required because densified vertices do no lie precisely on their parent segment.
-         */
-        private const double MinDistanceTolerance = 1.0e-8;
-
         public bool IsBufferResultMatch(Geometry actualBuffer, Geometry expectedBuffer, double distance)
         {
             if (actualBuffer.IsEmpty && expectedBuffer.IsEmpty)
+            {
                 return true;
+            }
 
             /**
              * MD - need some more checks here - symDiffArea won't catch very small holes ("tears")
@@ -62,10 +65,14 @@ namespace Open.Topology.TestRunner.Result
              * geometry boundary.
             */
             if (!IsSymDiffAreaInTolerance(actualBuffer, expectedBuffer))
+            {
                 return false;
+            }
 
             if (!IsBoundaryHausdorffDistanceInTolerance(actualBuffer, expectedBuffer, distance))
+            {
                 return false;
+            }
 
             return true;
         }
@@ -74,16 +81,20 @@ namespace Open.Topology.TestRunner.Result
         {
             double area = expectedBuffer.Area;
             var diff = actualBuffer.SymmetricDifference(expectedBuffer);
-            //		System.out.println(diff);
+
             double areaDiff = diff.Area;
 
             // can't get closer than difference area = 0 !  This also handles case when symDiff is empty
             if (areaDiff <= 0.0)
+            {
                 return true;
+            }
 
-            double frac = Double.PositiveInfinity;
+            double frac = double.PositiveInfinity;
             if (area > 0.0)
-                frac = areaDiff / area;
+            {
+                frac = areaDiff/area;
+            }
 
             return frac < MaxRelativeAreaDifference;
         }
@@ -96,18 +107,22 @@ namespace Open.Topology.TestRunner.Result
 
             var haus = new DiscreteHausdorffDistance(actualBdy, expectedBdy) { DensifyFraction = 0.25 };
             double maxDistanceFound = haus.OrientedDistance();
-            double expectedDistanceTol = Math.Abs(distance) / MaxHausdorffDistanceFactor;
+            double expectedDistanceTol = Math.Abs(distance)/MaxHausdorffDistanceFactor;
             if (expectedDistanceTol < MinDistanceTolerance)
+            {
                 expectedDistanceTol = MinDistanceTolerance;
+            }
             if (maxDistanceFound > expectedDistanceTol)
+            {
                 return false;
+            }
             return true;
         }
 
         public bool IsMatch(Geometry geom, string opName, object[] args, IResult actualResult, IResult expectedResult, double tolerance)
         {
             return IsMatch(geom, opName, args, actualResult as GeometryResult, expectedResult as GeometryResult,
-                           tolerance);
+                tolerance);
         }
     }
 }

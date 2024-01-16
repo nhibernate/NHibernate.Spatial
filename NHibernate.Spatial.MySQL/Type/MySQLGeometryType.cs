@@ -28,8 +28,7 @@ namespace NHibernate.Spatial.Type
         /// </summary>
         public MySQLGeometryType()
             : base(NHibernateUtil.BinaryBlob)
-        {
-        }
+        { }
 
         /// <summary>
         /// Converts from GeoAPI geometry type to database geometry type.
@@ -38,18 +37,19 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         protected override byte[] FromGeometry(object value)
         {
-            Geometry geometry = value as Geometry;
+            var geometry = value as Geometry;
             if (geometry == null)
             {
                 return null;
             }
+
             // MySQL parses empty geometry as NULL
             if (geometry.IsEmpty)
             {
                 return null;
             }
 
-            this.SetDefaultSRID(geometry);
+            SetDefaultSRID(geometry);
             byte[] bytes = new MySQLWriter().Write(geometry);
             return bytes;
         }
@@ -68,9 +68,9 @@ namespace NHibernate.Spatial.Type
                 return null;
             }
 
-            MySQLReader reader = new MySQLReader();
-            Geometry geometry = reader.Read(bytes);
-            this.SetDefaultSRID(geometry);
+            var reader = new MySQLReader();
+            var geometry = reader.Read(bytes);
+            SetDefaultSRID(geometry);
             return geometry;
         }
     }

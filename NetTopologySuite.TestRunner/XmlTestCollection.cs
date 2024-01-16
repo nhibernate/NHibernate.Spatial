@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 
 namespace Open.Topology.TestRunner
@@ -8,11 +7,14 @@ namespace Open.Topology.TestRunner
     /// </summary>
     public class XmlTestCollection : CollectionBase
     {
-        #region Private Members
+        #region Constructors and Destructors
 
-        private string m_strCollectionName;
+        public XmlTestCollection()
+        {
+            Name = string.Empty;
+        }
 
-        #endregion Private Members
+        #endregion Constructors and Destructors
 
         #region Events
 
@@ -20,43 +22,20 @@ namespace Open.Topology.TestRunner
 
         #endregion Events
 
-        #region Constructors and Destructors
+        #region Private Members
 
-        public XmlTestCollection()
-            : base()
-        {
-            m_strCollectionName = String.Empty;
-        }
-
-        #endregion Constructors and Destructors
+        #endregion Private Members
 
         #region Public Properties
 
         public XmlTest this[int index]
         {
-            get
-            {
-                return (XmlTest)List[index];
-            }
+            get => (XmlTest) List[index];
 
-            set
-            {
-                List[index] = value;
-            }
+            set => List[index] = value;
         }
 
-        public string Name
-        {
-            get
-            {
-                return m_strCollectionName;
-            }
-
-            set
-            {
-                m_strCollectionName = value;
-            }
-        }
+        public string Name { get; set; }
 
         #endregion Public Properties
 
@@ -88,15 +67,15 @@ namespace Open.Topology.TestRunner
             {
                 for (int i = 0; i < List.Count; i++)
                 {
-                    XmlTest testItem = (XmlTest)List[i];
+                    var testItem = (XmlTest) List[i];
 
                     if (testItem != null)
                     {
                         bool run = testItem.Run();
                         if (TestEvent != null)
                         {
-                            XmlTestEventArgs args = new XmlTestEventArgs(i, run, testItem);
-                            this.TestEvent(this, args);
+                            var args = new XmlTestEventArgs(i, run, testItem);
+                            TestEvent(this, args);
                         }
                     }
                 }

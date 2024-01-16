@@ -31,8 +31,8 @@ namespace NHibernate.Spatial.Dialect.Function
     /// </summary>
     public class ConstantValueFunction : ISQLFunction
     {
-        private string value;
-        private IType returnType;
+        private readonly string value;
+        private readonly IType returnType;
 
         public ConstantValueFunction(string value, IType returnType)
         {
@@ -42,24 +42,18 @@ namespace NHibernate.Spatial.Dialect.Function
 
         #region ISQLFunction Members
 
-        public bool HasArguments
-        {
-            get { return false; }
-        }
+        public bool HasArguments => false;
 
-        public bool HasParenthesesIfNoArguments
-        {
-            get { return false; }
-        }
+        public bool HasParenthesesIfNoArguments => false;
 
         public IType ReturnType(IType columnType, IMapping mapping)
         {
-            return this.returnType;
+            return returnType;
         }
 
         public SqlCommand.SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
-            return new SqlCommand.SqlString(this.value);
+            return new SqlCommand.SqlString(value);
         }
 
         #endregion ISQLFunction Members

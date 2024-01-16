@@ -26,64 +26,59 @@ using NHibernate.Engine;
 
 namespace NHibernate.Spatial.Type
 {
-	/// <summary>
-	/// This class maps MySQLDbType.Geometry to and from Geometry
-	/// </summary>
-	[Serializable]
-	public class MySQL57GeometryAdapterType : ImmutableType
-	{
-		public MySQL57GeometryAdapterType()
-			: base(SqlTypeFactory.Byte) // Any arbitrary type can be passed as parameter
-		{
-		}
+    /// <summary>
+    /// This class maps MySQLDbType.Geometry to and from Geometry
+    /// </summary>
+    [Serializable]
+    public class MySQL57GeometryAdapterType : ImmutableType
+    {
+        public MySQL57GeometryAdapterType()
+            : base(SqlTypeFactory.Byte) // Any arbitrary type can be passed as parameter
+        { }
 
-		public override object NullSafeGet(DbDataReader rs, string name, ISessionImplementor session)
-		{
-			object value = base.NullSafeGet(rs, name, session);
-			return value ?? default(MySqlGeometry);
-		}
+        public override string Name => ReturnedClass.Name;
 
-		public override object Get(DbDataReader rs, string name, ISessionImplementor session)
-		{
-			return Get(rs, rs.GetOrdinal(name), session);
-		}
+        public override System.Type ReturnedClass => typeof(MySqlGeometry);
 
-		public override string Name
-		{
-			get { return ReturnedClass.Name; }
-		}
+        public override object NullSafeGet(DbDataReader rs, string name, ISessionImplementor session)
+        {
+            object value = base.NullSafeGet(rs, name, session);
+            return value ?? default(MySqlGeometry);
+        }
 
-		public override object Get(DbDataReader rs, int index, ISessionImplementor session)
-		{
-			return new MySqlGeometry(MySqlDbType.Geometry, (byte[])rs[index]);
-		}
+        public override object Get(DbDataReader rs, string name, ISessionImplementor session)
+        {
+            return Get(rs, rs.GetOrdinal(name), session);
+        }
 
-		public override System.Type ReturnedClass
-		{
-			get { return typeof(MySqlGeometry); }
-		}
+        public override object Get(DbDataReader rs, int index, ISessionImplementor session)
+        {
+            return new MySqlGeometry(MySqlDbType.Geometry, (byte[]) rs[index]);
+        }
 
-		public override object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session)
-		{
-			var result = base.NullSafeGet(rs, names, session);
+        public override object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session)
+        {
+            object result = base.NullSafeGet(rs, names, session);
 
-			return result;
-		}
+            return result;
+        }
 
-		public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
-		{
-			byte[] internalValue = ((MySqlGeometry)value).Value;
+        public override void Set(DbCommand cmd, object value, int index, ISessionImplementor session)
+        {
+            byte[] internalValue = ((MySqlGeometry) value).Value;
 
-			var parameter = cmd.Parameters[index];
+            var parameter = cmd.Parameters[index];
 
-			parameter.DbType = DbType.Binary;
+            parameter.DbType = DbType.Binary;
 
-			// set the parameter value before the size check, since ODBC changes the size automatically
-			parameter.Value = internalValue;
+            // set the parameter value before the size check, since ODBC changes the size automatically
+            parameter.Value = internalValue;
 
-			// Avoid silent truncation which happens in ADO.NET if the parameter size is set.
-			if (parameter.Size > 0 && internalValue.Length > parameter.Size)
-				throw new HibernateException("The length of the byte[] value exceeds the length configured in the mapping/parameter.");
-		}
-	}
+            // Avoid silent truncation which happens in ADO.NET if the parameter size is set.
+            if (parameter.Size > 0 && internalValue.Length > parameter.Size)
+            {
+                throw new HibernateException("The length of the byte[] value exceeds the length configured in the mapping/parameter.");
+            }
+        }
+    }
 }

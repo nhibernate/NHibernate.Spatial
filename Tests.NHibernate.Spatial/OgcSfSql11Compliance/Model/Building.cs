@@ -6,48 +6,47 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance.Model
     [Serializable]
     public class Building
     {
-        public Building()
-        {
-        }
-
-        public Building(long fid, string address, Geometry position, Geometry footprint)
-        {
-            this.Fid = fid;
-            this.Address = address;
-            this.Position = position;
-            this.Footprint = footprint;
-        }
-
         private long fid;
-
-        public long Fid
-        {
-            get { return fid; }
-            set { fid = value; }
-        }
 
         private string address;
 
-        public string Address
-        {
-            get { return address; }
-            set { address = value; }
-        }
-
         private Geometry position;
-
-        public Geometry Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
 
         private Geometry footprint;
 
+        public Building()
+        { }
+
+        public Building(long fid, string address, Geometry position, Geometry footprint)
+        {
+            Fid = fid;
+            Address = address;
+            Position = position;
+            Footprint = footprint;
+        }
+
+        public long Fid
+        {
+            get => fid;
+            set => fid = value;
+        }
+
+        public string Address
+        {
+            get => address;
+            set => address = value;
+        }
+
+        public Geometry Position
+        {
+            get => position;
+            set => position = value;
+        }
+
         public Geometry Footprint
         {
-            get { return footprint; }
-            set { footprint = value; }
+            get => footprint;
+            set => footprint = value;
         }
     }
 }

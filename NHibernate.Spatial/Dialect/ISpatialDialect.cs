@@ -33,6 +33,9 @@ namespace NHibernate.Spatial.Dialect
         /// <value>The type of the geometry.</value>
         IType GeometryType { get; }
 
+        // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
+        string MultipleQueriesSeparator { get; }
+
         /// <summary>
         /// Creates the geometry user type.
         /// </summary>
@@ -124,7 +127,7 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="srid">The srid.</param>
         /// <param name="subtype">The subtype.</param>
         /// <param name="dimension">[3DIS] The dimension</param>
-		/// <param name="isNullable">Whether or not the column is nullable</param>
+        /// <param name="isNullable">Whether or not the column is nullable</param>
         /// <returns></returns>
         string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable);
 
@@ -148,11 +151,8 @@ namespace NHibernate.Spatial.Dialect
         /// Gets a value indicating whether it supports spatial metadata.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
+        /// <c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
         /// </value>
         bool SupportsSpatialMetadata(MetadataClass metadataClass);
-
-        // TODO: Use ISessionFactory.ConnectionProvider.Driver.MultipleQueriesSeparator
-        string MultipleQueriesSeparator { get; }
     }
 }

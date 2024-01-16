@@ -6,38 +6,37 @@ namespace Tests.NHibernate.Spatial.Model
     [Serializable]
     public class Simple
     {
-        public Simple()
-        {
-        }
-
-        public Simple(string description, Geometry geometry)
-        {
-            this.Description = description;
-            this.Geometry = geometry;
-        }
-
         private long id;
-
-        public virtual long Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
 
         private string description;
 
-        public virtual string Description
+        private Geometry geometry;
+
+        public Simple()
+        { }
+
+        public Simple(string description, Geometry geometry)
         {
-            get { return description; }
-            set { description = value; }
+            Description = description;
+            Geometry = geometry;
         }
 
-        private Geometry geometry;
+        public virtual long Id
+        {
+            get => id;
+            set => id = value;
+        }
+
+        public virtual string Description
+        {
+            get => description;
+            set => description = value;
+        }
 
         public virtual Geometry Geometry
         {
-            get { return geometry; }
-            set { geometry = value; }
+            get => geometry;
+            set => geometry = value;
         }
     }
 }

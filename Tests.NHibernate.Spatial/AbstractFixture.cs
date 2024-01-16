@@ -10,10 +10,8 @@ using NHibernate.Spatial.Dialect;
 using NHibernate.Spatial.Mapping;
 using NHibernate.Spatial.Metadata;
 using NHibernate.Tool.hbm2ddl;
-using NHibernate.Type;
 using NUnit.Framework;
 using System;
-using System.Collections;
 using System.Data;
 using System.IO;
 using System.Reflection;
@@ -23,18 +21,17 @@ namespace Tests.NHibernate.Spatial
     // Copied and modified from NHibernate.Test/TestCase.cs
     public abstract class AbstractFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(AbstractFixture));
-        protected static readonly WKTReader Wkt = new WKTReader()
+        protected static readonly WKTReader Wkt = new WKTReader
         {
             IsOldNtsCoordinateSyntaxAllowed = false
         };
+
         protected Configuration configuration;
         protected ISessionFactory sessions;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(AbstractFixture));
         private ISpatialDialect spatialDialect;
         private ISession lastOpenedSession;
         private DebugConnectionProvider connectionProvider;
-
-        protected abstract Type[] Mappings { get; }
 
         static AbstractFixture()
         {
@@ -43,6 +40,8 @@ namespace Tests.NHibernate.Spatial
             var logRepository = LogManager.GetRepository(repositoryAssembly);
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
         }
+
+        protected abstract Type[] Mappings { get; }
 
         /// <summary>
         /// Creates the tables used in this TestCase
@@ -79,6 +78,151 @@ namespace Tests.NHibernate.Spatial
             OnTestFixtureSetUp();
         }
 
+        /// <summary>
+        /// Removes the tables used in this TestCase.
+        /// </summary>
+        /// <remarks>
+        /// If the tables are not cleaned up sometimes SchemaExport runs into
+        /// Sql errors because it can't drop tables because of the FKs.  This
+        /// will occur if the TestCase does not have the same hbm.xml files
+        /// included as a previous one.
+        /// </remarks>
+        [OneTimeTearDown]
+        public void TestFixtureTearDown()
+        {
+            OnTestFixtureTearDown();
+            DropSchema();
+            Cleanup();
+        }
+
+        /// <summary>
+        /// Set up the test. This method is not overridable, but it calls
+        /// <see cref="OnSetUp" /> which is.
+        /// </summary>
+        [SetUp]
+        public void SetUp()
+        {
+            OnSetUp();
+        }
+
+        /// <summary>
+        /// Checks that the test case cleans up after itself. This method
+        /// is not overridable, but it calls <see cref="OnTearDown" /> which is.
+        /// </summary>
+        [TearDown]
+        public void TearDown()
+        {
+            OnTearDown();
+
+            bool wasClosed = CheckSessionWasClosed();
+            bool wasCleaned = !CheckDatabaseWasCleanedOnTearDown || CheckDatabaseWasCleaned();
+            bool wereConnectionsClosed = CheckConnectionsWereClosed();
+            bool fail = !wasClosed || !wasCleaned || !wereConnectionsClosed;
+
+            if (fail)
+            {
+                Assert.Fail("Test didn't clean up after itself");
+            }
+        }
+
+        public void DeleteMappings(ISession session)
+        {
+            foreach (var type in Mappings)
+            {
+                session.Delete("from " + type.FullName);
+            }
+            session.Flush();
+            session.Clear();
+        }
+
+        public int ExecuteStatement(string sql)
+        {
+            if (configuration == null)
+            {
+                configuration = new Configuration();
+            }
+
+            using (var prov = ConnectionProviderFactory.NewConnectionProvider(configuration.Properties))
+            {
+                var conn = prov.GetConnection();
+
+                try
+                {
+                    using (var tran = conn.BeginTransaction())
+                    using (var comm = conn.CreateCommand())
+                    {
+                        comm.CommandText = sql;
+                        comm.Transaction = tran;
+                        comm.CommandType = CommandType.Text;
+                        int result = comm.ExecuteNonQuery();
+                        tran.Commit();
+                        return result;
+                    }
+                }
+                finally
+                {
+                    prov.CloseConnection(conn);
+                }
+            }
+        }
+
+        protected virtual void OnTestFixtureSetUp()
+        { }
+
+        protected virtual void OnTestFixtureTearDown()
+        { }
+
+        protected virtual void OnSetUp()
+        { }
+
+        protected virtual void OnTearDown()
+        { }
+
+        protected virtual void OnBeforeCreateSchema()
+        { }
+
+        protected virtual void OnAfterDropSchema()
+        { }
+
+        protected ISession OpenSession()
+        {
+            lastOpenedSession = sessions.OpenSession();
+            return lastOpenedSession;
+        }
+
+        protected void ApplyCacheSettings(Configuration configuration)
+        {
+            if (CacheConcurrencyStrategy == null)
+            {
+                return;
+            }
+
+            foreach (var clazz in configuration.ClassMappings)
+            {
+                bool hasLob = false;
+                foreach (var prop in clazz.PropertyClosureIterator)
+                {
+                    if (prop.Value.IsSimpleValue)
+                    {
+                        var type = ((SimpleValue) prop.Value).Type;
+                        if (Equals(type, NHibernateUtil.BinaryBlob))
+                        {
+                            hasLob = true;
+                        }
+                    }
+                }
+                if (!hasLob && !clazz.IsInherited)
+                {
+                    configuration.SetCacheConcurrencyStrategy(clazz.MappedClass.Name, CacheConcurrencyStrategy);
+                }
+            }
+
+            foreach (var coll in configuration.CollectionMappings)
+            {
+                configuration.SetCacheConcurrencyStrategy(coll.Role, CacheConcurrencyStrategy);
+            }
+        }
+
         private void ConfigureSpatialMetadata()
         {
             bool rebuildSessionFactory = false;
@@ -99,79 +243,6 @@ namespace Tests.NHibernate.Spatial
             {
                 sessions = configuration.BuildSessionFactory();
             }
-        }
-
-        protected virtual void OnTestFixtureSetUp()
-        {
-        }
-
-        /// <summary>
-        /// Removes the tables used in this TestCase.
-        /// </summary>
-        /// <remarks>
-        /// If the tables are not cleaned up sometimes SchemaExport runs into
-        /// Sql errors because it can't drop tables because of the FKs.  This
-        /// will occur if the TestCase does not have the same hbm.xml files
-        /// included as a previous one.
-        /// </remarks>
-        [OneTimeTearDown]
-        public void TestFixtureTearDown()
-        {
-            OnTestFixtureTearDown();
-            DropSchema();
-            Cleanup();
-        }
-
-        protected virtual void OnTestFixtureTearDown()
-        {
-        }
-
-        protected virtual void OnSetUp()
-        {
-        }
-
-        /// <summary>
-        /// Set up the test. This method is not overridable, but it calls
-        /// <see cref="OnSetUp" /> which is.
-        /// </summary>
-        [SetUp]
-        public void SetUp()
-        {
-            OnSetUp();
-        }
-
-        protected virtual void OnTearDown()
-        {
-        }
-
-        /// <summary>
-        /// Checks that the test case cleans up after itself. This method
-        /// is not overridable, but it calls <see cref="OnTearDown" /> which is.
-        /// </summary>
-        [TearDown]
-        public void TearDown()
-        {
-            OnTearDown();
-
-            bool wasClosed = CheckSessionWasClosed();
-            bool wasCleaned = !this.CheckDatabaseWasCleanedOnTearDown || CheckDatabaseWasCleaned();
-            bool wereConnectionsClosed = CheckConnectionsWereClosed();
-            bool fail = !wasClosed || !wasCleaned || !wereConnectionsClosed;
-
-            if (fail)
-            {
-                Assert.Fail("Test didn't clean up after itself");
-            }
-        }
-
-        public void DeleteMappings(ISession session)
-        {
-            foreach (Type type in this.Mappings)
-            {
-                session.Delete("from " + type.FullName);
-            }
-            session.Flush();
-            session.Clear();
         }
 
         private bool CheckSessionWasClosed()
@@ -196,14 +267,16 @@ namespace Tests.NHibernate.Spatial
             }
 
             bool empty = false;
-            using (ISession s = sessions.OpenSession())
+            using (var s = sessions.OpenSession())
             {
-                foreach (Type type in this.Mappings)
+                foreach (var type in Mappings)
                 {
-                    IList objects = s.CreateQuery("from " + type.FullName).List();
+                    var objects = s.CreateQuery("from " + type.FullName).List();
                     empty = objects.Count == 0;
                     if (!empty)
+                    {
                         break;
+                    }
                 }
             }
 
@@ -236,11 +309,11 @@ namespace Tests.NHibernate.Spatial
 
         private Configuration CreateConfiguration()
         {
-            Configuration configuration = new Configuration();
+            var configuration = new Configuration();
 
             Configure(configuration);
 
-            foreach (Type type in this.Mappings)
+            foreach (var type in Mappings)
             {
                 configuration.AddClass(type);
             }
@@ -250,27 +323,20 @@ namespace Tests.NHibernate.Spatial
             return configuration;
         }
 
-        protected virtual void OnBeforeCreateSchema()
-        {
-        }
-
         private void CreateSchema()
         {
             OnBeforeCreateSchema();
+
             // Isolated configuration doesn't include SpatialReferenceSystem mapping,
-            Configuration configuration = CreateConfiguration();
+            var configuration = CreateConfiguration();
             configuration.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(configuration));
             new SchemaExport(configuration).Create(false, true);
-        }
-
-        protected virtual void OnAfterDropSchema()
-        {
         }
 
         private void DropSchema()
         {
             // Isolated configuration doesn't include SpatialReferenceSystem mapping,
-            Configuration configuration = CreateConfiguration();
+            var configuration = CreateConfiguration();
             configuration.AddAuxiliaryDatabaseObject(new SpatialAuxiliaryDatabaseObject(configuration));
             new SchemaExport(configuration).Drop(false, true);
             OnAfterDropSchema();
@@ -279,8 +345,8 @@ namespace Tests.NHibernate.Spatial
         private void BuildSessionFactory()
         {
             sessions = configuration.BuildSessionFactory();
-            spatialDialect = (ISpatialDialect)((ISessionFactoryImplementor)this.sessions).Dialect;
-            connectionProvider = ((ISessionFactoryImplementor)this.sessions).ConnectionProvider as DebugConnectionProvider;
+            spatialDialect = (ISpatialDialect) ((ISessionFactoryImplementor) sessions).Dialect;
+            connectionProvider = ((ISessionFactoryImplementor) sessions).ConnectionProvider as DebugConnectionProvider;
         }
 
         private void Cleanup()
@@ -293,92 +359,17 @@ namespace Tests.NHibernate.Spatial
             configuration = null;
         }
 
-        public int ExecuteStatement(string sql)
-        {
-            if (configuration == null)
-            {
-                configuration = new Configuration();
-            }
-
-            using (IConnectionProvider prov = ConnectionProviderFactory.NewConnectionProvider(configuration.Properties))
-            {
-                var conn = prov.GetConnection();
-
-                try
-                {
-                    using (var tran = conn.BeginTransaction())
-                    using (var comm = conn.CreateCommand())
-                    {
-                        comm.CommandText = sql;
-                        comm.Transaction = tran;
-                        comm.CommandType = CommandType.Text;
-                        int result = comm.ExecuteNonQuery();
-                        tran.Commit();
-                        return result;
-                    }
-                }
-                finally
-                {
-                    prov.CloseConnection(conn);
-                }
-            }
-        }
-
-        protected ISession OpenSession()
-        {
-            lastOpenedSession = sessions.OpenSession();
-            return lastOpenedSession;
-        }
-
-        protected void ApplyCacheSettings(Configuration configuration)
-        {
-            if (CacheConcurrencyStrategy == null)
-            {
-                return;
-            }
-
-            foreach (PersistentClass clazz in configuration.ClassMappings)
-            {
-                bool hasLob = false;
-                foreach (global::NHibernate.Mapping.Property prop in clazz.PropertyClosureIterator)
-                {
-                    if (prop.Value.IsSimpleValue)
-                    {
-                        IType type = ((SimpleValue)prop.Value).Type;
-                        if (type == NHibernateUtil.BinaryBlob)
-                        {
-                            hasLob = true;
-                        }
-                    }
-                }
-                if (!hasLob && !clazz.IsInherited)
-                {
-                    configuration.SetCacheConcurrencyStrategy(clazz.MappedClass.Name, CacheConcurrencyStrategy);
-                }
-            }
-
-            foreach (global::NHibernate.Mapping.Collection coll in configuration.CollectionMappings)
-            {
-                configuration.SetCacheConcurrencyStrategy(coll.Role, CacheConcurrencyStrategy);
-            }
-        }
-
         #region Properties overridable by subclasses
 
         protected virtual void Configure(Configuration configuration)
-        {
-        }
+        { }
 
-        protected virtual string CacheConcurrencyStrategy
-        {
+        protected virtual string CacheConcurrencyStrategy =>
+
             //get { return "nonstrict-read-write"; }
-            get { return null; }
-        }
+            null;
 
-        protected virtual bool CheckDatabaseWasCleanedOnTearDown
-        {
-            get { return true; }
-        }
+        protected virtual bool CheckDatabaseWasCleanedOnTearDown => true;
 
         #endregion Properties overridable by subclasses
     }

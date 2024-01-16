@@ -50,14 +50,14 @@ namespace NHibernate.Spatial.Metadata
         /// </remarks>
         public static void AddMapping(Configuration configuration, MetadataClass clazz)
         {
-            NHibernate.Dialect.Dialect dialect = NHibernate.Dialect.Dialect.GetDialect(configuration.Properties);
+            var dialect = NHibernate.Dialect.Dialect.GetDialect(configuration.Properties);
 
             string resource = typeof(Metadata).Namespace
-                + "."
-                + clazz.ToString()
-                + "."
-                + dialect.GetType().Name
-                + ".hbm.xml";
+                              + "."
+                              + clazz
+                              + "."
+                              + dialect.GetType().Name
+                              + ".hbm.xml";
 
             configuration.AddResource(resource, dialect.GetType().Assembly);
         }
@@ -66,13 +66,13 @@ namespace NHibernate.Spatial.Metadata
         /// Gets a value indicating whether the session supports spatial metadata.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
+        /// <c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
         /// </value>
         /// <param name="session">The session</param>
         /// <param name="metadataClass">The metadata class</param>
         public static bool SupportsSpatialMetadata(ISession session, MetadataClass metadataClass)
         {
-            ISpatialDialect spatialDialect = (ISpatialDialect)((ISessionFactoryImplementor)session.SessionFactory).Dialect;
+            var spatialDialect = (ISpatialDialect) ((ISessionFactoryImplementor) session.SessionFactory).Dialect;
             return spatialDialect.SupportsSpatialMetadata(metadataClass);
         }
     }

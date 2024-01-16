@@ -26,7 +26,7 @@ using NHibernate.Engine;
 namespace NHibernate.Spatial.Type
 {
     /// <summary>
-    /// Maps a <see cref="DbType.Binary" /> column to a <see cref="System.String" />.
+    /// Maps a <see cref="DbType.Binary" /> column to a <see cref="string" />.
     /// </summary>
     /// <remarks>
     /// AsText and GeometryType returns an special kind of string that
@@ -40,8 +40,13 @@ namespace NHibernate.Spatial.Type
         /// <summary></summary>
         internal MySQLGeometryStringType()
             : base(new BinarySqlType())
-        {
-        }
+        { }
+
+        /// <summary></summary>
+        public override System.Type ReturnedClass => typeof(string);
+
+        /// <summary></summary>
+        public override string Name => "String";
 
         /// <summary>
         ///
@@ -52,7 +57,7 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         public override object Get(DbDataReader rs, int index, ISessionImplementor session)
         {
-            return Encoding.ASCII.GetString((byte[])rs[index]);
+            return Encoding.ASCII.GetString((byte[]) rs[index]);
         }
 
         /// <summary>
@@ -64,13 +69,7 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         public override object Get(DbDataReader rs, string name, ISessionImplementor session)
         {
-            return Encoding.ASCII.GetString((byte[])rs[name]);
-        }
-
-        /// <summary></summary>
-        public override System.Type ReturnedClass
-        {
-            get { return typeof(string); }
+            return Encoding.ASCII.GetString((byte[]) rs[name]);
         }
 
         /// <summary>
@@ -82,14 +81,8 @@ namespace NHibernate.Spatial.Type
         /// <param name="session"></param>
         public override void Set(DbCommand st, object value, int index, ISessionImplementor session)
         {
-            IDataParameter parm = st.Parameters[index] as IDataParameter;
+            IDataParameter parm = st.Parameters[index];
             parm.Value = value;
-        }
-
-        /// <summary></summary>
-        public override string Name
-        {
-            get { return "String"; }
         }
 
         /// <summary>
@@ -99,7 +92,7 @@ namespace NHibernate.Spatial.Type
         /// <returns></returns>
         public string ObjectToSQLString(object value)
         {
-            return "'" + (string)value + "'";
+            return "'" + (string) value + "'";
         }
 
         /// <summary>
@@ -114,7 +107,7 @@ namespace NHibernate.Spatial.Type
 
         public string ObjectToSQLString(object value, NHibernate.Dialect.Dialect dialect)
         {
-            return (string)value;
+            return (string) value;
         }
     }
 }

@@ -31,13 +31,13 @@ namespace NHibernate.Spatial.Type
 
             SetDefaultSRID(geometry);
             var writer = new SqlServerBytesWriter { IsGeography = IsGeography };
-            var bytes = writer.Write(geometry);
+            byte[] bytes = writer.Write(geometry);
             return bytes;
         }
 
         protected override Geometry ToGeometry(object value)
         {
-            var bytes = value as byte[];
+            byte[] bytes = value as byte[];
             if (bytes == null || bytes.Length == 0)
             {
                 return null;
@@ -64,14 +64,14 @@ namespace NHibernate.Spatial.Type
             {
                 var parameter = (SqlParameter) cmd.Parameters[index];
                 parameter.SqlDbType = SqlDbType.VarBinary;
-                parameter.Size = ((byte[])value).Length;
+                parameter.Size = ((byte[]) value).Length;
                 parameter.Value = value;
             }
 
             public override object Get(DbDataReader rs, int index, ISessionImplementor session)
             {
-                var length = (int) rs.GetBytes(index, 0, null, 0, 0);
-                var buffer = new byte[length];
+                int length = (int) rs.GetBytes(index, 0, null, 0, 0);
+                byte[] buffer = new byte[length];
                 if (length > 0)
                 {
                     rs.GetBytes(index, 0, buffer, 0, length);

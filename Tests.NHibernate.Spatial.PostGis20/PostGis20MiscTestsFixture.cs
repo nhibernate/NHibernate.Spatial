@@ -20,34 +20,6 @@ namespace Tests.NHibernate.Spatial
 
         protected override bool CheckDatabaseWasCleanedOnTearDown => false;
 
-        protected override void Configure(Configuration config)
-        {
-            TestConfiguration.Configure(config);
-        }
-
-        protected override void OnTestFixtureSetUp()
-        { }
-
-        protected override void OnTestFixtureTearDown()
-        {
-            using (var session = sessions.OpenSession())
-            {
-                DeleteMappings(session);
-            }
-        }
-
-        protected override void OnSetUp()
-        {
-            _session = sessions.OpenSession();
-        }
-
-        protected override void OnTearDown()
-        {
-            _session.Clear();
-            _session.Close();
-            _session.Dispose();
-        }
-
         /// <summary>
         /// Test that Z values are properly round-tripped (see #120).
         /// </summary>
@@ -146,6 +118,34 @@ namespace Tests.NHibernate.Spatial
             Assert.AreEqual(expectedCoord.Y, polygonZMCoord.Y);
             Assert.AreEqual(expectedCoord.Z, polygonZMCoord.Z);
             Assert.AreEqual(expectedCoord.M, polygonZMCoord.M);
+        }
+
+        protected override void Configure(Configuration config)
+        {
+            TestConfiguration.Configure(config);
+        }
+
+        protected override void OnTestFixtureSetUp()
+        { }
+
+        protected override void OnTestFixtureTearDown()
+        {
+            using (var session = sessions.OpenSession())
+            {
+                DeleteMappings(session);
+            }
+        }
+
+        protected override void OnSetUp()
+        {
+            _session = sessions.OpenSession();
+        }
+
+        protected override void OnTearDown()
+        {
+            _session.Clear();
+            _session.Close();
+            _session.Dispose();
         }
     }
 }

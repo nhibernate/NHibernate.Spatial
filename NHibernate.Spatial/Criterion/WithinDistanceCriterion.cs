@@ -13,23 +13,22 @@
 
 // You should have received a copy of the GNU Lesser General Public License
 // along with MsSqlSpatial; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using System.Collections;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.SqlCommand;
 
 namespace NHibernate.Spatial.Criterion
 {
-	[Serializable]
-	public class WithinDistanceCriterion : AbstractCriterion
-	{
-		public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
-		{
-			throw new Exception("The method or operation is not implemented.");
-		}
+    [Serializable]
+    public class WithinDistanceCriterion : AbstractCriterion
+    {
+        public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
 
         public override IProjection[] GetProjections()
         {
@@ -37,13 +36,13 @@ namespace NHibernate.Spatial.Criterion
         }
 
         public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
-		{
-			throw new Exception("The method or operation is not implemented.");
-		}
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
 
-		public override string ToString()
-		{
-			throw new Exception("The method or operation is not implemented.");
-		}
-	}
+        public override string ToString()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+    }
 }
