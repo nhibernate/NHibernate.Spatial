@@ -1,4 +1,4 @@
-# NHibernate.Spatial [![Build status](https://ci.appveyor.com/api/projects/status/github/nhibernate/NHibernate.Spatial?branch=master&svg=true)](https://ci.appveyor.com/project/nhibernate/nhibernate-spatial/branch/master)
+# NHibernate.Spatial [![Build status](https://github.com/nhibernate/NHibernate.Spatial/actions/workflows/ci.yml/badge.svg)](https://github.com/nhibernate/NHibernate.Spatial/actions/workflows/ci.yml)
 
 This is a fork of the final commit to NHibernate.Spatial at [NHibernate Contrib][NHContrib] site
 made in december 2011. The code has been updated to compile with the latest NTS, GeoAPI and

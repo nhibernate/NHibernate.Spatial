@@ -1,0 +1,65 @@
+name: Build and test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: ${{ matrix.DB }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - DB: MsSql2012 (SQL Server 2017)
+            DB_INIT: |
+              docker run -d -e ACCEPT_EULA=Y -e MSSQL_PID=Developer -e MSSQL_SA_PASSWORD=P@ssw0rd -p 11433:1433 mcr.microsoft.com/mssql/server:2017-latest
+              until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
+              sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
+            TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
+
+          - DB: MsSql2012 (SQL Server 2019)
+            DB_INIT: |
+              docker run -d -e ACCEPT_EULA=Y -e MSSQL_PID=Developer -e MSSQL_SA_PASSWORD=P@ssw0rd -p 11433:1433 mcr.microsoft.com/mssql/server:2019-latest
+              until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
+              sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
+            TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
+
+          - DB: MsSql2012 (SQL Server 2022)
+            DB_INIT: |
+              docker run -d -e ACCEPT_EULA=Y -e MSSQL_PID=Developer -e MSSQL_SA_PASSWORD=P@ssw0rd -p 11433:1433 mcr.microsoft.com/mssql/server:2022-latest
+              until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
+              sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
+            TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
+
+          - DB: MySQL57 (MySQL 5.7)
+            DB_INIT: docker run -d -e MYSQL_ROOT_PASSWORD=nhsp_test -p 13306:3306 -v ./Tests.NHibernate.Spatial.MySQL57/initdb:/docker-entrypoint-initdb.d mysql:5.7-debian
+            TEST_PROJECT: Tests.NHibernate.Spatial.MySQL57
+
+          - DB: PostGis20 (PostgreSQL 12 PostGIS 2.5)
+            DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15432:5432 -v ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d postgis/postgis:12-2.5
+            TEST_PROJECT: Tests.NHibernate.Spatial.PostGis20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up ${{ matrix.DB }}
+        run: ${{ matrix.DB_INIT }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Build
+        run: dotnet build
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=${{ matrix.DB }}.trx" --results-directory . ${{ matrix.TEST_PROJECT }}
+
+      - name: Publish test results
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: ${{ matrix.DB }}
+          path: ${{ matrix.DB }}.trx
