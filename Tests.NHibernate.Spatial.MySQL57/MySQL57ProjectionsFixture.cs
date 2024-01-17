@@ -1,13 +1,30 @@
 using NHibernate.Cfg;
-using NHibernate.Spatial.Type;
 using NUnit.Framework;
 
 namespace Tests.NHibernate.Spatial
 {
     [TestFixture]
-    public class MySQL57ProjectionsFixture : MySQLProjectionsFixture
+    public class MySQL57ProjectionsFixture : ProjectionsFixture
     {
-        protected override System.Type GeometryType => typeof(MySQL57GeometryType);
+        [Test]
+        [Ignore("MySQL does not support Union spatial aggregate function")]
+        public override void CountAndUnion()
+        { }
+
+        [Test]
+        [Ignore("MySQL does not support Union spatial aggregate function")]
+        public override void CountAndUnionByState()
+        { }
+
+        [Test]
+        [Ignore("MySQL does not support Union spatial aggregate function")]
+        public override void CountAndUnionByStateLambda()
+        { }
+
+        [Test]
+        [Ignore("MySQL does not support Intersection spatial aggregate function")]
+        public override void IntersectionAll()
+        { }
 
         protected override void Configure(Configuration configuration)
         {

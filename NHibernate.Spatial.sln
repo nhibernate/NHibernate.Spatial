@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTopologySuite.TestRunner
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial", "Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.csproj", "{1A5B4897-4D2C-4A3E-8012-B428799A5E43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.MySQL", "Tests.NHibernate.Spatial.MySQL\Tests.NHibernate.Spatial.MySQL.csproj", "{F9815123-A016-49EC-9AA3-BAB059508E29}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.MySQL57", "Tests.NHibernate.Spatial.MySQL57\Tests.NHibernate.Spatial.MySQL57.csproj", "{1825222A-AC75-48B4-8283-BA5FEEE4AC7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.NHibernate.Spatial.PostGis20", "Tests.NHibernate.Spatial.PostGis20\Tests.NHibernate.Spatial.PostGis20.csproj", "{DAEF5C4F-234D-402D-96E5-1B2CB6EBF10E}"
@@ -54,10 +52,6 @@ Global
 		{1A5B4897-4D2C-4A3E-8012-B428799A5E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A5B4897-4D2C-4A3E-8012-B428799A5E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A5B4897-4D2C-4A3E-8012-B428799A5E43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9815123-A016-49EC-9AA3-BAB059508E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9815123-A016-49EC-9AA3-BAB059508E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9815123-A016-49EC-9AA3-BAB059508E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9815123-A016-49EC-9AA3-BAB059508E29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1825222A-AC75-48B4-8283-BA5FEEE4AC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1825222A-AC75-48B4-8283-BA5FEEE4AC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1825222A-AC75-48B4-8283-BA5FEEE4AC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU

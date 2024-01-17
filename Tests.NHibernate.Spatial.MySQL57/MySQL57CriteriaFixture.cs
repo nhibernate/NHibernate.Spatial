@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Tests.NHibernate.Spatial
 {
     [TestFixture]
-    public class MySQL57CriteriaFixture : MySQLCriteriaFixture
+    public class MySQL57CriteriaFixture : CriteriaFixture
     {
         [Test]
         [Ignore("Empty geometry collections not supported by MySql.Data.Types.MySqlGeometry")]
