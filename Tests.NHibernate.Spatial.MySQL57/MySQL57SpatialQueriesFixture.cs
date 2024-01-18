@@ -1,5 +1,6 @@
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Spatial.Dialect;
 using NUnit.Framework;
 using Tests.NHibernate.Spatial.RandomGeometries;
 
@@ -46,7 +47,7 @@ WHERE MBRIntersects(the_geom, GeomFromText('{filterString}', 4326))
 SELECT count(*)
 FROM linestringtest
 WHERE the_geom IS NOT NULL
-AND Overlaps(PolygonFromText('{filterString}', 4326), the_geom)
+AND {SpatialDialect.IsoPrefix}Overlaps(PolygonFromText('{filterString}', 4326), the_geom)
 ";
         }
 
@@ -56,7 +57,7 @@ AND Overlaps(PolygonFromText('{filterString}', 4326), the_geom)
 SELECT count(*)
 FROM linestringtest
 WHERE the_geom IS NOT NULL
-AND Intersects(PolygonFromText('{filterString}', 4326), the_geom)
+AND {SpatialDialect.IsoPrefix}Intersects(PolygonFromText('{filterString}', 4326), the_geom)
 ";
         }
 

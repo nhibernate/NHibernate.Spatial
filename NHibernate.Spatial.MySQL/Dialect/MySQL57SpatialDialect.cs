@@ -228,6 +228,21 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public virtual SqlString GetSpatialValidationString(object geometry, SpatialValidation validation, bool criterion)
         {
+            // In MySQL 5.7, the ST_Valid function requires geometries to have an SRID of 0
+            // See: https://dev.mysql.com/doc/refman/5.7/en/spatial-convenience-functions.html#function_st-isvalid
+            if (validation == SpatialValidation.IsValid)
+            {
+                return new SqlStringBuilder()
+                    .Add(DialectPrefix)
+                    .Add(validation.ToString())
+                    .Add("(")
+                    .Add("ST_GeomFromWKB(ST_AsWKB(")
+                    .AddObject(geometry)
+                    .Add("), 0)")
+                    .Add(")")
+                    .ToSqlString();
+            }
+
             return new SqlStringBuilder()
                 .Add(DialectPrefix)
                 .Add(validation.ToString())

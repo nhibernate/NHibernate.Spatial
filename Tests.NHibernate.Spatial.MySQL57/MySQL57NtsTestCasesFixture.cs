@@ -1,6 +1,6 @@
 using NHibernate.Cfg;
-using NHibernate.Spatial.Criterion;
 using NUnit.Framework;
+using System.IO;
 using Tests.NHibernate.Spatial.NtsTestCases;
 
 namespace Tests.NHibernate.Spatial
@@ -8,11 +8,9 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MySQL57NtsTestCasesFixture : NtsTestCasesFixture
     {
-        [Test]
-        public override void IsValid()
-        {
-            TestBooleanUnaryOperation("IsValid", SpatialProjections.IsValid, SpatialRestrictions.IsValid);
-        }
+        private const string LocalDataPath = "../../../../Tests.NHibernate.Spatial.MySQL57/NtsTestCases/Data/vivid";
+
+        protected override string TestFunctionAAPrecDataPath => Path.Combine(LocalDataPath, "TestFunctionAAPrec.xml");
 
         protected override void Configure(Configuration configuration)
         {
