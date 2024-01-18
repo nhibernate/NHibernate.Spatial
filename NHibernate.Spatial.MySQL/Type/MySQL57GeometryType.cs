@@ -56,16 +56,6 @@ namespace NHibernate.Spatial.Type
                 return null;
             }
 
-            // MySQL parses empty geometry as NULL
-            if (geometry.IsEmpty)
-            {
-                return null; // TODO: Somehow specify an empty geometry and not just null.
-
-                // MySqlGeometry does not support empty geometry collections
-                // so we simply return null for now. At some point we should to
-                // use GeometryCollection.Empty here, when MySQL supports it.
-            }
-
             SetDefaultSRID(geometry);
             byte[] bytes = new MySQLWriter().Write(geometry);
             return new MySqlGeometry(MySqlDbType.Geometry, bytes);

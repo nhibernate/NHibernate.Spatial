@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  sqlserver2017:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: # See .env file
+    ports:
+      - 11433:1433
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $${MSSQL_SA_PASSWORD} -Q 'SELECT 1' || exit 1
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+
+  sqlserver2017.init:
+    image: mcr.microsoft.com/mssql-tools
+    environment:
+      MSSQL_SA_PASSWORD: # See .env file
+    volumes:
+      - ./Tests.NHibernate.Spatial.MsSql2012/initdb:/docker-entrypoint-initdb.d
+    depends_on:
+      sqlserver2017:
+        condition: service_healthy
+    command: sh -c "/opt/mssql-tools/bin/sqlcmd -S sqlserver2017 -U sa -P $${MSSQL_SA_PASSWORD} -d master -i docker-entrypoint-initdb.d/nhsp_test.sql"
+
+  mysql57:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: # See .env file
+    ports:
+      - 13306:3306
+    volumes:
+      - ./Tests.NHibernate.Spatial.MySQL57/initdb:/docker-entrypoint-initdb.d
+
+  postgis20:
+    image: postgis/postgis:12-2.5
+    environment:
+      POSTGRES_PASSWORD: # See .env file
+    ports:
+      - 15432:5432
+    volumes:
+      - ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d

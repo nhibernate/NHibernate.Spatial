@@ -187,15 +187,10 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
                     Prepare(ntsTestCase);
 
-                    try
-                    {
-                        session.Save(ntsTestCase);
-                        session.Flush();
-                    }
-                    catch
-                    { }
+                    session.Save(ntsTestCase);
                 }
             }
+            session.Flush();
         }
 
         #region Supporting test functions

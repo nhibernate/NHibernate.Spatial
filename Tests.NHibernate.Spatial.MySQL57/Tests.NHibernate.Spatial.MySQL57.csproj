@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tests.NHibernate.Spatial.MySQL\Tests.NHibernate.Spatial.MySQL.csproj" />
+    <ProjectReference Include="..\NHibernate.Spatial.MySQL\NHibernate.Spatial.MySQL.csproj" />
+    <ProjectReference Include="..\Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.csproj" />
   </ItemGroup>
 
   <ItemGroup>
