@@ -25,7 +25,10 @@ namespace NHibernate.Spatial.Type
     {
         public override byte[] Write(Geometry geometry)
         {
-            byte[] bytes = new byte[SetByteStream(geometry)];
+#pragma warning disable CS0618 // Type or member is obsolete
+            int size = SetByteStream(geometry) + sizeof(int);
+#pragma warning restore CS0618 // Type or member is obsolete
+            byte[] bytes = new byte[size];
             Write(geometry, new MemoryStream(bytes));
             return bytes;
         }
@@ -49,14 +52,11 @@ namespace NHibernate.Spatial.Type
             }
         }
 
-        protected override int SetByteStream(Geometry geometry)
-        {
-            return base.SetByteStream(geometry) + 4; // sizeof(int)
-        }
-
         protected void WriteGeometryCollectionEmpty(Geometry geometry, BinaryWriter writer)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             WriteByteOrder(writer);
+#pragma warning restore CS0618 // Type or member is obsolete
             if (geometry.Coordinate == null || double.IsNaN(geometry.Coordinate.Z))
             {
                 writer.Write((int) WKBGeometryTypes.WKBGeometryCollection);

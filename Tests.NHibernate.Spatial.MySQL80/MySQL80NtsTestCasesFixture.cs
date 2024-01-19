@@ -15,7 +15,9 @@ namespace Tests.NHibernate.Spatial
             {
                 return new[]
                 {
+#pragma warning disable 0436
                     typeof(NtsTestCase)
+#pragma warning restore 0436
                 };
             }
         }

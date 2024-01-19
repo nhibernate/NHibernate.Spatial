@@ -16,12 +16,14 @@ namespace Tests.NHibernate.Spatial
             {
                 return new[]
                 {
+#pragma warning disable 0436
                     typeof(LineStringEntity),
                     typeof(MultiLineStringEntity),
                     typeof(MultiPointEntity),
                     typeof(MultiPolygonEntity),
                     typeof(PointEntity),
-                    typeof(PolygonEntity),
+                    typeof(PolygonEntity)
+#pragma warning restore 0436
                 };
             }
         }
