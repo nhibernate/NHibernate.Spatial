@@ -33,7 +33,7 @@ namespace NHibernate.Spatial.Dialect
     public class MySQL57SpatialDialect : MySQL5Dialect, ISpatialDialect
     {
         protected const string DialectPrefix = SpatialDialect.IsoPrefix;
-        protected static readonly IType geometryType = new CustomType(typeof(MySQL57GeometryType), null);
+        private static readonly IType geometryType = new CustomType(typeof(MySQLGeometryType), null);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MySQLDialect"/> class.
@@ -125,7 +125,7 @@ namespace NHibernate.Spatial.Dialect
             RegisterSpatialFunction("GeometryType", NHibernateUtil.String);
 
             RegisterSpatialFunction("Area", NHibernateUtil.Double);
-            RegisterSpatialFunction("Length", "GLength", NHibernateUtil.Double);
+            RegisterSpatialFunction("Length", NHibernateUtil.Double);
             RegisterSpatialFunction("X", NHibernateUtil.Double);
             RegisterSpatialFunction("Y", NHibernateUtil.Double);
 
@@ -150,12 +150,12 @@ namespace NHibernate.Spatial.Dialect
 
         protected void RegisterSpatialFunction(string name, IType returnedType, int allowedArgsCount)
         {
-            RegisterSpatialFunction(name, name, returnedType, allowedArgsCount);
+            RegisterSpatialFunction(name, SpatialDialect.IsoPrefix + name, returnedType, allowedArgsCount);
         }
 
         protected void RegisterSpatialFunction(string name, IType returnedType)
         {
-            RegisterSpatialFunction(name, name, returnedType);
+            RegisterSpatialFunction(name, SpatialDialect.IsoPrefix + name, returnedType);
         }
 
         protected void RegisterSpatialFunction(string name, int allowedArgsCount)
@@ -193,7 +193,7 @@ namespace NHibernate.Spatial.Dialect
         /// <returns></returns>
         public virtual IGeometryUserType CreateGeometryUserType()
         {
-            return new MySQL57GeometryType();
+            return new MySQLGeometryType();
         }
 
         /// <summary>
@@ -208,15 +208,9 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="geometry">The geometry.</param>
         /// <param name="srid">The srid.</param>
         /// <returns></returns>
-        public SqlString GetSpatialTransformString(object geometry, int srid)
+        public virtual SqlString GetSpatialTransformString(object geometry, int srid)
         {
-            return new SqlStringBuilder()
-                .Add("Transform(")
-                .AddObject(geometry)
-                .Add(",")
-                .Add(srid.ToString())
-                .Add(")")
-                .ToSqlString();
+            throw new NotSupportedException("MySQL 5.7 does not support spatial transform");
         }
 
         /// <summary>
@@ -491,7 +485,7 @@ namespace NHibernate.Spatial.Dialect
         /// </summary>
         /// <param name="schema">The schema.</param>
         /// <returns></returns>
-        private string QuoteSchema(string schema)
+        protected string QuoteSchema(string schema)
         {
             if (string.IsNullOrEmpty(schema))
             {
@@ -511,7 +505,7 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="dimension">The dimension.</param>
         /// <param name="isNullable">Whether or not the column is nullable</param>
         /// <returns></returns>
-        public string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
+        public virtual string GetSpatialCreateString(string schema, string table, string column, int srid, string subtype, int dimension, bool isNullable)
         {
             var builder = new StringBuilder();
 
@@ -568,7 +562,7 @@ namespace NHibernate.Spatial.Dialect
         /// <value>
         /// <c>true</c> if it supports spatial metadata; otherwise, <c>false</c>.
         /// </value>
-        public bool SupportsSpatialMetadata(MetadataClass metadataClass)
+        public virtual bool SupportsSpatialMetadata(MetadataClass metadataClass)
         {
             return false;
         }

@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Tests.NHibernate.Spatial
 {
     [TestFixture]
-    public class MySQL57CriteriaFixture : CriteriaFixture
+    public class MySQL80ProjectionsFixture : MySQL57ProjectionsFixture
     {
         protected override void Configure(Configuration configuration)
         {

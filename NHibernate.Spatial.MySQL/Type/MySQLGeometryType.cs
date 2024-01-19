@@ -26,12 +26,12 @@ namespace NHibernate.Spatial.Type
     /// <summary>
     /// MySQL geometry type (to be used in models) that supports the changes introduced in MySQL 5.7
     /// </summary>
-    public class MySQL57GeometryType : GeometryTypeBase<MySqlGeometry?>
+    public class MySQLGeometryType : GeometryTypeBase<MySqlGeometry?>
     {
-        private static readonly NullableType MySQL57GeometryAdapterType = new MySQL57GeometryAdapterType();
+        private static readonly NullableType MySQLGeometryAdapterType = new MySQLGeometryAdapterType();
 
-        public MySQL57GeometryType()
-            : base(MySQL57GeometryAdapterType)
+        public MySQLGeometryType()
+            : base(MySQLGeometryAdapterType)
         { }
 
         protected override void SetDefaultSRID(Geometry geometry)

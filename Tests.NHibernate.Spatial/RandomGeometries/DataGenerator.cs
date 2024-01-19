@@ -5,7 +5,7 @@ using Tests.NHibernate.Spatial.RandomGeometries.Model;
 
 namespace Tests.NHibernate.Spatial.RandomGeometries
 {
-    internal static class DataGenerator
+    public static class DataGenerator
     {
         private const int GeneratedRowsPerEntityCount = 11;
         private const int MinCoordValue = 0;
@@ -19,14 +19,14 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             Geometry Create();
         }
 
-        public static void Generate(ISessionFactory factory)
+        public static void Generate(ISessionFactory factory, int srid)
         {
-            GenerateData(factory, typeof(LineStringEntity), new LineStringCreator());
-            GenerateData(factory, typeof(MultiLineStringEntity), new MultiLineStringCreator());
-            GenerateData(factory, typeof(PolygonEntity), new PolygonCreator());
+            GenerateData(factory, typeof(LineStringEntity), new LineStringCreator(), srid);
+            GenerateData(factory, typeof(MultiLineStringEntity), new MultiLineStringCreator(), srid);
+            GenerateData(factory, typeof(PolygonEntity), new PolygonCreator(), srid);
         }
 
-        private static void GenerateData(ISessionFactory factory, Type entityClass, IGeometryCreator creator)
+        private static void GenerateData(ISessionFactory factory, Type entityClass, IGeometryCreator creator, int srid)
         {
             using (var session = factory.OpenSession())
             {
@@ -37,7 +37,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                         for (int i = 0; i < GeneratedRowsPerEntityCount; i++)
                         {
                             var geom = creator.Create();
-                            geom.SRID = 4326;
+                            geom.SRID = srid;
                             object entity = Activator.CreateInstance(entityClass, i, "feature " + i, geom);
                             session.Save(entity);
                         }
