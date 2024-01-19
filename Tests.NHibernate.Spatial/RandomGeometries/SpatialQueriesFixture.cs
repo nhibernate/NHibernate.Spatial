@@ -13,10 +13,10 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
     /// </summary>
     public abstract class SpatialQueriesFixture : AbstractFixture
     {
-        private const string FilterString = "POLYGON((0.0 0.0, 25000.0 0.0, 25000.0 25000.0, 0.0 25000.0, 0.0 0.0))";
+        protected const string FilterString = "POLYGON((0.0 0.0, 25000.0 0.0, 25000.0 25000.0, 0.0 25000.0, 0.0 0.0))";
 
         protected ISession Session;
-        private Geometry _filter;
+        protected Geometry Filter;
 
         protected override Type[] Mappings
         {
@@ -40,7 +40,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         public void LineStringFiltering()
         {
             var results = Session.CreateCriteria(typeof(LineStringEntity))
-                .Add(SpatialRestrictions.Filter("Geometry", _filter))
+                .Add(SpatialRestrictions.Filter("Geometry", Filter))
                 .List();
 
             long count;
@@ -57,7 +57,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         public void PolygonFiltering()
         {
             var results = Session.CreateCriteria(typeof(PolygonEntity))
-                .Add(SpatialRestrictions.Filter("Geometry", _filter))
+                .Add(SpatialRestrictions.Filter("Geometry", Filter))
                 .List();
 
             long count;
@@ -74,7 +74,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         public void MultiLineStringFiltering()
         {
             var results = Session.CreateCriteria(typeof(MultiLineStringEntity))
-                .Add(SpatialRestrictions.Filter("Geometry", _filter))
+                .Add(SpatialRestrictions.Filter("Geometry", Filter))
                 .List();
 
             long count;
@@ -131,13 +131,13 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             var results = Session
                 .CreateQuery(
                     "select NHSP.Overlaps(?,l.Geometry) from LineStringEntity as l where l.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .List();
 
             long countOverlapping = 0;
-            foreach (bool isOverlapped in results)
+            foreach (bool? isOverlapped in results)
             {
-                if (isOverlapped)
+                if (isOverlapped.HasValue && isOverlapped.Value)
                 {
                     countOverlapping++;
                 }
@@ -159,7 +159,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             long count = Session
                 .CreateQuery(
                     "select count(*) from LineStringEntity l where l.Geometry is not null and NHSP.Relate(l.Geometry, ?, 'TT*******') = true")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .UniqueResult<long>();
 
             Assert.Greater((int) count, 0);
@@ -171,7 +171,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             var results = Session
                 .CreateQuery(
                     "select NHSP.Intersects(?,l.Geometry) from LineStringEntity as l where l.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .List();
 
             long intersects = 0;
@@ -185,7 +185,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             long altIntersects = Session
                 .CreateQuery("select count(*) from LineStringEntity as l where NHSP.Intersects(l.Geometry, ?) = true")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .UniqueResult<long>();
 
             Assert.AreEqual(intersects, altIntersects);
@@ -201,14 +201,14 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
             results = Session
                 .CreateQuery("from LineStringEntity as l where NHSP.Intersects(?,l.Geometry) = true")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .List();
 
             Assert.AreEqual(count, results.Count);
         }
 
         [Test]
-        public void HqlSRID()
+        public virtual void HqlSRID()
         {
             var results = Session
                 .CreateQuery("select NHSP.SRID(l.Geometry) from LineStringEntity as l where l.Geometry is not null")
@@ -309,7 +309,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
         }
 
         [Test]
-        public void HqlAsBoundary()
+        public void HqlAsBinary()
         {
             var results = Session
                 .CreateQuery(
@@ -337,14 +337,14 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 					select NHSP.Distance(l.Geometry, ?), l.Geometry
 					from LineStringEntity as l
 					where l.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .SetMaxResults(100)
                 .List();
             foreach (object[] item in results)
             {
                 double distance = (double) item[0];
                 var geom = (Geometry) item[1];
-                Assert.AreEqual(geom.Distance(_filter), distance, 0.003);
+                Assert.AreEqual(geom.Distance(Filter), distance, 0.003);
             }
         }
 
@@ -361,7 +361,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 					where l.Geometry is not null
 					and NHSP.Distance(l.Geometry, :filter) > :minDistance
 					order by NHSP.Distance(l.Geometry, :filter)")
-                .SetParameter("filter", _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter("filter", Filter, SpatialDialect.GeometryTypeOf(Session))
                 .SetParameter("minDistance", minDistance)
                 .SetMaxResults(100)
                 .List();
@@ -372,7 +372,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 double distance = (double) item[0];
                 Assert.Greater(distance, minDistance);
                 var geom = (Geometry) item[1];
-                Assert.AreEqual(geom.Distance(_filter), distance, 0.003);
+                Assert.AreEqual(geom.Distance(Filter), distance, 0.003);
             }
         }
 
@@ -441,7 +441,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             var results = Session
                 .CreateQuery(
                     "select e.Geometry, NHSP.Difference(e.Geometry, ?) from PolygonEntity as e where e.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .SetMaxResults(100)
                 .List();
 
@@ -459,7 +459,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 diff.Normalize();
-                var ntsDiff = geom.Difference(_filter);
+                var ntsDiff = geom.Difference(Filter);
                 ntsDiff.Normalize();
 
                 if (ntsDiff.EqualsExact(diff, 0.5))
@@ -476,7 +476,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             var results = Session
                 .CreateQuery(
                     "select e.Geometry, NHSP.Intersection(e.Geometry, ?) from PolygonEntity as e where e.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .SetMaxResults(100)
                 .List();
 
@@ -494,7 +494,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 intersect.Normalize();
-                var ntsIntersect = geom.Intersection(_filter);
+                var ntsIntersect = geom.Intersection(Filter);
                 ntsIntersect.Normalize();
 
                 if (ntsIntersect.EqualsExact(intersect, 0.5))
@@ -511,7 +511,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             var results = Session
                 .CreateQuery(
                     "select e.Geometry, NHSP.SymDifference(e.Geometry, ?) from PolygonEntity as e where e.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .SetMaxResults(100)
                 .List();
 
@@ -529,7 +529,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 symDiff.Normalize();
-                var ntsSymDiff = geom.SymmetricDifference(_filter);
+                var ntsSymDiff = geom.SymmetricDifference(Filter);
                 ntsSymDiff.Normalize();
 
                 if (ntsSymDiff.EqualsExact(symDiff, 0.5))
@@ -546,7 +546,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
             var results = Session
                 .CreateQuery(
                     "select e.Geometry, NHSP.Union(e.Geometry, ?) from PolygonEntity as e where e.Geometry is not null")
-                .SetParameter(0, _filter, SpatialDialect.GeometryTypeOf(Session))
+                .SetParameter(0, Filter, SpatialDialect.GeometryTypeOf(Session))
                 .SetMaxResults(100)
                 .List();
 
@@ -564,7 +564,7 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
                 }
 
                 union.Normalize();
-                var ntsUnion = geom.Union(_filter);
+                var ntsUnion = geom.Union(Filter);
                 ntsUnion.Normalize();
 
                 if (ntsUnion.EqualsExact(union, 0.5))
@@ -577,10 +577,11 @@ namespace Tests.NHibernate.Spatial.RandomGeometries
 
         protected override void OnTestFixtureSetUp()
         {
-            DataGenerator.Generate(sessions);
+            const int srid = 4326;
+            DataGenerator.Generate(sessions, srid);
 
-            _filter = Wkt.Read(FilterString);
-            _filter.SRID = 4326;
+            Filter = Wkt.Read(FilterString);
+            Filter.SRID = srid;
         }
 
         protected override void OnTestFixtureTearDown()

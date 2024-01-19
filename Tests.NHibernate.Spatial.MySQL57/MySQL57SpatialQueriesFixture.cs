@@ -63,8 +63,8 @@ AND {SpatialDialect.IsoPrefix}Intersects(PolygonFromText('{filterString}', 4326)
 
         protected override ISQLQuery SqlIsEmptyLineString(ISession session)
         {
-            return session.CreateSQLQuery(@"
-SELECT IsEmpty(the_geom) as result
+            return session.CreateSQLQuery($@"
+SELECT {SpatialDialect.IsoPrefix}IsEmpty(the_geom) as result
 FROM linestringtest
 WHERE oid = ?
 AND the_geom IS NOT NULL
@@ -74,8 +74,8 @@ AND the_geom IS NOT NULL
 
         protected override ISQLQuery SqlIsSimpleLineString(ISession session)
         {
-            return session.CreateSQLQuery(@"
-SELECT IsSimple(the_geom) as result
+            return session.CreateSQLQuery($@"
+SELECT {SpatialDialect.IsoPrefix}IsSimple(the_geom) as result
 FROM linestringtest
 WHERE oid = ?
 AND the_geom IS NOT NULL
@@ -85,8 +85,8 @@ AND the_geom IS NOT NULL
 
         protected override ISQLQuery SqlAsBinaryLineString(ISession session)
         {
-            return session.CreateSQLQuery(@"
-SELECT AsBinary(the_geom) as result
+            return session.CreateSQLQuery($@"
+SELECT {SpatialDialect.IsoPrefix}AsBinary(the_geom) as result
 FROM linestringtest
 WHERE oid = ?
 AND the_geom IS NOT NULL

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NHibernate.Spatial.Metadata.SpatialReferenceSystem, NHibernate.Spatial"
+         schema="INFORMATION_SCHEMA"
+         table="ST_SPATIAL_REFERENCE_SYSTEMS"
+         lazy="false"
+         mutable="false">    
+    <id name="SRID" column="SRS_ID" type="Int32">
+      <generator class="assigned" />
+    </id>
+    <property name="AuthorityName" column="ORGANIZATION" type="String" />
+    <property name="AuthoritySRID" column="ORGANIZATION_COORDSYS_ID" type="Int32" />
+    <property name="WellKnownText" column="DEFINITION" type="String" />
+  </class>
+</hibernate-mapping>

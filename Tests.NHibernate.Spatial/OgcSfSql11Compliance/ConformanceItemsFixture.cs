@@ -24,7 +24,7 @@ namespace Tests.NHibernate.Spatial.OgcSfSql11Compliance
         // Tolerance for floating point precision
         protected const double Tolerance = 0.000000000001;
 
-        private const string SpatialReferenceSystemWKT =
+        protected virtual string SpatialReferenceSystemWKT =>
             @"PROJCS[""UTM_ZONE_14N"", GEOGCS[""World Geodetic System 72"",
 DATUM[""WGS_72"",  SPHEROID[""NWL_10D"", 6378135, 298.26]],
 PRIMEM[""Greenwich"", 0], UNIT[""Meter"", 1.0]],
@@ -300,7 +300,7 @@ UNIT[""Meter"", 1.0]]";
         /// </code>
         /// </summary>
         [Test]
-        public void ConformanceItemT03Hql()
+        public virtual void ConformanceItemT03Hql()
         {
             if (!Metadata.SupportsSpatialMetadata(session, MetadataClass.GeometryColumn))
             {
@@ -318,7 +318,7 @@ UNIT[""Meter"", 1.0]]";
         }
 
         [Test]
-        public void ConformanceItemT03Linq()
+        public virtual void ConformanceItemT03Linq()
         {
             if (!Metadata.SupportsSpatialMetadata(session, MetadataClass.GeometryColumn))
             {

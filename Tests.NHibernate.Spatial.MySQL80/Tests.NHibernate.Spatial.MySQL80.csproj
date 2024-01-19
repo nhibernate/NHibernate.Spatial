@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RootNamespace>Tests.NHibernate.Spatial</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="NtsTestCases\Model\NtsTestCase.hbm.xml" />
+    <EmbeddedResource Include="RandomGeometries\Model\LineStringEntity.hbm.xml" />
+    <EmbeddedResource Include="RandomGeometries\Model\MultiLineStringEntity.hbm.xml" />
+    <EmbeddedResource Include="RandomGeometries\Model\MultiPointEntity.hbm.xml" />
+    <EmbeddedResource Include="RandomGeometries\Model\MultiPolygonEntity.hbm.xml" />
+    <EmbeddedResource Include="RandomGeometries\Model\PointEntity.hbm.xml" />
+    <EmbeddedResource Include="RandomGeometries\Model\PolygonEntity.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="[3.15.1, 3.16.0)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="[15.9.2, 16.0)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NHibernate.Spatial.MySQL\NHibernate.Spatial.MySQL.csproj" />
+    <ProjectReference Include="..\Tests.NHibernate.Spatial.MySQL57\Tests.NHibernate.Spatial.MySQL57.csproj" />
+    <ProjectReference Include="..\Tests.NHibernate.Spatial\Tests.NHibernate.Spatial.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

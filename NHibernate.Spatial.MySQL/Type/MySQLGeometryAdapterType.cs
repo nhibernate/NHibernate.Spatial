@@ -30,9 +30,9 @@ namespace NHibernate.Spatial.Type
     /// This class maps MySQLDbType.Geometry to and from Geometry
     /// </summary>
     [Serializable]
-    public class MySQL57GeometryAdapterType : ImmutableType
+    public class MySQLGeometryAdapterType : ImmutableType
     {
-        public MySQL57GeometryAdapterType()
+        public MySQLGeometryAdapterType()
             : base(SqlTypeFactory.Byte) // Any arbitrary type can be passed as parameter
         { }
 
