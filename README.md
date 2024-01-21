@@ -14,11 +14,11 @@ NHibernate binaries.
 
 ## Supported Databases
 
-| Package                    | Dialects                 | CI Tests                                          |
-|----------------------------|--------------------------|---------------------------------------------------|
-| NHibernate.Spatial.MsSql   | SQL Server 2012          | SQL Server 2017, SQL Server 2019, SQL Server 2022 |
-| NHibernate.Spatial.MySQL   | MySQL 5.7, MySQL 8.0     | MySQL 5.7, MySQL 8.0, MySQL 8.3                   |
-| NHibernate.Spatial.PostGis | PostGIS 2.0              | PostGIS 2.5 (PostgreSQL 12)                       |
+| Package                    | Dialects                 | CI Tests                                                                              |
+|----------------------------|--------------------------|---------------------------------------------------------------------------------------|
+| NHibernate.Spatial.MsSql   | SQL Server 2012          | SQL Server 2017, SQL Server 2019, SQL Server 2022                                     |
+| NHibernate.Spatial.MySQL   | MySQL 5.7, MySQL 8.0     | MySQL 5.7, MySQL 8.0, MySQL 8.3                                                       |
+| NHibernate.Spatial.PostGis | PostGIS 2.0, PostGIS 3.0 | PostGIS 2.5 (PostgreSQL 12), PostGIS 3.0 (PostgreSQL 12), PostGIS 3.4 (PostgreSQL 16) |
 
 ## Getting Started
 
