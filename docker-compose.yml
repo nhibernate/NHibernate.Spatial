@@ -53,3 +53,12 @@ services:
       - 15432:5432
     volumes:
       - ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d
+
+  postgis30:
+    image: postgis/postgis:12-3.0
+    environment:
+      POSTGRES_PASSWORD: # See .env file
+    ports:
+      - 15433:5432
+    volumes:
+      - ./Tests.NHibernate.Spatial.PostGis30/initdb:/docker-entrypoint-initdb.d
