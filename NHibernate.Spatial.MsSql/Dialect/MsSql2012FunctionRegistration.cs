@@ -450,6 +450,8 @@ namespace NHibernate.Spatial.Dialect
                         .Add(" THEN 1 ELSE 0 END")
                         .Add(criterion ? " = 1" : "")
                         .ToSqlString();
+                case SpatialRelation.Relate:
+                    return GetSpatialRelateString(geometry, anotherGeometry, parameter, true, criterion);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(relation), relation, "Unsupported spatial relation");
             }

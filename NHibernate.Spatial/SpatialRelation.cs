@@ -70,11 +70,16 @@ namespace NHibernate.Spatial
         /// <summary>
         ///
         /// </summary>
+        Relate,
+
+        /// <summary>
+        ///
+        /// </summary>
         Touches,
 
         /// <summary>
         ///
         /// </summary>
-        Within,
+        Within
     }
 }

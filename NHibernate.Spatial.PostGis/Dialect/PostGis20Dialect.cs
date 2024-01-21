@@ -351,6 +351,18 @@ namespace NHibernate.Spatial.Dialect
                         .Add(parameter.ToString())
                         .Add(")")
                         .ToSqlString();
+                case SpatialRelation.Relate:
+                    return new SqlStringBuilder()
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add(relation.ToString())
+                        .Add("(")
+                        .AddObject(geometry)
+                        .Add(", ")
+                        .AddObject(anotherGeometry)
+                        .Add(", '")
+                        .Add(parameter.ToString())
+                        .Add("')")
+                        .ToSqlString();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(relation), relation, "Unsupported spatial relation");
             }

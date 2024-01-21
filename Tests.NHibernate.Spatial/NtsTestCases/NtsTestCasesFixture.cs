@@ -396,7 +396,9 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             var results = _session.CreateCriteria(typeof(NtsTestCase))
                 .Add(Restrictions.Eq("Operation", "Relate"))
                 .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Id"))
                     .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("Parameter"))
                     .Add(Projections.Property("BooleanResult"))
                     .Add(SpatialProjections.Relate("GeometryA", "GeometryB", "Parameter"))
                 )
@@ -406,11 +408,22 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
             foreach (object[] result in results)
             {
-                string description = (string) result[0];
-                bool expected = (bool) result[1];
-                bool operation = (bool) result[2];
+                long id = (long) result[0];
+                string description = (string) result[1];
+                string parameter = (string) result[2];
+                bool expected = (bool) result[3];
+                bool operation = (bool) result[4];
 
                 Assert.AreEqual(expected, operation);
+
+                // Spatial restriction
+                long rowCount = _session.CreateCriteria(typeof(NtsTestCase))
+                    .Add(Restrictions.Eq("Id", id))
+                    .Add(SpatialRestrictions.Relate("GeometryA", "GeometryB", parameter))
+                    .SetProjection(Projections.RowCountInt64())
+                    .UniqueResult<long>();
+
+                Assert.AreEqual(expected, Convert.ToBoolean(rowCount));
             }
         }
 

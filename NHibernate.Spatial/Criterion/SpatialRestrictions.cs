@@ -197,8 +197,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public static SpatialRelationCriterion Relate(string propertyName, object anotherGeometry, string intersectionPatternMatrix)
         {
-            // TODO: Implement
-            throw new NotImplementedException();
+            return new SpatialRelationCriterion(propertyName, SpatialRelation.Relate, anotherGeometry, intersectionPatternMatrix);
         }
 
         /// <summary>
