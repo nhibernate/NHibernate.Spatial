@@ -54,13 +54,13 @@ jobs:
             DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15432:5432 -v ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d postgis/postgis:12-2.5
             TEST_PROJECT: Tests.NHibernate.Spatial.PostGis20
 
-          - DB: PostGis20 (PostgreSQL 12 PostGIS 3.4)
-            DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15432:5432 -v ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d postgis/postgis:12-3.4
-            TEST_PROJECT: Tests.NHibernate.Spatial.PostGis20
+          - DB: PostGis30 (PostgreSQL 12 PostGIS 3.0)
+            DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15433:5432 -v ./Tests.NHibernate.Spatial.PostGis30/initdb:/docker-entrypoint-initdb.d postgis/postgis:12-3.0
+            TEST_PROJECT: Tests.NHibernate.Spatial.PostGis30
 
-          - DB: PostGis20 (PostgreSQL 16 PostGIS 3.4)
-            DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15432:5432 -v ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d postgis/postgis:16-3.4
-            TEST_PROJECT: Tests.NHibernate.Spatial.PostGis20
+          - DB: PostGis30 (PostgreSQL 16 PostGIS 3.4)
+            DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15433:5432 -v ./Tests.NHibernate.Spatial.PostGis30/initdb:/docker-entrypoint-initdb.d postgis/postgis:16-3.4
+            TEST_PROJECT: Tests.NHibernate.Spatial.PostGis30
 
     steps:
       - name: Checkout repository

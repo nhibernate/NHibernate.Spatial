@@ -11,7 +11,7 @@ namespace Tests.NHibernate.Spatial
     public class PostGis20ConformanceItemsFixture : ConformanceItemsFixture
     {
         /// <summary>
-        /// Overridden because GeometryType includes ISO prefix in PostGIS 2
+        /// Overridden because GeometryType includes ISO prefix in PostGIS
         /// </summary>
         [Test]
         public override void ConformanceItemT07Hql()

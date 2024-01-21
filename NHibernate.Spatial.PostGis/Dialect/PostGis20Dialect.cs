@@ -282,7 +282,7 @@ namespace NHibernate.Spatial.Dialect
             return builder.ToSqlString();
         }
 
-        public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, bool criterion)
+        public virtual SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, bool criterion)
         {
             switch (relation)
             {
@@ -428,7 +428,7 @@ namespace NHibernate.Spatial.Dialect
         /// <param name="analysis">The analysis.</param>
         /// <param name="extraArgument">The extra argument.</param>
         /// <returns></returns>
-        public SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
+        public virtual SqlString GetSpatialAnalysisString(object geometry, SpatialAnalysis analysis, object extraArgument)
         {
             switch (analysis)
             {
