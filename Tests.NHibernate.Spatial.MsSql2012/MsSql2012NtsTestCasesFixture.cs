@@ -12,20 +12,27 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MsSql2012NtsTestCasesFixture : NtsTestCasesFixture
     {
-        private const string LocalDataPath = @"../../../../Tests.NHibernate.Spatial.MsSql2012/NtsTestCases/Data/vivid";
+        private const string LocalDataPath = "../../../../Tests.NHibernate.Spatial.MsSql2012/NtsTestCases/Data";
 
-        protected override string TestRelateAADataPath => Path.Combine(LocalDataPath, @"TestRelateAA.xml");
+        protected override string TestRelateAADataPath => Path.Combine(LocalDataPath, "general", "TestRelateAA.xml");
 
-        protected override string TestRelateACDataPath => Path.Combine(LocalDataPath, @"TestRelateAC.xml");
+        protected override string TestRelateACDataPath => Path.Combine(LocalDataPath, "general", "TestRelateAC.xml");
 
-        protected override string TestSimpleDataPath => Path.Combine(LocalDataPath, @"TestSimple.xml");
+        protected override string TestSimpleDataPath => Path.Combine(LocalDataPath, "general", "TestSimple.xml");
+
+        protected override string TestRelateACValidateDataPath => Path.Combine(LocalDataPath, "validate", "TestRelateAC.xml");
+
+        protected override string TestRelateLAValidateDataPath => Path.Combine(LocalDataPath, "validate", "TestRelateLA.xml");
 
         [Test]
-        [Ignore("Not supported by MS SQL")]
+        [Ignore("Not supported by SQL Server")]
+        public override void EqualsExact()
+        { }
+
+        [Test]
+        [Ignore("Not supported by SQL Server")]
         public override void StringRelate()
-        {
-            base.StringRelate();
-        }
+        { }
 
         [Test]
         public void WhenRelateWithoutPatternThenThrows()
@@ -34,7 +41,7 @@ namespace Tests.NHibernate.Spatial
                 .Add(Restrictions.Eq("Operation", "Relate"))
                 .SetProjection(Projections.ProjectionList()
                     .Add(Projections.Property("Description"))
-                    .Add(Projections.Property("RelatePattern"))
+                    .Add(Projections.Property("Parameter"))
                     .Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
                 )
                 .List());

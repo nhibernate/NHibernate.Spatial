@@ -247,6 +247,17 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
+        /// Determines whether the specified geometry property is exactly equal to another geometry property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="anotherPropertyName">Name of another property.</param>
+        /// <returns></returns>
+        public static SpatialProjection EqualsExact(string propertyName, string anotherPropertyName)
+        {
+            return new SpatialRelationProjection(propertyName, SpatialRelation.EqualsExact, anotherPropertyName);
+        }
+
+        /// <summary>
         /// Determines whether the specified geometry property intersects another geometry property.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
@@ -255,6 +266,18 @@ namespace NHibernate.Spatial.Criterion
         public static SpatialProjection Intersects(string propertyName, string anotherPropertyName)
         {
             return new SpatialRelationProjection(propertyName, SpatialRelation.Intersects, anotherPropertyName);
+        }
+
+        /// <summary>
+        /// Determines whether the specified geometry property is within a given distance of another geometry.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="anotherPropertyName">Name of another property.</param>
+        /// <param name="distance">The distance.</param>
+        /// <returns></returns>
+        public static SpatialProjection IsWithinDistance(string propertyName, string anotherPropertyName, double distance)
+        {
+            return new SpatialRelationProjection(propertyName, SpatialRelation.IsWithinDistance, anotherPropertyName, distance);
         }
 
         /// <summary>

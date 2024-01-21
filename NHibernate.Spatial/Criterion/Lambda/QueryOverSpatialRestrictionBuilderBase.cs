@@ -101,9 +101,9 @@ namespace NHibernate.Spatial.Criterion.Lambda
         /// <summary>
         /// Apply a "eq exact" constraint to the named property
         /// </summary>
-        public TReturn EqExact(object value, double tolerance)
+        public TReturn EqExact(object value)
         {
-            return Add(SpatialRestrictions.EqExact(propertyName, value, tolerance));
+            return Add(SpatialRestrictions.EqExact(propertyName, value));
         }
 
         /// <summary>

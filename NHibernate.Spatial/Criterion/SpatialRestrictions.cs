@@ -142,16 +142,14 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
-        /// Determines whether the specified geometry property is exactly equals (within a tolerance) to another geometry.
+        /// Determines whether the specified geometry property is exactly equal to another geometry.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="anotherGeometry">Another geometry.</param>
-        /// <param name="tolerance">The tolerance.</param>
         /// <returns></returns>
-        public static SpatialRelationCriterion EqExact(string propertyName, object anotherGeometry, double tolerance)
+        public static SpatialRelationCriterion EqExact(string propertyName, object anotherGeometry)
         {
-            // TODO: Implement
-            throw new NotImplementedException();
+            return new SpatialRelationCriterion(propertyName, SpatialRelation.EqualsExact, anotherGeometry);
         }
 
         /// <summary>
@@ -163,6 +161,18 @@ namespace NHibernate.Spatial.Criterion
         public static SpatialRelationCriterion Intersects(string propertyName, object anotherGeometry)
         {
             return new SpatialRelationCriterion(propertyName, SpatialRelation.Intersects, anotherGeometry);
+        }
+
+        /// <summary>
+        /// Determines whether the specified geometry property is within a given distance of another geometry.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="anotherGeometry">Another geometry.</param>
+        /// <param name="distance">The distance.</param>
+        /// <returns></returns>
+        public static SpatialRelationCriterion IsWithinDistance(string propertyName, object anotherGeometry, double distance)
+        {
+            return new SpatialRelationCriterion(propertyName, SpatialRelation.IsWithinDistance, anotherGeometry, distance);
         }
 
         /// <summary>
@@ -185,8 +195,7 @@ namespace NHibernate.Spatial.Criterion
         /// <returns></returns>
         public static SpatialRelationCriterion Relate(string propertyName, object anotherGeometry, string intersectionPatternMatrix)
         {
-            // TODO: Implement
-            throw new NotImplementedException();
+            return new SpatialRelationCriterion(propertyName, SpatialRelation.Relate, anotherGeometry, intersectionPatternMatrix);
         }
 
         /// <summary>
@@ -209,19 +218,6 @@ namespace NHibernate.Spatial.Criterion
         public static SpatialRelationCriterion Within(string propertyName, object anotherGeometry)
         {
             return new SpatialRelationCriterion(propertyName, SpatialRelation.Within, anotherGeometry);
-        }
-
-        /// <summary>
-        /// Determines whether the specified geometry property is within a givin distance of another geometry.
-        /// </summary>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <param name="anotherGeometry">Another geometry.</param>
-        /// <param name="distance">The distance.</param>
-        /// <returns></returns>
-        public static SpatialRelationCriterion IsWithinDistance(string propertyName, object anotherGeometry, double distance)
-        {
-            // TODO: Implement
-            throw new NotImplementedException();
         }
 
         // TODO :

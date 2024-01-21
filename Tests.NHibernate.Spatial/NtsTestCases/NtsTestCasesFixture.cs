@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Open.Topology.TestRunner;
 using System;
 using System.IO;
+using NHibernate.Spatial;
 using Tests.NHibernate.Spatial.NtsTestCases.Model;
 
 namespace Tests.NHibernate.Spatial.NtsTestCases
@@ -15,7 +16,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
     /// </summary>
     public abstract class NtsTestCasesFixture : AbstractFixture
     {
-        private const string DataPath = @"../../../../Tests.NHibernate.Spatial/NtsTestCases/Data/vivid";
+        private const string DataPath = "../../../../Tests.NHibernate.Spatial/NtsTestCases/Data";
 
         protected ISession _session;
 
@@ -30,19 +31,27 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             }
         }
 
-        protected virtual string TestFunctionAADataPath => Path.Combine(DataPath, @"TestFunctionAA.xml");
+        protected virtual string TestEqualsExactDataPath => Path.Combine(DataPath, "general", "TestEqualsExact.xml");
 
-        protected virtual string TestFunctionAAPrecDataPath => Path.Combine(DataPath, @"TestFunctionAAPrec.xml");
+        protected virtual string TestFunctionAADataPath => Path.Combine(DataPath, "general", "TestFunctionAA.xml");
 
-        protected virtual string TestRelateAADataPath => Path.Combine(DataPath, @"TestRelateAA.xml");
+        protected virtual string TestFunctionAAPrecDataPath => Path.Combine(DataPath, "general", "TestFunctionAAPrec.xml");
 
-        protected virtual string TestRelateACDataPath => Path.Combine(DataPath, @"TestRelateAC.xml");
+        protected virtual string TestRelateAADataPath => Path.Combine(DataPath, "general", "TestRelateAA.xml");
 
-        protected virtual string TestRectanglePredicateDataPath => Path.Combine(DataPath, @"TestRectanglePredicate.xml");
+        protected virtual string TestRelateACDataPath => Path.Combine(DataPath, "general", "TestRelateAC.xml");
 
-        protected virtual string TestSimpleDataPath => Path.Combine(DataPath, @"TestSimple.xml");
+        protected virtual string TestRectanglePredicateDataPath => Path.Combine(DataPath, "general", "TestRectanglePredicate.xml");
 
-        protected virtual string TestValidDataPath => Path.Combine(DataPath, @"TestValid.xml");
+        protected virtual string TestSimpleDataPath => Path.Combine(DataPath, "general", "TestSimple.xml");
+
+        protected virtual string TestValidDataPath => Path.Combine(DataPath, "general", "TestValid.xml");
+
+        protected virtual string TestWithinDistanceDataPath => Path.Combine(DataPath, "general", "TestWithinDistance.xml");
+
+        protected virtual string TestRelateACValidateDataPath => Path.Combine(DataPath, "validate", "TestRelateAC.xml");
+
+        protected virtual string TestRelateLAValidateDataPath => Path.Combine(DataPath, "validate", "TestRelateLA.xml");
 
         protected override bool CheckDatabaseWasCleanedOnTearDown => false;
 
@@ -52,6 +61,9 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             {
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 long id = 0;
+
+                // General
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestEqualsExactDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAADataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAAPrecDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateAADataPath));
@@ -59,6 +71,11 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestRectanglePredicateDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestSimpleDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestValidDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestWithinDistanceDataPath));
+
+                // Validate
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateACValidateDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateLAValidateDataPath));
             }
         }
 
@@ -152,17 +169,21 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                         case XmlTestType.Crosses:
                         case XmlTestType.Disjoint:
                         case XmlTestType.Equals:
+                        case XmlTestType.EqualsExact:
+                        case XmlTestType.EqualsNorm:
                         case XmlTestType.Intersects:
                         case XmlTestType.IsEmpty:
                         case XmlTestType.IsSimple:
                         case XmlTestType.IsValid:
+                        case XmlTestType.Overlaps:
                         case XmlTestType.Touches:
                         case XmlTestType.Within:
                             ntsTestCase.BooleanResult = (bool) test.Result;
                             break;
 
+                        case XmlTestType.IsWithinDistance:
                         case XmlTestType.Relate:
-                            ntsTestCase.RelatePattern = (string) test.Argument2;
+                            ntsTestCase.Parameter = (string) test.Argument2;
                             ntsTestCase.BooleanResult = (bool) test.Result;
                             break;
 
@@ -281,6 +302,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             Assert.Greater(results.Count, 0);
 
             long countTrue = 0;
+            bool error = false;
 
             foreach (object[] result in results)
             {
@@ -288,13 +310,19 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 bool expected = (bool) result[1];
                 bool operation = (bool) result[2];
 
-                Assert.AreEqual(expected, operation);
+                if (expected != operation)
+                {
+                    Console.WriteLine(description);
+                    error = true;
+                }
 
                 if (operation)
                 {
                     countTrue++;
                 }
             }
+
+            Assert.False(error);
 
             // RowCount uses "count(*)" which in PostgreSQL returns Int64 and
             // in MS SQL Server return Int32.
@@ -391,9 +419,11 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             var results = _session.CreateCriteria(typeof(NtsTestCase))
                 .Add(Restrictions.Eq("Operation", "Relate"))
                 .SetProjection(Projections.ProjectionList()
+                    .Add(Projections.Property("Id"))
                     .Add(Projections.Property("Description"))
+                    .Add(Projections.Property("Parameter"))
                     .Add(Projections.Property("BooleanResult"))
-                    .Add(SpatialProjections.Relate("GeometryA", "GeometryB", "RelatePattern"))
+                    .Add(SpatialProjections.Relate("GeometryA", "GeometryB", "Parameter"))
                 )
                 .List();
 
@@ -401,11 +431,22 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
             foreach (object[] result in results)
             {
-                string description = (string) result[0];
-                bool expected = (bool) result[1];
-                bool operation = (bool) result[2];
+                long id = (long) result[0];
+                string description = (string) result[1];
+                string parameter = (string) result[2];
+                bool expected = (bool) result[3];
+                bool operation = (bool) result[4];
 
                 Assert.AreEqual(expected, operation);
+
+                // Spatial restriction
+                long rowCount = _session.CreateCriteria(typeof(NtsTestCase))
+                    .Add(Restrictions.Eq("Id", id))
+                    .Add(SpatialRestrictions.Relate("GeometryA", "GeometryB", parameter))
+                    .SetProjection(Projections.RowCountInt64())
+                    .UniqueResult<long>();
+
+                Assert.AreEqual(expected, Convert.ToBoolean(rowCount));
             }
         }
 
@@ -416,7 +457,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 .Add(Restrictions.Eq("Operation", "Relate"))
                 .SetProjection(Projections.ProjectionList()
                     .Add(Projections.Property("Description"))
-                    .Add(Projections.Property("RelatePattern"))
+                    .Add(Projections.Property("Parameter"))
                     .Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
                 )
                 .List();
@@ -452,24 +493,27 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Crosses()
         {
             TestBooleanBinaryOperation("Crosses", SpatialProjections.Crosses, SpatialRestrictions.Crosses);
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Disjoint()
         {
             TestBooleanBinaryOperation("Disjoint", SpatialProjections.Disjoint, SpatialRestrictions.Disjoint);
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Equals()
         {
-            TestBooleanBinaryOperation("Equals", SpatialProjections.Equals, SpatialRestrictions.Eq);
+            TestBooleanBinaryOperation("EqualsNorm", SpatialProjections.Equals, SpatialRestrictions.Eq);
+        }
+
+        [Test]
+        public virtual void EqualsExact()
+        {
+            TestBooleanBinaryOperation("EqualsExact", SpatialProjections.EqualsExact, SpatialRestrictions.EqExact);
         }
 
         [Test]
@@ -479,14 +523,12 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Overlaps()
         {
             TestBooleanBinaryOperation("Overlaps", SpatialProjections.Overlaps, SpatialRestrictions.Overlaps);
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Touches()
         {
             TestBooleanBinaryOperation("Touches", SpatialProjections.Touches, SpatialRestrictions.Touches);
@@ -496,6 +538,43 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         public virtual void Within()
         {
             TestBooleanBinaryOperation("Within", SpatialProjections.Within, SpatialRestrictions.Within);
+        }
+
+        [Test]
+        public virtual void IsWithinDistance()
+        {
+            var testCases = _session.QueryOver<NtsTestCase>()
+                .Where(x => x.Operation == SpatialRelation.IsWithinDistance.ToString())
+                .List();
+
+            Assert.Greater(testCases.Count, 0);
+
+            foreach (var testCase in testCases)
+            {
+                double distance = double.Parse(testCase.Parameter);
+
+                // Spatial projection
+                object[] result = _session.CreateCriteria(typeof(NtsTestCase))
+                    .Add(Restrictions.Eq(nameof(testCase.Id), testCase.Id))
+                    .SetProjection(Projections.ProjectionList()
+                        .Add(Projections.Property("BooleanResult"))
+                        .Add(SpatialProjections.IsWithinDistance("GeometryA", "GeometryB", distance))
+                    )
+                    .UniqueResult<object[]>();
+
+                bool expected = (bool) result[0];
+                bool operation = (bool) result[1];
+                Assert.AreEqual(expected, operation);
+
+                // Spatial restriction
+                long rowCount = _session.CreateCriteria(typeof(NtsTestCase))
+                    .Add(Restrictions.Eq(nameof(testCase.Id), testCase.Id))
+                    .Add(SpatialRestrictions.IsWithinDistance("GeometryA", "GeometryB", distance))
+                    .SetProjection(Projections.RowCountInt64())
+                    .UniqueResult<long>();
+
+                Assert.AreEqual(testCase.BooleanResult, Convert.ToBoolean(rowCount));
+            }
         }
 
         #endregion Relations

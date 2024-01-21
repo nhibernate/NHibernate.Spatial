@@ -320,6 +320,16 @@ namespace NHibernate.Spatial.Dialect
                 case SpatialRelation.CoveredBy:
                     return GetSpatialRelationString(anotherGeometry, SpatialRelation.Covers, geometry, criterion);
 
+                case SpatialRelation.EqualsExact:
+                    return new SqlStringBuilder()
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add("OrderingEquals(")
+                        .AddObject(geometry)
+                        .Add(", ")
+                        .AddObject(anotherGeometry)
+                        .Add(")")
+                        .ToSqlString();
+
                 default:
                     return new SqlStringBuilder(6)
                         .Add(SpatialDialect.IsoPrefix)
@@ -332,6 +342,39 @@ namespace NHibernate.Spatial.Dialect
                         .Add("::text")
                         .Add(")")
                         .ToSqlString();
+            }
+        }
+
+        public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, object parameter, bool criterion)
+        {
+            switch (relation)
+            {
+                case SpatialRelation.IsWithinDistance:
+                    return new SqlStringBuilder()
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add("DWithin")
+                        .Add("(")
+                        .AddObject(geometry)
+                        .Add(", ")
+                        .AddObject(anotherGeometry)
+                        .Add(", ")
+                        .Add(parameter.ToString())
+                        .Add(")")
+                        .ToSqlString();
+                case SpatialRelation.Relate:
+                    return new SqlStringBuilder()
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add(relation.ToString())
+                        .Add("(")
+                        .AddObject(geometry)
+                        .Add(", ")
+                        .AddObject(anotherGeometry)
+                        .Add(", '")
+                        .Add(parameter.ToString())
+                        .Add("')")
+                        .ToSqlString();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(relation), relation, "Unsupported spatial relation");
             }
         }
 

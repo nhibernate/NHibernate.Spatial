@@ -76,6 +76,11 @@ namespace NHibernate.Spatial.Dialect
             return worker.GetSpatialRelationString(geometry, relation, anotherGeometry, criterion);
         }
 
+        public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, object parameter, bool criterion)
+        {
+            return worker.GetSpatialRelationString(geometry, relation, anotherGeometry, parameter, criterion);
+        }
+
         public SqlString GetSpatialFilterString(string tableAlias, string geometryColumnName, string primaryKeyColumnName, string tableName, Parameter parameter)
         {
             return worker.GetSpatialFilterString(tableAlias, geometryColumnName, primaryKeyColumnName, tableName, parameter);

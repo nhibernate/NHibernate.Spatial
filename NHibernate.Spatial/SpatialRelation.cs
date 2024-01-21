@@ -55,7 +55,17 @@ namespace NHibernate.Spatial
         /// <summary>
         ///
         /// </summary>
+        EqualsExact,
+
+        /// <summary>
+        ///
+        /// </summary>
         Intersects,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IsWithinDistance,
 
         /// <summary>
         ///
@@ -65,11 +75,16 @@ namespace NHibernate.Spatial
         /// <summary>
         ///
         /// </summary>
+        Relate,
+
+        /// <summary>
+        ///
+        /// </summary>
         Touches,
 
         /// <summary>
         ///
         /// </summary>
-        Within,
+        Within
     }
 }

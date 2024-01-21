@@ -331,6 +331,9 @@ namespace NHibernate.Spatial.Dialect
                 case SpatialRelation.CoveredBy:
                     return GetSpatialRelationString(anotherGeometry, SpatialRelation.Covers, geometry, criterion);
 
+                case SpatialRelation.EqualsExact:
+                    throw new NotSupportedException($"{relation} not supported by SQL Server");
+
                 default:
                     return new SqlStringBuilder(6)
                         .Add(SpatialDialect.IsoPrefix)
@@ -341,6 +344,26 @@ namespace NHibernate.Spatial.Dialect
                         .AddObject(anotherGeometry)
                         .Add(")")
                         .ToSqlString();
+            }
+        }
+
+        public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, object parameter, bool criterion)
+        {
+            switch (relation)
+            {
+                case SpatialRelation.IsWithinDistance:
+                    return new SqlStringBuilder()
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add("Distance(")
+                        .AddObject(geometry)
+                        .Add(", ")
+                        .AddObject(anotherGeometry)
+                        .Add(")")
+                        .Add(" <= ")
+                        .Add(parameter.ToString())
+                        .ToSqlString();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(relation), relation, "Unsupported spatial relation");
             }
         }
 

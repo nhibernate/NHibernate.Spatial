@@ -20,7 +20,7 @@
       </type>
     </property>
     <property name="Operation" column="operation" />
-    <property name="RelatePattern" column="relate_pattern" />
+    <property name="Parameter" column="parameter" />
     <property name="GeometryResult" column="geometry_result">
       <type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
         <param name="srid">0</param>

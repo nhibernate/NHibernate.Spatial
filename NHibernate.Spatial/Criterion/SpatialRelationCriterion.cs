@@ -32,9 +32,23 @@ namespace NHibernate.Spatial.Criterion
     [Serializable]
     public class SpatialRelationCriterion : AbstractCriterion
     {
-        private readonly string propertyName;
-        private readonly SpatialRelation relation;
-        private readonly object anotherGeometry;
+        private readonly string _propertyName;
+        private readonly SpatialRelation _relation;
+        private readonly object _anotherGeometry;
+        private readonly object _parameter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialRelationCriterion"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="anotherGeometry">Another geometry.</param>
+        /// <param name="parameter">Additional parameter value</param>
+        public SpatialRelationCriterion(string propertyName, SpatialRelation relation, object anotherGeometry, object parameter)
+            : this(propertyName, relation, anotherGeometry)
+        {
+            _parameter = parameter;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialRelationCriterion"/> class.
@@ -44,9 +58,9 @@ namespace NHibernate.Spatial.Criterion
         /// <param name="anotherGeometry">Another geometry.</param>
         public SpatialRelationCriterion(string propertyName, SpatialRelation relation, object anotherGeometry)
         {
-            this.propertyName = propertyName;
-            this.relation = relation;
-            this.anotherGeometry = anotherGeometry;
+            _propertyName = propertyName;
+            _relation = relation;
+            _anotherGeometry = anotherGeometry;
         }
 
         /// <summary>
@@ -59,9 +73,9 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override TypedValue[] GetTypedValues(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            if (anotherGeometry is Geometry)
+            if (_anotherGeometry is Geometry)
             {
-                return new[] { criteriaQuery.GetTypedValue(criteria, propertyName, anotherGeometry) };
+                return new[] { criteriaQuery.GetTypedValue(criteria, _propertyName, _anotherGeometry) };
             }
             return Array.Empty<TypedValue>();
         }
@@ -81,9 +95,8 @@ namespace NHibernate.Spatial.Criterion
         /// </returns>
         public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            //criteriaQuery.AddUsedTypedValues(GetTypedValues(criteria, criteriaQuery));
             var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
-            string[] columns1 = GetColumnNames(criteria, criteriaQuery, propertyName);
+            string[] columns1 = GetColumnNames(criteria, criteriaQuery, _propertyName);
 
             var builder = new SqlStringBuilder(10*columns1.Length);
             for (int i = 0; i < columns1.Length; i++)
@@ -92,17 +105,25 @@ namespace NHibernate.Spatial.Criterion
                 {
                     builder.Add(" AND ");
                 }
-                if (anotherGeometry is Geometry)
+
+                object anotherGeometry;
+                if (_anotherGeometry is Geometry)
                 {
                     var parameters = criteriaQuery.NewQueryParameter(GetTypedValues(criteria, criteriaQuery)[0]).ToArray();
-                    builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], relation, parameters.Single(), true));
+                    anotherGeometry = parameters.Single();
                 }
                 else
                 {
-                    string[] columns2 = GetColumnNames(criteria, criteriaQuery, (string) anotherGeometry);
-                    builder.Add(spatialDialect.GetSpatialRelationString(columns1[i], relation, columns2[i], true));
+                    string[] columns2 = GetColumnNames(criteria, criteriaQuery, (string) _anotherGeometry);
+                    anotherGeometry = columns2[i];
                 }
+
+                var spatialRelationString = _parameter == null
+                    ? spatialDialect.GetSpatialRelationString(columns1[i], _relation, anotherGeometry, true)
+                    : spatialDialect.GetSpatialRelationString(columns1[i], _relation, anotherGeometry, _parameter, true);
+                builder.Add(spatialRelationString);
             }
+
             return builder.ToSqlString();
         }
 
@@ -119,11 +140,11 @@ namespace NHibernate.Spatial.Criterion
         public override string ToString()
         {
             return new StringBuilder()
-                .Append(relation)
+                .Append(_relation)
                 .Append("(")
-                .Append(propertyName)
+                .Append(_propertyName)
                 .Append(", ")
-                .Append(anotherGeometry is Geometry ? "<Geometry>" : anotherGeometry.ToString())
+                .Append(_anotherGeometry is Geometry ? "<Geometry>" : _anotherGeometry.ToString())
                 .Append(")")
                 .ToString();
         }

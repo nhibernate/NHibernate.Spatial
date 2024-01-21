@@ -16,7 +16,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases.Model
 
         private string operation;
 
-        private string relatePattern;
+        private string parameter;
 
         private Geometry geometryResult = GeometryCollection.Empty;
 
@@ -52,10 +52,10 @@ namespace Tests.NHibernate.Spatial.NtsTestCases.Model
             set => operation = value;
         }
 
-        public virtual string RelatePattern
+        public virtual string Parameter
         {
-            get => relatePattern;
-            set => relatePattern = value;
+            get => parameter;
+            set => parameter = value;
         }
 
         public virtual Geometry GeometryResult
