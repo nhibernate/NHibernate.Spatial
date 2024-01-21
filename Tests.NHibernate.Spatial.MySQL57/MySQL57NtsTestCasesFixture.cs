@@ -8,9 +8,9 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MySQL57NtsTestCasesFixture : NtsTestCasesFixture
     {
-        private const string LocalDataPath = "../../../../Tests.NHibernate.Spatial.MySQL57/NtsTestCases/Data/vivid";
+        private const string LocalDataPath = "../../../../Tests.NHibernate.Spatial.MySQL57/NtsTestCases/Data";
 
-        protected override string TestFunctionAAPrecDataPath => Path.Combine(LocalDataPath, "TestFunctionAAPrec.xml");
+        protected override string TestFunctionAAPrecDataPath => Path.Combine(LocalDataPath, "general", "TestFunctionAAPrec.xml");
 
         protected override void Configure(Configuration configuration)
         {

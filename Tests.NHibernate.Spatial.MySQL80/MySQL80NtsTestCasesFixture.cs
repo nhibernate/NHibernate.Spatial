@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using NHibernate.Cfg;
 using NUnit.Framework;
 using Tests.NHibernate.Spatial.NtsTestCases;
@@ -9,6 +10,12 @@ namespace Tests.NHibernate.Spatial
     [TestFixture]
     public class MySQL80NtsTestCasesFixture : NtsTestCasesFixture
     {
+        private const string LocalDataPath = "../../../../Tests.NHibernate.Spatial.MySQL80/NtsTestCases/Data";
+
+        protected override string TestRelateACValidateDataPath => Path.Combine(LocalDataPath, "validate", "TestRelateAC.xml");
+
+        protected override string TestRelateLAValidateDataPath => Path.Combine(LocalDataPath, "validate", "TestRelateLA.xml");
+
         protected override Type[] Mappings
         {
             get

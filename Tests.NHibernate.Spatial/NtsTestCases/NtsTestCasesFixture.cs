@@ -16,7 +16,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
     /// </summary>
     public abstract class NtsTestCasesFixture : AbstractFixture
     {
-        private const string DataPath = @"../../../../Tests.NHibernate.Spatial/NtsTestCases/Data/vivid";
+        private const string DataPath = "../../../../Tests.NHibernate.Spatial/NtsTestCases/Data";
 
         protected ISession _session;
 
@@ -31,23 +31,27 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             }
         }
 
-        protected virtual string TestEqualsExactDataPath => Path.Combine(DataPath, @"TestEqualsExact.xml");
+        protected virtual string TestEqualsExactDataPath => Path.Combine(DataPath, "general", "TestEqualsExact.xml");
 
-        protected virtual string TestFunctionAADataPath => Path.Combine(DataPath, @"TestFunctionAA.xml");
+        protected virtual string TestFunctionAADataPath => Path.Combine(DataPath, "general", "TestFunctionAA.xml");
 
-        protected virtual string TestFunctionAAPrecDataPath => Path.Combine(DataPath, @"TestFunctionAAPrec.xml");
+        protected virtual string TestFunctionAAPrecDataPath => Path.Combine(DataPath, "general", "TestFunctionAAPrec.xml");
 
-        protected virtual string TestRelateAADataPath => Path.Combine(DataPath, @"TestRelateAA.xml");
+        protected virtual string TestRelateAADataPath => Path.Combine(DataPath, "general", "TestRelateAA.xml");
 
-        protected virtual string TestRelateACDataPath => Path.Combine(DataPath, @"TestRelateAC.xml");
+        protected virtual string TestRelateACDataPath => Path.Combine(DataPath, "general", "TestRelateAC.xml");
 
-        protected virtual string TestRectanglePredicateDataPath => Path.Combine(DataPath, @"TestRectanglePredicate.xml");
+        protected virtual string TestRectanglePredicateDataPath => Path.Combine(DataPath, "general", "TestRectanglePredicate.xml");
 
-        protected virtual string TestSimpleDataPath => Path.Combine(DataPath, @"TestSimple.xml");
+        protected virtual string TestSimpleDataPath => Path.Combine(DataPath, "general", "TestSimple.xml");
 
-        protected virtual string TestValidDataPath => Path.Combine(DataPath, @"TestValid.xml");
+        protected virtual string TestValidDataPath => Path.Combine(DataPath, "general", "TestValid.xml");
 
-        protected virtual string TestWithinDistanceDataPath => Path.Combine(DataPath, @"TestWithinDistance.xml");
+        protected virtual string TestWithinDistanceDataPath => Path.Combine(DataPath, "general", "TestWithinDistance.xml");
+
+        protected virtual string TestRelateACValidateDataPath => Path.Combine(DataPath, "validate", "TestRelateAC.xml");
+
+        protected virtual string TestRelateLAValidateDataPath => Path.Combine(DataPath, "validate", "TestRelateLA.xml");
 
         protected override bool CheckDatabaseWasCleanedOnTearDown => false;
 
@@ -57,6 +61,8 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             {
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 long id = 0;
+
+                // General
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestEqualsExactDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAADataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAAPrecDataPath));
@@ -66,6 +72,10 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestSimpleDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestValidDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestWithinDistanceDataPath));
+
+                // Validate
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateACValidateDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateLAValidateDataPath));
             }
         }
 
@@ -165,6 +175,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                         case XmlTestType.IsEmpty:
                         case XmlTestType.IsSimple:
                         case XmlTestType.IsValid:
+                        case XmlTestType.Overlaps:
                         case XmlTestType.Touches:
                         case XmlTestType.Within:
                             ntsTestCase.BooleanResult = (bool) test.Result;
@@ -291,6 +302,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             Assert.Greater(results.Count, 0);
 
             long countTrue = 0;
+            bool error = false;
 
             foreach (object[] result in results)
             {
@@ -298,13 +310,19 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 bool expected = (bool) result[1];
                 bool operation = (bool) result[2];
 
-                Assert.AreEqual(expected, operation);
+                if (expected != operation)
+                {
+                    Console.WriteLine(description);
+                    error = true;
+                }
 
                 if (operation)
                 {
                     countTrue++;
                 }
             }
+
+            Assert.False(error);
 
             // RowCount uses "count(*)" which in PostgreSQL returns Int64 and
             // in MS SQL Server return Int32.
@@ -475,14 +493,12 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Crosses()
         {
             TestBooleanBinaryOperation("Crosses", SpatialProjections.Crosses, SpatialRestrictions.Crosses);
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Disjoint()
         {
             TestBooleanBinaryOperation("Disjoint", SpatialProjections.Disjoint, SpatialRestrictions.Disjoint);
@@ -507,14 +523,12 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Overlaps()
         {
             TestBooleanBinaryOperation("Overlaps", SpatialProjections.Overlaps, SpatialRestrictions.Overlaps);
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Touches()
         {
             TestBooleanBinaryOperation("Touches", SpatialProjections.Touches, SpatialRestrictions.Touches);
