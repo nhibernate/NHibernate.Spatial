@@ -31,6 +31,8 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             }
         }
 
+        protected virtual string TestEqualsExactDataPath => Path.Combine(DataPath, @"TestEqualsExact.xml");
+
         protected virtual string TestFunctionAADataPath => Path.Combine(DataPath, @"TestFunctionAA.xml");
 
         protected virtual string TestFunctionAAPrecDataPath => Path.Combine(DataPath, @"TestFunctionAAPrec.xml");
@@ -55,6 +57,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
             {
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 long id = 0;
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestEqualsExactDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAADataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestFunctionAAPrecDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestRelateAADataPath));
@@ -156,6 +159,8 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                         case XmlTestType.Crosses:
                         case XmlTestType.Disjoint:
                         case XmlTestType.Equals:
+                        case XmlTestType.EqualsExact:
+                        case XmlTestType.EqualsNorm:
                         case XmlTestType.Intersects:
                         case XmlTestType.IsEmpty:
                         case XmlTestType.IsSimple:
@@ -484,10 +489,15 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         }
 
         [Test]
-        [Ignore("No data to test")]
         public void Equals()
         {
-            TestBooleanBinaryOperation("Equals", SpatialProjections.Equals, SpatialRestrictions.Eq);
+            TestBooleanBinaryOperation("EqualsNorm", SpatialProjections.Equals, SpatialRestrictions.Eq);
+        }
+
+        [Test]
+        public virtual void EqualsExact()
+        {
+            TestBooleanBinaryOperation("EqualsExact", SpatialProjections.EqualsExact, SpatialRestrictions.EqExact);
         }
 
         [Test]

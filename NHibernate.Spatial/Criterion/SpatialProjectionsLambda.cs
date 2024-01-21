@@ -259,6 +259,17 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
+        /// Determines whether the specified geometry property is exactly equal to another geometry property.
+        /// </summary>
+        /// <param name="expression">Name of the property.</param>
+        /// <param name="anotherExpression">Name of another property.</param>
+        /// <returns></returns>
+        public static SpatialProjection EqualsExact<T>(Expression<Func<T, object>> expression, Expression<Func<T, object>> anotherExpression)
+        {
+            return EqualsExact(GetPropertyName(expression), GetPropertyName(anotherExpression));
+        }
+
+        /// <summary>
         /// Determines whether the specified geometry property intersects another geometry property.
         /// </summary>
         /// <param name="expression">Name of the property.</param>

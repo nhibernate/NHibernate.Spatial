@@ -35,6 +35,11 @@ namespace Tests.NHibernate.Spatial
         { }
 
         [Test]
+        [Ignore("Provider does not support the EqualsExact function")]
+        public override void EqualsExact()
+        { }
+
+        [Test]
         [Ignore("Provider does not support the Relate function")]
         public override void StringRelate()
         { }

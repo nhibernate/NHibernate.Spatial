@@ -55,6 +55,11 @@ namespace NHibernate.Spatial
         /// <summary>
         ///
         /// </summary>
+        EqualsExact,
+
+        /// <summary>
+        ///
+        /// </summary>
         Intersects,
 
         /// <summary>

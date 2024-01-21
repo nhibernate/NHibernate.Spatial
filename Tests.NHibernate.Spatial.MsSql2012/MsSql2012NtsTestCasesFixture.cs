@@ -21,11 +21,14 @@ namespace Tests.NHibernate.Spatial
         protected override string TestSimpleDataPath => Path.Combine(LocalDataPath, @"TestSimple.xml");
 
         [Test]
-        [Ignore("Not supported by MS SQL")]
+        [Ignore("Not supported by SQL Server")]
+        public override void EqualsExact()
+        { }
+
+        [Test]
+        [Ignore("Not supported by SQL Server")]
         public override void StringRelate()
-        {
-            base.StringRelate();
-        }
+        { }
 
         [Test]
         public void WhenRelateWithoutPatternThenThrows()

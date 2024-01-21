@@ -331,6 +331,9 @@ namespace NHibernate.Spatial.Dialect
                 case SpatialRelation.CoveredBy:
                     return GetSpatialRelationString(anotherGeometry, SpatialRelation.Covers, geometry, criterion);
 
+                case SpatialRelation.EqualsExact:
+                    throw new NotSupportedException($"{relation} not supported by SQL Server");
+
                 default:
                     return new SqlStringBuilder(6)
                         .Add(SpatialDialect.IsoPrefix)

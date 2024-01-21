@@ -247,6 +247,17 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
+        /// Determines whether the specified geometry property is exactly equal to another geometry property.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="anotherPropertyName">Name of another property.</param>
+        /// <returns></returns>
+        public static SpatialProjection EqualsExact(string propertyName, string anotherPropertyName)
+        {
+            return new SpatialRelationProjection(propertyName, SpatialRelation.EqualsExact, anotherPropertyName);
+        }
+
+        /// <summary>
         /// Determines whether the specified geometry property intersects another geometry property.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>

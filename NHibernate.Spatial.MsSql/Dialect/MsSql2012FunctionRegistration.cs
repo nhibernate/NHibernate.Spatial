@@ -413,6 +413,9 @@ namespace NHibernate.Spatial.Dialect
                 case SpatialRelation.CoveredBy:
                     return GetSpatialRelationString(anotherGeometry, SpatialRelation.Covers, geometry, criterion);
 
+                case SpatialRelation.EqualsExact:
+                    throw new NotSupportedException($"{relation} not supported by SQL Server");
+
                 default:
                     // NOTE: Cast is only required if "geometry" is passed in as a parameter
                     //       directly, rather than as a column name. This is because parameter

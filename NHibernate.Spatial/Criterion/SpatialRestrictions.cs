@@ -142,16 +142,14 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
-        /// Determines whether the specified geometry property is exactly equals (within a tolerance) to another geometry.
+        /// Determines whether the specified geometry property is exactly equal to another geometry.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="anotherGeometry">Another geometry.</param>
-        /// <param name="tolerance">The tolerance.</param>
         /// <returns></returns>
-        public static SpatialRelationCriterion EqExact(string propertyName, object anotherGeometry, double tolerance)
+        public static SpatialRelationCriterion EqExact(string propertyName, object anotherGeometry)
         {
-            // TODO: Implement
-            throw new NotImplementedException();
+            return new SpatialRelationCriterion(propertyName, SpatialRelation.EqualsExact, anotherGeometry);
         }
 
         /// <summary>
