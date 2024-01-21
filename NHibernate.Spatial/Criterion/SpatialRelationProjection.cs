@@ -29,8 +29,22 @@ namespace NHibernate.Spatial.Criterion
     [Serializable]
     public class SpatialRelationProjection : SpatialProjection
     {
-        private readonly SpatialRelation relation;
-        private readonly string anotherPropertyName;
+        private readonly SpatialRelation _relation;
+        private readonly string _anotherPropertyName;
+        private readonly object _parameter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpatialRelationProjection"/> class.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="relation">The relation.</param>
+        /// <param name="anotherPropertyName">Name of another property.</param>
+        /// <param name="parameter">Additional parameter value</param>
+        public SpatialRelationProjection(string propertyName, SpatialRelation relation, string anotherPropertyName, object parameter)
+            : this(propertyName, relation, anotherPropertyName)
+        {
+            _parameter = parameter;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpatialRelationProjection"/> class.
@@ -41,8 +55,8 @@ namespace NHibernate.Spatial.Criterion
         public SpatialRelationProjection(string propertyName, SpatialRelation relation, string anotherPropertyName)
             : base(propertyName)
         {
-            this.relation = relation;
-            this.anotherPropertyName = anotherPropertyName;
+            _relation = relation;
+            _anotherPropertyName = anotherPropertyName;
         }
 
         /// <summary>
@@ -67,8 +81,10 @@ namespace NHibernate.Spatial.Criterion
         {
             var spatialDialect = (ISpatialDialect) criteriaQuery.Factory.Dialect;
             string column1 = criteriaQuery.GetColumn(criteria, propertyName);
-            string column2 = criteriaQuery.GetColumn(criteria, anotherPropertyName);
-            var sqlString = spatialDialect.GetSpatialRelationString(column1, relation, column2, false);
+            string column2 = criteriaQuery.GetColumn(criteria, _anotherPropertyName);
+            var sqlString = _parameter == null
+                ? spatialDialect.GetSpatialRelationString(column1, _relation, column2, false)
+                : spatialDialect.GetSpatialRelationString(column1, _relation, column2, _parameter, false);
             return new SqlStringBuilder()
                 .Add(sqlString)
                 .Add(" as y")

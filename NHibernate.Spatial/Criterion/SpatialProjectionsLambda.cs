@@ -270,6 +270,18 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
+        /// Determines whether the specified geometry property is within a given distance of another geometry.
+        /// </summary>
+        /// <param name="expression">Name of the property.</param>
+        /// <param name="anotherExpression">Name of another property.</param>
+        /// <param name="distance">The distance.</param>
+        /// <returns></returns>
+        public static SpatialProjection IsWithinDistance<T>(Expression<Func<T, object>> expression, Expression<Func<T, object>> anotherExpression, double distance)
+        {
+            return IsWithinDistance(GetPropertyName(expression), GetPropertyName(anotherExpression), distance);
+        }
+
+        /// <summary>
         /// Determines whether the specified geometry property overlaps another geometry property.
         /// </summary>
         /// <param name="expression">Name of the property.</param>

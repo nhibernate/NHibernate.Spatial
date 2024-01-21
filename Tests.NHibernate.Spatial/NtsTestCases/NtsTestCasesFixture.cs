@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Open.Topology.TestRunner;
 using System;
 using System.IO;
+using NHibernate.Spatial;
 using Tests.NHibernate.Spatial.NtsTestCases.Model;
 
 namespace Tests.NHibernate.Spatial.NtsTestCases
@@ -44,6 +45,8 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
 
         protected virtual string TestValidDataPath => Path.Combine(DataPath, @"TestValid.xml");
 
+        protected virtual string TestWithinDistanceDataPath => Path.Combine(DataPath, @"TestWithinDistance.xml");
+
         protected override bool CheckDatabaseWasCleanedOnTearDown => false;
 
         protected override void OnTestFixtureSetUp()
@@ -59,6 +62,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestRectanglePredicateDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestSimpleDataPath));
                 LoadTestCases(session, ref id, Path.Combine(basePath, TestValidDataPath));
+                LoadTestCases(session, ref id, Path.Combine(basePath, TestWithinDistanceDataPath));
             }
         }
 
@@ -161,8 +165,9 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                             ntsTestCase.BooleanResult = (bool) test.Result;
                             break;
 
+                        case XmlTestType.IsWithinDistance:
                         case XmlTestType.Relate:
-                            ntsTestCase.RelatePattern = (string) test.Argument2;
+                            ntsTestCase.Parameter = (string) test.Argument2;
                             ntsTestCase.BooleanResult = (bool) test.Result;
                             break;
 
@@ -393,7 +398,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 .SetProjection(Projections.ProjectionList()
                     .Add(Projections.Property("Description"))
                     .Add(Projections.Property("BooleanResult"))
-                    .Add(SpatialProjections.Relate("GeometryA", "GeometryB", "RelatePattern"))
+                    .Add(SpatialProjections.Relate("GeometryA", "GeometryB", "Parameter"))
                 )
                 .List();
 
@@ -416,7 +421,7 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
                 .Add(Restrictions.Eq("Operation", "Relate"))
                 .SetProjection(Projections.ProjectionList()
                     .Add(Projections.Property("Description"))
-                    .Add(Projections.Property("RelatePattern"))
+                    .Add(Projections.Property("Parameter"))
                     .Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
                 )
                 .List();
@@ -496,6 +501,43 @@ namespace Tests.NHibernate.Spatial.NtsTestCases
         public virtual void Within()
         {
             TestBooleanBinaryOperation("Within", SpatialProjections.Within, SpatialRestrictions.Within);
+        }
+
+        [Test]
+        public virtual void IsWithinDistance()
+        {
+            var testCases = _session.QueryOver<NtsTestCase>()
+                .Where(x => x.Operation == SpatialRelation.IsWithinDistance.ToString())
+                .List();
+
+            Assert.Greater(testCases.Count, 0);
+
+            foreach (var testCase in testCases)
+            {
+                double distance = double.Parse(testCase.Parameter);
+
+                // Spatial projection
+                object[] result = _session.CreateCriteria(typeof(NtsTestCase))
+                    .Add(Restrictions.Eq(nameof(testCase.Id), testCase.Id))
+                    .SetProjection(Projections.ProjectionList()
+                        .Add(Projections.Property("BooleanResult"))
+                        .Add(SpatialProjections.IsWithinDistance("GeometryA", "GeometryB", distance))
+                    )
+                    .UniqueResult<object[]>();
+
+                bool expected = (bool) result[0];
+                bool operation = (bool) result[1];
+                Assert.AreEqual(expected, operation);
+
+                // Spatial restriction
+                long rowCount = _session.CreateCriteria(typeof(NtsTestCase))
+                    .Add(Restrictions.Eq(nameof(testCase.Id), testCase.Id))
+                    .Add(SpatialRestrictions.IsWithinDistance("GeometryA", "GeometryB", distance))
+                    .SetProjection(Projections.RowCountInt64())
+                    .UniqueResult<long>();
+
+                Assert.AreEqual(testCase.BooleanResult, Convert.ToBoolean(rowCount));
+            }
         }
 
         #endregion Relations

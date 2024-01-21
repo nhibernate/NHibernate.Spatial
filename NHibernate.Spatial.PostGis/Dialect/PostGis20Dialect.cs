@@ -335,6 +335,27 @@ namespace NHibernate.Spatial.Dialect
             }
         }
 
+        public SqlString GetSpatialRelationString(object geometry, SpatialRelation relation, object anotherGeometry, object parameter, bool criterion)
+        {
+            switch (relation)
+            {
+                case SpatialRelation.IsWithinDistance:
+                    return new SqlStringBuilder()
+                        .Add(SpatialDialect.IsoPrefix)
+                        .Add("DWithin")
+                        .Add("(")
+                        .AddObject(geometry)
+                        .Add(", ")
+                        .AddObject(anotherGeometry)
+                        .Add(", ")
+                        .Add(parameter.ToString())
+                        .Add(")")
+                        .ToSqlString();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(relation), relation, "Unsupported spatial relation");
+            }
+        }
+
         public SqlString GetSpatialRelateString(object geometry, object anotherGeometry, object pattern, bool isStringPattern, bool criterion)
         {
             var builder = new SqlStringBuilder();

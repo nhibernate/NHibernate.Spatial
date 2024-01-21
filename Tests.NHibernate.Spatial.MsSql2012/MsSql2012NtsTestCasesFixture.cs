@@ -34,7 +34,7 @@ namespace Tests.NHibernate.Spatial
                 .Add(Restrictions.Eq("Operation", "Relate"))
                 .SetProjection(Projections.ProjectionList()
                     .Add(Projections.Property("Description"))
-                    .Add(Projections.Property("RelatePattern"))
+                    .Add(Projections.Property("Parameter"))
                     .Add(SpatialProjections.Relate("GeometryA", "GeometryB"))
                 )
                 .List());

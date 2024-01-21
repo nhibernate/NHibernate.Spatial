@@ -166,6 +166,18 @@ namespace NHibernate.Spatial.Criterion
         }
 
         /// <summary>
+        /// Determines whether the specified geometry property is within a given distance of another geometry.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="anotherGeometry">Another geometry.</param>
+        /// <param name="distance">The distance.</param>
+        /// <returns></returns>
+        public static SpatialRelationCriterion IsWithinDistance(string propertyName, object anotherGeometry, double distance)
+        {
+            return new SpatialRelationCriterion(propertyName, SpatialRelation.IsWithinDistance, anotherGeometry, distance);
+        }
+
+        /// <summary>
         /// Determines whether the specified geometry property overlaps another geometry.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
@@ -209,19 +221,6 @@ namespace NHibernate.Spatial.Criterion
         public static SpatialRelationCriterion Within(string propertyName, object anotherGeometry)
         {
             return new SpatialRelationCriterion(propertyName, SpatialRelation.Within, anotherGeometry);
-        }
-
-        /// <summary>
-        /// Determines whether the specified geometry property is within a givin distance of another geometry.
-        /// </summary>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <param name="anotherGeometry">Another geometry.</param>
-        /// <param name="distance">The distance.</param>
-        /// <returns></returns>
-        public static SpatialRelationCriterion IsWithinDistance(string propertyName, object anotherGeometry, double distance)
-        {
-            // TODO: Implement
-            throw new NotImplementedException();
         }
 
         // TODO :

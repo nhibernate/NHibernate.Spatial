@@ -58,6 +58,11 @@ namespace NHibernate.Spatial
         Intersects,
 
         /// <summary>
+        /// 
+        /// </summary>
+        IsWithinDistance,
+
+        /// <summary>
         ///
         /// </summary>
         Overlaps,
