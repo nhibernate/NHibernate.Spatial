@@ -6,19 +6,21 @@ NHibernate binaries.
 
 ## NuGet Packages
 
-| Package                                                                                 | Version                                                                                                                                              |
-|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [NHibernate.Spatial.MsSql](https://www.nuget.org/packages/NHibernate.Spatial.MsSql)     | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MsSql.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MsSql)     |
-| [NHibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL)     | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MySQL.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MySQL)     |
-| [NHibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.PostGis.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.PostGis) |
+| Package                                                                                       | Version                                                                                                                                                    |
+|-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [NHibernate.Spatial.MsSql](https://www.nuget.org/packages/NHibernate.Spatial.MsSql)           | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MsSql.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MsSql)           |
+| [NHibernate.Spatial.MySQL](https://www.nuget.org/packages/NHibernate.Spatial.MySQL)           | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.MySQL.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.MySQL)           |
+| [NHibernate.Spatial.PostGis](https://www.nuget.org/packages/NHibernate.Spatial.PostGis)       | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.PostGis.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.PostGis)       |
+| [NHibernate.Spatial.SpatiaLite](https://www.nuget.org/packages/NHibernate.Spatial.SpatiaLite) | [![NuGet Status](http://img.shields.io/nuget/v/NHibernate.Spatial.SpatiaLite.svg?style=flat)](http://www.nuget.org/packages/NHibernate.Spatial.SpatiaLite) |
 
 ## Supported Databases
 
-| Package                    | Dialects                 | CI Tests                                                                              |
-|----------------------------|--------------------------|---------------------------------------------------------------------------------------|
-| NHibernate.Spatial.MsSql   | SQL Server 2012          | SQL Server 2017, SQL Server 2019, SQL Server 2022                                     |
-| NHibernate.Spatial.MySQL   | MySQL 5.7, MySQL 8.0     | MySQL 5.7, MySQL 8.0, MySQL 8.3                                                       |
-| NHibernate.Spatial.PostGis | PostGIS 2.0, PostGIS 3.0 | PostGIS 2.5 (PostgreSQL 12), PostGIS 3.0 (PostgreSQL 12), PostGIS 3.4 (PostgreSQL 16) |
+| Package                       | Dialects                 | CI Tests                                                                              |
+|-------------------------------|--------------------------|---------------------------------------------------------------------------------------|
+| NHibernate.Spatial.MsSql      | SQL Server 2012          | SQL Server 2017, SQL Server 2019, SQL Server 2022                                     |
+| NHibernate.Spatial.MySQL      | MySQL 5.7, MySQL 8.0     | MySQL 5.7, MySQL 8.0, MySQL 8.3                                                       |
+| NHibernate.Spatial.PostGis    | PostGIS 2.0, PostGIS 3.0 | PostGIS 2.5 (PostgreSQL 12), PostGIS 3.0 (PostgreSQL 12), PostGIS 3.4 (PostgreSQL 16) |
+| NHibernate.Spatial.SpatiaLite | SpatiaLite               | SpatiaLite 4, SpatiaLite 5                                                            |
 
 ## Getting Started
 
@@ -31,6 +33,15 @@ Sousa.
 For general NHibernate help, the NHibernate community website - <http://nhibernate.info/> - has a
 range of resources to help you get started with basic NHibernate, including [wikis][NHWiki],
 [blogs][NHWiki] and [reference documentation][NH].
+
+### SpatiaLite
+
+In order to use the SpatiaLite dialect, the `mod_spatialite.[dll|so]` library must be available
+on the `PATH`. To assist with cases where `mod_spatialite` cannot be installed on the system `PATH`,
+the SpatiaLite driver prepends `<path to NHibernate.Spatial.SpatiaLite.dll>/lib/spatialite` to the
+`PATH`.
+
+https://www.gaia-gis.it/fossil/libspatialite/wiki?name=mod_spatialite
 
 ## Discussion Forum
 

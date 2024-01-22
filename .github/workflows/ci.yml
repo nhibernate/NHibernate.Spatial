@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   test:
     name: ${{ matrix.DB }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.OS }}
     strategy:
       fail-fast: false
       matrix:
@@ -16,6 +16,7 @@ jobs:
               until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
               sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
             TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
+            OS: ubuntu-latest
 
           - DB: MsSql2012 (SQL Server 2019)
             DB_INIT: |
@@ -23,6 +24,7 @@ jobs:
               until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
               sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
             TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
+            OS: ubuntu-latest
 
           - DB: MsSql2012 (SQL Server 2022)
             DB_INIT: |
@@ -30,30 +32,47 @@ jobs:
               until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
               sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
             TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
+            OS: ubuntu-latest
 
           - DB: MySQL57 (MySQL 5.7)
             DB_INIT: docker run -d -e MYSQL_ROOT_PASSWORD=nhsp_test -p 13306:3306 -v ./Tests.NHibernate.Spatial.MySQL57/initdb:/docker-entrypoint-initdb.d mysql:5.7-debian
             TEST_PROJECT: Tests.NHibernate.Spatial.MySQL57
+            OS: ubuntu-latest
 
           - DB: MySQL80 (MySQL 8.0)
             DB_INIT: docker run -d -e MYSQL_ROOT_PASSWORD=nhsp_test -p 13307:3306 -v ./Tests.NHibernate.Spatial.MySQL80/initdb:/docker-entrypoint-initdb.d mysql:8.0
             TEST_PROJECT: Tests.NHibernate.Spatial.MySQL80
+            OS: ubuntu-latest
 
           - DB: MySQL80 (MySQL 8.3)
             DB_INIT: docker run -d -e MYSQL_ROOT_PASSWORD=nhsp_test -p 13307:3306 -v ./Tests.NHibernate.Spatial.MySQL80/initdb:/docker-entrypoint-initdb.d mysql:8.3
             TEST_PROJECT: Tests.NHibernate.Spatial.MySQL80
+            OS: ubuntu-latest
 
           - DB: PostGis20 (PostGIS 2.5 PostgreSQL 12)
             DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15432:5432 -v ./Tests.NHibernate.Spatial.PostGis20/initdb:/docker-entrypoint-initdb.d postgis/postgis:12-2.5
             TEST_PROJECT: Tests.NHibernate.Spatial.PostGis20
+            OS: ubuntu-latest
 
           - DB: PostGis30 (PostGIS 3.0 PostgreSQL 12)
             DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15433:5432 -v ./Tests.NHibernate.Spatial.PostGis30/initdb:/docker-entrypoint-initdb.d postgis/postgis:12-3.0
             TEST_PROJECT: Tests.NHibernate.Spatial.PostGis30
+            OS: ubuntu-latest
 
           - DB: PostGis30 (PostGIS 3.4 PostgreSQL 16)
             DB_INIT: docker run -d -e POSTGRES_PASSWORD=nhsp_test -p 15433:5432 -v ./Tests.NHibernate.Spatial.PostGis30/initdb:/docker-entrypoint-initdb.d postgis/postgis:16-3.4
             TEST_PROJECT: Tests.NHibernate.Spatial.PostGis30
+            OS: ubuntu-latest
+
+          - DB: SpatiaLite (SpatiaLite 4)
+            DB_INIT: sudo apt install libsqlite3-mod-spatialite=4.*
+            TEST_PROJECT: Tests.NHibernate.Spatial.SpatiaLite
+            OS: ubuntu-20.04
+
+          - DB: SpatiaLite (SpatiaLite 5)
+            DB_INIT: sudo apt install libsqlite3-mod-spatialite=5.*
+            TEST_PROJECT: Tests.NHibernate.Spatial.SpatiaLite
+            OS: ubuntu-latest
 
     steps:
       - name: Checkout repository

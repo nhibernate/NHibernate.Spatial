@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false">
+
+  <class name="Tests.NHibernate.Spatial.NtsTestCases.Model.NtsTestCase, Tests.NHibernate.Spatial" table="nts_testcase">
+    <id name="Id" type="Int64" column="oid">
+      <generator class="assigned" />
+    </id>
+    <property name="Description" column="description" />
+    <property name="GeometryA" column="geometry_a">
+      <type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+        <param name="srid">-1</param>
+        <param name="subtype">GEOMETRY</param>
+      </type>
+    </property>
+    <property name="GeometryB" column="geometry_b">
+      <type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+        <param name="srid">-1</param>
+        <param name="subtype">GEOMETRY</param>
+      </type>
+    </property>
+    <property name="Operation" column="operation" />
+    <property name="Parameter" column="parameter" />
+    <property name="GeometryResult" column="geometry_result">
+      <type name="NHibernate.Spatial.Type.GeometryType,NHibernate.Spatial">
+        <param name="srid">-1</param>
+        <param name="subtype">GEOMETRY</param>
+      </type>
+    </property>
+    <property name="BooleanResult" column="boolean_result" />
+  </class>
+</hibernate-mapping>
