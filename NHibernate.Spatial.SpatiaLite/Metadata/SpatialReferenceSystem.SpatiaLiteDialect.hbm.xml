@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+
+  <class name="NHibernate.Spatial.Metadata.SpatiaLiteSpatialReferenceSystem, NHibernate.Spatial.SpatiaLite"
+         table="spatial_ref_sys"
+         lazy="false"
+         mutable="true">
+
+    <id name="SRID" column="srid" type="Int32">
+      <generator class="assigned" />
+    </id>
+
+    <property name="AuthorityName" column="auth_name" type="String" />
+    <property name="AuthoritySRID" column="auth_srid" type="Int32" />
+    <property name="RefSysName" column="ref_sys_name" type="String" />
+    <property name="Proj4Text" column="proj4text" type="String" />
+    <property name="WellKnownText" column="srtext" type="String" />
+  </class>
+
+</hibernate-mapping>

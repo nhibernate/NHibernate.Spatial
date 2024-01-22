@@ -410,7 +410,7 @@ UNIT[""Meter"", 1.0]]";
         /// </code>
         /// </summary>
         [Test]
-        public void ConformanceItemT05Hql()
+        public virtual void ConformanceItemT05Hql()
         {
             if (!Metadata.SupportsSpatialMetadata(session, MetadataClass.SpatialReferenceSystem))
             {
