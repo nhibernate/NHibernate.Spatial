@@ -1,13 +1,6 @@
 name: Build and test
 
-# https://stackoverflow.com/a/70767151/3628232
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: push
 
 jobs:
   test:
