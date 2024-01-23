@@ -1,8 +1,8 @@
 # NHibernate.Spatial [![Build status](https://github.com/nhibernate/NHibernate.Spatial/actions/workflows/ci.yml/badge.svg)](https://github.com/nhibernate/NHibernate.Spatial/actions/workflows/ci.yml)
 
-This is a fork of the final commit to NHibernate.Spatial at [NHibernate Contrib][NHContrib] site
-made in december 2011. The code has been updated to compile with the latest NTS, GeoAPI and
-NHibernate binaries.
+NHibernate.Spatial is a library of spatial extensions for NHibernate, and allows you to connect
+NHibernate to a spatially-enabled database and manipulate geometries in .NET code using
+NetTopologySuite, providing you with a fully integrated GIS programming experience.
 
 ## NuGet Packages
 
@@ -77,4 +77,3 @@ the success of NHibernate.Spatial (in no particular order):
 [NHibernate]: https://github.com/nhibernate/nhibernate-core
 [NHWiki]: http://nhforge.org/wikis
 [NH]: http://nhibernate.info/doc/nh/en/index.html
-[NHContrib]: http://sourceforge.net/projects/nhcontrib/
