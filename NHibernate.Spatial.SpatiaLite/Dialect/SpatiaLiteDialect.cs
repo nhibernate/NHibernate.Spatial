@@ -65,7 +65,7 @@ namespace NHibernate.Spatial.Dialect
                     aggregateFunction = "Extent";
                     break;
                 case SpatialAggregate.Intersection:
-                    throw new NotSupportedException("SpatialAggregate Intersection"); // TODO Check whether collect works here too
+                    throw new NotSupportedException("SpatialAggregate Intersection");
                 case SpatialAggregate.Union:
                     aggregateFunction = "GUnion";
                     break;
