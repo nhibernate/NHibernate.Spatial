@@ -1,3 +1,17 @@
+Build 8.0.0
+========================
+Add SpatiaLite dialect (see #56)
+Add PostGIS 3 dialect (see #132)
+Add MySQL 8 dialect (see #93)
+Remove obsolete MySQL and MsSql2008 dialects
+
+Implement missing spatial criteria: EqualsExact, IsWithinDistance, Relate (see #61)
+
+Update Microsoft.Data.SqlClient to 5.1.3 (see #133)
+Fix failing MySQL 5.7 tests (see #87)
+Move CI build from AppVeyor to GitHub Actions
+Use docker compose for local unit testing
+
 Build 7.0.0
 ========================
 Add support for Npgsql 4+ (see #130)
