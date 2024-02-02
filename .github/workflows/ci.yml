@@ -86,8 +86,11 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
+      - name: Restore
+        run: dotnet restore --verbosity normal
+
       - name: Build
-        run: dotnet build
+        run: dotnet build --no-restore
 
       - name: Test
         run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=${{ matrix.DB }}.trx" --results-directory . ${{ matrix.TEST_PROJECT }}
