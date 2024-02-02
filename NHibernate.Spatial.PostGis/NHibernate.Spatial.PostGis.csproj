@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <PackageReference Include="NetTopologySuite.IO.PostGis" Version="2.1.0" />
-    <PackageReference Include="Npgsql" Version="4.1.12" />
     <PackageReference Include="Npgsql.NetTopologySuite" Version="4.1.12" />
   </ItemGroup>
 
