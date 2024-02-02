@@ -10,17 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Metadata\GeometryColumn.PostGis20Dialect.hbm.xml" />
-    <None Remove="Metadata\GeometryColumn.PostGis30Dialect.hbm.xml" />
-    <None Remove="Metadata\SpatialReferenceSystem.PostGis20Dialect.hbm.xml" />
-    <None Remove="Metadata\SpatialReferenceSystem.PostGis30Dialect.hbm.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Metadata\GeometryColumn.PostGis30Dialect.hbm.xml" />
     <EmbeddedResource Include="Metadata\GeometryColumn.PostGis20Dialect.hbm.xml" />
     <EmbeddedResource Include="Metadata\SpatialReferenceSystem.PostGis30Dialect.hbm.xml" />
@@ -28,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="NetTopologySuite.IO.PostGis" Version="2.1.0" />
     <PackageReference Include="Npgsql.NetTopologySuite" Version="4.1.12" />
   </ItemGroup>

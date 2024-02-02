@@ -2,17 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <RootNamespace>Tests.NHibernate.Spatial</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Models\PolygonM.hbm.xml" />
-    <None Remove="Models\PolygonZ.hbm.xml" />
-    <None Remove="Models\PolygonZM.hbm.xml" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Models\PolygonM.hbm.xml" />

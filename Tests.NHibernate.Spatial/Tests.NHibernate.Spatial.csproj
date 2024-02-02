@@ -5,28 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Model\County.hbm.xml" />
-    <None Remove="Model\Simple.hbm.xml" />
-    <None Remove="NtsTestCases\Model\NtsTestCase.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\Bridge.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\Building.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\DividedRoute.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\Forest.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\Lake.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\MapNeatline.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\NamedPlace.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\Pond.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\RoadSegment.hbm.xml" />
-    <None Remove="OgcSfSql11Compliance\Model\Stream.hbm.xml" />
-    <None Remove="RandomGeometries\Model\LineStringEntity.hbm.xml" />
-    <None Remove="RandomGeometries\Model\MultiLineStringEntity.hbm.xml" />
-    <None Remove="RandomGeometries\Model\MultiPointEntity.hbm.xml" />
-    <None Remove="RandomGeometries\Model\MultiPolygonEntity.hbm.xml" />
-    <None Remove="RandomGeometries\Model\PointEntity.hbm.xml" />
-    <None Remove="RandomGeometries\Model\PolygonEntity.hbm.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Model\County.hbm.xml" />
     <EmbeddedResource Include="Model\Simple.hbm.xml" />
     <EmbeddedResource Include="NtsTestCases\Model\NtsTestCase.hbm.xml" />

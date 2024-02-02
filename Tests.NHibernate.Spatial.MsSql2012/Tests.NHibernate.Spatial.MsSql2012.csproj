@@ -2,9 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <RootNamespace>Tests.NHibernate.Spatial</RootNamespace>
   </PropertyGroup>
 
