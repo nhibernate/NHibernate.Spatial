@@ -16,7 +16,7 @@ jobs:
               until sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -Q "SELECT 1"; do sleep 10; done
               sqlcmd -S localhost,11433 -U sa -P P@ssw0rd -i Tests.NHibernate.Spatial.MsSql2012/initdb/nhsp_test.sql
             TEST_PROJECT: Tests.NHibernate.Spatial.MsSql2012
-            OS: ubuntu-latest
+            OS: ubuntu-20.04
 
           - DB: MsSql2012 (SQL Server 2019)
             DB_INIT: |
